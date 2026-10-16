@@ -29,7 +29,8 @@ export const LEVEL_STRIDE = ELEMENT_COUNT * 256;
 export const TEX_GRAIN = 0;
 export const TEX_STONE = 1;
 export const TEX_LIQUID = 2;
-const TEX_CODE = { grain: TEX_GRAIN, stone: TEX_STONE, liquid: TEX_LIQUID } as const;
+export const TEX_GAS = 3;
+const TEX_CODE = { grain: TEX_GRAIN, stone: TEX_STONE, liquid: TEX_LIQUID, gas: TEX_GAS } as const;
 export const TEXTURE_OF = Uint8Array.from(ELEMENTS, (e) => TEX_CODE[e.texture ?? 'grain']);
 
 function lerp(a: number, b: number, t: number): number {
@@ -71,6 +72,40 @@ export function buildPalette(): Uint32Array {
     }
   }
   return lut;
+}
+
+/** Glow table range: no glow below GLOW_MIN °C, full white-hot at GLOW_MAX. */
+export const GLOW_MIN = 450;
+export const GLOW_MAX = 1450;
+
+/**
+ * Black-body glow by temperature: 256 entries from GLOW_MIN to GLOW_MAX,
+ * each a packed colour with the blend strength (0..256) in a parallel table.
+ * Dull red, then orange, then yellow-white, as hot iron and lava look.
+ */
+export function buildGlow(): { colour: Uint32Array; alpha: Uint16Array } {
+  const stops: [number, number, number, number][] = [
+    [450, 90, 8, 0],
+    [600, 160, 22, 4],
+    [800, 235, 72, 10],
+    [1000, 255, 135, 32],
+    [1200, 255, 196, 86],
+    [1450, 255, 240, 190],
+  ];
+  const colour = new Uint32Array(256);
+  const alpha = new Uint16Array(256);
+  for (let k = 0; k < 256; k++) {
+    const T = GLOW_MIN + ((GLOW_MAX - GLOW_MIN) * k) / 255;
+    let j = 0;
+    while (j < stops.length - 2 && T > stops[j + 1][0]) j++;
+    const [t0, r0, g0, b0] = stops[j];
+    const [t1, r1, g1, b1] = stops[j + 1];
+    const f = Math.max(0, Math.min(1, (T - t0) / (t1 - t0)));
+    colour[k] = pack(lerp(r0, r1, f), lerp(g0, g1, f), lerp(b0, b1, f));
+    // Faint at first, nearly owning the colour by about 900 °C; some base colour stays for texture.
+    alpha[k] = Math.round(Math.min(0.88, ((T - GLOW_MIN) / 450) ** 0.8) * 256);
+  }
+  return { colour, alpha };
 }
 
 /** Integer hash of a cell position to 0..1. */

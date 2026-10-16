@@ -1,4 +1,4 @@
-import { EMPTY, PHASE_OF, PH_LIQUID, PH_POWDER, SAND } from '../sim/elements';
+import { EMPTY, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER, SAND } from '../sim/elements';
 import type { World } from '../sim/world';
 
 export const MAX_RADIUS = 64;
@@ -197,7 +197,7 @@ export class Brush {
     const r = this.radius;
     const r2 = r * r + r;
     const ph = mode === ERASE ? 0 : PHASE_OF[mode];
-    const p = ph === PH_POWDER ? POWDER_FILL : ph === PH_LIQUID ? LIQUID_FILL : 1;
+    const p = ph === PH_POWDER ? POWDER_FILL : ph === PH_LIQUID || ph === PH_GAS ? LIQUID_FILL : 1;
     const y0 = Math.max(0, cy - r);
     const y1 = Math.min(h - 1, cy + r);
     const x0 = Math.max(0, cx - r);

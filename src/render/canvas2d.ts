@@ -9,10 +9,14 @@ import {
   L_SIDE,
   L_TOP,
   L_UNDER,
+  GLOW_MAX,
+  GLOW_MIN,
   TEXTURE_OF,
+  TEX_GAS,
   TEX_LIQUID,
   TEX_STONE,
   buildBackground,
+  buildGlow,
   buildPalette,
   buildStoneShade,
 } from './palette';
@@ -31,6 +35,20 @@ function dark75(c: number): number {
 /** Chunk overlay tints, packed 0xAABBGGRR. */
 const CHUNK_AWAKE = 0xff5ad27a;
 const CHUNK_ASLEEP = 0xff3a3a3a;
+
+/** Blends packed colour c towards g by a/256. */
+function blend(c: number, g: number, a: number): number {
+  const r = c & 255;
+  const gg = (c >> 8) & 255;
+  const b = (c >> 16) & 255;
+  return (
+    (0xff000000 |
+      ((b + ((((g >> 16) & 255) - b) * a >> 8)) << 16) |
+      ((gg + ((((g >> 8) & 255) - gg) * a >> 8)) << 8) |
+      (r + (((g & 255) - r) * a >> 8))) >>>
+    0
+  );
+}
 
 /** Even mix of two packed colours, alpha opaque. */
 function mix(a: number, b: number): number {
@@ -68,6 +86,7 @@ export class Canvas2DRenderer {
   private readonly ctx: CanvasRenderingContext2D;
   private image: ImageData;
   private readonly palette = buildPalette();
+  private readonly glow = buildGlow();
   private background: Uint32Array;
   private bgShadow: Uint32Array;
   private bgShadowSoft: Uint32Array;
@@ -113,7 +132,10 @@ export class Canvas2DRenderer {
 
   /** Draws every cell of the world and blits it. */
   draw(world: World): void {
-    const { w, h, type, shade, stamp } = world;
+    const { w, h, type, shade, stamp, temp } = world;
+    const glowColour = this.glow.colour;
+    const glowAlpha = this.glow.alpha;
+    const glowScale = 255 / (GLOW_MAX - GLOW_MIN);
     const px = this.pixels;
     const pal = this.palette;
     const bg = this.background;
@@ -139,11 +161,17 @@ export class Canvas2DRenderer {
           else px[i] = bg[i];
           continue;
         }
+        const tex = TEXTURE_OF[t];
+        if (tex === TEX_GAS) {
+          // Gas: see-through, not part of any surface or depth.
+          depth[x] = 0;
+          px[i] = mix(pal[L_PLAIN * LEVEL_STRIDE + ((t << 8) | shade[i])], bg[i]);
+          continue;
+        }
         const d = ++depth[x];
         if (d === 1) top[x] = y;
         let level = L_PLAIN;
         let s: number;
-        const tex = TEXTURE_OF[t];
         if (tex === TEX_LIQUID) {
           // Depth below the surface averaged over 5 columns, so a surface that is
           // flat within 1 cell does not show as vertical stripes.
@@ -188,7 +216,15 @@ export class Canvas2DRenderer {
           else if (upEmpty) level = L_TOP;
           else if (d > DEEP_CELLS) level = L_DEEP;
         }
-        px[i] = pal[level * LEVEL_STRIDE + ((t << 8) | s)];
+        let c = pal[level * LEVEL_STRIDE + ((t << 8) | s)];
+        // Black-body glow from the cell's real temperature.
+        // The shade nudges the glow temperature a little, so hot masses have texture.
+        const T = temp[i] + (shade[i] - 128) * 0.5;
+        if (T > GLOW_MIN) {
+          const k = T >= GLOW_MAX ? 255 : ((T - GLOW_MIN) * glowScale) | 0;
+          c = blend(c, glowColour[k], glowAlpha[k]);
+        }
+        px[i] = c;
       }
     }
     if (this.showChunks) this.drawChunks(world);

@@ -1,6 +1,7 @@
 /**
- * Element catalogue. Phase 1 holds only what movement needs; the full
- * property schema (heat, chemistry) arrives with the phases that use it.
+ * Element catalogue. Elements are defined by physical properties; tables
+ * for the hot loop are derived from them below. The schema grows with the
+ * phases that use it (see docs/SPEC.md).
  */
 
 export type Category = 'powders' | 'liquids' | 'gases' | 'solids' | 'energy' | 'explosives' | 'life' | 'tools';
@@ -19,7 +20,7 @@ export interface ElementDef {
    * to the grid, bevelled edges. liquid: colours run from surface to deep by
    * depth, surface glints.
    */
-  texture?: 'grain' | 'stone' | 'liquid';
+  texture?: 'grain' | 'stone' | 'liquid' | 'gas';
   phase: Phase;
   /** kg/m³ */
   density: number;
@@ -29,6 +30,18 @@ export interface ElementDef {
   fallMax?: number;
   /** Liquids: max sideways cells per frame when flowing towards a drop. */
   dispersion?: number;
+  /** °C a new cell starts at. Default: ambient (20). */
+  temp?: number;
+  /** Relative, water = 1. More capacity: slower to heat and cool. */
+  heatCapacity: number;
+  /** 0..1, how fast heat passes through. */
+  conductivity: number;
+  /** °C at which it melts, and what into. The reverse (freezing) is derived. */
+  melt?: number;
+  meltInto?: string;
+  /** °C at which it boils, and what into. The reverse (condensing) is derived. */
+  boil?: number;
+  boilInto?: string;
 }
 
 // Ids are indexes into ELEMENTS. Id 0 is empty space (air).
@@ -37,9 +50,23 @@ export const WALL = 1;
 export const SAND = 2;
 export const WATER = 3;
 export const OIL = 4;
+export const ICE = 5;
+export const STEAM = 6;
+export const LAVA = 7;
+export const STONE = 8;
 
 export const ELEMENTS: readonly ElementDef[] = [
-  { key: 'empty', name: 'Air', blurb: 'Empty space.', category: 'tools', colours: ['#0c0d10'], phase: 'gas', density: 1.2 },
+  {
+    key: 'empty',
+    name: 'Air',
+    blurb: 'Empty space.',
+    category: 'tools',
+    colours: ['#0c0d10'],
+    phase: 'gas',
+    density: 1.2,
+    heatCapacity: 0.3,
+    conductivity: 0.05,
+  },
   {
     key: 'wall',
     name: 'Wall',
@@ -49,6 +76,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     texture: 'stone',
     phase: 'solid',
     density: 2500,
+    heatCapacity: 1,
+    conductivity: 0.1,
   },
   {
     key: 'sand',
@@ -60,6 +89,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     density: 1600,
     fallAccel: 230,
     fallMax: 165,
+    heatCapacity: 0.8,
+    conductivity: 0.15,
   },
   {
     key: 'water',
@@ -73,6 +104,10 @@ export const ELEMENTS: readonly ElementDef[] = [
     fallAccel: 230,
     fallMax: 165,
     dispersion: 8,
+    heatCapacity: 1,
+    conductivity: 0.3,
+    boil: 100,
+    boilInto: 'steam',
   },
   {
     key: 'oil',
@@ -86,6 +121,66 @@ export const ELEMENTS: readonly ElementDef[] = [
     fallAccel: 200,
     fallMax: 120,
     dispersion: 3,
+    heatCapacity: 0.5,
+    conductivity: 0.1,
+  },
+  {
+    key: 'ice',
+    name: 'Ice',
+    blurb: 'Frozen water. Melts above 0 °C; water freezes back below it.',
+    category: 'solids',
+    colours: ['#9fc6dc', '#b5d6e8', '#c9e4f2', '#e2f2fb'],
+    texture: 'stone',
+    phase: 'solid',
+    density: 917,
+    temp: -20,
+    heatCapacity: 0.5,
+    conductivity: 0.5,
+    melt: 0,
+    meltInto: 'water',
+  },
+  {
+    key: 'steam',
+    name: 'Steam',
+    blurb: 'Hot water vapour. Rises, cools, and turns back into water below 100 °C.',
+    category: 'gases',
+    colours: ['#c9d3dc', '#d8e0e7', '#b9c4cf', '#e4eaef'],
+    texture: 'gas',
+    phase: 'gas',
+    density: 0.6,
+    temp: 150,
+    heatCapacity: 0.5,
+    conductivity: 0.04,
+  },
+  {
+    key: 'lava',
+    name: 'Lava',
+    blurb: 'Molten rock at 1200 °C. Flows slowly, heats what it touches and cools into stone.',
+    category: 'liquids',
+    colours: ['#5a1a08', '#4a1406', '#3a1005', '#2c0c04', '#200803'],
+    texture: 'liquid',
+    phase: 'liquid',
+    density: 2600,
+    fallAccel: 150,
+    fallMax: 90,
+    dispersion: 2,
+    temp: 1200,
+    heatCapacity: 1,
+    conductivity: 0.25,
+  },
+  {
+    key: 'stone',
+    name: 'Stone',
+    blurb: 'Solid rock. Glows as it heats and melts into lava at 1000 °C.',
+    category: 'solids',
+    colours: ['#2f2d2b', '#3a3734', '#46423e', '#524d48'],
+    texture: 'stone',
+    phase: 'solid',
+    density: 2600,
+    heatCapacity: 0.8,
+    conductivity: 0.3,
+    melt: 1000,
+    meltInto: 'lava',
   },
 ];
 
@@ -132,7 +227,7 @@ const SWAP_GAIN = 2;
 /**
  * Chance (0..255) per try that a cell of element a moves into a cell of
  * element b, indexed a * ELEMENT_COUNT + b. 255 into empty space. Into a
- * lighter liquid the chance grows with the density gap, so heavy things
+ * lighter liquid or gas the chance grows with the density gap, so heavy things
  * sink fast and near-equal liquids separate more slowly. 0 means never.
  */
 export const ENTER_P = (() => {
@@ -144,7 +239,7 @@ export const ENTER_P = (() => {
     p[a * n + EMPTY] = 255;
     for (let b = 1; b < n; b++) {
       const B = ELEMENTS[b];
-      if (B.phase !== 'liquid' || B.density >= A.density) continue;
+      if ((B.phase !== 'liquid' && B.phase !== 'gas') || B.density >= A.density) continue;
       // Square root: small gaps (water under oil) still separate at a visible pace.
       const chance = Math.min(1, Math.sqrt(((A.density - B.density) / A.density) * SWAP_GAIN));
       p[a * n + b] = Math.max(1, Math.min(254, Math.round(chance * 255)));
@@ -152,6 +247,73 @@ export const ENTER_P = (() => {
   }
   return p;
 })();
+
+// ---- Heat ----------------------------------------------------------------
+
+/** Room temperature, °C. Air drifts back to it. */
+export const AMBIENT = 20;
+
+/** Start temperature per element. */
+export const TEMP_OF = Float32Array.from(ELEMENTS, (e) => e.temp ?? AMBIENT);
+/** 1 / heat capacity per element. */
+export const INV_CAP_OF = Float32Array.from(ELEMENTS, (e) => 1 / e.heatCapacity);
+
+/**
+ * Heat exchanged per frame per °C of difference between two touching cells,
+ * indexed a * ELEMENT_COUNT + b: the harmonic mean of the conductivities,
+ * scaled so neither cell moves more than 0.2 of the gap per neighbour (stable).
+ */
+export const HEAT_K = (() => {
+  const n = ELEMENTS.length;
+  const k = new Float32Array(n * n);
+  for (let a = 0; a < n; a++)
+    for (let b = 0; b < n; b++) {
+      const ca = ELEMENTS[a].conductivity;
+      const cb = ELEMENTS[b].conductivity;
+      const hm = ca + cb > 0 ? (2 * ca * cb) / (ca + cb) : 0;
+      k[a * n + b] = 0.2 * hm * Math.min(ELEMENTS[a].heatCapacity, ELEMENTS[b].heatCapacity);
+    }
+  return k;
+})();
+
+/**
+ * Phase changes. Upward (melt or boil) comes from the element; downward
+ * (freeze or condense) is derived from whichever element melts or boils
+ * into this one, so ice freezes water without water saying so.
+ * UP_T / DOWN_T include the margin; the nominal point is the element's own melt / boil.
+ */
+export const UP_T = new Float32Array(ELEMENTS.length).fill(Infinity);
+export const UP_INTO = new Uint16Array(ELEMENTS.length);
+export const DOWN_T = new Float32Array(ELEMENTS.length).fill(-Infinity);
+export const DOWN_INTO = new Uint16Array(ELEMENTS.length);
+/** °C a cell loses going up (melting, boiling) or gains going down: boiling costs far more than melting. */
+export const UP_LATENT = new Float32Array(ELEMENTS.length);
+export const DOWN_LATENT = new Float32Array(ELEMENTS.length);
+/**
+ * Latent heat per transition, and the margin past the threshold a change
+ * needs. The margin must exceed half the latent heat, or a fresh cell would
+ * land past the reverse threshold and flip straight back.
+ */
+const LATENT_MELT = 3;
+const MARGIN_MELT = 2;
+const LATENT_BOIL = 12;
+const MARGIN_BOIL = 8;
+ELEMENTS.forEach((e, id) => {
+  const up =
+    e.melt !== undefined && e.meltInto
+      ? { t: e.melt, into: e.meltInto, latent: LATENT_MELT, margin: MARGIN_MELT }
+      : e.boil !== undefined && e.boilInto
+        ? { t: e.boil, into: e.boilInto, latent: LATENT_BOIL, margin: MARGIN_BOIL }
+        : null;
+  if (!up) return;
+  const into = elementId(up.into);
+  UP_T[id] = up.t + up.margin;
+  UP_INTO[id] = into;
+  UP_LATENT[id] = up.latent;
+  DOWN_T[into] = up.t - up.margin;
+  DOWN_INTO[into] = id;
+  DOWN_LATENT[into] = up.latent;
+});
 
 /** Element id for a key. Throws on an unknown key. */
 export function elementId(key: string): number {

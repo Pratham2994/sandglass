@@ -5,11 +5,13 @@ import {
   ENTER_P,
   GRAVITY_OF,
   PHASE_OF,
+  PH_GAS,
   PH_LIQUID,
   PH_POWDER,
   VMAX_OF,
   VY_UNIT,
 } from './elements';
+import { heatStep } from './heat';
 import { CHUNK_SHIFT, type World } from './world';
 
 /**
@@ -62,6 +64,7 @@ export function step(world: World): void {
       else for (let x = x1 - 1; x >= x0; x--) updateCell(world, x, y, st);
     }
   }
+  heatStep(world);
   world.frame++;
 }
 
@@ -70,14 +73,52 @@ function updateCell(world: World, x: number, y: number, st: number): void {
   const ph = PHASE_OF[world.type[i]];
   if (ph === 0 || world.stamp[i] === st) return;
   if (ph === PH_POWDER || ph === PH_LIQUID) updateMover(world, x, y, i, st, ph === PH_LIQUID);
+  else if (ph === PH_GAS) updateGas(world, x, y, i, st);
+}
+
+/** Chance (of 256) per frame that a gas cell rises when it can: below 1, so plumes billow. */
+const RISE_P = 180;
+
+/**
+ * Gases: rise into empty space above (by chance, so plumes look loose),
+ * else slip diagonally up, else drift sideways. A gas never fully rests,
+ * so its chunk stays awake while it lasts. Heavier cells falling into it
+ * push it aside through the density swap.
+ */
+function updateGas(world: World, x: number, y: number, i: number, st: number): void {
+  const { w, type, rng } = world;
+  world.wake(x, y);
+  const r = rng.nextU32();
+  if (y > 0) {
+    const up = i - w;
+    if (type[up] === EMPTY && (r & 255) < RISE_P) {
+      moveTo(world, i, up, 0, st);
+      world.wake(x, y - 1);
+      return;
+    }
+    const dx = r & 256 ? 1 : -1;
+    if (x + dx >= 0 && x + dx < w && type[up + dx] === EMPTY) {
+      moveTo(world, i, up + dx, 0, st);
+      world.wake(x + dx, y - 1);
+      return;
+    }
+  }
+  const sx = r & 512 ? 1 : -1;
+  if ((r & 3072) === 0 && x + sx >= 0 && x + sx < w && type[i + sx] === EMPTY) {
+    moveTo(world, i, i + sx, 0, st);
+    world.wake(x + sx, y);
+  }
 }
 
 /** Swaps every field of cells i and j. */
 function swap(world: World, i: number, j: number): void {
-  const { type, vy, stamp, shade } = world;
+  const { type, vy, stamp, shade, temp } = world;
   const t = type[i];
   type[i] = type[j];
   type[j] = t;
+  const T = temp[i];
+  temp[i] = temp[j];
+  temp[j] = T;
   const v = vy[i];
   vy[i] = vy[j];
   vy[j] = v;

@@ -4,8 +4,13 @@ import {
   ELEMENTS,
   ELEMENT_COUNT,
   EMPTY,
+  DOWN_INTO,
+  DOWN_T,
   ENTER_P,
   PHASE_OF,
+  PH_GAS,
+  UP_INTO,
+  UP_T,
   PH_LIQUID,
   PH_POWDER,
   type Category,
@@ -63,6 +68,16 @@ function facts(id: number): [string, string][] {
   }
   if (sinks.length) out.push(['Sinks through', names(sinks)]);
   if (floats.length) out.push(['Floats on', names(floats)]);
+  if (e.temp !== undefined) out.push(['Starts at', `${fmt.format(e.temp)} °C`]);
+  if (UP_T[id] !== Infinity) {
+    const verb = e.melt !== undefined ? 'Melts' : 'Boils';
+    out.push([verb, `${fmt.format(e.melt ?? e.boil ?? 0)} °C → ${ELEMENTS[UP_INTO[id]].name}`]);
+  }
+  if (DOWN_T[id] !== -Infinity) {
+    const from = ELEMENTS[DOWN_INTO[id]];
+    const verb = PHASE_OF[id] === PH_GAS ? 'Condenses' : 'Freezes';
+    out.push([verb, `${fmt.format(from.melt ?? from.boil ?? 0)} °C → ${from.name}`]);
+  }
   return out;
 }
 
