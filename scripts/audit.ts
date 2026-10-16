@@ -9,6 +9,8 @@
  * Run: npm run audit
  */
 import { writeFileSync } from 'node:fs';
+import { availableParallelism } from 'node:os';
+import { Worker, isMainThread, parentPort, workerData } from 'node:worker_threads';
 import { KEEP, P_GAS, P_OUT_A, P_OUT_B, P_RULE } from '../src/sim/chem';
 import {
   BLAST_POWER_OF,
@@ -194,12 +196,16 @@ const active = (e: number): boolean =>
   DEVICE_OF[e] > 0 ||
   RAIN_INTO_OF[e] > 0 ||
   PHASE_OF[e] === PH_ENERGY;
-let runs = 0;
-const t0 = Date.now();
-for (let a = 1; a < N; a++) {
+/** Simulates every pair whose first element is in `as`; returns the run count and what it found, each with a sort key. */
+function runPairs(as: number[]): { runs: number; found: (Finding & { key: number })[] } {
+  const found: (Finding & { key: number })[] = [];
+  let runs = 0;
+  for (const a of as) {
   for (let b = 0; b < N; b++) {
     if (b === a) continue;
-    for (const scene of SCENES) {
+    for (let si = 0; si < SCENES.length; si++) {
+      const scene = SCENES[si];
+      const key = (a * N + b) * SCENES.length + si;
       runs++;
       const world = new World(W, H, 1000 + a * 61 + b);
       // A on the left, B on the right, lower half of a small closed world; edges are walls.
@@ -224,25 +230,52 @@ for (let a = 1; a < N; a++) {
       }
       const ok = allowed([a, b]);
       const extra = [...seen].filter((e) => !ok.has(e));
-      const pair = { a: name(a), b: name(b), scene: scene.name };
-      if (extra.length) findings.push({ ...pair, problem: `unexplained: ${extra.map(name).join(', ')}` });
-      if (broken) findings.push({ ...pair, problem: 'temperature became NaN or infinite' });
+      const pair = { a: name(a), b: name(b), scene: scene.name, key };
+      if (extra.length) found.push({ ...pair, problem: `unexplained: ${extra.map(name).join(', ')}` });
+      if (broken) found.push({ ...pair, problem: 'temperature became NaN or infinite' });
       const after = matter(world);
       // Plants grow, and a bake that gives off gas splits one cell into two (limestone → quicklime + carbon dioxide).
       // Clones make more of what touches them, and a cloud's rain outweighs the cloud.
       const grows = [...ok].some((e) => GROWS_INTO_OF[e] > 0 || BAKE_GAS_OF[e] > 0 || CLONES_OF[e] > 0 || RAIN_INTO_OF[e] > 0);
-      if (after > before && !grows) findings.push({ ...pair, problem: `matter grew from ${before} to ${after} cells` });
+      if (after > before && !grows) found.push({ ...pair, problem: `matter grew from ${before} to ${after} cells` });
       // Two elements with no rule between them, neither changed: both counts must be exact.
       const inert = P_RULE[a * N + b] === 0 && P_RULE[b * N + a] === 0 && !active(a) && !active(b) && !phasePair(a, b);
       if (inert && [...seen].every((e) => e === EMPTY || e === a || e === b)) {
         const nowA = world.count(a);
         const nowB = world.count(b);
         if (nowA !== countA || nowB !== countB)
-          findings.push({ ...pair, problem: `nothing reacted, yet counts changed: ${name(a)} ${countA} to ${nowA}, ${name(b)} ${countB} to ${nowB}` });
+          found.push({ ...pair, problem: `nothing reacted, yet counts changed: ${name(a)} ${countA} to ${nowA}, ${name(b)} ${countB} to ${nowB}` });
       }
     }
   }
+  }
+  return { runs, found };
 }
+
+// Workers each take every k-th first element; the main thread gathers and sorts their findings.
+if (!isMainThread) {
+  parentPort!.postMessage(runPairs(workerData as number[]));
+} else {
+  const t0 = Date.now();
+  const threads = Math.max(1, Math.min(availableParallelism() - 1, 12));
+  const slices: number[][] = Array.from({ length: threads }, () => []);
+  for (let a = 1; a < N; a++) slices[a % threads].push(a);
+  const results = await Promise.all(
+    slices.map(
+      (as) =>
+        new Promise<{ runs: number; found: (Finding & { key: number })[] }>((resolve, reject) => {
+          const w = new Worker(new URL(import.meta.url), { workerData: as });
+          w.once('message', resolve);
+          w.once('error', reject);
+        }),
+    ),
+  );
+  const runs = results.reduce((n, r) => n + r.runs, 0);
+  for (const f of results.flatMap((r) => r.found).sort((x, y) => x.key - y.key)) findings.push({ a: f.a, b: f.b, scene: f.scene, problem: f.problem });
+  report(runs, t0, threads);
+}
+
+function report(runs: number, t0: number, threads: number): void {
 
 const out: string[] = [];
 out.push('# Sandglass pairwise audit');
@@ -262,4 +295,5 @@ if (findings.length) {
 }
 out.push('');
 writeFileSync(new URL('../docs/AUDIT.md', import.meta.url), out.join('\n'));
-console.log(`Audit: ${runs} runs, ${findings.length} findings. Wrote docs/AUDIT.md.`);
+console.log(`Audit: ${runs} runs, ${findings.length} findings, ${threads} threads. Wrote docs/AUDIT.md.`);
+}
