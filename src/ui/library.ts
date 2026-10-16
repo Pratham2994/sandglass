@@ -23,10 +23,11 @@ const CATEGORY_NAMES: Record<Category, string> = {
   energy: 'Energy',
   explosives: 'Explosives',
   electronics: 'Electronics',
+  devices: 'Devices',
   life: 'Life',
   tools: 'Tools',
 };
-const CATEGORY_ORDER: Category[] = ['powders', 'liquids', 'gases', 'solids', 'building', 'metals', 'fuels', 'energy', 'explosives', 'electronics', 'life'];
+const CATEGORY_ORDER: Category[] = ['powders', 'liquids', 'gases', 'solids', 'building', 'metals', 'fuels', 'energy', 'explosives', 'electronics', 'devices', 'life'];
 
 /** Tile still: cells across and down. */
 const TILE_CELLS = 14;

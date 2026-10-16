@@ -15,6 +15,7 @@ export type Category =
   | 'energy'
   | 'explosives'
   | 'electronics'
+  | 'devices'
   | 'life'
   | 'tools';
 export type Phase = 'powder' | 'liquid' | 'gas' | 'solid' | 'energy';
@@ -159,7 +160,7 @@ export interface ElementDef {
   bake?: { at: number; into: string; gas?: string };
   /** Gases: dissolving in water turns the water into this (sulfur dioxide → acid). */
   acidGas?: string;
-  /** Gases: kills living things it touches (they wither). */
+  /** Kills living things it touches (they wither): poisonous gases, salt, bleach. */
   toxic?: boolean;
   /** Dead organic matter: slowly rots into this where water touches it. */
   rotsInto?: string;
@@ -169,6 +170,27 @@ export interface ElementDef {
   selfFed?: boolean;
   /** A flame alone cannot light it: it needs its full ignition heat, or a spark for explosives. */
   noFlame?: boolean;
+  /** Seeds: about how many cells the plant grows (default 40). */
+  growBudget?: number;
+  /** Living things: leaves grow beside the stem as this element (tree → leaves); default the plant itself. */
+  leafInto?: string;
+  /** Living things: the last cell a stem grows becomes this (a flower). */
+  topInto?: string;
+  /** Devices: keeps itself at this temperature (heater, cooler). */
+  holdTemp?: number;
+  /** Devices: copies the first element that touches it into the empty space around it. */
+  clones?: boolean;
+  /** Devices: deletes whatever touches it. */
+  voids?: boolean;
+  /** Devices: blows air this way, cells per frame (fan). */
+  blows?: [number, number];
+  /** Conductors: °C a pulse of current adds (a bulb filament heats until it glows). Default 4. */
+  chargeHeat?: number;
+  /** Devices: share of the gap to room temperature it loses each frame (a filament fades fast). */
+  coolRate?: number;
+  /** Clouds: drops this below now and then, or `rainsColdInto` when below 0 °C, and slowly runs dry. */
+  rainsInto?: string;
+  rainsColdInto?: string;
   /** Hand-written reactions by the other element's key; they win over the compiler. */
   overrides?: Record<string, Override>;
 }
@@ -257,6 +279,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     fallMax: 165,
     heatCapacity: 0.8,
     conductivity: 0.15,
+    bake: { at: 1450, into: 'glass' },
   },
   {
     key: 'water',
@@ -435,6 +458,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     burnEnergy: 10,
     burnInto: 'ash',
     residue: 0.15,
+    bake: { at: 400, into: 'charcoal', gas: 'smoke' },
   },
   {
     key: 'ash',
@@ -601,6 +625,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     fallMax: 160,
     heatCapacity: 0.6,
     conductivity: 0.2,
+    toxic: true,
   },
   {
     key: 'sugar',
@@ -622,6 +647,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 700,
     burnInto: 'smoke',
     residue: 0.3,
+    bake: { at: 186, into: 'caramel' },
   },
   {
     key: 'dirt',
@@ -847,6 +873,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     burnInto: 'ash',
     residue: 0.4,
     witherInto: 'dry_plant',
+    topInto: 'flower',
   },
   {
     key: 'molten_copper',
@@ -1428,6 +1455,7 @@ export const ELEMENTS: readonly ElementDef[] = [
       acid: { self: 'chlorine', other: 'water', chance: 0.3, reason: 'Bleach and acid release poisonous chlorine gas' },
       vinegar: { self: 'chlorine', other: 'water', chance: 0.3, reason: 'Bleach and vinegar release poisonous chlorine gas' },
     },
+    toxic: true,
   },
   {
     key: 'lye',
@@ -1614,6 +1642,340 @@ export const ELEMENTS: readonly ElementDef[] = [
     ignition: 900,
     noFlame: true,
     explosive: { power: 14, radius: 6 },
+  },
+  // ---- Life pack -------------------------------------------------------------------
+  {
+    key: 'grass_seed',
+    name: 'Grass seed',
+    blurb: 'Tiny pale seeds, a light powder. Falls and sinks in water. On damp soil it sprouts into a short tuft of grass.',
+    category: 'life',
+    colours: ['#c9c27a', '#b8b068', '#d6cf8a', '#a9a05a'],
+    phase: 'powder',
+    cls: 'life',
+    hardness: 0.2,
+    density: 1100,
+    fallAccel: 180,
+    fallMax: 120,
+    heatCapacity: 0.8,
+    conductivity: 0.1,
+    ignition: 250,
+    fuel: 40,
+    flameTemp: 700,
+    burnInto: 'ash',
+    growsInto: 'grass',
+    growBudget: 6,
+  },
+  {
+    key: 'grass',
+    name: 'Grass',
+    blurb: 'Short living blades. Stays put and drinks from damp soil. Dried out it withers into dry plant, and it burns easily.',
+    category: 'life',
+    colours: ['#5aa83f', '#6bbd4a', '#4e9636', '#79c957'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 600,
+    heatCapacity: 1,
+    conductivity: 0.1,
+    ignition: 220,
+    fuel: 40,
+    flameTemp: 700,
+    burnInto: 'ash',
+    residue: 0.3,
+    witherInto: 'dry_plant',
+  },
+  {
+    key: 'acorn',
+    name: 'Acorn',
+    blurb: 'A heavy brown seed, a powder. Falls and sinks in water. On damp soil it sprouts into a tall, branching tree.',
+    category: 'life',
+    colours: ['#7a5326', '#8c6230', '#694620', '#9a6e3a'],
+    phase: 'powder',
+    cls: 'life',
+    hardness: 0.3,
+    density: 1100,
+    fallAccel: 220,
+    fallMax: 150,
+    heatCapacity: 0.8,
+    conductivity: 0.1,
+    ignition: 260,
+    fuel: 60,
+    flameTemp: 700,
+    burnInto: 'ash',
+    growsInto: 'tree',
+    growBudget: 90,
+  },
+  {
+    key: 'tree',
+    name: 'Tree',
+    blurb: 'A living woody trunk. Grows tall and branches, drinking from damp soil and putting out leaves. Dead and dry, it is plain wood.',
+    category: 'life',
+    colours: ['#5b3d24', '#6b4a2c', '#4d331e', '#7a5634'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.3,
+    density: 750,
+    heatCapacity: 1.2,
+    conductivity: 0.12,
+    ignition: 300,
+    fuel: 150,
+    flameTemp: 800,
+    burnEnergy: 10,
+    burnInto: 'ash',
+    residue: 0.15,
+    witherInto: 'wood',
+    leafInto: 'leaves',
+    topInto: 'leaves',
+  },
+  {
+    key: 'leaves',
+    name: 'Leaves',
+    blurb: 'Living green leaves on a tree. Stay put and take water from the branch. Dried out they wither, and they burn easily.',
+    category: 'life',
+    colours: ['#2f7a34', '#3a8c3e', '#27682c', '#46a04a'],
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 500,
+    heatCapacity: 1,
+    conductivity: 0.08,
+    ignition: 230,
+    fuel: 30,
+    flameTemp: 700,
+    burnInto: 'ash',
+    residue: 0.2,
+    witherInto: 'dry_plant',
+  },
+  {
+    key: 'flower',
+    name: 'Flower',
+    blurb: 'A bright bloom at the tip of a plant. Stays put and takes water from the stem. Dried out it withers, and it burns easily.',
+    category: 'life',
+    colours: ['#e86fa1', '#f2c94c', '#d9483b', '#a77fe0', '#f4f1ea'],
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 400,
+    heatCapacity: 1,
+    conductivity: 0.08,
+    ignition: 220,
+    fuel: 20,
+    flameTemp: 700,
+    burnInto: 'ash',
+    residue: 0.2,
+    witherInto: 'dry_plant',
+  },
+  {
+    key: 'cloud',
+    name: 'Cloud',
+    blurb: 'A drifting mass of droplets, a gas. Rises slowly and spreads. It rains, or snows when below freezing, until it runs dry.',
+    category: 'gases',
+    colours: ['#d9dde2', '#cdd2d8', '#e6e9ec'],
+    texture: 'gas',
+    phase: 'gas',
+    cls: 'water',
+    hardness: 0,
+    density: 1.1,
+    heatCapacity: 0.5,
+    conductivity: 0.04,
+    rainsInto: 'water',
+    rainsColdInto: 'snow',
+  },
+  // ---- Devices ---------------------------------------------------------------------
+  {
+    key: 'heater',
+    name: 'Heater',
+    blurb: 'A hot plate. Stays put and holds itself at a steady high heat, warming whatever touches it.',
+    category: 'devices',
+    colours: ['#6b2a20', '#7a3125', '#5e241b', '#88392b'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 1,
+    density: 3000,
+    heatCapacity: 2,
+    conductivity: 0.9,
+    holdTemp: 300,
+  },
+  {
+    key: 'cooler',
+    name: 'Cooler',
+    blurb: 'A cold plate. Stays put and holds itself far below freezing, chilling whatever touches it.',
+    category: 'devices',
+    colours: ['#24425e', '#2a4c6b', '#1f3a53', '#315677'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 1,
+    density: 3000,
+    heatCapacity: 2,
+    conductivity: 0.9,
+    holdTemp: -60,
+  },
+  {
+    key: 'clone',
+    name: 'Clone',
+    blurb: 'A copying block. Stays put. It learns the first element that touches it and keeps making more of it in the space around.',
+    category: 'devices',
+    colours: ['#8a7428', '#9c8430', '#7a6622', '#ad9438'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 1,
+    density: 3000,
+    heatCapacity: 1,
+    conductivity: 0.1,
+    clones: true,
+  },
+  {
+    key: 'void',
+    name: 'Void',
+    blurb: 'A hole in the world. Stays put and deletes anything that touches it, except walls and other devices.',
+    category: 'devices',
+    colours: ['#120e18', '#18121f', '#0d0a12', '#1e1726'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 1,
+    density: 3000,
+    heatCapacity: 1,
+    conductivity: 0.02,
+    voids: true,
+  },
+  {
+    key: 'fan',
+    name: 'Fan',
+    blurb: 'A blower. Stays put and pushes a steady stream of air upwards, lifting gases, flames and light powders.',
+    category: 'devices',
+    colours: ['#3d4148', '#464b53', '#353940', '#50555e'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 1,
+    density: 3000,
+    heatCapacity: 1,
+    conductivity: 0.2,
+    blows: [0, -3],
+  },
+  {
+    key: 'bulb',
+    name: 'Bulb',
+    blurb: 'A light bulb filament. Stays put and carries charge; current heats it until it glows, and it fades when the power stops.',
+    category: 'electronics',
+    colours: ['#4a4436', '#554e3e', '#403a2e', '#5e5746'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 1,
+    electric: 1,
+    density: 3000,
+    heatCapacity: 0.2,
+    conductivity: 0.05,
+    chargeHeat: 400,
+    coolRate: 0.04,
+  },
+  // ---- More metals and minerals ----------------------------------------------------
+  {
+    key: 'magnesium',
+    name: 'Magnesium',
+    blurb: 'A light silvery metal. Stays put. Once very hot it burns with a blinding white flame, hot enough to set off thermite.',
+    category: 'metals',
+    colours: ['#c4c6c9', '#d0d2d5', '#b6b8bc', '#dcdee0'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.35,
+    electric: 1,
+    density: 1740,
+    heatCapacity: 1,
+    conductivity: 0.8,
+    ignition: 650,
+    fuel: 120,
+    flameTemp: 3000,
+    burnEnergy: 30,
+    burnInto: 'ash',
+    residue: 0.6,
+  },
+  {
+    key: 'potassium',
+    name: 'Potassium',
+    blurb: 'A very soft, light metal. Stays put. Water touching it makes it burst into lye and burning hydrogen, even more fiercely than sodium.',
+    category: 'metals',
+    colours: ['#b8b4c4', '#c6c2d1', '#a9a5b6', '#d2cfdc'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.05,
+    electric: 1,
+    density: 862,
+    heatCapacity: 0.8,
+    conductivity: 0.5,
+    overrides: {
+      water: {
+        self: 'hydrogen',
+        other: 'lye',
+        chance: 0.6,
+        heat: 700,
+        reason: 'Potassium bursts in water: it becomes lye and hydrogen, hot enough to set the hydrogen alight',
+      },
+    },
+  },
+  {
+    key: 'caramel',
+    name: 'Caramel',
+    blurb: 'Melted, browned sugar. Oozes very slowly. It burns once it gets very hot.',
+    category: 'liquids',
+    colours: ['#9a5a1c', '#8a4f16', '#7a4412', '#b06a24'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0,
+    density: 1300,
+    fallAccel: 100,
+    fallMax: 30,
+    dispersion: 1,
+    temp: 190,
+    heatCapacity: 0.6,
+    conductivity: 0.15,
+    ignition: 400,
+    fuel: 200,
+    flameTemp: 900,
+    burnInto: 'ash',
+    residue: 0.3,
+  },
+  {
+    key: 'marble',
+    name: 'Marble',
+    blurb: 'Polished white rock, a carbonate. Stays put. Acid fizzes it away into carbon dioxide, and great heat bakes it into quicklime.',
+    category: 'building',
+    colours: ['#e4e2dc', '#d8d5ce', '#eeece7', '#cbc7bf'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 0.5,
+    density: 2700,
+    heatCapacity: 0.9,
+    conductivity: 0.3,
+    carbonate: true,
+    bake: { at: 900, into: 'quicklime', gas: 'carbon_dioxide' },
+  },
+  {
+    key: 'chalk',
+    name: 'Chalk',
+    blurb: 'Soft white carbonate, a powder. Falls and piles. Acid fizzes it away into carbon dioxide.',
+    category: 'powders',
+    colours: ['#f1efe8', '#e7e4db', '#f8f7f2', '#dcd9ce'],
+    phase: 'powder',
+    cls: 'mineral',
+    hardness: 0.2,
+    density: 1500,
+    fallAccel: 210,
+    fallMax: 150,
+    heatCapacity: 0.8,
+    conductivity: 0.12,
+    carbonate: true,
   },
 ];
 
@@ -1839,6 +2201,20 @@ export const ROTS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.rotsInto))
 export const CARBONATE_OF = Uint8Array.from(ELEMENTS, (e) => (e.carbonate ? 1 : 0));
 export const SELF_FED_OF = Uint8Array.from(ELEMENTS, (e) => (e.selfFed ? 1 : 0));
 export const NO_FLAME_OF = Uint8Array.from(ELEMENTS, (e) => (e.noFlame ? 1 : 0));
+export const GROW_BUDGET_OF = Uint16Array.from(ELEMENTS, (e) => e.growBudget ?? 40);
+export const LEAF_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.leafInto));
+export const TOP_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.topInto));
+export const HOLD_T_OF = Float32Array.from(ELEMENTS, (e) => e.holdTemp ?? NaN);
+export const CLONES_OF = Uint8Array.from(ELEMENTS, (e) => (e.clones ? 1 : 0));
+export const VOIDS_OF = Uint8Array.from(ELEMENTS, (e) => (e.voids ? 1 : 0));
+export const BLOW_X_OF = Float32Array.from(ELEMENTS, (e) => e.blows?.[0] ?? 0);
+export const BLOW_Y_OF = Float32Array.from(ELEMENTS, (e) => e.blows?.[1] ?? 0);
+export const CHARGE_HEAT_OF = Float32Array.from(ELEMENTS, (e) => e.chargeHeat ?? 4);
+export const COOL_RATE_OF = Float32Array.from(ELEMENTS, (e) => e.coolRate ?? 0);
+export const RAIN_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.rainsInto));
+export const RAIN_COLD_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.rainsColdInto ?? e.rainsInto));
+/** Any device behaviour, so the cell pass checks one table. */
+export const DEVICE_OF = Uint8Array.from(ELEMENTS, (e) => (e.holdTemp !== undefined || e.clones || e.voids || e.blows || e.coolRate ? 1 : 0));
 
 /** What a solid becomes instead when it freezes unsupported; 0 = itself. */
 export const RUBBLE_OF = Uint16Array.from(ELEMENTS, (e) => (e.rubble ? elementId(e.rubble) : 0));
