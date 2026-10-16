@@ -41,6 +41,9 @@ import {
   HOLD_T_OF,
   LEAF_INTO_OF,
   RAIN_COLD_OF,
+  DIES_INTO_OF,
+  EATS,
+  HABITAT_OF,
   RAIN_INTO_OF,
   TOP_INTO_OF,
   VOIDS_OF,
@@ -134,6 +137,12 @@ function updateCell(world: World, x: number, y: number, st: number): void {
   }
   if (POWER_EVERY_OF[t] !== 0) powerSource(world, x, y, t);
   if (DEVICE_OF[t] !== 0) device(world, x, y, i, t);
+  if (HABITAT_OF[t] !== 0) {
+    // A creature may still burn or be eaten by acid first; then it lives its turn.
+    if (HAS_REACTION[t] !== 0 && react(world, x, y, i, st)) return;
+    creature(world, x, y, i, t, st);
+    return;
+  }
   if (RAIN_INTO_OF[t] !== 0) rain(world, x, y, i, t);
   if (world.charge[i] !== 0) updateCharge(world, x, y, i, st);
   if (WITHER_INTO_OF[t] !== 0) live(world, x, y, i, st);
@@ -273,6 +282,122 @@ function rain(world: World, x: number, y: number, i: number, t: number): void {
   world.temp[below] = T;
   // About one drop in sixteen is the cloud cell's last.
   if (((r >>> 6) & 15) < 1) world.place(i, EMPTY);
+}
+
+// ---- Creatures ----------------------------------------------------------------------
+
+/** °C beyond which a creature dies. */
+const CREATURE_HOT = 55;
+const CREATURE_COLD = -5;
+/** Frames a creature survives out of its habitat (a fish out of water, an ant under water). */
+const OUT_OF_HABITAT = 240;
+
+const H_WATER = 1;
+const H_GROUND = 2;
+const H_SOIL = 3;
+const H_AIR = 4;
+
+/** Can a creature of this habitat move into cell j (swapping with what is there)? */
+function creatureCanEnter(world: World, habitat: number, j: number): boolean {
+  const tj = world.type[j];
+  if (habitat === H_WATER) return tj === WATER;
+  if (habitat === H_SOIL) return tj === EMPTY || (PHASE_OF[tj] === PH_POWDER && POROUS_MAX_OF[tj] !== 0);
+  return tj === EMPTY;
+}
+
+/**
+ * Is the creature at (x, y) where it belongs? A fish touches water, a worm
+ * touches soil, a walker or flier is not under liquid (liquid beside or
+ * above it means it is drowning).
+ */
+function atHome(world: World, habitat: number, x: number, y: number): boolean {
+  const type = world.type;
+  for (let d = 0; d < 4; d++) {
+    const j = neighbour(world, x, y, d);
+    if (j < 0) continue;
+    const tj = type[j];
+    if (habitat === H_WATER && tj === WATER) return true;
+    if (habitat === H_SOIL && PHASE_OF[tj] === PH_POWDER && POROUS_MAX_OF[tj] !== 0) return true;
+    if ((habitat === H_GROUND || habitat === H_AIR) && d !== 2 && PHASE_OF[tj] === PH_LIQUID) return false;
+  }
+  return habitat === H_GROUND || habitat === H_AIR;
+}
+
+/**
+ * A creature's turn. It dies (into meat, dirt...) when too hot, too cold or
+ * out of its habitat too long. Otherwise it eats food beside it, which may
+ * let it breed into that cell, then moves: fish swim through water, ants
+ * walk and climb over ground, worms dig through soil, birds fly. Walkers
+ * and diggers fall when nothing holds them up.
+ */
+function creature(world: World, x: number, y: number, i: number, t: number, st: number): void {
+  world.wake(x, y);
+  const { w, h, type, temp, life, vy } = world;
+  const habitat = HABITAT_OF[t];
+  const T = temp[i];
+  if (T > CREATURE_HOT || T < CREATURE_COLD) {
+    become(world, i, DIES_INTO_OF[t]);
+    return;
+  }
+  // Out of its habitat it struggles, and dies if it stays out too long.
+  if (atHome(world, habitat, x, y)) life[i] = 0;
+  else if (++life[i] > OUT_OF_HABITAT) {
+    become(world, i, DIES_INTO_OF[t]);
+    return;
+  }
+  const r = world.rng.nextU32();
+  // Eat: food beside it is eaten (or turned into what it leaves); a fed creature may breed into the space.
+  const j = neighbour(world, x, y, r & 3);
+  if (j >= 0) {
+    const e = EATS[t * ELEMENT_COUNT + type[j]];
+    if (e !== 0 && ((r >>> 2) & 7) === 0) {
+      if (e === 1 && ((r >>> 5) & 3) === 0) {
+        const Tj = temp[j];
+        world.place(j, t);
+        temp[j] = Tj;
+      } else become(world, j, e - 1);
+      world.stamp[j] = st;
+      return;
+    }
+  }
+  // Fall through open air or gas when nothing holds it up (birds fly instead).
+  if (habitat !== H_AIR && y + 1 < h) {
+    const below = i + w;
+    const tb = type[below];
+    if (tb === EMPTY || PHASE_OF[tb] === PH_GAS) {
+      moveTo(world, i, below, 0, st);
+      return;
+    }
+  }
+  // Move now and then, so they wander instead of buzzing.
+  if (((r >>> 8) & 3) !== 0) return;
+  let dir = vy[i] === 0 ? (((r >>> 10) & 1) === 0 ? 1 : -1) : vy[i] > 0 ? 1 : -1;
+  if (((r >>> 11) & 31) === 0) dir = -dir;
+  if (habitat === H_GROUND) {
+    // Walk; step up one cell if blocked; turn round at a wall.
+    const nx = x + dir;
+    if (nx >= 0 && nx < w && creatureCanEnter(world, habitat, y * w + nx)) moveTo(world, i, y * w + nx, dir, st);
+    else if (nx >= 0 && nx < w && y > 0 && creatureCanEnter(world, habitat, (y - 1) * w + nx) && creatureCanEnter(world, habitat, (y - 1) * w + x))
+      moveTo(world, i, (y - 1) * w + nx, dir, st);
+    else vy[i] = -dir;
+    return;
+  }
+  // Swimmers, diggers and fliers wander in any direction, mostly sideways.
+  const up = ((r >>> 12) & 7) === 0 ? -1 : ((r >>> 12) & 7) === 1 ? 1 : 0;
+  const nx = x + (up !== 0 && ((r >>> 15) & 1) === 0 ? 0 : dir);
+  const ny = y + up;
+  if (nx < 0 || nx >= w || ny < 0 || ny >= h) {
+    vy[i] = -dir;
+    return;
+  }
+  const k = ny * w + nx;
+  // Birds keep a little height: they do not fly into the cell just above the ground.
+  if (habitat === H_AIR && up >= 0 && ny + 1 < h && type[k + w] !== EMPTY && PHASE_OF[type[k + w]] !== PH_GAS) {
+    vy[i] = -dir;
+    return;
+  }
+  if (creatureCanEnter(world, habitat, k)) moveTo(world, i, k, dir, st);
+  else vy[i] = -dir;
 }
 
 // ---- Life -------------------------------------------------------------------------

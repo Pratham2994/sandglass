@@ -105,6 +105,13 @@ export function elementFacts(id: number): [string, string][] {
   if (e.blows) out.push(['Blows', 'air upwards above it']);
   if (e.rainsInto) out.push(['Rains', `${nameOf(e.rainsInto)}${e.rainsColdInto ? `, or ${nameOf(e.rainsColdInto)} below 0 °C` : ''}, until it runs dry`]);
   if ((e.chargeHeat ?? 4) > 20) out.push(['Glows', 'when current heats it, fading when the power stops']);
+  if (e.creature) {
+    const where = { water: 'swims in water; out of it, it suffocates', ground: 'walks over the ground and climbs steps; water drowns it', soil: 'digs through soil; dried out above ground, it dies', air: 'flies in open air; water drowns it' }[e.creature.lives];
+    out.push(['Habitat', where]);
+    const foods = Object.keys(e.creature.eats ?? {}).map((k) => nameOf(k));
+    if (foods.length) out.push(['Eats', `${foods.join(', ')}; fed, it breeds`]);
+    out.push(['Dies', `of heat over 55 °C or cold below −5 °C, into ${nameOf(e.creature.diesInto)}`]);
+  }
   if (e.witherInto) out.push(['Lives', `on water drawn from damp soil; dried out, it withers into ${ELEMENTS.find((x) => x.key === e.witherInto)!.name.toLowerCase()}`]);
   if (e.brittle) out.push(['Shatters', `into ${e.breaksInto ?? 'pieces'} when a blast hits it`]);
   if ((e.oxidiser ?? 0) > 0 && id !== EMPTY) out.push(['Feeds fire', `strength ${num.format(e.oxidiser ?? 0)} (air is 0.21)`]);
