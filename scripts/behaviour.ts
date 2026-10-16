@@ -1042,6 +1042,55 @@ check('termite', 'chews wood into sawdust and breeds', () => {
   return { ok: s.count('wood') < before && s.count('termite') > 2, detail: `wood ${before} to ${s.count('wood')}, termites ${s.count('termite')}` };
 });
 
+// ---- Batch 7 ----------------------------------------------------------------------
+
+/** A floor with a row of food on it and a few creatures beside it; returns food before and after. */
+function feed(creature: string, food: string, frames: number): { before: number; after: number; count: number } {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(0, 59, W, 1, food).fill(30, 58, 2, 1, creature);
+  const before = s.count(food);
+  s.run(frames);
+  return { before, after: s.count(food), count: s.count(creature) };
+}
+check('snail', 'grazes plants', () => {
+  const r = feed('snail', 'grass', 600);
+  return { ok: r.after < r.before, detail: `grass ${r.before} to ${r.after}, snails ${r.count}` };
+});
+check('frog', 'catches insects', () => {
+  const r = feed('frog', 'ant', 1800);
+  return { ok: r.after < r.before, detail: `ants ${r.before} to ${r.after}, frogs ${r.count}` };
+});
+check('mouse', 'eats seeds and breeds', () => {
+  const r = feed('mouse', 'popcorn_kernel', 1800);
+  return { ok: r.after < r.before && r.count > 2, detail: `kernels ${r.before} to ${r.after}, mice ${r.count}` };
+});
+check('snake', 'catches mice', () => {
+  const r = feed('snake', 'mouse', 1800);
+  return { ok: r.after < r.before, detail: `mice ${r.before} to ${r.after}, snakes ${r.count}` };
+});
+check('ammonia', 'rises and neutralises acid', () => {
+  // A light gas rises away, so fill the whole space above the acid with it.
+  const s = new Scene().fill(0, 56, W, 8, 'acid').fill(0, 0, W, 56, 'ammonia');
+  const rises = new Scene().fill(20, 54, 24, 8, 'ammonia').run(120);
+  s.run(900);
+  return { ok: s.count('acid') < 512 && rises.meanY('ammonia') < 54, detail: `acid ${s.count('acid')} of 512, ammonia row ${fmt(rises.meanY('ammonia'))}` };
+});
+check('ozone', 'feeds fire more fiercely than air', () => {
+  const plain = new Scene().fill(20, 54, 24, 10, 'wood').fill(30, 52, 2, 2, 'fire').run(600);
+  const rich = new Scene().fill(20, 54, 24, 10, 'wood').fill(0, 30, W, 22, 'ozone').fill(30, 52, 2, 2, 'fire').run(600);
+  return { ok: rich.count('wood') < plain.count('wood'), detail: `wood left: with ozone ${rich.count('wood')}, in air ${plain.count('wood')}` };
+});
+check('cotton', 'soaks up water and then will not burn', () => {
+  const s = new Scene().fill(0, 56, W, 8, 'cotton').fill(0, 50, W, 4, 'water').run(900);
+  s.fill(30, s.topY('cotton') - 2, 2, 2, 'fire').run(300);
+  return { ok: s.held('cotton') > 0 && s.count('cotton') > 400, detail: `water held ${s.held('cotton')}, cotton left ${s.count('cotton')} of 512` };
+});
+check('chocolate', 'melts in a little warmth and sets again', () => {
+  const s = new Scene().fill(20, 58, 24, 6, 'chocolate', 40);
+  const melted = until(s, 60, () => s.count('molten_chocolate') > 0) > 0;
+  const f = until(s, 9000, () => s.count('chocolate') === 144);
+  return { ok: melted && f > 0, detail: `melted ${melted}, set again ${f > 0 ? `after ${f} frames` : 'no'}` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {
