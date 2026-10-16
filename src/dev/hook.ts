@@ -1,6 +1,6 @@
 import type { FixedLoop } from '../core/loop';
 import type { Timeline } from '../core/timeline';
-import { OP_STAMP } from '../sim/ops';
+import { MODE_COOL, MODE_HEAT, OP_STAMP } from '../sim/ops';
 import type { Brush } from '../input/brush';
 import type { Renderer } from '../render/renderer';
 import { P_MIN_T, P_PROB, P_RULE, explain } from '../sim/chem';
@@ -39,6 +39,8 @@ export interface SimHook {
   wind(x: number, y: number, vx: number, vy: number, r: number): void;
   /** Paints a disc of an element at (x, y) as the brush would: recorded in the timeline, so it replays. */
   paint(x: number, y: number, r: number, element: string): void;
+  /** Uses the heat or cool tool at (x, y) for one stamp, as the brush would (recorded). */
+  tool(x: number, y: number, r: number, tool: 'heat' | 'cool'): void;
   /** Rewinds or replays to frame f, as the scrubber does. */
   seek(f: number): void;
   /** Current frame and the range the timeline can reach. */
@@ -141,6 +143,9 @@ export function installSimHook(t: HookTargets): void {
     },
     paint(x, y, r, element) {
       t.timeline.record({ kind: OP_STAMP, x, y, r, mode: elementId(element), vx: 0, vy: 0 });
+    },
+    tool(x, y, r, tool) {
+      t.timeline.record({ kind: OP_STAMP, x, y, r, mode: tool === 'heat' ? MODE_HEAT : MODE_COOL, vx: 0, vy: 0 });
     },
     seek(f) {
       t.timeline.seek(f);

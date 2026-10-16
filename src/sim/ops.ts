@@ -33,6 +33,9 @@ export interface Op {
 
 /** °C a heat or cool stamp adds or takes. */
 const TOOL_DT = 14;
+/** The heat tool levels off here: hot enough to melt rock and iron, not so hot the whole scene boils away. */
+const TOOL_MAX = 1500;
+const TOOL_MIN = -100;
 /** Chance per empty cell per stamp that a powder grain appears, so pours look like a stream. */
 const POWDER_FILL = 0.3;
 /** Same for liquids and gases: separate drops that merge as they land. */
@@ -70,8 +73,11 @@ function stamp(world: World, cx: number, cy: number, r: number, mode: number): v
       if (mode === MODE_ERASE) {
         if (type[i] !== EMPTY) world.place(i, EMPTY);
       } else if (mode === MODE_HEAT || mode === MODE_COOL) {
-        const T = world.temp[i] + (mode === MODE_HEAT ? TOOL_DT : -TOOL_DT);
-        world.temp[i] = T > 3000 ? 3000 : T < -200 ? -200 : T;
+        const T0 = world.temp[i];
+        // Heat stops at the tool limit and leaves anything already hotter alone; cool stops at its floor.
+        if (mode === MODE_HEAT) {
+          if (T0 < TOOL_MAX) world.temp[i] = Math.min(TOOL_MAX, T0 + TOOL_DT);
+        } else if (T0 > TOOL_MIN) world.temp[i] = Math.max(TOOL_MIN, T0 - TOOL_DT);
         world.wake(x, y);
       } else if (type[i] === EMPTY && (p >= 1 || world.rng.next() < p)) {
         world.place(i, mode);

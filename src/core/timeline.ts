@@ -43,6 +43,8 @@ export class Timeline {
   private readonly world: World;
   private log = new Map<number, Op[]>();
   private snaps: Snap[] = [];
+  /** Snapshots no longer needed, kept for reuse so taking one does not allocate (no GC pauses). */
+  private spare: Snap[] = [];
 
   constructor(world: World) {
     this.world = world;
@@ -52,6 +54,7 @@ export class Timeline {
   /** Forgets all history and starts from the world as it is now. */
   reset(): void {
     this.log.clear();
+    this.spare.push(...this.snaps);
     this.snaps = [];
     this.newest = this.world.frame;
     this.snaps.push(this.capture());
@@ -92,7 +95,7 @@ export class Timeline {
       this.snaps.sort((a, b) => a.frame - b.frame);
     }
     const cutoff = this.newest - KEEP_FRAMES;
-    while (this.snaps.length > 1 && this.snaps[1].frame <= cutoff) this.snaps.shift();
+    while (this.snaps.length > 1 && this.snaps[1].frame <= cutoff) this.spare.push(this.snaps.shift()!);
     for (const k of this.log.keys()) if (k < this.oldest()) this.log.delete(k);
   }
 
@@ -115,12 +118,37 @@ export class Timeline {
    */
   private branchAt(f: number): void {
     for (const k of [...this.log.keys()]) if (k >= f) this.log.delete(k);
+    for (const s of this.snaps) if (s.frame > f) this.spare.push(s);
     this.snaps = this.snaps.filter((s) => s.frame <= f);
     this.newest = f;
   }
 
   private capture(): Snap {
     const w = this.world;
+    // Reuse a spare snapshot of the same size when there is one.
+    while (this.spare.length) {
+      const s = this.spare.pop()!;
+      if (s.type.length !== w.size || s.airP.length !== w.air.p.length || s.awake.length !== w.awake.length) continue;
+      s.frame = w.frame;
+      s.type.set(w.type);
+      s.vy.set(w.vy);
+      s.stamp.set(w.stamp);
+      s.shade.set(w.shade);
+      s.temp.set(w.temp);
+      s.life.set(w.life);
+      s.solute.set(w.solute);
+      s.conc.set(w.conc);
+      s.charge.set(w.charge);
+      s.rng = w.rng.getState();
+      s.airP.set(w.air.p);
+      s.airVx.set(w.air.vx);
+      s.airVy.set(w.air.vy);
+      s.airActive = w.air.active;
+      s.airBlocked.set(w.air.blocked);
+      s.awake.set(w.awake);
+      s.awakeNext.set(w.awakeNext);
+      return s;
+    }
     return {
       frame: w.frame,
       type: w.type.slice(),
