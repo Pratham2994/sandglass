@@ -44,7 +44,15 @@ out.push('| Freezing, condensing | A cell gets colder than the point of whatever
 out.push('| Rubble | A solid would form (freeze) with nothing solid under it | It forms as its loose rubble instead (lava → gravel) |');
 out.push('| Combustion | A flammable cell is at its ignition point and touches an oxidiser, or a loose flame touches it | It becomes fire that remembers its fuel, burns for its fuel time, then leaves its residue |');
 out.push('| Corrosion | An acid touches metal, rock or wood softer than its acidity | Both cells are used up; metal gives off hydrogen |');
-out.push('| Neutralisation | An acid touches a base | Both become water |');
+out.push('| Neutralisation | An acid touches a base | Both become water and warm up; a carbonate base fizzes into carbon dioxide |');
+out.push('| Quenching | Water touches a flame or a burning cell | The fire goes out; the water may flash into steam |');
+out.push('| Setting | Water touches a powder that sets (cement, quicklime) | The powder takes in the water and hardens, sometimes getting hot |');
+out.push('| Thawing | Salt or sugar touches ice | The ice melts into water |');
+out.push('| Acid gas | Sulfur dioxide or chlorine touches water | The water turns into acid |');
+out.push('| Toxic gas | A toxic gas touches a living thing | It withers |');
+out.push('| Rusting | Water or oxygen touches a metal that rusts | It slowly turns into rust |');
+out.push('| Rotting | Water touches dead organic matter | It slowly rots into dirt |');
+out.push('| Baking | A cell passes its baking point | A one-way change (clay to brick), sometimes giving off a gas |');
 out.push('');
 
 out.push('## Summary');

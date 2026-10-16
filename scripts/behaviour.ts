@@ -419,6 +419,264 @@ check('plant', 'burns', () => {
   return { ok: f > 0, detail: f > 0 ? `burning after ${f} frames` : 'did not catch' };
 });
 
+// ---- Rule families ----------------------------------------------------------------
+
+check('water', 'puts out fire', () => {
+  const s = new Scene().fill(20, 50, 24, 14, 'wood').fill(30, 48, 4, 2, 'fire').run(120);
+  const burning = (): number => {
+    let n = 0;
+    for (let i = 0; i < s.world.size; i++) if (s.world.type[i] === s.id('fire') && s.world.solute[i] !== 0) n++;
+    return n;
+  };
+  const before = burning();
+  // Flood it: water over the whole fire.
+  s.fill(0, 26, W, 20, 'water').run(300);
+  return { ok: before > 0 && burning() === 0, detail: `burning cells ${before}, after flooding ${burning()}` };
+});
+check('iron', 'rusts in water', () => {
+  const s = new Scene().fill(10, 58, 44, 6, 'iron').fill(10, 50, 44, 8, 'water');
+  const f = until(s, 3000, () => s.count('rust') > 0);
+  return { ok: f > 0, detail: f > 0 ? `rust after ${f} frames` : 'no rust' };
+});
+check('cement', 'sets into concrete with water', () => {
+  const s = new Scene().fill(10, 56, 44, 8, 'cement').fill(10, 50, 44, 4, 'water');
+  const f = until(s, 1200, () => s.count('concrete') > 20);
+  return { ok: f > 0, detail: f > 0 ? `concrete after ${f} frames` : `concrete ${s.count('concrete')}` };
+});
+check('quicklime', 'gets hot in water and turns to slaked lime', () => {
+  const s = new Scene().fill(10, 56, 44, 8, 'quicklime').fill(10, 50, 44, 4, 'water');
+  let hottest = 0;
+  until(s, 600, () => {
+    for (let i = 0; i < s.world.size; i++) if (s.world.temp[i] > hottest) hottest = s.world.temp[i];
+    return false;
+  });
+  return { ok: s.count('slaked_lime') > 0 && hottest >= 100, detail: `slaked lime ${s.count('slaked_lime')}, hottest ${fmt(hottest)} °C` };
+});
+check('salt', 'melts ice', () => {
+  const s = new Scene().fill(10, 54, 44, 10, 'ice', -5).heat(0, 0, W, 54, -5).fill(20, 50, 24, 3, 'salt');
+  const f = until(s, 1200, () => s.count('water') > 0);
+  return { ok: f > 0, detail: f > 0 ? `water after ${f} frames` : 'ice held' };
+});
+check('water', 'salt water stays liquid below 0 °C', () => {
+  const s = new Scene().fill(0, 50, W, 14, 'water').fill(16, 44, 32, 4, 'salt').run(1500);
+  s.heat(0, 0, W, H, -8).run(200);
+  const salty = s.held('water');
+  return { ok: s.count('water') > 0 && salty > 0, detail: `water ${s.count('water')}, ice ${s.count('ice')}` };
+});
+check('sulfur_dioxide', 'turns water into acid', () => {
+  const s = new Scene().fill(0, 54, W, 10, 'water').fill(10, 40, 44, 6, 'sulfur_dioxide');
+  const f = until(s, 1200, () => s.count('acid') > 0);
+  return { ok: f > 0, detail: f > 0 ? `acid after ${f} frames` : 'no acid' };
+});
+check('chlorine', 'kills plants', () => {
+  const s = new Scene().fill(10, 40, 44, 24, 'plant').fill(10, 30, 44, 8, 'chlorine');
+  const f = until(s, 1200, () => s.count('dry_plant') > 0);
+  return { ok: f > 0, detail: f > 0 ? `withered after ${f} frames` : 'plants fine' };
+});
+check('dry_plant', 'rots into dirt in water', () => {
+  const s = new Scene().fill(10, 56, 44, 8, 'dry_plant').fill(10, 50, 44, 6, 'water');
+  const f = until(s, 6000, () => s.count('dirt') > 0);
+  return { ok: f > 0, detail: f > 0 ? `dirt after ${f} frames` : 'no rot' };
+});
+
+// ---- Basics pack ------------------------------------------------------------------
+
+check('clay', 'bakes into brick', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'clay', 950);
+  const f = until(s, 120, () => s.count('brick') > 0);
+  return { ok: f > 0, detail: f > 0 ? `brick after ${f} frames` : 'no brick' };
+});
+check('brick', 'a blast breaks it into gravel', () => {
+  const s = new Scene().fill(20, 40, 3, 20, 'brick').fill(25, 46, 4, 4, 'tnt', 400);
+  const f = until(s, 300, () => s.count('gravel') > 0);
+  return { ok: f > 0, detail: f > 0 ? `gravel after ${f} frames` : 'brick held' };
+});
+check('concrete', 'acid eats it', () => {
+  const s = new Scene().fill(10, 56, 44, 8, 'concrete').fill(10, 48, 44, 6, 'acid').run(900);
+  return { ok: s.count('concrete') < 352, detail: `concrete left ${s.count('concrete')} of 352` };
+});
+check('limestone', 'acid fizzes it into carbon dioxide', () => {
+  const s = new Scene().fill(10, 56, 44, 8, 'limestone').fill(10, 48, 44, 6, 'acid');
+  const f = until(s, 900, () => s.count('carbon_dioxide') > 0);
+  return { ok: f > 0, detail: f > 0 ? `carbon dioxide after ${f} frames` : 'no fizz' };
+});
+check('limestone', 'bakes into quicklime and carbon dioxide', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'limestone', 950);
+  s.run(10);
+  return { ok: s.count('quicklime') > 0 && s.count('carbon_dioxide') > 0, detail: `quicklime ${s.count('quicklime')}, carbon dioxide ${s.count('carbon_dioxide')}` };
+});
+check('slaked_lime', 'neutralises acid', () => {
+  const s = new Scene().fill(10, 58, 44, 6, 'slaked_lime').fill(10, 50, 44, 6, 'acid').run(900);
+  return { ok: s.count('acid') < 264, detail: `acid left ${s.count('acid')} of 264` };
+});
+check('gold', 'acid cannot eat it', () => {
+  const s = new Scene().fill(10, 56, 44, 8, 'gold').fill(10, 48, 44, 6, 'acid').run(900);
+  return { ok: s.count('gold') === 352, detail: `gold ${s.count('gold')} of 352` };
+});
+check('gold', 'melts and sets back into gold', () => {
+  const s = new Scene().fill(20, 58, 24, 6, 'gold', 1200);
+  const melted = until(s, 60, () => s.count('molten_gold') > 0) > 0;
+  const f = until(s, 6000, () => s.count('gold') === 144);
+  return { ok: melted && f > 0, detail: `melted ${melted}, all gold again ${f > 0 ? `after ${f} frames` : 'no'}` };
+});
+check('aluminium', 'acid eats it, giving off hydrogen', () => {
+  const s = new Scene().fill(10, 56, 44, 8, 'aluminium').fill(10, 48, 44, 6, 'acid');
+  let hydrogen = 0;
+  until(s, 900, () => ((hydrogen = Math.max(hydrogen, s.count('hydrogen'))), false));
+  return { ok: s.count('aluminium') < 352 && hydrogen > 0, detail: `aluminium left ${s.count('aluminium')}, hydrogen seen ${hydrogen}` };
+});
+check('aluminium', 'melts into molten aluminium', () => {
+  const s = new Scene().fill(20, 58, 24, 6, 'aluminium', 700);
+  const f = until(s, 60, () => s.count('molten_aluminium') > 0);
+  return { ok: f > 0, detail: f > 0 ? `molten after ${f} frames` : 'solid' };
+});
+check('lead', 'melts and sets back into lead', () => {
+  const s = new Scene().fill(20, 58, 24, 6, 'lead', 360);
+  const melted = until(s, 60, () => s.count('molten_lead') > 0) > 0;
+  const f = until(s, 6000, () => s.count('lead') === 144);
+  return { ok: melted && f > 0, detail: `melted ${melted}, all lead again ${f > 0 ? `after ${f} frames` : 'no'}` };
+});
+check('sodium', 'water touching it makes lye and hydrogen', () => {
+  const s = new Scene().fill(0, 50, W, 14, 'water').fill(28, 48, 4, 2, 'sodium');
+  let hydrogen = 0;
+  until(s, 300, () => ((hydrogen = Math.max(hydrogen, s.count('hydrogen'), s.count('steam'))), false));
+  return { ok: s.count('lye') > 0 && hydrogen > 0, detail: `lye ${s.count('lye')}, hydrogen or its steam seen ${hydrogen}` };
+});
+check('coal', 'burns for a long time', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'coal', 500);
+  s.run(600);
+  let burning = 0;
+  for (let i = 0; i < s.world.size; i++) if (s.world.type[i] === s.id('fire') && s.world.solute[i] === s.id('coal')) burning++;
+  return { ok: burning > 0, detail: `still burning after 10 s: ${burning} cells` };
+});
+check('charcoal', 'catches from a flame', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'charcoal').fill(30, 54, 2, 2, 'fire');
+  const f = until(s, 300, () => s.count('charcoal') < 192);
+  return { ok: f > 0, detail: f > 0 ? `burning after ${f} frames` : 'did not catch' };
+});
+check('sulfur', 'burns into sulfur dioxide', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'sulfur').fill(30, 54, 2, 2, 'fire');
+  const f = until(s, 1200, () => s.count('sulfur_dioxide') > 0);
+  return { ok: f > 0, detail: f > 0 ? `sulfur dioxide after ${f} frames` : 'none' };
+});
+check('petrol', 'a pool goes up from one flame', () => {
+  const s = new Scene().fill(0, 56, W, 8, 'petrol').fill(30, 54, 2, 2, 'fire');
+  const f = until(s, 300, () => s.count('petrol') < 400);
+  return { ok: f > 0, detail: f > 0 ? `a fifth gone after ${f} frames` : `left ${s.count('petrol')}` };
+});
+check('petrol', 'floats on water', () => {
+  const s = new Scene().fill(0, 54, W, 10, 'petrol').fill(0, 30, W, 10, 'water').run(1200);
+  return { ok: s.meanY('petrol') < s.meanY('water'), detail: `petrol row ${fmt(s.meanY('petrol'))}, water row ${fmt(s.meanY('water'))}` };
+});
+check('wax', 'melts into molten wax', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'wax', 70);
+  const f = until(s, 60, () => s.count('molten_wax') > 0);
+  return { ok: f > 0, detail: f > 0 ? `molten after ${f} frames` : 'solid' };
+});
+check('molten_wax', 'sets back into wax', () => {
+  const s = new Scene().fill(10, 58, 44, 6, 'molten_wax');
+  const f = until(s, 6000, () => s.count('wax') > 0);
+  return { ok: f > 0, detail: f > 0 ? `wax after ${f} frames` : 'still molten' };
+});
+check('paper', 'burns from a flame', () => {
+  const s = new Scene().fill(20, 50, 24, 14, 'paper').fill(30, 48, 2, 2, 'fire');
+  const f = until(s, 600, () => s.count('paper') < 300);
+  return { ok: f > 0, detail: f > 0 ? `burning after ${f} frames` : 'did not catch' };
+});
+check('rubber', 'blocks charge', () => {
+  const s = new Scene().fill(4, 40, 20, 1, 'wire').fill(24, 40, 4, 1, 'rubber').fill(28, 40, 20, 1, 'wire').fill(3, 40, 1, 1, 'spark');
+  let m = 0;
+  for (let f = 0; f < 200; f++) {
+    step(s.world);
+    m = Math.max(m, s.world.charge[40 * W + 40]);
+  }
+  return { ok: m === 0, detail: `charge past the rubber ${m}` };
+});
+check('flour', 'catches easily and burns where air reaches it', () => {
+  const s = new Scene().fill(0, 56, W, 8, 'flour').fill(30, 54, 2, 2, 'fire');
+  const f = until(s, 600, () => s.count('flour') < 480);
+  return { ok: f > 0, detail: f > 0 ? `burning after ${f} frames` : `left ${s.count('flour')}` };
+});
+check('thermite', 'a flame does not light it', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'thermite').fill(30, 54, 2, 2, 'fire').run(300);
+  return { ok: s.count('thermite') === 192, detail: `thermite ${s.count('thermite')} of 192` };
+});
+check('thermite', 'great heat lights it, with no air', () => {
+  const s = new Scene().fill(0, 40, W, 24, 'wall').fill(20, 50, 24, 8, 'thermite', 950);
+  const f = until(s, 300, () => s.count('iron') > 0);
+  return { ok: f > 0, detail: f > 0 ? `iron after ${f} frames` : 'no burn' };
+});
+check('honey', 'sinks through water slowly', () => {
+  const s = new Scene().fill(0, 44, W, 20, 'water').fill(24, 30, 16, 4, 'honey').run(1800);
+  return { ok: s.meanY('honey') > s.meanY('water'), detail: `honey row ${fmt(s.meanY('honey'))}, water row ${fmt(s.meanY('water'))}` };
+});
+check('vinegar', 'fizzes with baking soda', () => {
+  const s = new Scene().fill(10, 58, 44, 6, 'baking_soda').fill(10, 50, 44, 6, 'vinegar');
+  const f = until(s, 900, () => s.count('carbon_dioxide') > 0);
+  return { ok: f > 0, detail: f > 0 ? `carbon dioxide after ${f} frames` : 'no fizz' };
+});
+check('vinegar', 'does not eat iron', () => {
+  const s = new Scene().fill(10, 58, 44, 6, 'iron').fill(10, 50, 44, 6, 'vinegar').run(900);
+  return { ok: s.count('iron') + s.count('rust') === 264, detail: `iron and rust ${s.count('iron') + s.count('rust')} of 264` };
+});
+check('bleach', 'gives off chlorine with acid', () => {
+  const s = new Scene().fill(0, 56, W, 8, 'bleach').fill(0, 46, W, 6, 'acid');
+  const f = until(s, 900, () => s.count('chlorine') > 0);
+  return { ok: f > 0, detail: f > 0 ? `chlorine after ${f} frames` : 'none' };
+});
+check('lye', 'neutralises acid', () => {
+  const s = new Scene().fill(0, 56, W, 8, 'lye').fill(0, 46, W, 6, 'acid').run(900);
+  return { ok: s.count('acid') < 384, detail: `acid left ${s.count('acid')} of 384` };
+});
+check('liquid_nitrogen', 'boils away into nitrogen', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'liquid_nitrogen');
+  const f = until(s, 600, () => s.count('nitrogen') > 0);
+  return { ok: f > 0, detail: f > 0 ? `nitrogen after ${f} frames` : 'none' };
+});
+check('liquid_nitrogen', 'freezes water', () => {
+  const s = new Scene().fill(0, 56, W, 8, 'water').fill(20, 46, 24, 8, 'liquid_nitrogen');
+  const f = until(s, 900, () => s.count('ice') > 0);
+  return { ok: f > 0, detail: f > 0 ? `ice after ${f} frames` : 'no ice' };
+});
+check('nitrogen', 'smothers fire', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'wood').fill(30, 54, 2, 2, 'fire').run(120).fill(0, 20, W, 34, 'nitrogen').run(600);
+  const plain = new Scene().fill(20, 56, 24, 8, 'wood').fill(30, 54, 2, 2, 'fire').run(720);
+  return { ok: s.count('wood') > plain.count('wood'), detail: `wood left: under nitrogen ${s.count('wood')}, in air ${plain.count('wood')}` };
+});
+check('carbon_dioxide', 'sinks and pools low', () => {
+  const s = new Scene().fill(20, 10, 24, 8, 'carbon_dioxide').run(900);
+  return { ok: s.meanY('carbon_dioxide') > 40, detail: `carbon dioxide row ${fmt(s.meanY('carbon_dioxide'))}` };
+});
+check('helium', 'rises', () => {
+  const s = new Scene().fill(20, 54, 24, 8, 'helium').run(120);
+  return { ok: s.meanY('helium') < 40, detail: `helium row ${fmt(s.meanY('helium'))}` };
+});
+check('propane', 'sinks, and burns where it meets air when lit', () => {
+  const s = new Scene().fill(20, 10, 24, 8, 'propane').run(600);
+  const low = s.meanY('propane');
+  s.fill(30, 58, 2, 2, 'fire');
+  const f = until(s, 600, () => s.count('propane') < 176);
+  return { ok: low > 40 && f > 0, detail: `propane row ${fmt(low)}, ${f > 0 ? `burning after ${f} frames` : 'did not burn'}` };
+});
+check('dry_ice', 'turns straight into carbon dioxide', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'dry_ice');
+  const f = until(s, 3000, () => s.count('carbon_dioxide') > 0);
+  return { ok: f > 0 && s.count('water') === 0, detail: f > 0 ? `gas after ${f} frames` : 'still solid' };
+});
+check('baking_soda', 'dissolves a little in water', () => {
+  const s = new Scene().fill(0, 50, W, 14, 'water').fill(28, 40, 8, 2, 'baking_soda').run(900);
+  return { ok: s.count('baking_soda') < 16, detail: `baking soda left ${s.count('baking_soda')} of 16` };
+});
+check('c4', 'a flame does not set it off', () => {
+  const s = new Scene().fill(26, 56, 12, 8, 'c4').fill(30, 54, 2, 2, 'fire').run(300);
+  return { ok: s.count('c4') === 96, detail: `c4 ${s.count('c4')} of 96` };
+});
+check('c4', 'a spark sets it off', () => {
+  const s = new Scene().fill(4, 60, 20, 1, 'wire').fill(24, 56, 12, 8, 'c4').fill(3, 60, 1, 1, 'spark');
+  const f = until(s, 300, () => s.count('c4') < 96);
+  return { ok: f > 0, detail: f > 0 ? `went off after ${f} frames` : 'did not go off' };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {

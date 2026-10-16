@@ -24,6 +24,8 @@ import {
   GRAVEL,
   GROWS_INTO_OF,
   WITHER_INTO_OF,
+  BAKE_INTO_OF,
+  BAKE_GAS_OF,
   HYDROGEN,
   IGNITION_OF,
   LIFE_OF,
@@ -74,6 +76,8 @@ function allowed(start: number[]): Set<number> {
       if (BREAKS_INTO_OF[e]) grew = add(BREAKS_INTO_OF[e]) || grew;
       if (GROWS_INTO_OF[e]) grew = add(GROWS_INTO_OF[e]) || grew;
       if (WITHER_INTO_OF[e]) grew = add(WITHER_INTO_OF[e]) || grew;
+      if (BAKE_INTO_OF[e]) grew = add(BAKE_INTO_OF[e]) || grew;
+      if (BAKE_GAS_OF[e]) grew = add(BAKE_GAS_OF[e]) || grew;
       if (IGNITION_OF[e] !== Infinity || BLAST_POWER_OF[e] > 0 || PHASE_OF[e] === PH_ENERGY) {
         grew = add(FIRE) || grew;
         grew = add(SMOKE) || grew;
@@ -131,7 +135,7 @@ for (let e = 1; e < N; e++) {
 // A product of burning or a reaction that condenses or freezes back must turn
 // into the thing it really is, or smoke from a fire rains out as mercury.
 // The listed pairs have been checked by hand.
-const CONDENSE_OK = new Set(['steam>water']);
+const CONDENSE_OK = new Set(['steam>water', 'water>ice', 'nitrogen>liquid_nitrogen', 'carbon_dioxide>dry_ice']);
 const made = new Set<number>([SMOKE]);
 for (let e = 1; e < N; e++) {
   if (BURN_INTO_OF[e]) made.add(BURN_INTO_OF[e]);
@@ -212,8 +216,8 @@ for (let a = 1; a < N; a++) {
       if (extra.length) findings.push({ ...pair, problem: `unexplained: ${extra.map(name).join(', ')}` });
       if (broken) findings.push({ ...pair, problem: 'temperature became NaN or infinite' });
       const after = matter(world);
-      // Plants are the one thing allowed to grow.
-      const grows = [...ok].some((e) => GROWS_INTO_OF[e] > 0);
+      // Plants grow, and a bake that gives off gas splits one cell into two (limestone → quicklime + carbon dioxide).
+      const grows = [...ok].some((e) => GROWS_INTO_OF[e] > 0 || BAKE_GAS_OF[e] > 0);
       if (after > before && !grows) findings.push({ ...pair, problem: `matter grew from ${before} to ${after} cells` });
       // Two elements with no rule between them, neither changed: both counts must be exact.
       const inert = P_RULE[a * N + b] === 0 && P_RULE[b * N + a] === 0 && !active(a) && !active(b) && !phasePair(a, b);

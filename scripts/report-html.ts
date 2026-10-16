@@ -5,7 +5,22 @@
  * scripts/master-list.ts; not run on its own.
  */
 import { readFileSync, existsSync } from 'node:fs';
-import { P_RULE, R_ABSORB, R_COMBUST, R_CORRODE, R_DISSOLVE, R_NEUTRAL, R_OVERRIDE } from '../src/sim/chem';
+import {
+  P_RULE,
+  R_ABSORB,
+  R_ACIDIFY,
+  R_COMBUST,
+  R_CORRODE,
+  R_DISSOLVE,
+  R_NEUTRAL,
+  R_OVERRIDE,
+  R_QUENCH,
+  R_ROT,
+  R_RUST,
+  R_SET,
+  R_THAW,
+  R_TOXIC,
+} from '../src/sim/chem';
 import { density, downChange, elementFacts, pairLines, upChange } from '../src/sim/describe';
 import { AMBIENT, ELEMENTS, ELEMENT_COUNT, EMPTY, OXIDISER_OF } from '../src/sim/elements';
 import { GLOW_MAX, GLOW_MIN, buildGlow } from '../src/render/palette';
@@ -18,14 +33,18 @@ const keyOf = (id: number): string => (id === EMPTY ? 'air' : ELEMENTS[id].key);
 
 // ---- Kinds of interaction, each with its colour --------------------------------
 
-type Kind = 'burn' | 'corrode' | 'neutral' | 'dissolve' | 'absorb' | 'special' | 'heat' | 'weight' | 'none';
+type Kind = 'burn' | 'quench' | 'corrode' | 'neutral' | 'dissolve' | 'absorb' | 'set' | 'change' | 'toxic' | 'special' | 'heat' | 'weight' | 'none';
 const KINDS: { kind: Kind; label: string; text: string }[] = [
   { kind: 'burn', label: 'Burns or explodes', text: 'One sets the other alight, or feeds its fire' },
   { kind: 'heat', label: 'Heat change', text: 'One is hot or cold enough to melt, boil, freeze or ignite the other' },
-  { kind: 'corrode', label: 'Acid eats it', text: 'Acid dissolves metal, rock or wood' },
+  { kind: 'quench', label: 'Puts out fire', text: 'Water smothers flames and flashes into steam' },
+  { kind: 'corrode', label: 'Acid', text: 'Acid eats metal, rock or wood, or a gas turns water into acid' },
   { kind: 'neutral', label: 'Neutralises', text: 'Acid and base cancel into water' },
-  { kind: 'dissolve', label: 'Dissolves', text: 'A solid goes into a liquid, as salt does in water' },
+  { kind: 'dissolve', label: 'Dissolves or thaws', text: 'A solid goes into a liquid, or salt melts ice' },
   { kind: 'absorb', label: 'Soaks up', text: 'A porous powder takes in a liquid' },
+  { kind: 'set', label: 'Sets hard', text: 'A powder takes in water and hardens, as cement does' },
+  { kind: 'change', label: 'Rusts or rots', text: 'A slow change where water or oxygen touches it' },
+  { kind: 'toxic', label: 'Poisons', text: 'A toxic gas kills living things' },
   { kind: 'special', label: 'Special rule', text: 'A hand-written reaction' },
   { kind: 'weight', label: 'Sinks through', text: 'No reaction; the heavier one ends up below' },
   { kind: 'none', label: 'Nothing', text: 'They only share heat by touch' },
@@ -38,6 +57,13 @@ const RULE_KIND: Record<number, Kind> = {
   [R_NEUTRAL]: 'neutral',
   [R_DISSOLVE]: 'dissolve',
   [R_ABSORB]: 'absorb',
+  [R_QUENCH]: 'quench',
+  [R_SET]: 'set',
+  [R_THAW]: 'dissolve',
+  [R_ACIDIFY]: 'corrode',
+  [R_TOXIC]: 'toxic',
+  [R_RUST]: 'change',
+  [R_ROT]: 'change',
 };
 
 function pairKind(a: number, b: number, lines: string[]): Kind {
@@ -122,8 +148,9 @@ export function renderHtml(): string {
 :root {
   --bg: #0d0e10; --raise: #15171a; --raise-2: #1c1f23; --line: #25292e; --line-strong: #353a41;
   --text: #e8eaed; --muted: #a1a7af; --faint: #6d737b;
-  --burn: #f0883e; --heat: #e5534b; --corrode: #a8cf45; --neutral: #3fc1a9; --dissolve: #4c9cf0;
+  --burn: #f0883e; --heat: #e5534b; --corrode: #c3d84a; --neutral: #3fc1a9; --dissolve: #4c9cf0;
   --absorb: #a98bf5; --special: #e86fb3; --weight: #4a5260; --none: #1a1d21;
+  --quench: #8fd3f4; --set: #c8a46e; --change: #b0613a; --toxic: #5e9e3a;
   --good: #57c27a; --bad: #e5534b;
 }
 * { box-sizing: border-box; }
@@ -166,6 +193,7 @@ ul.rules b { color: var(--text); font-weight: 560; }
 .k-burn { background: var(--burn); } .k-heat { background: var(--heat); } .k-corrode { background: var(--corrode); }
 .k-neutral { background: var(--neutral); } .k-dissolve { background: var(--dissolve); } .k-absorb { background: var(--absorb); }
 .k-special { background: var(--special); } .k-weight { background: var(--weight); } .k-none { background: var(--none); }
+.k-quench { background: var(--quench); } .k-set { background: var(--set); } .k-change { background: var(--change); } .k-toxic { background: var(--toxic); }
 .matrix-box { display: grid; grid-template-columns: auto minmax(240px, 1fr); gap: 20px; align-items: start; }
 .matrix-scroll { overflow: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--raise); padding: 12px; }
 table.matrix { border-collapse: separate; border-spacing: 2px; }
