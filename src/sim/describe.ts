@@ -28,7 +28,7 @@ const n0 = new Intl.NumberFormat('en-GB', { maximumFractionDigits: 0 });
 export function upChange(id: number): { verb: string; at: number; into: string } | null {
   const e = ELEMENTS[id];
   if (e.melt !== undefined && e.meltInto) return { verb: 'Melts', at: e.melt, into: ELEMENTS[UP_INTO[id]].name };
-  if (e.boil !== undefined && e.boilInto) return { verb: e.phase === 'solid' ? 'Sublimes' : 'Boils', at: e.boil, into: ELEMENTS[UP_INTO[id]].name };
+  if (e.boil !== undefined && e.boilInto) return { verb: e.phase === 'solid' || e.phase === 'powder' ? 'Sublimes' : 'Boils', at: e.boil, into: ELEMENTS[UP_INTO[id]].name };
   return null;
 }
 
