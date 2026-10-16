@@ -1,0 +1,116 @@
+import type { FixedLoop } from '../core/loop';
+import type { Brush } from '../input/brush';
+import type { Canvas2DRenderer } from '../render/canvas2d';
+import { ELEMENTS, EMPTY, elementId } from '../sim/elements';
+import type { World } from '../sim/world';
+
+/**
+ * Dev-only test hook on `window.__sim`. Loaded with a dynamic import behind
+ * `import.meta.env.DEV`, so it is not in production builds.
+ * E2E tests drive the sim through it and assert exact counts and hashes.
+ */
+export interface SimHook {
+  readonly width: number;
+  readonly height: number;
+  readonly frame: number;
+  /** Element keys by id. */
+  readonly elements: string[];
+  /** Clears the grid, reseeds the RNG and pauses the live loop, so only `step` advances it. */
+  reset(seed?: number): void;
+  pause(): void;
+  play(): void;
+  /** Fills a rectangle (clamped to the grid) with an element, replacing what was there. Returns cells set. */
+  fill(x: number, y: number, w: number, h: number, element: string): number;
+  /** Runs n fixed steps synchronously (input first, as in the live loop), then draws once. */
+  step(n?: number): void;
+  /** Cells of one element, or all non-empty cells if no element is given. */
+  count(element?: string): number;
+  /** Element key at (x, y). */
+  cell(x: number, y: number): string;
+  /** Height of the filled stack in each column, counted from the bottom row up to the first empty cell. */
+  heights(): number[];
+  /** Hash of the whole grid, 8 hex digits. */
+  hash(): string;
+}
+
+declare global {
+  interface Window {
+    __sim?: SimHook;
+  }
+}
+
+export interface HookTargets {
+  world: World;
+  loop: FixedLoop;
+  brush: Brush;
+  renderer: Canvas2DRenderer;
+  frame(): void;
+}
+
+export function installSimHook(t: HookTargets): void {
+  const { world, loop, brush, renderer } = t;
+  const hook: SimHook = {
+    get width() {
+      return world.w;
+    },
+    get height() {
+      return world.h;
+    },
+    get frame() {
+      return world.frame;
+    },
+    elements: ELEMENTS.map((e) => e.key),
+    reset(seed = 1) {
+      loop.paused = true;
+      brush.cancel();
+      world.reset(seed);
+      renderer.draw(world);
+    },
+    pause() {
+      loop.paused = true;
+    },
+    play() {
+      loop.paused = false;
+    },
+    fill(x, y, w, h, element) {
+      const id = elementId(element);
+      const x0 = Math.max(0, Math.floor(x));
+      const y0 = Math.max(0, Math.floor(y));
+      const x1 = Math.min(world.w, Math.floor(x + w));
+      const y1 = Math.min(world.h, Math.floor(y + h));
+      let n = 0;
+      for (let yy = y0; yy < y1; yy++) {
+        for (let xx = x0; xx < x1; xx++) {
+          world.place(yy * world.w + xx, id);
+          n++;
+        }
+      }
+      renderer.draw(world);
+      return n;
+    },
+    step(n = 1) {
+      for (let k = 0; k < n; k++) t.frame();
+      renderer.draw(world);
+    },
+    count(element) {
+      return element === undefined ? world.countFilled() : world.count(elementId(element));
+    },
+    cell(x, y) {
+      if (x < 0 || y < 0 || x >= world.w || y >= world.h) throw new Error(`Out of grid: ${x}, ${y}`);
+      return ELEMENTS[world.type[y * world.w + x]].key;
+    },
+    heights() {
+      const out: number[] = [];
+      for (let x = 0; x < world.w; x++) {
+        let y = world.h - 1;
+        while (y >= 0 && world.type[y * world.w + x] !== EMPTY) y--;
+        out.push(world.h - 1 - y);
+      }
+      return out;
+    },
+    hash() {
+      return world.hash();
+    },
+  };
+  window.__sim = hook;
+}

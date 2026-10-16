@@ -20,6 +20,12 @@ function start(): void {
   fitCanvas(canvas, w, h);
   window.addEventListener('resize', () => fitCanvas(canvas, w, h));
 
+  /** One full frame: queued input first, then the cell pass. */
+  const frame = (): void => {
+    brush.apply();
+    step(world);
+  };
+
   const loop = new FixedLoop({
     input: () => brush.apply(),
     step: () => step(world),
@@ -38,6 +44,10 @@ function start(): void {
       loop.stepOnce();
     }
   });
+
+  if (import.meta.env.DEV) {
+    void import('./dev/hook').then((m) => m.installSimHook({ world, loop, brush, renderer, frame }));
+  }
 
   loop.start();
 }
