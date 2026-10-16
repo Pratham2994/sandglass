@@ -2,7 +2,7 @@
 
 Generated from the game code by `npm run master-list`. Do not edit by hand: change the element data in `src/sim/elements.ts` (or the rules in `src/sim/chem.ts`) and run the script again.
 
-35 elements. Every pair of elements is listed below, in both directions, with what happens and why.
+36 elements. Every pair of elements is listed below, in both directions, with what happens and why.
 
 ## World rules
 
@@ -61,11 +61,12 @@ The chemistry compiler applies these general rules to every pair of elements; no
 | Glass | solids | solid | 2,500 | 20 °C |  |  |  |
 | Shards | powders | powder | 2,500 | 20 °C |  |  |  |
 | Spark | energy | energy | 0.1 | 300 °C |  |  |  |
-| Wire | electronics | solid | 8,960 | 20 °C | melts at 1,085 °C → lava |  |  |
+| Wire | electronics | solid | 8,960 | 20 °C | melts at 1,085 °C → molten copper |  |  |
 | Battery | electronics | solid | 2,500 | 20 °C |  |  |  |
 | Mercury | liquids | liquid | 13,534 | 20 °C |  |  |  |
 | Seed | life | powder | 700 | 20 °C |  |  | from 250 °C |
 | Plant | life | solid | 900 | 20 °C |  |  | from 250 °C |
+| Molten copper | liquids | liquid | 8,020 | 1,200 °C |  | freezes below 1,085 °C → wire |  |
 
 ## Elements
 
@@ -79,7 +80,7 @@ An indestructible solid. Never moves. Nothing melts, burns or eats it; use it fo
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sand
 
@@ -105,7 +106,7 @@ With other elements (11 interact):
 - **Alcohol:** Sand sinks through alcohol (1,600 vs 789 kg/m³).
 - **Spark:** Sand falls through spark.
 
-No direct interaction with: Air, Wall, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Water
 
@@ -119,7 +120,7 @@ A runny liquid. Flows and settles flat. Boils into steam when hot, freezes into 
 - **Conducts:** only when it carries salt; current then splits it into hydrogen and oxygen
 - **Dissolves:** soluble powders (salt, sugar), up to each one’s limit; saltier is heavier
 
-With other elements (23 interact):
+With other elements (24 interact):
 
 - **Sand:** Sand soaks up water: it is porous and holds up to 30% water. Sand sinks through water (1,600 vs 1,000 kg/m³).
 - **Oil:** Water sinks through oil (1,000 vs 900 kg/m³).
@@ -144,6 +145,7 @@ With other elements (23 interact):
 - **Shards:** Shards sinks through water (2,500 vs 1,000 kg/m³).
 - **Spark:** Water falls through spark. Spark (300 °C) is hot enough to boil water into steam.
 - **Mercury:** Mercury sinks through water (13,534 vs 1,000 kg/m³).
+- **Molten copper:** Molten copper sinks through water (8,020 vs 1,000 kg/m³). Molten copper (1,200 °C) is hot enough to boil water into steam.
 
 No direct interaction with: Air, Wall, Stone, Wood, Ash, Iron, TNT, Glass, Wire, Battery, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -156,7 +158,7 @@ A thick, slow liquid. Floats on water. Burns into smoke once hot enough.
 - **Falls:** up to 120 cells/s
 - **Burns:** from 250 °C in air, 4 s per cell, leaves smoke
 
-With other elements (21 interact):
+With other elements (22 interact):
 
 - **Air:** Oil burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through oil (1,600 vs 900 kg/m³).
@@ -179,6 +181,7 @@ With other elements (21 interact):
 - **Shards:** Shards sinks through oil (2,500 vs 900 kg/m³).
 - **Spark:** Oil catches from the flame touching it. Oil falls through spark.
 - **Mercury:** Mercury sinks through oil (13,534 vs 900 kg/m³).
+- **Molten copper:** Molten copper sinks through oil (8,020 vs 900 kg/m³). Molten copper (1,200 °C) can set oil on fire (it ignites at 250 °C).
 
 No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -190,7 +193,7 @@ Frozen water, a cold solid. Stays put. Chills what it touches and melts back int
 - **Starts at:** -20 °C
 - **Melts:** at 0 °C, into water
 
-With other elements (6 interact):
+With other elements (7 interact):
 
 - **Water:** Ice (-20 °C) is cold enough to freeze water into ice.
 - **Steam:** Ice (-20 °C) is cold enough to condense steam into water. Steam (150 °C) is hot enough to melt ice into water.
@@ -198,6 +201,7 @@ With other elements (6 interact):
 - **Fire:** Fire (850 °C) is hot enough to melt ice into water.
 - **Smoke:** Smoke (150 °C) is hot enough to melt ice into water.
 - **Spark:** Spark (300 °C) is hot enough to melt ice into water.
+- **Molten copper:** Ice (-20 °C) is cold enough to freeze molten copper into wire. Molten copper (1,200 °C) is hot enough to melt ice into water.
 
 No direct interaction with: Air, Wall, Sand, Oil, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -210,7 +214,7 @@ Hot water vapour. Rises and spreads. Turns back into water as it cools, so it ra
 - **In air:** Rises (lighter than air)
 - **Condenses:** below 100 °C, into water
 
-With other elements (19 interact):
+With other elements (20 interact):
 
 - **Sand:** Sand falls through steam.
 - **Water:** Steam (150 °C) is hot enough to boil water into steam. Water falls through steam.
@@ -231,6 +235,7 @@ With other elements (19 interact):
 - **Shards:** Shards falls through steam.
 - **Mercury:** Mercury falls through steam.
 - **Seed:** Seed falls through steam.
+- **Molten copper:** Molten copper falls through steam.
 
 No direct interaction with: Air, Wall, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -244,7 +249,7 @@ Molten rock, extremely hot. Flows slowly and glows. Sets fuel alight, boils wate
 - **Falls:** up to 90 cells/s
 - **Freezes:** below 1,000 °C, into stone
 
-With other elements (25 interact):
+With other elements (26 interact):
 
 - **Water:** Lava sinks through water (2,600 vs 1,000 kg/m³). Lava (1,200 °C) is hot enough to boil water into steam.
 - **Oil:** Lava sinks through oil (2,600 vs 900 kg/m³). Lava (1,200 °C) can set oil on fire (it ignites at 250 °C).
@@ -267,10 +272,11 @@ With other elements (25 interact):
 - **Gunpowder:** Lava (1,200 °C) can set gunpowder on fire (it ignites at 250 °C).
 - **Nitro:** Lava sinks through nitro (2,600 vs 1,600 kg/m³). Lava (1,200 °C) can set nitro on fire (it ignites at 200 °C).
 - **Spark:** Lava falls through spark.
-- **Wire:** Lava (1,200 °C) is hot enough to melt wire into lava.
+- **Wire:** Lava (1,200 °C) is hot enough to melt wire into molten copper.
 - **Mercury:** Mercury sinks through lava (13,534 vs 2,600 kg/m³).
 - **Seed:** Lava (1,200 °C) can set seed on fire (it ignites at 250 °C).
 - **Plant:** Lava (1,200 °C) can set plant on fire (it ignites at 250 °C).
+- **Molten copper:** Molten copper sinks through lava (8,020 vs 2,600 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards, Battery. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -282,9 +288,10 @@ Solid rock. Stays put. Glows as it heats and melts back into lava.
 - **Melts:** at 1,000 °C, into lava
 - **Hardness:** 0.85 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (2 interact):
 
 - **Lava:** Lava (1,200 °C) is hot enough to melt stone into lava.
+- **Molten copper:** Molten copper (1,200 °C) is hot enough to melt stone into lava.
 
 No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -298,7 +305,7 @@ Loose rock, a heavy powder. Falls and piles. Forms where lava sets with nothing 
 - **Melts:** at 1,000 °C, into lava
 - **Hardness:** 0.8 (acid stronger than this eats it)
 
-With other elements (13 interact):
+With other elements (14 interact):
 
 - **Water:** Gravel sinks through water (2,000 vs 1,000 kg/m³).
 - **Oil:** Gravel sinks through oil (2,000 vs 900 kg/m³).
@@ -313,6 +320,7 @@ With other elements (13 interact):
 - **Alcohol:** Gravel sinks through alcohol (2,000 vs 789 kg/m³).
 - **Nitro:** Gravel sinks through nitro (2,000 vs 1,600 kg/m³).
 - **Spark:** Gravel falls through spark.
+- **Molten copper:** Molten copper (1,200 °C) is hot enough to melt gravel into lava.
 
 No direct interaction with: Air, Wall, Sand, Ice, Stone, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -323,7 +331,7 @@ Loose flames. Rise and burn out quickly. Light anything flammable they touch; a 
 - **State:** Energy, 0.3 kg/m³
 - **Starts at:** 850 °C
 
-With other elements (24 interact):
+With other elements (25 interact):
 
 - **Sand:** Sand falls through fire.
 - **Water:** Fire (850 °C) is hot enough to boil water into steam. Water falls through fire.
@@ -349,6 +357,7 @@ With other elements (24 interact):
 - **Mercury:** Mercury falls through fire.
 - **Seed:** Seed catches from the flame touching it. Seed falls through fire.
 - **Plant:** Plant catches from the flame touching it.
+- **Molten copper:** Molten copper falls through fire.
 
 No direct interaction with: Air, Wall, Steam, Stone, Smoke, Iron, Oxygen, Glass, Spark, Wire, Battery. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -360,7 +369,7 @@ What burning leaves behind, a warm gas. Rises and drifts off the top. Does not f
 - **Starts at:** 150 °C
 - **In air:** Rises (lighter than air)
 
-With other elements (19 interact):
+With other elements (20 interact):
 
 - **Sand:** Sand falls through smoke.
 - **Water:** Smoke (150 °C) is hot enough to boil water into steam. Water falls through smoke.
@@ -381,6 +390,7 @@ With other elements (19 interact):
 - **Shards:** Shards falls through smoke.
 - **Mercury:** Mercury falls through smoke.
 - **Seed:** Seed falls through smoke.
+- **Molten copper:** Molten copper falls through smoke.
 
 No direct interaction with: Air, Wall, Steam, Stone, Fire, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -392,7 +402,7 @@ A solid fuel. Stays put. Catches fire where it touches air once hot enough, and 
 - **Burns:** from 300 °C in air, 2.5 s per cell, leaves ash
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (6 interact):
+With other elements (7 interact):
 
 - **Air:** Wood burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set wood on fire (it ignites at 300 °C).
@@ -400,6 +410,7 @@ With other elements (6 interact):
 - **Acid:** Acid eats wood: acidity 0.8 beats hardness 0.3.
 - **Oxygen:** Wood burns: it catches fire at 300 °C next to oxygen (oxidiser 1). Oxygen makes burning wood hotter and faster.
 - **Spark:** Wood catches from the flame touching it.
+- **Molten copper:** Molten copper (1,200 °C) can set wood on fire (it ignites at 300 °C).
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -423,7 +434,7 @@ With other elements (8 interact):
 - **Methane:** Ash falls through methane.
 - **Spark:** Ash falls through spark.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Lava, Stone, Gravel, Wood, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Lava, Stone, Gravel, Wood, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Acid
 
@@ -434,7 +445,7 @@ A corrosive liquid. Flows like water. Eats metal, wood and soft rock and is used
 - **Falls:** up to 160 cells/s
 - **Eats:** metal, rock and wood softer than 0.8, weakening as it fills
 
-With other elements (28 interact):
+With other elements (29 interact):
 
 - **Sand:** Sand sinks through acid (1,600 vs 1,100 kg/m³).
 - **Water:** Acid sinks through water (1,100 vs 1,000 kg/m³).
@@ -464,6 +475,7 @@ With other elements (28 interact):
 - **Battery:** Acid eats battery: acidity 0.8 beats hardness 0.6, giving off hydrogen.
 - **Mercury:** Mercury sinks through acid (13,534 vs 1,100 kg/m³).
 - **Plant:** Acid eats plant: acidity 0.8 beats hardness 0.15.
+- **Molten copper:** Molten copper sinks through acid (8,020 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Ice, Stone, Snow, Glass, Seed. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -479,7 +491,7 @@ With other elements (1 interact):
 
 - **Acid:** Acid eats iron: acidity 0.8 beats hardness 0.55, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Hydrogen
 
@@ -489,7 +501,7 @@ The lightest gas. Shoots upwards. Burns in a flash into steam when hot and touch
 - **In air:** Rises (lighter than air)
 - **Burns:** from 500 °C in air, 0.1 s per cell, leaves steam
 
-With other elements (22 interact):
+With other elements (23 interact):
 
 - **Air:** Hydrogen burns: it catches fire at 500 °C next to air (oxidiser 0.21).
 - **Sand:** Sand falls through hydrogen.
@@ -513,6 +525,7 @@ With other elements (22 interact):
 - **Spark:** Hydrogen catches from the flame touching it.
 - **Mercury:** Mercury falls through hydrogen.
 - **Seed:** Seed falls through hydrogen.
+- **Molten copper:** Molten copper falls through hydrogen. Molten copper (1,200 °C) can set hydrogen on fire (it ignites at 500 °C).
 
 No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Methane, TNT, Glass, Wire, Battery, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -524,7 +537,7 @@ A gas slightly heavier than air. Sinks and pools low. Makes fire burn hotter and
 - **In air:** Sinks slowly (heavier than air)
 - **Feeds fire:** strength 1 (air is 0.21)
 
-With other elements (23 interact):
+With other elements (24 interact):
 
 - **Sand:** Sand falls through oxygen.
 - **Water:** Water falls through oxygen.
@@ -549,6 +562,7 @@ With other elements (23 interact):
 - **Mercury:** Mercury falls through oxygen.
 - **Seed:** Oxygen makes burning seed hotter and faster. Seed burns: it catches fire at 250 °C next to oxygen (oxidiser 1). Seed falls through oxygen.
 - **Plant:** Oxygen makes burning plant hotter and faster. Plant burns: it catches fire at 250 °C next to oxygen (oxidiser 1).
+- **Molten copper:** Molten copper falls through oxygen.
 
 No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Iron, Glass, Spark, Wire, Battery. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -560,7 +574,7 @@ Natural gas, lighter than air. Rises. Burns hot into steam when it meets heat an
 - **In air:** Rises (lighter than air)
 - **Burns:** from 540 °C in air, 0.17 s per cell, leaves steam
 
-With other elements (22 interact):
+With other elements (23 interact):
 
 - **Air:** Methane burns: it catches fire at 540 °C next to air (oxidiser 0.21).
 - **Sand:** Sand falls through methane.
@@ -584,6 +598,7 @@ With other elements (22 interact):
 - **Spark:** Methane catches from the flame touching it.
 - **Mercury:** Mercury falls through methane.
 - **Seed:** Seed falls through methane.
+- **Molten copper:** Molten copper falls through methane. Molten copper (1,200 °C) can set methane on fire (it ignites at 540 °C).
 
 No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, TNT, Glass, Wire, Battery, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -596,7 +611,7 @@ A thin, light liquid. Floats on water. Catches fire easily and burns clean into 
 - **Falls:** up to 165 cells/s
 - **Burns:** from 365 °C in air, 2 s per cell, leaves steam
 
-With other elements (21 interact):
+With other elements (22 interact):
 
 - **Air:** Alcohol burns: it catches fire at 365 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through alcohol (1,600 vs 789 kg/m³).
@@ -619,6 +634,7 @@ With other elements (21 interact):
 - **Shards:** Shards sinks through alcohol (2,500 vs 789 kg/m³).
 - **Spark:** Alcohol catches from the flame touching it. Alcohol falls through spark.
 - **Mercury:** Mercury sinks through alcohol (13,534 vs 789 kg/m³).
+- **Molten copper:** Molten copper sinks through alcohol (8,020 vs 789 kg/m³). Molten copper (1,200 °C) can set alcohol on fire (it ignites at 365 °C).
 
 No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -633,7 +649,7 @@ Fine wood dust, a very light powder. Drifts and floats on water. Catches fire ea
 - **Soaks up:** water, up to 60% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (11 interact):
+With other elements (12 interact):
 
 - **Air:** Sawdust burns: it catches fire at 260 °C next to air (oxidiser 0.21).
 - **Water:** Sawdust soaks up water: it is porous and holds up to 60% water.
@@ -646,6 +662,7 @@ With other elements (11 interact):
 - **Oxygen:** Sawdust burns: it catches fire at 260 °C next to oxygen (oxidiser 1). Sawdust falls through oxygen. Oxygen makes burning sawdust hotter and faster.
 - **Methane:** Sawdust falls through methane.
 - **Spark:** Sawdust catches from the flame touching it. Sawdust falls through spark.
+- **Molten copper:** Molten copper (1,200 °C) can set sawdust on fire (it ignites at 260 °C).
 
 No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Alcohol, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -673,7 +690,7 @@ With other elements (12 interact):
 - **Nitro:** Salt sinks through nitro (2,160 vs 1,600 kg/m³).
 - **Spark:** Salt falls through spark.
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sugar
 
@@ -686,7 +703,7 @@ Sweet crystals, a powder. Falls and piles. Dissolves into water even more than s
 - **Dissolves in:** water, up to 70% of a cell; boiling leaves it as crystals
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (13 interact):
+With other elements (14 interact):
 
 - **Air:** Sugar burns: it catches fire at 350 °C next to air (oxidiser 0.21).
 - **Water:** Sugar dissolves into water: water is a solvent and each cell holds up to 70% sugar. Sugar sinks through water (1,590 vs 1,000 kg/m³).
@@ -701,6 +718,7 @@ With other elements (13 interact):
 - **Methane:** Sugar falls through methane.
 - **Alcohol:** Sugar sinks through alcohol (1,590 vs 789 kg/m³).
 - **Spark:** Sugar catches from the flame touching it. Sugar falls through spark.
+- **Molten copper:** Molten copper (1,200 °C) can set sugar on fire (it ignites at 350 °C).
 
 No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -728,7 +746,7 @@ With other elements (11 interact):
 - **Alcohol:** Dirt sinks through alcohol (1,500 vs 789 kg/m³).
 - **Spark:** Dirt falls through spark.
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Snow
 
@@ -740,7 +758,7 @@ Loose frozen flakes, a very light powder. Drifts down and settles in soft piles.
 - **Falls:** up to 35 cells/s
 - **Melts:** at 0 °C, into water
 
-With other elements (9 interact):
+With other elements (10 interact):
 
 - **Water:** Snow (-5 °C) is cold enough to freeze water into ice.
 - **Steam:** Snow falls through steam. Snow (-5 °C) is cold enough to condense steam into water. Steam (150 °C) is hot enough to melt snow into water.
@@ -751,6 +769,7 @@ With other elements (9 interact):
 - **Oxygen:** Snow falls through oxygen.
 - **Methane:** Snow falls through methane.
 - **Spark:** Snow falls through spark. Spark (300 °C) is hot enough to melt snow into water.
+- **Molten copper:** Snow (-5 °C) is cold enough to freeze molten copper into wire. Molten copper (1,200 °C) is hot enough to melt snow into water.
 
 No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -762,7 +781,7 @@ A packed explosive block. Stays put. Heat or a flame sets it off: the whole bloc
 - **Explodes:** from 300 °C or a flame; blast radius 7 cells
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (6 interact):
+With other elements (7 interact):
 
 - **Air:** TNT explodes at 300 °C; it needs no air.
 - **Lava:** Lava (1,200 °C) can set tnt on fire (it ignites at 300 °C).
@@ -770,6 +789,7 @@ With other elements (6 interact):
 - **Acid:** Acid eats tnt: acidity 0.8 beats hardness 0.3.
 - **Oxygen:** TNT explodes at 300 °C; it needs no air. Oxygen makes burning tnt hotter and faster.
 - **Spark:** TNT explodes when a flame touches it.
+- **Molten copper:** Molten copper (1,200 °C) can set tnt on fire (it ignites at 300 °C).
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -783,7 +803,7 @@ A dark explosive powder. Falls and piles. Lit, it goes off grain by grain in qui
 - **Explodes:** from 250 °C or a flame; blast radius 2 cells
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (14 interact):
+With other elements (15 interact):
 
 - **Air:** Gunpowder explodes at 250 °C; it needs no air.
 - **Water:** Gunpowder sinks through water (1,700 vs 1,000 kg/m³).
@@ -799,6 +819,7 @@ With other elements (14 interact):
 - **Alcohol:** Gunpowder sinks through alcohol (1,700 vs 789 kg/m³).
 - **Nitro:** Gunpowder sinks through nitro (1,700 vs 1,600 kg/m³).
 - **Spark:** Gunpowder explodes when a flame touches it. Gunpowder falls through spark.
+- **Molten copper:** Molten copper (1,200 °C) can set gunpowder on fire (it ignites at 250 °C).
 
 No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -811,7 +832,7 @@ An oily explosive liquid. Flows slowly. Goes off when heated, lit, or dropped ha
 - **Falls:** up to 160 cells/s
 - **Explodes:** from 200 °C or a flame, or when it lands hard; blast radius 6 cells
 
-With other elements (18 interact):
+With other elements (19 interact):
 
 - **Air:** Nitro explodes at 200 °C; it needs no air.
 - **Water:** Nitro sinks through water (1,600 vs 1,000 kg/m³).
@@ -831,6 +852,7 @@ With other elements (18 interact):
 - **Shards:** Shards sinks through nitro (2,500 vs 1,600 kg/m³).
 - **Spark:** Nitro explodes when a flame touches it. Nitro falls through spark.
 - **Mercury:** Mercury sinks through nitro (13,534 vs 1,600 kg/m³).
+- **Molten copper:** Molten copper sinks through nitro (8,020 vs 1,600 kg/m³). Molten copper (1,200 °C) can set nitro on fire (it ignites at 200 °C).
 
 No direct interaction with: Wall, Sand, Ice, Stone, Wood, Ash, Iron, Sawdust, Sugar, Dirt, Snow, TNT, Glass, Wire, Battery, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -845,7 +867,7 @@ A clear, brittle solid. Stays put and lets you see through it. Shatters into sha
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Shards, Spark, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Shards
 
@@ -871,7 +893,7 @@ With other elements (12 interact):
 - **Nitro:** Shards sinks through nitro (2,500 vs 1,600 kg/m³).
 - **Spark:** Shards falls through spark.
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Wire, Battery, Mercury, Seed, Plant, Molten copper. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Spark
 
@@ -880,7 +902,7 @@ A flash of electric charge. Jumps into any conductor it touches and runs along i
 - **State:** Energy, 0.1 kg/m³
 - **Starts at:** 300 °C
 
-With other elements (24 interact):
+With other elements (25 interact):
 
 - **Sand:** Sand falls through spark.
 - **Water:** Spark (300 °C) is hot enough to boil water into steam. Water falls through spark.
@@ -906,6 +928,7 @@ With other elements (24 interact):
 - **Mercury:** Mercury falls through spark.
 - **Seed:** Seed catches from the flame touching it. Seed falls through spark.
 - **Plant:** Plant catches from the flame touching it.
+- **Molten copper:** Molten copper falls through spark.
 
 No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Wire, Battery. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -914,14 +937,15 @@ No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Iron, Oxygen, 
 Thin copper. Stays put and carries charge from end to end, warming as current runs through it.
 
 - **State:** Solid, 8,960 kg/m³
-- **Melts:** at 1,085 °C, into lava
+- **Melts:** at 1,085 °C, into molten copper
 - **Conducts:** electric charge, warming as pulses pass
 - **Hardness:** 0.45 (acid stronger than this eats it)
 
-With other elements (2 interact):
+With other elements (3 interact):
 
-- **Lava:** Lava (1,200 °C) is hot enough to melt wire into lava.
+- **Lava:** Lava (1,200 °C) is hot enough to melt wire into molten copper.
 - **Acid:** Acid eats wire: acidity 0.8 beats hardness 0.45, giving off hydrogen.
+- **Molten copper:** Molten copper (1,200 °C) is hot enough to melt wire into molten copper.
 
 No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -937,7 +961,7 @@ With other elements (1 interact):
 
 - **Acid:** Acid eats battery: acidity 0.8 beats hardness 0.6, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Mercury, Seed, Plant, Molten copper. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Mercury
 
@@ -948,7 +972,7 @@ A liquid metal, very heavy. Flows and sinks through almost everything. Carries c
 - **Falls:** up to 170 cells/s
 - **Conducts:** electric charge, warming as pulses pass
 
-With other elements (13 interact):
+With other elements (14 interact):
 
 - **Water:** Mercury sinks through water (13,534 vs 1,000 kg/m³).
 - **Oil:** Mercury sinks through oil (13,534 vs 900 kg/m³).
@@ -963,6 +987,7 @@ With other elements (13 interact):
 - **Alcohol:** Mercury sinks through alcohol (13,534 vs 789 kg/m³).
 - **Nitro:** Mercury sinks through nitro (13,534 vs 1,600 kg/m³).
 - **Spark:** Mercury falls through spark.
+- **Molten copper:** Mercury sinks through molten copper (13,534 vs 8,020 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -976,7 +1001,7 @@ A small seed, a light powder. Falls and rests. On wet dirt with open sky above i
 - **Burns:** from 250 °C in air, 1 s per cell, leaves ash
 - **Grows:** into a plant on wet dirt with open sky above
 
-With other elements (9 interact):
+With other elements (10 interact):
 
 - **Air:** Seed burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Steam:** Seed falls through steam.
@@ -987,6 +1012,7 @@ With other elements (9 interact):
 - **Oxygen:** Seed burns: it catches fire at 250 °C next to oxygen (oxidiser 1). Seed falls through oxygen. Oxygen makes burning seed hotter and faster.
 - **Methane:** Seed falls through methane.
 - **Spark:** Seed catches from the flame touching it. Seed falls through spark.
+- **Molten copper:** Molten copper (1,200 °C) can set seed on fire (it ignites at 250 °C).
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -998,7 +1024,7 @@ A living green stem. Grows upwards towards open sky, drinking water from the dir
 - **Burns:** from 250 °C in air, 1.5 s per cell, leaves ash
 - **Hardness:** 0.15 (acid stronger than this eats it)
 
-With other elements (6 interact):
+With other elements (7 interact):
 
 - **Air:** Plant burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set plant on fire (it ignites at 250 °C).
@@ -1006,5 +1032,48 @@ With other elements (6 interact):
 - **Acid:** Acid eats plant: acidity 0.8 beats hardness 0.15.
 - **Oxygen:** Plant burns: it catches fire at 250 °C next to oxygen (oxidiser 1). Oxygen makes burning plant hotter and faster.
 - **Spark:** Plant catches from the flame touching it.
+- **Molten copper:** Molten copper (1,200 °C) can set plant on fire (it ignites at 250 °C).
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Molten copper
+
+Melted wire, bright and very hot. Flows and sinks through lighter liquids. Carries charge, sets fuel alight, and sets back into wire as it cools.
+
+- **State:** Liquid, 8,020 kg/m³
+- **Starts at:** 1,200 °C
+- **In liquids:** Sinks through liquids lighter than 8,020 kg/m³, floats on heavier ones
+- **Falls:** up to 140 cells/s
+- **Freezes:** below 1,085 °C, into wire
+- **Conducts:** electric charge, warming as pulses pass
+
+With other elements (26 interact):
+
+- **Water:** Molten copper sinks through water (8,020 vs 1,000 kg/m³). Molten copper (1,200 °C) is hot enough to boil water into steam.
+- **Oil:** Molten copper sinks through oil (8,020 vs 900 kg/m³). Molten copper (1,200 °C) can set oil on fire (it ignites at 250 °C).
+- **Ice:** Molten copper (1,200 °C) is hot enough to melt ice into water. Ice (-20 °C) is cold enough to freeze molten copper into wire.
+- **Steam:** Molten copper falls through steam.
+- **Lava:** Molten copper sinks through lava (8,020 vs 2,600 kg/m³).
+- **Stone:** Molten copper (1,200 °C) is hot enough to melt stone into lava.
+- **Gravel:** Molten copper (1,200 °C) is hot enough to melt gravel into lava.
+- **Fire:** Molten copper falls through fire.
+- **Smoke:** Molten copper falls through smoke.
+- **Wood:** Molten copper (1,200 °C) can set wood on fire (it ignites at 300 °C).
+- **Acid:** Molten copper sinks through acid (8,020 vs 1,100 kg/m³).
+- **Hydrogen:** Molten copper falls through hydrogen. Molten copper (1,200 °C) can set hydrogen on fire (it ignites at 500 °C).
+- **Oxygen:** Molten copper falls through oxygen.
+- **Methane:** Molten copper falls through methane. Molten copper (1,200 °C) can set methane on fire (it ignites at 540 °C).
+- **Alcohol:** Molten copper sinks through alcohol (8,020 vs 789 kg/m³). Molten copper (1,200 °C) can set alcohol on fire (it ignites at 365 °C).
+- **Sawdust:** Molten copper (1,200 °C) can set sawdust on fire (it ignites at 260 °C).
+- **Sugar:** Molten copper (1,200 °C) can set sugar on fire (it ignites at 350 °C).
+- **Snow:** Molten copper (1,200 °C) is hot enough to melt snow into water. Snow (-5 °C) is cold enough to freeze molten copper into wire.
+- **TNT:** Molten copper (1,200 °C) can set tnt on fire (it ignites at 300 °C).
+- **Gunpowder:** Molten copper (1,200 °C) can set gunpowder on fire (it ignites at 250 °C).
+- **Nitro:** Molten copper sinks through nitro (8,020 vs 1,600 kg/m³). Molten copper (1,200 °C) can set nitro on fire (it ignites at 200 °C).
+- **Spark:** Molten copper falls through spark.
+- **Wire:** Molten copper (1,200 °C) is hot enough to melt wire into molten copper.
+- **Mercury:** Mercury sinks through molten copper (13,534 vs 8,020 kg/m³).
+- **Seed:** Molten copper (1,200 °C) can set seed on fire (it ignites at 250 °C).
+- **Plant:** Molten copper (1,200 °C) can set plant on fire (it ignites at 250 °C).
+
+No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards, Battery. They still exchange heat by touch, and the heavier one ends up below when they can move.
