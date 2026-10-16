@@ -17,13 +17,16 @@ const CATEGORY_NAMES: Record<Category, string> = {
   liquids: 'Liquids',
   gases: 'Gases',
   solids: 'Solids',
+  building: 'Building',
+  metals: 'Metals',
+  fuels: 'Fuels',
   energy: 'Energy',
   explosives: 'Explosives',
   electronics: 'Electronics',
   life: 'Life',
   tools: 'Tools',
 };
-const CATEGORY_ORDER: Category[] = ['powders', 'liquids', 'gases', 'solids', 'energy', 'explosives', 'electronics', 'life'];
+const CATEGORY_ORDER: Category[] = ['powders', 'liquids', 'gases', 'solids', 'building', 'metals', 'fuels', 'energy', 'explosives', 'electronics', 'life'];
 
 /** Tile still: cells across and down. */
 const TILE_CELLS = 14;
