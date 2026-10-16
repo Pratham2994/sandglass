@@ -758,6 +758,15 @@ input[type='range']::-moz-range-thumb {
   opacity: 0;
 }
 
+/* The intro's end: the canvas fades out, is cleared, and fades back in. */
+#sim {
+  transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.intro-fading #sim {
+  opacity: 0;
+}
+
 /* While the intro plays, the panel waits quietly. */
 body.intro .library {
   opacity: 0.35;

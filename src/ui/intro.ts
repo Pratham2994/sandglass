@@ -11,6 +11,8 @@ import {
   MERCURY,
   OIL,
   PHASE_OF,
+  PH_ENERGY,
+  PH_GAS,
   PH_SOLID,
   SALT,
   SAND,
@@ -34,7 +36,10 @@ const HOLD = 36; // the word stands, veins cooking where lava touches them
 const MELT_END = 120; // letters drip from the bottom up
 const BOOM = 124; // the centre blows
 const DRAIN = 200; // the floor opens
-const END = 290; // whatever is left is cleared
+const FADE = 262; // the canvas fades out over the last half second
+const END = 290; // whatever is left is cleared, then the empty canvas fades back in
+/** Bottom rows emptied per frame once the floor opens: everything plunges out fast. */
+const DRAIN_ROWS = 3;
 /** Rows released per frame while the letters melt. */
 const MELT_RATE = 0.35;
 const FONT = '"Geist Variable", ui-sans-serif, system-ui, sans-serif';
@@ -190,11 +195,23 @@ export class Intro {
       for (let i = 0; i < world.size; i++) if (PHASE_OF[world.type[i]] === PH_SOLID) world.type[i] = GRAVEL;
     }
     if (f >= DRAIN) {
+      // Everything falls at top speed and the bottom rows swallow it, so the
+      // scene empties quickly instead of trickling out.
       const vy = world.vy;
-      for (let i = 0; i < world.size; i++) if (world.type[i] !== EMPTY) vy[i] = 96;
+      for (let i = 0; i < world.size; i++) {
+        const t = world.type[i];
+        if (t === EMPTY) continue;
+        vy[i] = 127;
+        // Gases and flames rise instead of draining: they thin out and vanish.
+        const ph = PHASE_OF[t];
+        if ((ph === PH_GAS || ph === PH_ENERGY) && (world.rng.nextU32() & 255) < 32) world.place(i, EMPTY);
+      }
       world.wakeAll();
-      const row = (h - 1) * w;
-      for (let x = 0; x < w; x++) if (world.type[row + x] !== EMPTY) world.place(row + x, EMPTY);
+      for (let r = 1; r <= DRAIN_ROWS; r++) {
+        const row = (h - r) * w;
+        for (let x = 0; x < w; x++) if (world.type[row + x] !== EMPTY) world.place(row + x, EMPTY);
+      }
+      if (f === FADE) this.fade(true);
       if (f >= END || (f % 15 === 0 && world.countFilled() === 0)) this.finish();
     }
     return true;
@@ -205,9 +222,16 @@ export class Intro {
     if (this.active) this.finish();
   }
 
+  /** Fades the canvas out (or back in), so the end is a soft cut, not a jump. */
+  private fade(out: boolean): void {
+    document.body.classList.toggle('intro-fading', out);
+  }
+
   private finish(): void {
     this.active = false;
     this.world.reset(this.world.seed);
+    // The empty canvas comes back in softly.
+    requestAnimationFrame(() => this.fade(false));
     this.onDone();
   }
 }
