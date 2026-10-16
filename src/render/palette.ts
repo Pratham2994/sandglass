@@ -25,10 +25,12 @@ export const L_GLINT = 6;
 /** Entries per light level in the palette. */
 export const LEVEL_STRIDE = ELEMENT_COUNT * 256;
 
-/** Texture code per element id: 0 grain (colour per cell), 1 stone (smooth, from position). */
+/** Texture code per element id: grain (colour per cell), stone (smooth, from position), liquid (smooth, by depth). */
 export const TEX_GRAIN = 0;
 export const TEX_STONE = 1;
-export const TEXTURE_OF = Uint8Array.from(ELEMENTS, (e) => (e.texture === 'stone' ? TEX_STONE : TEX_GRAIN));
+export const TEX_LIQUID = 2;
+const TEX_CODE = { grain: TEX_GRAIN, stone: TEX_STONE, liquid: TEX_LIQUID } as const;
+export const TEXTURE_OF = Uint8Array.from(ELEMENTS, (e) => TEX_CODE[e.texture ?? 'grain']);
 
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
@@ -37,8 +39,8 @@ function lerp(a: number, b: number, t: number): number {
 /**
  * Colour lookup table: entry level * LEVEL_STRIDE + ((id << 8) | shade).
  * Grain: the shade picks one of the base colours plus a small brightness
- * change, so powders look grainy. Stone: the shade runs smoothly through
- * the colours from dark to light.
+ * change, so powders look grainy. Stone and liquid: the shade runs smoothly
+ * through the colours in order.
  */
 export function buildPalette(): Uint32Array {
   const lut = new Uint32Array(LIGHT.length * LEVEL_STRIDE);
@@ -47,7 +49,7 @@ export function buildPalette(): Uint32Array {
     const cols = el.colours.map(parseHex);
     for (let s = 0; s < 256; s++) {
       let r: number, g: number, b: number;
-      if (el.texture === 'stone' && cols.length > 1) {
+      if ((el.texture === 'stone' || el.texture === 'liquid') && cols.length > 1) {
         const f = (s / 255) * (cols.length - 1);
         const k = Math.min(cols.length - 2, Math.floor(f));
         const [a, c] = [cols[k], cols[k + 1]];

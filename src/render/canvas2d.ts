@@ -10,6 +10,7 @@ import {
   L_TOP,
   L_UNDER,
   TEXTURE_OF,
+  TEX_LIQUID,
   TEX_STONE,
   buildBackground,
   buildPalette,
@@ -18,11 +19,18 @@ import {
 
 /** Grains more than this many cells under the surface are drawn darker. */
 const DEEP_CELLS = 6;
+/** Liquid colour steps per cell of depth: the darkest colour is about 32 cells down. */
+const LIQUID_DEPTH_STEP = 8;
 
 /** 75% of a packed colour, alpha kept. */
 function dark75(c: number): number {
   const rgb = c & 0xffffff;
   return (0xff000000 | (rgb - ((rgb >> 2) & 0x3f3f3f))) >>> 0;
+}
+
+/** Even mix of two packed colours, alpha opaque. */
+function mix(a: number, b: number): number {
+  return (0xff000000 | (((a & 0xfefefe) >>> 1) + ((b & 0xfefefe) >>> 1))) >>> 0;
 }
 
 /** 87.5% of a packed colour, alpha kept. */
@@ -41,6 +49,9 @@ function dark87(c: number): number {
  *   surface are darker, so piles read as solid mounds; a few grains that
  *   moved this frame glint, so moving sand sparkles;
  * - stone (wall) is bevelled: light top and left edges, dark bottom and right;
+ * - liquids darken with depth; glints drift along the surface, moving
+ *   liquid is a little brighter, so flow shows, and lone cells standing on a
+ *   flat surface are mostly see-through, so the surface reads as smooth;
  * - empty cells under or beside matter get a contact shadow.
  *
  * Pixels are packed as 0xAABBGGRR, which is the byte order of RGBA on
@@ -103,7 +114,26 @@ export class Canvas2DRenderer {
         const d = ++depth[x];
         let level = L_PLAIN;
         let s: number;
-        if (TEXTURE_OF[t] === TEX_STONE) {
+        const tex = TEXTURE_OF[t];
+        if (tex === TEX_LIQUID) {
+          const v = (d - 1) * LIQUID_DEPTH_STEP + (shade[i] & 7);
+          s = v > 255 ? 255 : v;
+          if (upEmpty) {
+            // A lone cell standing on a flat surface (left and right open):
+            // draw it at 25%, so the surface reads as smooth with a faint
+            // meniscus rather than a comb of single cells.
+            if (
+              (x === 0 || type[i - 1] === EMPTY) &&
+              (x + 1 === w || type[i + 1] === EMPTY) &&
+              y + 1 < h &&
+              type[i + w] === t
+            ) {
+              px[i] = mix(mix(pal[L_TOP * LEVEL_STRIDE + ((t << 8) | s)], bg[i]), bg[i]);
+              continue;
+            }
+            level = ((x * 13 + (world.frame >> 2) + (shade[i] >> 4)) & 63) === 0 ? L_GLINT : L_TOP;
+          } else if (stamp[i] === moved) level = L_SIDE;
+        } else if (tex === TEX_STONE) {
           s = stone[i];
           if (y + 1 < h && type[i + w] === EMPTY) level = L_UNDER;
           else if (upEmpty) level = L_TOP;

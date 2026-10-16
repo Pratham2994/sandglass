@@ -12,8 +12,12 @@ export interface ElementDef {
   category: Category;
   /** Base colours; each cell picks one through its `shade`. For stone, dark to light. */
   colours: string[];
-  /** Render only. grain (default): colour per cell. stone: smooth texture fixed to the grid, bevelled edges. */
-  texture?: 'grain' | 'stone';
+  /**
+   * Render only. grain (default): colour per cell. stone: smooth texture fixed
+   * to the grid, bevelled edges. liquid: colours run from surface to deep by
+   * depth, surface glints.
+   */
+  texture?: 'grain' | 'stone' | 'liquid';
   phase: Phase;
   /** kg/m³ */
   density: number;
@@ -21,12 +25,16 @@ export interface ElementDef {
   fallAccel?: number;
   /** Movers only: top fall speed in cells/s (air drag). At most 238. */
   fallMax?: number;
+  /** Liquids: max sideways cells per frame when flowing towards a drop. */
+  dispersion?: number;
 }
 
 // Ids are indexes into ELEMENTS. Id 0 is empty space (air).
 export const EMPTY = 0;
 export const WALL = 1;
 export const SAND = 2;
+export const WATER = 3;
+export const OIL = 4;
 
 export const ELEMENTS: readonly ElementDef[] = [
   { key: 'empty', name: 'Air', category: 'tools', colours: ['#0c0d10'], phase: 'gas', density: 1.2 },
@@ -48,6 +56,30 @@ export const ELEMENTS: readonly ElementDef[] = [
     density: 1600,
     fallAccel: 230,
     fallMax: 165,
+  },
+  {
+    key: 'water',
+    name: 'Water',
+    category: 'liquids',
+    colours: ['#6cc0ec', '#3d8fd0', '#2a6aae', '#1d4c86', '#163a68'],
+    texture: 'liquid',
+    phase: 'liquid',
+    density: 1000,
+    fallAccel: 230,
+    fallMax: 165,
+    dispersion: 8,
+  },
+  {
+    key: 'oil',
+    name: 'Oil',
+    category: 'liquids',
+    colours: ['#c79a45', '#93692a', '#6b4a1d', '#4b3314', '#36240e'],
+    texture: 'liquid',
+    phase: 'liquid',
+    density: 900,
+    fallAccel: 200,
+    fallMax: 120,
+    dispersion: 3,
   },
 ];
 
@@ -84,6 +116,36 @@ export const GRAVITY_OF = Uint8Array.from(ELEMENTS, (e) =>
 export const VMAX_OF = Uint8Array.from(ELEMENTS, (e) =>
   e.fallMax ? Math.min(127, Math.round((e.fallMax / FPS) * VY_UNIT)) : 0,
 );
+
+/** Sideways reach per frame for liquids. */
+export const DISPERSION_OF = Uint8Array.from(ELEMENTS, (e) => e.dispersion ?? 0);
+
+/** Density swap scale: chance = sqrt(gap / heavier density × this), capped at 1. */
+const SWAP_GAIN = 2;
+
+/**
+ * Chance (0..255) per try that a cell of element a moves into a cell of
+ * element b, indexed a * ELEMENT_COUNT + b. 255 into empty space. Into a
+ * lighter liquid the chance grows with the density gap, so heavy things
+ * sink fast and near-equal liquids separate more slowly. 0 means never.
+ */
+export const ENTER_P = (() => {
+  const n = ELEMENTS.length;
+  const p = new Uint8Array(n * n);
+  for (let a = 1; a < n; a++) {
+    const A = ELEMENTS[a];
+    if (A.phase !== 'powder' && A.phase !== 'liquid') continue;
+    p[a * n + EMPTY] = 255;
+    for (let b = 1; b < n; b++) {
+      const B = ELEMENTS[b];
+      if (B.phase !== 'liquid' || B.density >= A.density) continue;
+      // Square root: small gaps (water under oil) still separate at a visible pace.
+      const chance = Math.min(1, Math.sqrt(((A.density - B.density) / A.density) * SWAP_GAIN));
+      p[a * n + b] = Math.max(1, Math.min(254, Math.round(chance * 255)));
+    }
+  }
+  return p;
+})();
 
 /** Element id for a key. Throws on an unknown key. */
 export function elementId(key: string): number {

@@ -1,4 +1,4 @@
-import { EMPTY, PHASE_OF, PH_POWDER, SAND } from '../sim/elements';
+import { EMPTY, PHASE_OF, PH_LIQUID, PH_POWDER, SAND } from '../sim/elements';
 import type { World } from '../sim/world';
 
 export const MAX_RADIUS = 64;
@@ -6,6 +6,8 @@ export const MAX_RADIUS = 64;
 const ERASE = -1;
 /** Chance per empty cell per stamp that a powder grain appears, so pours look like a stream, not a block. */
 const POWDER_FILL = 0.3;
+/** Same for liquids: a pour of separate drops that merge as they land. */
+const LIQUID_FILL = 0.45;
 /** Wheel delta (px) per brush size step. */
 const WHEEL_STEP = 40;
 
@@ -185,7 +187,8 @@ export class Brush {
     const { w, h, type } = world;
     const r = this.radius;
     const r2 = r * r + r;
-    const p = mode !== ERASE && PHASE_OF[mode] === PH_POWDER ? POWDER_FILL : 1;
+    const ph = mode === ERASE ? 0 : PHASE_OF[mode];
+    const p = ph === PH_POWDER ? POWDER_FILL : ph === PH_LIQUID ? LIQUID_FILL : 1;
     const y0 = Math.max(0, cy - r);
     const y1 = Math.min(h - 1, cy + r);
     const x0 = Math.max(0, cx - r);

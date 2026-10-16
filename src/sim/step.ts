@@ -1,4 +1,15 @@
-import { EMPTY, GRAVITY_OF, PHASE_OF, PH_POWDER, VMAX_OF, VY_UNIT } from './elements';
+import {
+  DISPERSION_OF,
+  ELEMENT_COUNT,
+  EMPTY,
+  ENTER_P,
+  GRAVITY_OF,
+  PHASE_OF,
+  PH_LIQUID,
+  PH_POWDER,
+  VMAX_OF,
+  VY_UNIT,
+} from './elements';
 import type { World } from './world';
 
 /**
@@ -16,6 +27,13 @@ const DITHER = Uint8Array.from({ length: 32 }, (_, n) => {
 const SHIFT = Math.log2(VY_UNIT);
 /** A grain that finds a slope open starts sliding at 3/4 cell per frame, so avalanches flow, not crawl. */
 const SLIDE_START = (VY_UNIT * 3) >> 2;
+/** Top speed while sinking through a liquid: drag holds it to 1/4 cell per frame. */
+const SINK_VMAX = VY_UNIT >> 2;
+const N = ELEMENT_COUNT;
+/** How far a liquid surface cell looks sideways for a drop. Bounds the cost on wide lakes. */
+const FLOW_SEARCH = 160;
+/** Speed a liquid keeps after a sideways move: half a cell per frame. */
+const FLOW_VY = VY_UNIT >> 1;
 
 /**
  * Cell pass: one simulation frame.
@@ -37,7 +55,7 @@ export function step(world: World): void {
       const i = row + x;
       const ph = PHASE_OF[type[i]];
       if (ph === 0 || stamp[i] === st) continue;
-      if (ph === PH_POWDER) updatePowder(world, x, y, i, st);
+      if (ph === PH_POWDER || ph === PH_LIQUID) updateMover(world, x, y, i, st, ph === PH_LIQUID);
     }
   }
   world.frame++;
@@ -60,16 +78,46 @@ function swap(world: World, i: number, j: number): void {
   shade[j] = c;
 }
 
+/**
+ * True if element t may move into cell j this try: always into empty space,
+ * by chance into a lighter liquid (density swap), never into anything else.
+ */
+function canEnter(world: World, t: number, j: number): boolean {
+  const p = ENTER_P[t * N + world.type[j]];
+  if (p === 255) return true;
+  if (p === 0) return false;
+  return (world.rng.nextU32() & 255) < p;
+}
 
 /**
- * Powder: fall straight down, speeding up by the element's gravity up to its
- * top speed. On landing, half the speed carries into sliding. If blocked,
- * slide one cell down-left or down-right (random order if both are open);
- * sliding starts at 3/4 cell per frame and builds to one cell per frame, so
- * grains ease onto a slope instead of snapping. Otherwise rest.
+ * Moves cell i to j (swapping with what was there), sets its speed and
+ * stamps both cells, so a displaced liquid does not move again this frame.
+ */
+function moveTo(world: World, i: number, j: number, v: number, st: number): void {
+  swap(world, i, j);
+  world.vy[j] = v;
+  world.stamp[j] = st;
+  world.stamp[i] = st;
+}
+
+/**
+ * Powders and liquids.
+ * 1. Fall straight down through empty space, speeding up by the element's
+ *    gravity up to its top speed. On landing, half the speed is kept.
+ * 2. Below is a lighter liquid: sink into it by chance (density swap),
+ *    held to a slow speed by drag. The liquid moves up in exchange.
+ * 3. Slide one cell down-left or down-right (random order if both are open).
+ *    Powders ease in: sliding starts at 3/4 cell per frame, so grains do not
+ *    snap. Liquids slide at once.
+ * 4. Liquids only: look along the row (through empty cells or lighter
+ *    liquids) for a drop, up to FLOW_SEARCH cells away, and move towards the
+ *    nearest one by at most `dispersion` cells per frame. With no drop the
+ *    liquid rests, so lakes settle flat (within 1 cell) and stop moving.
+ *    Looking further than `dispersion` matters: with a short look, a surface
+ *    of 1-cell steps wider than `dispersion` never moves and lakes keep a slope.
  * Grid edges act as walls.
  */
-function updatePowder(world: World, x: number, y: number, i: number, st: number): void {
+function updateMover(world: World, x: number, y: number, i: number, st: number, liquid: boolean): void {
   const { w, h, type, vy, stamp } = world;
   if (y + 1 >= h) {
     if (vy[i] !== 0) vy[i] = 0;
@@ -79,8 +127,10 @@ function updatePowder(world: World, x: number, y: number, i: number, st: number)
   const g = GRAVITY_OF[t];
   const sub = DITHER[(world.frame + world.shade[i]) & 31];
 
+  // 1. Free fall.
   const below = i + w;
-  if (type[below] === EMPTY) {
+  const tb = type[below];
+  if (tb === EMPTY) {
     let v = vy[i] + g;
     if (v > VMAX_OF[t]) v = VMAX_OF[t];
     const dist = (v + sub) >> SHIFT;
@@ -117,29 +167,100 @@ function updatePowder(world: World, x: number, y: number, i: number, st: number)
 
   // The cell below is in free fall but has not moved yet this frame (still
   // gathering speed): fall with it rather than treat it as ground.
-  if (vy[below] > 0 && y + 2 < h && type[below + w] === EMPTY && PHASE_OF[type[below]] === PH_POWDER) {
+  const pb = PHASE_OF[tb];
+  if (vy[below] > 0 && y + 2 < h && type[below + w] === EMPTY && (pb === PH_POWDER || pb === PH_LIQUID)) {
     let v = vy[i] + g;
     if (v > vy[below]) v = vy[below];
     vy[i] = v;
     return;
   }
 
-  const openL = x > 0 && type[below - 1] === EMPTY;
-  const openR = x + 1 < w && type[below + 1] === EMPTY;
-  if (!openL && !openR) {
-    if (vy[i] !== 0) vy[i] = 0;
+  // 2. Sink into a lighter liquid.
+  if (ENTER_P[t * N + tb] !== 0) {
+    let v = vy[i] + g;
+    if (v > SINK_VMAX) v = SINK_VMAX;
+    if ((v + sub) >> SHIFT !== 0 && canEnter(world, t, below)) moveTo(world, i, below, v, st);
+    else vy[i] = v;
     return;
   }
-  let v = (vy[i] < SLIDE_START ? SLIDE_START : vy[i]) + g;
-  if (v > VY_UNIT) v = VY_UNIT;
-  if ((v + sub) >> SHIFT === 0) {
-    vy[i] = v;
-    return;
+
+  // 3. Slide down a slope.
+  const openL = x > 0 && ENTER_P[t * N + type[below - 1]] !== 0;
+  const openR = x + 1 < w && ENTER_P[t * N + type[below + 1]] !== 0;
+  if (openL || openR) {
+    let v = vy[i];
+    if (!liquid) {
+      v = (v < SLIDE_START ? SLIDE_START : v) + g;
+      if (v > VY_UNIT) v = VY_UNIT;
+      if ((v + sub) >> SHIFT === 0) {
+        vy[i] = v;
+        return;
+      }
+    }
+    let j: number;
+    if (openL && openR) j = world.rng.nextU32() & 1 ? below + 1 : below - 1;
+    else j = openL ? below - 1 : below + 1;
+    if (canEnter(world, t, j)) {
+      moveTo(world, i, j, v > VY_UNIT ? VY_UNIT : v, st);
+      return;
+    }
   }
-  let j: number;
-  if (openL && openR) j = world.rng.nextU32() & 1 ? below + 1 : below - 1;
-  else j = openL ? below - 1 : below + 1;
-  swap(world, i, j);
-  vy[j] = v;
-  stamp[j] = st;
+
+  // 4. Liquids: flow sideways towards the nearest drop.
+  if (liquid) {
+    // Surface cells (open above) may look past cells of the same liquid, so
+    // the whole surface layer flows, not just the cell at a step's edge.
+    const surface = y === 0 || ENTER_P[t * N + type[i - w]] !== 0;
+    const dl = findDrop(world, t, x, y, i, -1, surface);
+    const dr = findDrop(world, t, x, y, i, 1, surface);
+    if (dl !== 0 || dr !== 0) {
+      let dir: number;
+      let dist: number;
+      if (dl !== 0 && (dr === 0 || dl < dr || (dl === dr && world.rng.nextU32() & 1))) {
+        dir = -1;
+        dist = dl;
+      } else {
+        dir = 1;
+        dist = dr;
+      }
+      // Farthest cell this liquid can enter, within reach, towards the drop.
+      const base = t * N;
+      for (let k = dist < DISPERSION_OF[t] ? dist : DISPERSION_OF[t]; k > 0; k--) {
+        const j = i + dir * k;
+        if (type[j] !== t && ENTER_P[base + type[j]] !== 0) {
+          // Keep some speed so it drops at once on reaching the edge.
+          moveTo(world, i, j, FLOW_VY, st);
+          return;
+        }
+      }
+    }
+  }
+
+  if (vy[i] !== 0) vy[i] = 0;
+}
+
+/**
+ * Distance (1..FLOW_SEARCH) along the row in direction dir to the nearest
+ * drop for liquid t: a cell t can enter (empty, or a lighter liquid) with
+ * another such cell under it, reached through such cells only (and, for a
+ * surface cell, past cells of t itself). Flowing through lighter liquids
+ * lets water level out under oil. 0 if none.
+ */
+function findDrop(world: World, t: number, x: number, y: number, i: number, dir: number, surface: boolean): number {
+  const { w, type } = world;
+  const lowerRow = y + 1 < world.h;
+  const base = t * N;
+  for (let k = 1; k <= FLOW_SEARCH; k++) {
+    const nx = x + dir * k;
+    if (nx < 0 || nx >= w) return 0;
+    const c = i + dir * k;
+    const tc = type[c];
+    if (tc === t) {
+      if (surface) continue;
+      return 0;
+    }
+    if (ENTER_P[base + tc] === 0) return 0;
+    if (lowerRow && ENTER_P[base + type[c + w]] !== 0) return k;
+  }
+  return 0;
 }
