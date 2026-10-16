@@ -316,6 +316,17 @@ kbd {
   gap: 4px;
   overflow-x: auto;
   scrollbar-width: none;
+  --fade-l: 0px;
+  --fade-r: 0px;
+  mask-image: linear-gradient(90deg, transparent, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent);
+}
+
+.chips.more-left {
+  --fade-l: 20px;
+}
+
+.chips.more-right {
+  --fade-r: 28px;
 }
 
 .chip {
@@ -405,10 +416,24 @@ kbd {
   scrollbar-color: var(--raise-2) transparent;
 }
 
+/* Section headers stay pinned while their tiles scroll past, so a long library never loses its place. */
 .group-name {
-  margin: 0 0 8px 2px;
+  position: sticky;
+  top: -12px;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: -12px -12px 4px;
+  padding: 12px 14px 6px;
+  background: var(--panel);
   font: 500 12px/1 var(--sans);
   color: var(--muted);
+}
+
+.group-count {
+  font-size: 11px;
+  color: var(--faint);
 }
 
 .tiles {
@@ -536,7 +561,65 @@ kbd {
 
 .detail .facts {
   grid-column: 1 / -1;
-  margin-top: 10px;
+}
+
+.detail .key-facts {
+  margin-top: 8px;
+}
+
+/* All properties: closed by default; open, they scroll inside a capped height. */
+.detail .facts:not(.key-facts) {
+  display: none;
+  max-height: min(220px, 26vh);
+  overflow-y: auto;
+  margin-top: 6px;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--raise-2) transparent;
+}
+
+.detail.open .facts:not(.key-facts) {
+  display: grid;
+}
+
+.more-facts {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  height: 24px;
+  margin-top: 6px;
+  padding: 0 6px 0 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: 500 12px/1 var(--sans);
+  cursor: pointer;
+}
+
+.more-facts:hover {
+  color: var(--text);
+}
+
+.more-facts:focus-visible {
+  outline: 1px solid var(--line-strong);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.more-facts[hidden] {
+  display: none;
+}
+
+.more-facts svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.detail.open .more-facts svg {
+  transform: rotate(180deg);
 }
 
 .detail-stage canvas {
@@ -665,6 +748,10 @@ input[type='range']::-moz-range-thumb {
   display: grid;
   gap: 8px;
   min-height: 96px;
+  max-height: min(320px, 38vh);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--raise-2) transparent;
 }
 
 .reactions {

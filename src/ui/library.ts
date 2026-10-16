@@ -157,10 +157,28 @@ export function mountLibrary(
     b.addEventListener('click', () => {
       activeCat = c;
       applyFilter();
+      b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     });
     chips.append(b);
     return { c, b };
   });
+  // More chips than fit: the mouse wheel scrolls the row sideways, and a soft
+  // fade at either edge says there is more that way.
+  const chipEdges = (): void => {
+    chips.classList.toggle('more-left', chips.scrollLeft > 1);
+    chips.classList.toggle('more-right', chips.scrollLeft + chips.clientWidth < chips.scrollWidth - 1);
+  };
+  chips.addEventListener(
+    'wheel',
+    (e) => {
+      if (chips.scrollWidth <= chips.clientWidth || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+      e.preventDefault();
+      chips.scrollLeft += e.deltaY;
+    },
+    { passive: false },
+  );
+  chips.addEventListener('scroll', chipEdges);
+  requestAnimationFrame(chipEdges);
 
   // One themed tooltip for all tiles (name and hotkey), instead of browser tooltips.
   const tip = el('div', 'tip num');
@@ -212,7 +230,9 @@ export function mountLibrary(
     if (!ids.length) continue;
     const group = el('section', 'group');
     group.dataset.cat = cat;
-    group.append(el('h3', 'group-name', CATEGORY_NAMES[cat]));
+    const head = el('h3', 'group-name', CATEGORY_NAMES[cat]);
+    head.append(el('span', 'group-count num', String(ids.length)));
+    group.append(head);
     const grid = el('div', 'tiles');
     for (const id of ids) {
       const e = ELEMENTS[id];
@@ -293,7 +313,35 @@ export function mountLibrary(
   titleRow.append(title, tag);
   const blurb = el('p', 'detail-blurb');
   const dl = el('dl', 'facts');
-  detail.append(stage, titleRow, blurb, dl);
+  // Two key facts always; the rest behind a toggle, so the card stays small
+  // and the library keeps most of the column. The choice is remembered.
+  const keyFacts = el('dl', 'facts key-facts');
+  const moreBtn = el('button', 'more-facts');
+  moreBtn.type = 'button';
+  moreBtn.setAttribute('aria-expanded', 'false');
+  const moreLabel = el('span', '', 'All properties');
+  const moreCount = el('span', 'num muted');
+  moreBtn.append(moreLabel, moreCount, icon('chevron'));
+  let factsOpen = false;
+  try {
+    factsOpen = localStorage.getItem('sandglass.factsOpen') === '1';
+  } catch {
+    /* storage blocked: start closed */
+  }
+  const setFactsOpen = (open: boolean): void => {
+    factsOpen = open;
+    detail.classList.toggle('open', open);
+    moreBtn.setAttribute('aria-expanded', String(open));
+    try {
+      localStorage.setItem('sandglass.factsOpen', open ? '1' : '0');
+    } catch {
+      /* not remembered */
+    }
+  };
+  moreBtn.addEventListener('pointerdown', (e) => e.preventDefault());
+  moreBtn.addEventListener('click', () => setFactsOpen(!factsOpen));
+  setFactsOpen(factsOpen);
+  detail.append(stage, titleRow, blurb, keyFacts, moreBtn, dl);
   let detailSim: MiniSim | null = null;
   let detailId = -1;
   let hovered: (typeof tiles)[number] | null = null;
@@ -493,13 +541,19 @@ export function mountLibrary(
     title.textContent = e.name;
     tag.textContent = CATEGORY_NAMES[e.category];
     blurb.textContent = e.blurb;
-    dl.replaceChildren(
-      ...elementFacts(id).flatMap(([k, v]) => {
-        const dt = el('dt', '', k);
-        const dd = el('dd', 'num', v);
-        return [dt, dd];
-      }),
-    );
+    const facts = elementFacts(id);
+    const row = ([k, v]: [string, string]): HTMLElement[] => [el('dt', '', k), el('dd', 'num', v)];
+    // The key facts: what changes it (heating, burning) and its state, in that order of interest.
+    const KEY = ['Melts', 'Boils', 'Burns', 'Explodes', 'Sublimes', 'Sets', 'Lives', 'Grows', 'State'];
+    const key = facts
+      .filter(([k]) => KEY.includes(k))
+      .sort((a, b) => KEY.indexOf(a[0]) - KEY.indexOf(b[0]))
+      .slice(0, 2);
+    keyFacts.replaceChildren(...key.flatMap(row));
+    const rest = facts.filter((f) => !key.includes(f));
+    dl.replaceChildren(...rest.flatMap(row));
+    moreCount.textContent = String(rest.length);
+    moreBtn.hidden = rest.length === 0;
   };
 
   const refresh = (): void => {

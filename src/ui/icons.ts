@@ -14,6 +14,7 @@ const PATHS = {
   wind: '<path d="M3.5 8h9a2.3 2.3 0 1 0-2.3-2.3"/><path d="M3.5 12h11.5a2.3 2.3 0 1 1-2.3 2.3"/>',
   save: '<path d="M10 3.5v9M6.5 9l3.5 3.5L13.5 9"/><path d="M4 14.5v1.5h12v-1.5"/>',
   open: '<path d="M3.5 6V15h13V7.5H9.5L8 6z"/><path d="M3.5 9h13"/>',
+  chevron: '<path d="m7 8 3 3 3-3"/>',
   list: '<path d="M8 6h8M8 10h8M8 14h8"/><path d="M4.2 6h.1M4.2 10h.1M4.2 14h.1" stroke-width="2.2"/>',
 } as const;
 
