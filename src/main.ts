@@ -1,29 +1,40 @@
 import './style.css';
 import { fitCanvas, gridFromWindow, whenWindowSized } from './core/grid';
 import { FixedLoop } from './core/loop';
+import { Brush } from './input/brush';
 import { Canvas2DRenderer } from './render/canvas2d';
-import { Rng } from './sim/rng';
+import { step } from './sim/step';
+import { World } from './sim/world';
+import { mountCursor } from './ui/cursor';
+
+const DEFAULT_SEED = 1;
 
 function start(): void {
   const canvas = document.getElementById('sim') as HTMLCanvasElement;
   const { w, h } = gridFromWindow();
+  const world = new World(w, h, DEFAULT_SEED);
   const renderer = new Canvas2DRenderer(canvas, w, h);
+  const brush = new Brush(canvas, world);
   fitCanvas(canvas, w, h);
   window.addEventListener('resize', () => fitCanvas(canvas, w, h));
 
-  // Phase 0 test pattern: fresh seeded noise every step.
-  const rng = new Rng(1);
   const loop = new FixedLoop({
-    input: () => false,
-    step: () => {
-      const px = renderer.pixels;
-      for (let i = 0; i < px.length; i++) {
-        const v = 16 + (rng.nextU32() & 63);
-        px[i] = 0xff000000 | (v << 16) | (v << 8) | v;
-      }
-    },
-    render: () => renderer.present(),
+    input: () => brush.apply(),
+    step: () => step(world),
+    render: () => renderer.draw(world),
   });
+
+  mountCursor(brush);
+
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      loop.paused = !loop.paused;
+    } else if (e.key === '.' && loop.paused) {
+      loop.stepOnce();
+    }
+  });
+
   loop.start();
 }
 
