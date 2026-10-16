@@ -199,6 +199,16 @@ export interface ElementDef {
    * `eats` maps food to what the food becomes ('empty': eaten whole).
    */
   creature?: { lives: 'water' | 'ground' | 'soil' | 'air'; eats?: Record<string, string>; diesInto: string };
+  /** Energy: strikes straight down at once as a jagged bolt, leaving this behind on its path (lightning → plasma). */
+  bolt?: string;
+  /** Fuels: lit, it does not burn but launches as this rocket (firework). */
+  launchesAs?: string;
+  /** Rockets: flies up, then bursts into this (embers). */
+  burstsInto?: string;
+  /** Flames that sink instead of rising (falling embers). */
+  sinks?: boolean;
+  /** Clouds: now and then a lightning bolt strikes down from it. */
+  makesLightning?: boolean;
   /** Hand-written reactions by the other element's key; they win over the compiler. */
   overrides?: Record<string, Override>;
 }
@@ -1800,6 +1810,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.04,
     rainsInto: 'water',
     rainsColdInto: 'snow',
+    makesLightning: true,
   },
   // ---- Devices ---------------------------------------------------------------------
   {
@@ -2405,6 +2416,90 @@ export const ELEMENTS: readonly ElementDef[] = [
       diesInto: 'meat',
     },
   },
+  // ---- Sky: lightning and fireworks ------------------------------------------------
+  {
+    key: 'lightning',
+    name: 'Lightning',
+    blurb: 'A bolt of lightning. Strikes straight down at once in a jagged line. Where it lands it pours in heat, lights flames and sends current through anything that conducts.',
+    category: 'energy',
+    colours: ['#f4f0ff', '#e6dcff', '#fbf9ff'],
+    texture: 'fire',
+    phase: 'energy',
+    cls: 'energy',
+    hardness: 0,
+    density: 0.1,
+    temp: 3000,
+    heatCapacity: 0.2,
+    conductivity: 0.3,
+    bolt: 'plasma',
+  },
+  {
+    key: 'plasma',
+    name: 'Plasma',
+    blurb: 'Glowing, electrified air left by lightning. Flickers out in a moment. It lights anything flammable it touches.',
+    category: 'energy',
+    colours: ['#d9ccff', '#c7b5ff', '#efe8ff'],
+    texture: 'fire',
+    phase: 'energy',
+    cls: 'energy',
+    hardness: 0,
+    density: 0.1,
+    temp: 3000,
+    heatCapacity: 0.2,
+    conductivity: 0.3,
+    lifetime: 8,
+  },
+  {
+    key: 'firework',
+    name: 'Firework',
+    blurb: 'A packed firework powder. Falls and piles. A flame or heat launches each grain as a rocket that bursts high up into falling coloured embers.',
+    category: 'explosives',
+    colours: ['#b8352f', '#2f6db8', '#d9a62f', '#3a9a4a'],
+    phase: 'powder',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 1400,
+    fallAccel: 220,
+    fallMax: 150,
+    heatCapacity: 0.7,
+    conductivity: 0.1,
+    ignition: 250,
+    fuel: 10,
+    launchesAs: 'rocket',
+  },
+  {
+    key: 'rocket',
+    name: 'Rocket',
+    blurb: 'A lit firework climbing fast. Rises in a straight line, trailing sparks, then bursts into embers.',
+    category: 'energy',
+    colours: ['#ffd27a', '#ffe2a3', '#ffc35a'],
+    texture: 'fire',
+    phase: 'energy',
+    cls: 'energy',
+    hardness: 0,
+    density: 0.5,
+    temp: 900,
+    heatCapacity: 0.3,
+    conductivity: 0.2,
+    lifetime: 75,
+    burstsInto: 'ember',
+  },
+  {
+    key: 'ember',
+    name: 'Ember',
+    blurb: 'A bright burning fleck from a firework. Drifts down, swaying, and burns out. It can still light what it lands on.',
+    category: 'energy',
+    colours: ['#ff5a5a', '#5aff8a', '#5ab4ff', '#ffd95a', '#ff7ae0'],
+    phase: 'energy',
+    cls: 'energy',
+    hardness: 0,
+    density: 0.3,
+    temp: 700,
+    heatCapacity: 0.3,
+    conductivity: 0.2,
+    lifetime: 50,
+    sinks: true,
+  },
 ];
 
 export const ELEMENT_COUNT = ELEMENTS.length;
@@ -2644,6 +2739,11 @@ export const RAIN_COLD_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.rainsColdI
 /** Creature habitat: 0 none, 1 water, 2 ground, 3 soil, 4 air. */
 export const HABITAT_OF = Uint8Array.from(ELEMENTS, (e) => (e.creature ? { water: 1, ground: 2, soil: 3, air: 4 }[e.creature.lives] : 0));
 export const DIES_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.creature?.diesInto));
+export const BOLT_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.bolt));
+export const LAUNCHES_AS_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.launchesAs));
+export const BURSTS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.burstsInto));
+export const SINKS_OF = Uint8Array.from(ELEMENTS, (e) => (e.sinks ? 1 : 0));
+export const LIGHTNING_FROM_OF = Uint8Array.from(ELEMENTS, (e) => (e.makesLightning ? 1 : 0));
 /** Per pair (creature, food): what the food becomes, plus one (0 = not food; 1 = eaten whole). */
 export const EATS = new Uint16Array(ELEMENT_COUNT * ELEMENT_COUNT);
 ELEMENTS.forEach((e, a) => {
@@ -2661,3 +2761,6 @@ export function elementId(key: string): number {
   if (id < 0) throw new Error(`Unknown element: ${key}`);
   return id;
 }
+
+/** Lightning, which storm clouds let go now and then. */
+export const LIGHTNING = elementId('lightning');
