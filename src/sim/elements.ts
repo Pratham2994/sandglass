@@ -4,7 +4,7 @@
  * phases that use it (see docs/SPEC.md).
  */
 
-export type Category = 'powders' | 'liquids' | 'gases' | 'solids' | 'energy' | 'explosives' | 'life' | 'tools';
+export type Category = 'powders' | 'liquids' | 'gases' | 'solids' | 'energy' | 'explosives' | 'electronics' | 'life' | 'tools';
 export type Phase = 'powder' | 'liquid' | 'gas' | 'solid' | 'energy';
 /** Material class, read by the chemistry rules (acid eats metal, mineral and organic). */
 export type Cls = 'mineral' | 'metal' | 'organic' | 'salt' | 'water' | 'gas' | 'energy' | 'life';
@@ -64,7 +64,11 @@ export interface ElementDef {
   /** °C at which it melts, and what into. The reverse (freezing) is derived. */
   melt?: number;
   meltInto?: string;
-  /** °C at which it boils, and what into. The reverse (condensing) is derived. */
+  /**
+   * °C at which it boils, and what into. The reverse (condensing) is derived,
+   * so `boilInto` must be this element's own vapour (water → steam), never a
+   * shared gas like smoke, or that gas would condense into this element.
+   */
   boil?: number;
   boilInto?: string;
   /**
@@ -111,6 +115,14 @@ export interface ElementDef {
   brittle?: number;
   /** What a brittle solid shatters into. */
   breaksInto?: string;
+  /** 0..1: carries electric charge (metals 1). Water conducts only when it carries salt. */
+  electric?: number;
+  /** Power sources: send a charge into touching conductors every this many frames. */
+  powerEvery?: number;
+  /** Energy: frames a placed cell lasts (fire 45, spark 10). */
+  lifetime?: number;
+  /** Seeds: grow into this element on wet dirt with open sky above. */
+  growsInto?: string;
   /** Hand-written reactions by the other element's key; they win over the compiler. */
   overrides?: Record<string, Override>;
 }
@@ -146,6 +158,12 @@ export const GUNPOWDER = 26;
 export const NITRO = 27;
 export const GLASS = 28;
 export const SHARDS = 29;
+export const SPARK = 30;
+export const WIRE = 31;
+export const BATTERY = 32;
+export const MERCURY = 33;
+export const SEED = 34;
+export const PLANT = 35;
 
 export const ELEMENTS: readonly ElementDef[] = [
   {
@@ -413,6 +431,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     phase: 'solid',
     cls: 'metal',
     hardness: 0.55,
+    electric: 1,
     density: 7870,
     heatCapacity: 0.45,
     conductivity: 0.8,
@@ -669,6 +688,111 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.8,
     conductivity: 0.15,
   },
+  {
+    key: 'spark',
+    name: 'Spark',
+    blurb: 'A flash of electric charge. Jumps into any conductor it touches and runs along it; on its own it fades at once.',
+    category: 'energy',
+    colours: ['#f2f7ff', '#cfe0ff', '#a9c8ff', '#ffffff', '#e1ecff', '#bcd3ff'],
+    texture: 'fire',
+    phase: 'energy',
+    cls: 'energy',
+    hardness: 0,
+    density: 0.1,
+    temp: 300,
+    heatCapacity: 0.2,
+    conductivity: 0.3,
+    lifetime: 10,
+  },
+  {
+    key: 'wire',
+    name: 'Wire',
+    blurb: 'Thin copper. Stays put and carries charge from end to end, warming as current runs through it.',
+    category: 'electronics',
+    colours: ['#b8733a', '#c98447', '#a5652f', '#d99555'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.45,
+    electric: 1,
+    density: 8960,
+    heatCapacity: 0.4,
+    conductivity: 0.9,
+    melt: 1085,
+    meltInto: 'lava',
+  },
+  {
+    key: 'battery',
+    name: 'Battery',
+    blurb: 'A power source. Stays put and sends a pulse of charge into any conductor touching it, about four times a second.',
+    category: 'electronics',
+    colours: ['#3d4a3a', '#465543', '#354232', '#506048'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.6,
+    density: 2500,
+    heatCapacity: 0.8,
+    conductivity: 0.2,
+    powerEvery: 15,
+  },
+  {
+    key: 'mercury',
+    name: 'Mercury',
+    blurb: 'A liquid metal, very heavy. Flows and sinks through almost everything. Carries charge like a wire.',
+    category: 'liquids',
+    colours: ['#c9ccd1', '#b2b6bc', '#9aa0a7', '#848a92', '#6f757d'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'metal',
+    hardness: 0.9,
+    electric: 1,
+    density: 13534,
+    fallAccel: 240,
+    fallMax: 170,
+    dispersion: 5,
+    heatCapacity: 0.15,
+    conductivity: 0.6,
+  },
+  {
+    key: 'seed',
+    name: 'Seed',
+    blurb: 'A small seed, a light powder. Falls and rests. On wet dirt with open sky above it sprouts and grows into a plant.',
+    category: 'life',
+    colours: ['#9b7a3c', '#866630', '#b08c48', '#76592a'],
+    phase: 'powder',
+    cls: 'life',
+    hardness: 0.2,
+    density: 700,
+    fallAccel: 200,
+    fallMax: 140,
+    heatCapacity: 0.8,
+    conductivity: 0.1,
+    ignition: 250,
+    fuel: 60,
+    flameTemp: 700,
+    burnInto: 'ash',
+    growsInto: 'plant',
+  },
+  {
+    key: 'plant',
+    name: 'Plant',
+    blurb: 'A living green stem. Grows upwards towards open sky, drinking water from the dirt below. Burns, and acid eats it.',
+    category: 'life',
+    colours: ['#3f8f3a', '#4ea446', '#357a31', '#5cb553'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.15,
+    density: 900,
+    heatCapacity: 1,
+    conductivity: 0.1,
+    ignition: 250,
+    fuel: 90,
+    flameTemp: 750,
+    burnInto: 'ash',
+    residue: 0.4,
+  },
 ];
 
 export const ELEMENT_COUNT = ELEMENTS.length;
@@ -808,7 +932,7 @@ ELEMENTS.forEach((e, id) => {
 // ---- Burning, gases, powders ------------------------------------------------
 
 /** Lifetime of a placed cell in frames (a loose flame burns out); 0 = forever. */
-export const LIFE_OF = Uint16Array.from(ELEMENTS, (e) => (e.phase === 'energy' ? 45 : 0));
+export const LIFE_OF = Uint16Array.from(ELEMENTS, (e) => e.lifetime ?? (e.phase === 'energy' ? 45 : 0));
 /** °C at which an element ignites next to an oxidiser; Infinity = never. */
 export const IGNITION_OF = Float32Array.from(ELEMENTS, (e) => e.ignition ?? Infinity);
 /** Frames one cell of an element burns. */
@@ -859,6 +983,15 @@ export const IMPACT_VY_OF = Uint8Array.from(ELEMENTS, (e) => (e.impact ? Math.mi
 export const BRITTLE_OF = Float32Array.from(ELEMENTS, (e) => e.brittle ?? 0);
 /** What a brittle solid shatters into. */
 export const BREAKS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.breaksInto ? elementId(e.breaksInto) : 0));
+
+// ---- Electricity and life -------------------------------------------------------
+
+/** Conducts charge (0 = never; water is handled by its salt). */
+export const ELECTRIC_OF = Uint8Array.from(ELEMENTS, (e) => ((e.electric ?? 0) > 0 ? 1 : 0));
+/** Power sources: pulse period in frames, 0 = not a source. */
+export const POWER_EVERY_OF = Uint8Array.from(ELEMENTS, (e) => e.powerEvery ?? 0);
+/** Seeds: what they grow into, 0 = not a seed. */
+export const GROWS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.growsInto ? elementId(e.growsInto) : 0));
 
 /** What a solid becomes instead when it freezes unsupported; 0 = itself. */
 export const RUBBLE_OF = Uint16Array.from(ELEMENTS, (e) => (e.rubble ? elementId(e.rubble) : 0));

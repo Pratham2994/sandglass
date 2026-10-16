@@ -17,6 +17,7 @@ interface Snap {
   life: Uint16Array;
   solute: Uint16Array;
   conc: Uint8Array;
+  charge: Uint8Array;
   rng: number;
   airP: Float32Array;
   airVx: Float32Array;
@@ -130,6 +131,7 @@ export class Timeline {
       life: w.life.slice(),
       solute: w.solute.slice(),
       conc: w.conc.slice(),
+      charge: w.charge.slice(),
       rng: w.rng.getState(),
       airP: w.air.p.slice(),
       airVx: w.air.vx.slice(),
@@ -152,6 +154,7 @@ export class Timeline {
     w.life.set(s.life);
     w.solute.set(s.solute);
     w.conc.set(s.conc);
+    w.charge.set(s.charge);
     w.rng.seed(s.rng);
     w.air.p.set(s.airP);
     w.air.vx.set(s.airVx);

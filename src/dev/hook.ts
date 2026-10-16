@@ -44,7 +44,7 @@ export interface SimHook {
   /** Current frame and the range the timeline can reach. */
   time(): { frame: number; oldest: number; newest: number };
   /** Everything stored in cell (x, y). */
-  probe(x: number, y: number): { key: string; temp: number; life: number; solute: string; conc: number };
+  probe(x: number, y: number): { key: string; temp: number; life: number; solute: string; conc: number; charge: number };
   /** Height of the filled stack in each column, counted from the bottom row up to the first empty cell. */
   heights(): number[];
   /** Hash of the whole grid, 8 hex digits. */
@@ -157,6 +157,7 @@ export function installSimHook(t: HookTargets): void {
         life: world.life[i],
         solute: ELEMENTS[world.solute[i]].key,
         conc: world.conc[i],
+        charge: world.charge[i],
       };
     },
     heights() {

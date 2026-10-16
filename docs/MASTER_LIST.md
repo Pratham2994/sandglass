@@ -2,7 +2,7 @@
 
 Generated from the game code by `npm run master-list`. Do not edit by hand: change the element data in `src/sim/elements.ts` (or the rules in `src/sim/chem.ts`) and run the script again.
 
-29 elements. Every pair of elements is listed below, in both directions, with what happens and why.
+35 elements. Every pair of elements is listed below, in both directions, with what happens and why.
 
 ## World rules
 
@@ -60,6 +60,12 @@ The chemistry compiler applies these general rules to every pair of elements; no
 | Nitro | explosives | liquid | 1,600 | 20 °C |  |  | from 200 °C |
 | Glass | solids | solid | 2,500 | 20 °C |  |  |  |
 | Shards | powders | powder | 2,500 | 20 °C |  |  |  |
+| Spark | energy | energy | 0.1 | 300 °C |  |  |  |
+| Wire | electronics | solid | 8,960 | 20 °C | melts at 1,085 °C → lava |  |  |
+| Battery | electronics | solid | 2,500 | 20 °C |  |  |  |
+| Mercury | liquids | liquid | 13,534 | 20 °C |  |  |  |
+| Seed | life | powder | 700 | 20 °C |  |  | from 250 °C |
+| Plant | life | solid | 900 | 20 °C |  |  | from 250 °C |
 
 ## Elements
 
@@ -73,7 +79,7 @@ An indestructible solid. Never moves. Nothing melts, burns or eats it; use it fo
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sand
 
@@ -85,7 +91,7 @@ A fine, heavy powder. Falls, piles into slopes and sinks through lighter liquids
 - **Soaks up:** water, up to 30% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.95 (acid stronger than this eats it)
 
-With other elements (10 interact):
+With other elements (11 interact):
 
 - **Water:** Sand soaks up water: it is porous and holds up to 30% water. Sand sinks through water (1,600 vs 1,000 kg/m³).
 - **Oil:** Sand sinks through oil (1,600 vs 900 kg/m³).
@@ -97,8 +103,9 @@ With other elements (10 interact):
 - **Oxygen:** Sand falls through oxygen.
 - **Methane:** Sand falls through methane.
 - **Alcohol:** Sand sinks through alcohol (1,600 vs 789 kg/m³).
+- **Spark:** Sand falls through spark.
 
-No direct interaction with: Air, Wall, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Water
 
@@ -109,9 +116,10 @@ A runny liquid. Flows and settles flat. Boils into steam when hot, freezes into 
 - **Falls:** up to 165 cells/s
 - **Boils:** at 100 °C, into steam
 - **Freezes:** below 0 °C, into ice
+- **Conducts:** only when it carries salt; current then splits it into hydrogen and oxygen
 - **Dissolves:** soluble powders (salt, sugar), up to each one’s limit; saltier is heavier
 
-With other elements (21 interact):
+With other elements (23 interact):
 
 - **Sand:** Sand soaks up water: it is porous and holds up to 30% water. Sand sinks through water (1,600 vs 1,000 kg/m³).
 - **Oil:** Water sinks through oil (1,000 vs 900 kg/m³).
@@ -134,8 +142,10 @@ With other elements (21 interact):
 - **Gunpowder:** Gunpowder sinks through water (1,700 vs 1,000 kg/m³).
 - **Nitro:** Nitro sinks through water (1,600 vs 1,000 kg/m³).
 - **Shards:** Shards sinks through water (2,500 vs 1,000 kg/m³).
+- **Spark:** Water falls through spark. Spark (300 °C) is hot enough to boil water into steam.
+- **Mercury:** Mercury sinks through water (13,534 vs 1,000 kg/m³).
 
-No direct interaction with: Air, Wall, Stone, Wood, Ash, Iron, TNT, Glass. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Stone, Wood, Ash, Iron, TNT, Glass, Wire, Battery, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Oil
 
@@ -146,7 +156,7 @@ A thick, slow liquid. Floats on water. Burns into smoke once hot enough.
 - **Falls:** up to 120 cells/s
 - **Burns:** from 250 °C in air, 4 s per cell, leaves smoke
 
-With other elements (19 interact):
+With other elements (21 interact):
 
 - **Air:** Oil burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through oil (1,600 vs 900 kg/m³).
@@ -167,8 +177,10 @@ With other elements (19 interact):
 - **Gunpowder:** Gunpowder sinks through oil (1,700 vs 900 kg/m³).
 - **Nitro:** Nitro sinks through oil (1,600 vs 900 kg/m³).
 - **Shards:** Shards sinks through oil (2,500 vs 900 kg/m³).
+- **Spark:** Oil catches from the flame touching it. Oil falls through spark.
+- **Mercury:** Mercury sinks through oil (13,534 vs 900 kg/m³).
 
-No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Ice
 
@@ -178,15 +190,16 @@ Frozen water, a cold solid. Stays put. Chills what it touches and melts back int
 - **Starts at:** -20 °C
 - **Melts:** at 0 °C, into water
 
-With other elements (5 interact):
+With other elements (6 interact):
 
 - **Water:** Ice (-20 °C) is cold enough to freeze water into ice.
 - **Steam:** Ice (-20 °C) is cold enough to condense steam into water. Steam (150 °C) is hot enough to melt ice into water.
 - **Lava:** Ice (-20 °C) is cold enough to freeze lava into stone. Lava (1,200 °C) is hot enough to melt ice into water.
 - **Fire:** Fire (850 °C) is hot enough to melt ice into water.
 - **Smoke:** Smoke (150 °C) is hot enough to melt ice into water.
+- **Spark:** Spark (300 °C) is hot enough to melt ice into water.
 
-No direct interaction with: Air, Wall, Sand, Oil, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Steam
 
@@ -197,7 +210,7 @@ Hot water vapour. Rises and spreads. Turns back into water as it cools, so it ra
 - **In air:** Rises (lighter than air)
 - **Condenses:** below 100 °C, into water
 
-With other elements (17 interact):
+With other elements (19 interact):
 
 - **Sand:** Sand falls through steam.
 - **Water:** Steam (150 °C) is hot enough to boil water into steam. Water falls through steam.
@@ -216,8 +229,10 @@ With other elements (17 interact):
 - **Gunpowder:** Gunpowder falls through steam.
 - **Nitro:** Nitro falls through steam.
 - **Shards:** Shards falls through steam.
+- **Mercury:** Mercury falls through steam.
+- **Seed:** Seed falls through steam.
 
-No direct interaction with: Air, Wall, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Lava
 
@@ -225,11 +240,11 @@ Molten rock, extremely hot. Flows slowly and glows. Sets fuel alight, boils wate
 
 - **State:** Liquid, 2,600 kg/m³
 - **Starts at:** 1,200 °C
-- **In liquids:** Sinks through liquids lighter than 2,600 kg/m³
+- **In liquids:** Sinks through liquids lighter than 2,600 kg/m³, floats on heavier ones
 - **Falls:** up to 90 cells/s
 - **Freezes:** below 1,000 °C, into stone
 
-With other elements (20 interact):
+With other elements (25 interact):
 
 - **Water:** Lava sinks through water (2,600 vs 1,000 kg/m³). Lava (1,200 °C) is hot enough to boil water into steam.
 - **Oil:** Lava sinks through oil (2,600 vs 900 kg/m³). Lava (1,200 °C) can set oil on fire (it ignites at 250 °C).
@@ -251,8 +266,13 @@ With other elements (20 interact):
 - **TNT:** Lava (1,200 °C) can set tnt on fire (it ignites at 300 °C).
 - **Gunpowder:** Lava (1,200 °C) can set gunpowder on fire (it ignites at 250 °C).
 - **Nitro:** Lava sinks through nitro (2,600 vs 1,600 kg/m³). Lava (1,200 °C) can set nitro on fire (it ignites at 200 °C).
+- **Spark:** Lava falls through spark.
+- **Wire:** Lava (1,200 °C) is hot enough to melt wire into lava.
+- **Mercury:** Mercury sinks through lava (13,534 vs 2,600 kg/m³).
+- **Seed:** Lava (1,200 °C) can set seed on fire (it ignites at 250 °C).
+- **Plant:** Lava (1,200 °C) can set plant on fire (it ignites at 250 °C).
 
-No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards, Battery. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Stone
 
@@ -266,7 +286,7 @@ With other elements (1 interact):
 
 - **Lava:** Lava (1,200 °C) is hot enough to melt stone into lava.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Gravel
 
@@ -278,7 +298,7 @@ Loose rock, a heavy powder. Falls and piles. Forms where lava sets with nothing 
 - **Melts:** at 1,000 °C, into lava
 - **Hardness:** 0.8 (acid stronger than this eats it)
 
-With other elements (12 interact):
+With other elements (13 interact):
 
 - **Water:** Gravel sinks through water (2,000 vs 1,000 kg/m³).
 - **Oil:** Gravel sinks through oil (2,000 vs 900 kg/m³).
@@ -292,8 +312,9 @@ With other elements (12 interact):
 - **Methane:** Gravel falls through methane.
 - **Alcohol:** Gravel sinks through alcohol (2,000 vs 789 kg/m³).
 - **Nitro:** Gravel sinks through nitro (2,000 vs 1,600 kg/m³).
+- **Spark:** Gravel falls through spark.
 
-No direct interaction with: Air, Wall, Sand, Ice, Stone, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Stone, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Fire
 
@@ -302,7 +323,7 @@ Loose flames. Rise and burn out quickly. Light anything flammable they touch; a 
 - **State:** Energy, 0.3 kg/m³
 - **Starts at:** 850 °C
 
-With other elements (21 interact):
+With other elements (24 interact):
 
 - **Sand:** Sand falls through fire.
 - **Water:** Fire (850 °C) is hot enough to boil water into steam. Water falls through fire.
@@ -325,8 +346,11 @@ With other elements (21 interact):
 - **Gunpowder:** Gunpowder explodes when a flame touches it. Gunpowder falls through fire.
 - **Nitro:** Nitro explodes when a flame touches it. Nitro falls through fire.
 - **Shards:** Shards falls through fire.
+- **Mercury:** Mercury falls through fire.
+- **Seed:** Seed catches from the flame touching it. Seed falls through fire.
+- **Plant:** Plant catches from the flame touching it.
 
-No direct interaction with: Air, Wall, Steam, Stone, Smoke, Iron, Oxygen, Glass. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Stone, Smoke, Iron, Oxygen, Glass, Spark, Wire, Battery. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Smoke
 
@@ -336,7 +360,7 @@ What burning leaves behind, a warm gas. Rises and drifts off the top. Does not f
 - **Starts at:** 150 °C
 - **In air:** Rises (lighter than air)
 
-With other elements (17 interact):
+With other elements (19 interact):
 
 - **Sand:** Sand falls through smoke.
 - **Water:** Smoke (150 °C) is hot enough to boil water into steam. Water falls through smoke.
@@ -355,8 +379,10 @@ With other elements (17 interact):
 - **Gunpowder:** Gunpowder falls through smoke.
 - **Nitro:** Nitro falls through smoke.
 - **Shards:** Shards falls through smoke.
+- **Mercury:** Mercury falls through smoke.
+- **Seed:** Seed falls through smoke.
 
-No direct interaction with: Air, Wall, Steam, Stone, Fire, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Stone, Fire, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Wood
 
@@ -366,15 +392,16 @@ A solid fuel. Stays put. Catches fire where it touches air once hot enough, and 
 - **Burns:** from 300 °C in air, 2.5 s per cell, leaves ash
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (5 interact):
+With other elements (6 interact):
 
 - **Air:** Wood burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set wood on fire (it ignites at 300 °C).
 - **Fire:** Wood catches from the flame touching it.
 - **Acid:** Acid eats wood: acidity 0.8 beats hardness 0.3.
 - **Oxygen:** Wood burns: it catches fire at 300 °C next to oxygen (oxidiser 1). Oxygen makes burning wood hotter and faster.
+- **Spark:** Wood catches from the flame touching it.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Ash
 
@@ -385,7 +412,7 @@ A very light powder left by fire. Drifts as it falls. Floats on water.
 - **Falls:** up to 45 cells/s
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (7 interact):
+With other elements (8 interact):
 
 - **Steam:** Ash falls through steam.
 - **Fire:** Ash falls through fire.
@@ -394,8 +421,9 @@ With other elements (7 interact):
 - **Hydrogen:** Ash falls through hydrogen.
 - **Oxygen:** Ash falls through oxygen.
 - **Methane:** Ash falls through methane.
+- **Spark:** Ash falls through spark.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Lava, Stone, Gravel, Wood, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Lava, Stone, Gravel, Wood, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Acid
 
@@ -406,7 +434,7 @@ A corrosive liquid. Flows like water. Eats metal, wood and soft rock and is used
 - **Falls:** up to 160 cells/s
 - **Eats:** metal, rock and wood softer than 0.8, weakening as it fills
 
-With other elements (23 interact):
+With other elements (28 interact):
 
 - **Sand:** Sand sinks through acid (1,600 vs 1,100 kg/m³).
 - **Water:** Acid sinks through water (1,100 vs 1,000 kg/m³).
@@ -431,21 +459,27 @@ With other elements (23 interact):
 - **Gunpowder:** Acid eats gunpowder: acidity 0.8 beats hardness 0.2. Gunpowder sinks through acid (1,700 vs 1,100 kg/m³).
 - **Nitro:** Nitro sinks through acid (1,600 vs 1,100 kg/m³).
 - **Shards:** Shards sinks through acid (2,500 vs 1,100 kg/m³).
+- **Spark:** Acid falls through spark.
+- **Wire:** Acid eats wire: acidity 0.8 beats hardness 0.45, giving off hydrogen.
+- **Battery:** Acid eats battery: acidity 0.8 beats hardness 0.6, giving off hydrogen.
+- **Mercury:** Mercury sinks through acid (13,534 vs 1,100 kg/m³).
+- **Plant:** Acid eats plant: acidity 0.8 beats hardness 0.15.
 
-No direct interaction with: Air, Wall, Ice, Stone, Snow, Glass. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Stone, Snow, Glass, Seed. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Iron
 
 A dense metal. Stays put and moves heat quickly. Acid eats it, giving off hydrogen.
 
 - **State:** Solid, 7,870 kg/m³
+- **Conducts:** electric charge, warming as pulses pass
 - **Hardness:** 0.55 (acid stronger than this eats it)
 
 With other elements (1 interact):
 
 - **Acid:** Acid eats iron: acidity 0.8 beats hardness 0.55, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Hydrogen
 
@@ -455,7 +489,7 @@ The lightest gas. Shoots upwards. Burns in a flash into steam when hot and touch
 - **In air:** Rises (lighter than air)
 - **Burns:** from 500 °C in air, 0.1 s per cell, leaves steam
 
-With other elements (19 interact):
+With other elements (22 interact):
 
 - **Air:** Hydrogen burns: it catches fire at 500 °C next to air (oxidiser 0.21).
 - **Sand:** Sand falls through hydrogen.
@@ -476,8 +510,11 @@ With other elements (19 interact):
 - **Gunpowder:** Gunpowder falls through hydrogen.
 - **Nitro:** Nitro falls through hydrogen.
 - **Shards:** Shards falls through hydrogen.
+- **Spark:** Hydrogen catches from the flame touching it.
+- **Mercury:** Mercury falls through hydrogen.
+- **Seed:** Seed falls through hydrogen.
 
-No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Methane, TNT, Glass. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Methane, TNT, Glass, Wire, Battery, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Oxygen
 
@@ -487,7 +524,7 @@ A gas slightly heavier than air. Sinks and pools low. Makes fire burn hotter and
 - **In air:** Sinks slowly (heavier than air)
 - **Feeds fire:** strength 1 (air is 0.21)
 
-With other elements (20 interact):
+With other elements (23 interact):
 
 - **Sand:** Sand falls through oxygen.
 - **Water:** Water falls through oxygen.
@@ -509,8 +546,11 @@ With other elements (20 interact):
 - **Gunpowder:** Oxygen makes burning gunpowder hotter and faster. Gunpowder explodes at 250 °C; it needs no air. Gunpowder falls through oxygen.
 - **Nitro:** Oxygen makes burning nitro hotter and faster. Nitro explodes at 200 °C; it needs no air. Nitro falls through oxygen.
 - **Shards:** Shards falls through oxygen.
+- **Mercury:** Mercury falls through oxygen.
+- **Seed:** Oxygen makes burning seed hotter and faster. Seed burns: it catches fire at 250 °C next to oxygen (oxidiser 1). Seed falls through oxygen.
+- **Plant:** Oxygen makes burning plant hotter and faster. Plant burns: it catches fire at 250 °C next to oxygen (oxidiser 1).
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Iron, Glass. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Iron, Glass, Spark, Wire, Battery. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Methane
 
@@ -520,7 +560,7 @@ Natural gas, lighter than air. Rises. Burns hot into steam when it meets heat an
 - **In air:** Rises (lighter than air)
 - **Burns:** from 540 °C in air, 0.17 s per cell, leaves steam
 
-With other elements (19 interact):
+With other elements (22 interact):
 
 - **Air:** Methane burns: it catches fire at 540 °C next to air (oxidiser 0.21).
 - **Sand:** Sand falls through methane.
@@ -541,8 +581,11 @@ With other elements (19 interact):
 - **Gunpowder:** Gunpowder falls through methane.
 - **Nitro:** Nitro falls through methane.
 - **Shards:** Shards falls through methane.
+- **Spark:** Methane catches from the flame touching it.
+- **Mercury:** Mercury falls through methane.
+- **Seed:** Seed falls through methane.
 
-No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, TNT, Glass. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, TNT, Glass, Wire, Battery, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Alcohol
 
@@ -553,7 +596,7 @@ A thin, light liquid. Floats on water. Catches fire easily and burns clean into 
 - **Falls:** up to 165 cells/s
 - **Burns:** from 365 °C in air, 2 s per cell, leaves steam
 
-With other elements (19 interact):
+With other elements (21 interact):
 
 - **Air:** Alcohol burns: it catches fire at 365 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through alcohol (1,600 vs 789 kg/m³).
@@ -574,8 +617,10 @@ With other elements (19 interact):
 - **Gunpowder:** Gunpowder sinks through alcohol (1,700 vs 789 kg/m³).
 - **Nitro:** Nitro sinks through alcohol (1,600 vs 789 kg/m³).
 - **Shards:** Shards sinks through alcohol (2,500 vs 789 kg/m³).
+- **Spark:** Alcohol catches from the flame touching it. Alcohol falls through spark.
+- **Mercury:** Mercury sinks through alcohol (13,534 vs 789 kg/m³).
 
-No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sawdust
 
@@ -588,7 +633,7 @@ Fine wood dust, a very light powder. Drifts and floats on water. Catches fire ea
 - **Soaks up:** water, up to 60% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (10 interact):
+With other elements (11 interact):
 
 - **Air:** Sawdust burns: it catches fire at 260 °C next to air (oxidiser 0.21).
 - **Water:** Sawdust soaks up water: it is porous and holds up to 60% water.
@@ -600,8 +645,9 @@ With other elements (10 interact):
 - **Hydrogen:** Sawdust falls through hydrogen.
 - **Oxygen:** Sawdust burns: it catches fire at 260 °C next to oxygen (oxidiser 1). Sawdust falls through oxygen. Oxygen makes burning sawdust hotter and faster.
 - **Methane:** Sawdust falls through methane.
+- **Spark:** Sawdust catches from the flame touching it. Sawdust falls through spark.
 
-No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Alcohol, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Alcohol, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Salt
 
@@ -612,7 +658,7 @@ White crystals, a powder. Falls and piles. Dissolves into water, making it heavi
 - **Falls:** up to 160 cells/s
 - **Dissolves in:** water, up to 40% of a cell; boiling leaves it as crystals
 
-With other elements (11 interact):
+With other elements (12 interact):
 
 - **Water:** Salt dissolves into water: water is a solvent and each cell holds up to 40% salt. Salt sinks through water (2,160 vs 1,000 kg/m³).
 - **Oil:** Salt sinks through oil (2,160 vs 900 kg/m³).
@@ -625,8 +671,9 @@ With other elements (11 interact):
 - **Methane:** Salt falls through methane.
 - **Alcohol:** Salt sinks through alcohol (2,160 vs 789 kg/m³).
 - **Nitro:** Salt sinks through nitro (2,160 vs 1,600 kg/m³).
+- **Spark:** Salt falls through spark.
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sugar
 
@@ -639,7 +686,7 @@ Sweet crystals, a powder. Falls and piles. Dissolves into water even more than s
 - **Dissolves in:** water, up to 70% of a cell; boiling leaves it as crystals
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (12 interact):
+With other elements (13 interact):
 
 - **Air:** Sugar burns: it catches fire at 350 °C next to air (oxidiser 0.21).
 - **Water:** Sugar dissolves into water: water is a solvent and each cell holds up to 70% sugar. Sugar sinks through water (1,590 vs 1,000 kg/m³).
@@ -653,8 +700,9 @@ With other elements (12 interact):
 - **Oxygen:** Sugar burns: it catches fire at 350 °C next to oxygen (oxidiser 1). Sugar falls through oxygen. Oxygen makes burning sugar hotter and faster.
 - **Methane:** Sugar falls through methane.
 - **Alcohol:** Sugar sinks through alcohol (1,590 vs 789 kg/m³).
+- **Spark:** Sugar catches from the flame touching it. Sugar falls through spark.
 
-No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Dirt
 
@@ -666,7 +714,7 @@ Earth, a heavy powder. Falls and piles. Soaks up a lot of water and turns into d
 - **Soaks up:** water, up to 50% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (10 interact):
+With other elements (11 interact):
 
 - **Water:** Dirt soaks up water: it is porous and holds up to 50% water. Dirt sinks through water (1,500 vs 1,000 kg/m³).
 - **Oil:** Dirt sinks through oil (1,500 vs 900 kg/m³).
@@ -678,8 +726,9 @@ With other elements (10 interact):
 - **Oxygen:** Dirt falls through oxygen.
 - **Methane:** Dirt falls through methane.
 - **Alcohol:** Dirt sinks through alcohol (1,500 vs 789 kg/m³).
+- **Spark:** Dirt falls through spark.
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Snow, TNT, Gunpowder, Nitro, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Snow
 
@@ -691,7 +740,7 @@ Loose frozen flakes, a very light powder. Drifts down and settles in soft piles.
 - **Falls:** up to 35 cells/s
 - **Melts:** at 0 °C, into water
 
-With other elements (8 interact):
+With other elements (9 interact):
 
 - **Water:** Snow (-5 °C) is cold enough to freeze water into ice.
 - **Steam:** Snow falls through steam. Snow (-5 °C) is cold enough to condense steam into water. Steam (150 °C) is hot enough to melt snow into water.
@@ -701,8 +750,9 @@ With other elements (8 interact):
 - **Hydrogen:** Snow falls through hydrogen.
 - **Oxygen:** Snow falls through oxygen.
 - **Methane:** Snow falls through methane.
+- **Spark:** Snow falls through spark. Spark (300 °C) is hot enough to melt snow into water.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Nitro, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### TNT
 
@@ -712,15 +762,16 @@ A packed explosive block. Stays put. Heat or a flame sets it off: the whole bloc
 - **Explodes:** from 300 °C or a flame; blast radius 7 cells
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (5 interact):
+With other elements (6 interact):
 
 - **Air:** TNT explodes at 300 °C; it needs no air.
 - **Lava:** Lava (1,200 °C) can set tnt on fire (it ignites at 300 °C).
 - **Fire:** TNT explodes when a flame touches it.
 - **Acid:** Acid eats tnt: acidity 0.8 beats hardness 0.3.
 - **Oxygen:** TNT explodes at 300 °C; it needs no air. Oxygen makes burning tnt hotter and faster.
+- **Spark:** TNT explodes when a flame touches it.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, Gunpowder, Nitro, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Gunpowder
 
@@ -732,7 +783,7 @@ A dark explosive powder. Falls and piles. Lit, it goes off grain by grain in qui
 - **Explodes:** from 250 °C or a flame; blast radius 2 cells
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (13 interact):
+With other elements (14 interact):
 
 - **Air:** Gunpowder explodes at 250 °C; it needs no air.
 - **Water:** Gunpowder sinks through water (1,700 vs 1,000 kg/m³).
@@ -747,8 +798,9 @@ With other elements (13 interact):
 - **Methane:** Gunpowder falls through methane.
 - **Alcohol:** Gunpowder sinks through alcohol (1,700 vs 789 kg/m³).
 - **Nitro:** Gunpowder sinks through nitro (1,700 vs 1,600 kg/m³).
+- **Spark:** Gunpowder explodes when a flame touches it. Gunpowder falls through spark.
 
-No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Glass, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Glass, Shards, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Nitro
 
@@ -759,7 +811,7 @@ An oily explosive liquid. Flows slowly. Goes off when heated, lit, or dropped ha
 - **Falls:** up to 160 cells/s
 - **Explodes:** from 200 °C or a flame, or when it lands hard; blast radius 6 cells
 
-With other elements (16 interact):
+With other elements (18 interact):
 
 - **Air:** Nitro explodes at 200 °C; it needs no air.
 - **Water:** Nitro sinks through water (1,600 vs 1,000 kg/m³).
@@ -777,8 +829,10 @@ With other elements (16 interact):
 - **Salt:** Salt sinks through nitro (2,160 vs 1,600 kg/m³).
 - **Gunpowder:** Gunpowder sinks through nitro (1,700 vs 1,600 kg/m³).
 - **Shards:** Shards sinks through nitro (2,500 vs 1,600 kg/m³).
+- **Spark:** Nitro explodes when a flame touches it. Nitro falls through spark.
+- **Mercury:** Mercury sinks through nitro (13,534 vs 1,600 kg/m³).
 
-No direct interaction with: Wall, Sand, Ice, Stone, Wood, Ash, Iron, Sawdust, Sugar, Dirt, Snow, TNT, Glass. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Wood, Ash, Iron, Sawdust, Sugar, Dirt, Snow, TNT, Glass, Wire, Battery, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Glass
 
@@ -791,7 +845,7 @@ A clear, brittle solid. Stays put and lets you see through it. Shatters into sha
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Shards. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Shards, Spark, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Shards
 
@@ -802,7 +856,7 @@ Broken glass, a sharp powder. Falls and piles in glittering heaps.
 - **Falls:** up to 170 cells/s
 - **Hardness:** 0.9 (acid stronger than this eats it)
 
-With other elements (11 interact):
+With other elements (12 interact):
 
 - **Water:** Shards sinks through water (2,500 vs 1,000 kg/m³).
 - **Oil:** Shards sinks through oil (2,500 vs 900 kg/m³).
@@ -815,5 +869,142 @@ With other elements (11 interact):
 - **Methane:** Shards falls through methane.
 - **Alcohol:** Shards sinks through alcohol (2,500 vs 789 kg/m³).
 - **Nitro:** Shards sinks through nitro (2,500 vs 1,600 kg/m³).
+- **Spark:** Shards falls through spark.
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Wire, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Spark
+
+A flash of electric charge. Jumps into any conductor it touches and runs along it; on its own it fades at once.
+
+- **State:** Energy, 0.1 kg/m³
+- **Starts at:** 300 °C
+
+With other elements (24 interact):
+
+- **Sand:** Sand falls through spark.
+- **Water:** Spark (300 °C) is hot enough to boil water into steam. Water falls through spark.
+- **Oil:** Oil catches from the flame touching it. Oil falls through spark.
+- **Ice:** Spark (300 °C) is hot enough to melt ice into water.
+- **Lava:** Lava falls through spark.
+- **Gravel:** Gravel falls through spark.
+- **Wood:** Wood catches from the flame touching it.
+- **Ash:** Ash falls through spark.
+- **Acid:** Acid falls through spark.
+- **Hydrogen:** Hydrogen catches from the flame touching it.
+- **Methane:** Methane catches from the flame touching it.
+- **Alcohol:** Alcohol catches from the flame touching it. Alcohol falls through spark.
+- **Sawdust:** Sawdust catches from the flame touching it. Sawdust falls through spark.
+- **Salt:** Salt falls through spark.
+- **Sugar:** Sugar catches from the flame touching it. Sugar falls through spark.
+- **Dirt:** Dirt falls through spark.
+- **Snow:** Spark (300 °C) is hot enough to melt snow into water. Snow falls through spark.
+- **TNT:** TNT explodes when a flame touches it.
+- **Gunpowder:** Gunpowder explodes when a flame touches it. Gunpowder falls through spark.
+- **Nitro:** Nitro explodes when a flame touches it. Nitro falls through spark.
+- **Shards:** Shards falls through spark.
+- **Mercury:** Mercury falls through spark.
+- **Seed:** Seed catches from the flame touching it. Seed falls through spark.
+- **Plant:** Plant catches from the flame touching it.
+
+No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Wire, Battery. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Wire
+
+Thin copper. Stays put and carries charge from end to end, warming as current runs through it.
+
+- **State:** Solid, 8,960 kg/m³
+- **Melts:** at 1,085 °C, into lava
+- **Conducts:** electric charge, warming as pulses pass
+- **Hardness:** 0.45 (acid stronger than this eats it)
+
+With other elements (2 interact):
+
+- **Lava:** Lava (1,200 °C) is hot enough to melt wire into lava.
+- **Acid:** Acid eats wire: acidity 0.8 beats hardness 0.45, giving off hydrogen.
+
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Battery, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Battery
+
+A power source. Stays put and sends a pulse of charge into any conductor touching it, about four times a second.
+
+- **State:** Solid, 2,500 kg/m³
+- **Powers:** touching conductors with a pulse every 0.25 s
+- **Hardness:** 0.6 (acid stronger than this eats it)
+
+With other elements (1 interact):
+
+- **Acid:** Acid eats battery: acidity 0.8 beats hardness 0.6, giving off hydrogen.
+
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Mercury, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Mercury
+
+A liquid metal, very heavy. Flows and sinks through almost everything. Carries charge like a wire.
+
+- **State:** Liquid, 13,534 kg/m³
+- **In liquids:** Sinks through liquids lighter than 13,534 kg/m³
+- **Falls:** up to 170 cells/s
+- **Conducts:** electric charge, warming as pulses pass
+
+With other elements (13 interact):
+
+- **Water:** Mercury sinks through water (13,534 vs 1,000 kg/m³).
+- **Oil:** Mercury sinks through oil (13,534 vs 900 kg/m³).
+- **Steam:** Mercury falls through steam.
+- **Lava:** Mercury sinks through lava (13,534 vs 2,600 kg/m³).
+- **Fire:** Mercury falls through fire.
+- **Smoke:** Mercury falls through smoke.
+- **Acid:** Mercury sinks through acid (13,534 vs 1,100 kg/m³).
+- **Hydrogen:** Mercury falls through hydrogen.
+- **Oxygen:** Mercury falls through oxygen.
+- **Methane:** Mercury falls through methane.
+- **Alcohol:** Mercury sinks through alcohol (13,534 vs 789 kg/m³).
+- **Nitro:** Mercury sinks through nitro (13,534 vs 1,600 kg/m³).
+- **Spark:** Mercury falls through spark.
+
+No direct interaction with: Air, Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Seed, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Seed
+
+A small seed, a light powder. Falls and rests. On wet dirt with open sky above it sprouts and grows into a plant.
+
+- **State:** Powder, 700 kg/m³
+- **In liquids:** Rests on heavier ones
+- **Falls:** up to 140 cells/s
+- **Burns:** from 250 °C in air, 1 s per cell, leaves ash
+- **Grows:** into a plant on wet dirt with open sky above
+
+With other elements (9 interact):
+
+- **Air:** Seed burns: it catches fire at 250 °C next to air (oxidiser 0.21).
+- **Steam:** Seed falls through steam.
+- **Lava:** Lava (1,200 °C) can set seed on fire (it ignites at 250 °C).
+- **Fire:** Seed catches from the flame touching it. Seed falls through fire.
+- **Smoke:** Seed falls through smoke.
+- **Hydrogen:** Seed falls through hydrogen.
+- **Oxygen:** Seed burns: it catches fire at 250 °C next to oxygen (oxidiser 1). Seed falls through oxygen. Oxygen makes burning seed hotter and faster.
+- **Methane:** Seed falls through methane.
+- **Spark:** Seed catches from the flame touching it. Seed falls through spark.
+
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Plant. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Plant
+
+A living green stem. Grows upwards towards open sky, drinking water from the dirt below. Burns, and acid eats it.
+
+- **State:** Solid, 900 kg/m³
+- **Burns:** from 250 °C in air, 1.5 s per cell, leaves ash
+- **Hardness:** 0.15 (acid stronger than this eats it)
+
+With other elements (6 interact):
+
+- **Air:** Plant burns: it catches fire at 250 °C next to air (oxidiser 0.21).
+- **Lava:** Lava (1,200 °C) can set plant on fire (it ignites at 250 °C).
+- **Fire:** Plant catches from the flame touching it.
+- **Acid:** Acid eats plant: acidity 0.8 beats hardness 0.15.
+- **Oxygen:** Plant burns: it catches fire at 250 °C next to oxygen (oxidiser 1). Oxygen makes burning plant hotter and faster.
+- **Spark:** Plant catches from the flame touching it.
+
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed. They still exchange heat by touch, and the heavier one ends up below when they can move.

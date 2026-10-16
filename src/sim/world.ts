@@ -31,6 +31,8 @@ export class World {
   solute: Uint16Array;
   /** How much of the solute, 0..255. */
   conc: Uint8Array;
+  /** Electric charge: a pulse counts down from CHARGE_PEAK; while above 0 the cell cannot be recharged. */
+  charge: Uint8Array;
 
   /** Chunk grid size, in chunks of CHUNK × CHUNK cells. */
   cw: number;
@@ -59,6 +61,7 @@ export class World {
     this.life = new Uint16Array(this.size);
     this.solute = new Uint16Array(this.size);
     this.conc = new Uint8Array(this.size);
+    this.charge = new Uint8Array(this.size);
     this.cw = Math.ceil(w / CHUNK);
     this.ch = Math.ceil(h / CHUNK);
     this.awake = new Uint8Array(this.cw * this.ch);
@@ -86,6 +89,7 @@ export class World {
       life: this.life,
       solute: this.solute,
       conc: this.conc,
+      charge: this.charge,
     };
     this.w = w;
     this.h = h;
@@ -98,6 +102,7 @@ export class World {
     this.life = new Uint16Array(this.size);
     this.solute = new Uint16Array(this.size);
     this.conc = new Uint8Array(this.size);
+    this.charge = new Uint8Array(this.size);
     const dy = h - old.h;
     const cols = Math.min(w, old.w);
     for (let y = 0; y < h; y++) {
@@ -113,6 +118,7 @@ export class World {
       this.life.set(old.life.subarray(src, src + cols), dst);
       this.solute.set(old.solute.subarray(src, src + cols), dst);
       this.conc.set(old.conc.subarray(src, src + cols), dst);
+      this.charge.set(old.charge.subarray(src, src + cols), dst);
     }
     this.cw = Math.ceil(w / CHUNK);
     this.ch = Math.ceil(h / CHUNK);
@@ -129,6 +135,7 @@ export class World {
     this.life.reverse();
     this.solute.reverse();
     this.conc.reverse();
+    this.charge.reverse();
     this.stamp.fill(0);
     this.vy.fill(0);
     this.air.clear();
@@ -145,6 +152,7 @@ export class World {
     this.life.fill(0);
     this.solute.fill(0);
     this.conc.fill(0);
+    this.charge.fill(0);
     this.air.clear();
     this.wakeAll();
   }
@@ -159,6 +167,7 @@ export class World {
     this.life.fill(0);
     this.solute.fill(0);
     this.conc.fill(0);
+    this.charge.fill(0);
     this.awake.fill(0);
     this.awakeNext.fill(1);
     this.air.clear();
@@ -211,7 +220,7 @@ export class World {
 
   /** Swaps every field of cells i and j (movement never creates or destroys). */
   swapCells(i: number, j: number): void {
-    const { type, vy, stamp, shade, temp, life, solute, conc } = this;
+    const { type, vy, stamp, shade, temp, life, solute, conc, charge } = this;
     let v: number = type[i];
     type[i] = type[j];
     type[j] = v;
@@ -236,6 +245,9 @@ export class World {
     v = conc[i];
     conc[i] = conc[j];
     conc[j] = v;
+    v = charge[i];
+    charge[i] = charge[j];
+    charge[j] = v;
   }
 
   /** Places a new cell of element `t` at index i, replacing what was there, and wakes it. */
@@ -248,6 +260,7 @@ export class World {
     this.life[i] = LIFE_OF[t];
     this.solute[i] = 0;
     this.conc[i] = 0;
+    this.charge[i] = 0;
     this.wake(i % this.w, (i / this.w) | 0);
   }
 
@@ -269,7 +282,7 @@ export class World {
 
   /** FNV-1a hash of every cell's type, shade, speed, temperature bits, life and solute, as 8 hex digits. */
   hash(): string {
-    const { type, shade, vy, life, solute, conc } = this;
+    const { type, shade, vy, life, solute, conc, charge } = this;
     const tbits = new Uint32Array(this.temp.buffer, this.temp.byteOffset, this.size);
     let hsh = 0x811c9dc5;
     for (let i = 0; i < this.size; i++) {
@@ -282,6 +295,7 @@ export class World {
       hsh = Math.imul(hsh ^ life[i], 0x01000193);
       hsh = Math.imul(hsh ^ solute[i], 0x01000193);
       hsh = Math.imul(hsh ^ conc[i], 0x01000193);
+      hsh = Math.imul(hsh ^ charge[i], 0x01000193);
     }
     return (hsh >>> 0).toString(16).padStart(8, '0');
   }

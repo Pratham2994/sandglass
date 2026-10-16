@@ -2,6 +2,15 @@ import { HAS_REACTION, KEEP, P_GAS, P_MIN_T, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R
 import {
   BLAST_POWER_OF,
   BUOY_DIR_OF,
+  DIRT,
+  ELECTRIC_OF,
+  HYDROGEN,
+  OXYGEN,
+  PLANT,
+  POWER_EVERY_OF,
+  SALT,
+  SEED,
+  SPARK,
   CONC_UNIT,
   IMPACT_VY_OF,
   POROUS_MAX_OF,
@@ -100,11 +109,142 @@ function updateCell(world: World, x: number, y: number, st: number): void {
   const t = world.type[i];
   const ph = PHASE_OF[t];
   if (ph === 0 || world.stamp[i] === st) return;
+  // Electricity and life first: they act in place.
+  if (t === SPARK) {
+    updateSpark(world, x, y, i, st);
+    return;
+  }
+  if (POWER_EVERY_OF[t] !== 0) powerSource(world, x, y, t);
+  if (world.charge[i] !== 0) updateCharge(world, x, y, i, st);
+  if (t === PLANT && world.life[i] !== 0) grow(world, x, y, i);
+  else if (t === SEED && world.vy[i] === 0) sprout(world, x, y, i);
+  if (world.type[i] !== t) return;
   // One pair-table lookup with a random neighbour; a cell that reacted does not also move.
   if (HAS_REACTION[t] !== 0 && react(world, x, y, i, st)) return;
   if (ph === PH_POWDER || ph === PH_LIQUID) updateMover(world, x, y, i, st, ph === PH_LIQUID);
   else if (ph === PH_GAS) updateGas(world, x, y, i, st);
   else if (ph === PH_ENERGY) updateFire(world, x, y, i, st);
+}
+
+// ---- Electricity ----------------------------------------------------------------
+
+/** A pulse lasts this many frames in a cell; it passes on only at the peak, then the cell rests. */
+const CHARGE_PEAK = 4;
+/** °C a pulse warms the cell it runs through. */
+const CHARGE_HEAT = 4;
+/** Salt (concentration 0..255) water needs to carry charge. */
+const SALT_TO_CONDUCT = 8;
+
+/** True if cell j can take a new charge now: a conductor (or salty water) at rest. */
+function canCharge(world: World, j: number): boolean {
+  if (world.charge[j] !== 0) return false;
+  const t = world.type[j];
+  if (ELECTRIC_OF[t] !== 0) return true;
+  return SOLVENT_OF[t] !== 0 && world.solute[j] === SALT && world.conc[j] >= SALT_TO_CONDUCT;
+}
+
+/**
+ * What a pulse does to the cells touching (x, y): charges conductors at rest
+ * (stamped so they pass it on next frame, not again this one), sets off
+ * explosives and heats anything flammable enough to light it.
+ */
+function zap(world: World, x: number, y: number, st: number): void {
+  for (let d = 0; d < 4; d++) {
+    const j = neighbour(world, x, y, d);
+    if (j < 0) continue;
+    if (canCharge(world, j)) {
+      world.charge[j] = CHARGE_PEAK + 1;
+      world.stamp[j] = st;
+      world.wake(j % world.w, (j / world.w) | 0);
+      continue;
+    }
+    const tj = world.type[j];
+    if (BLAST_POWER_OF[tj] > 0) explode(world, j % world.w, (j / world.w) | 0);
+    else if (IGNITION_OF[tj] !== Infinity) world.temp[j] += 350;
+  }
+}
+
+/** A charged cell: at the peak it passes the pulse on; every frame it warms; salty water splits. */
+function updateCharge(world: World, x: number, y: number, i: number, st: number): void {
+  const c = world.charge[i];
+  if (c === CHARGE_PEAK) {
+    zap(world, x, y, st);
+    world.temp[i] += CHARGE_HEAT;
+    // Electrolysis: current through salty water splits it into hydrogen or oxygen.
+    if (SOLVENT_OF[world.type[i]] !== 0 && (world.rng.nextU32() & 7) === 0) {
+      const T = world.temp[i];
+      world.place(i, world.rng.nextU32() & 1 ? HYDROGEN : OXYGEN);
+      world.temp[i] = T;
+    }
+  }
+  world.charge[i] = c - 1;
+  world.wake(x, y);
+}
+
+/** A spark lives a moment: it jumps into whatever conductor it touches, or fades. */
+function updateSpark(world: World, x: number, y: number, i: number, st: number): void {
+  world.wake(x, y);
+  for (let d = 0; d < 4; d++) {
+    const j = neighbour(world, x, y, d);
+    if (j >= 0 && canCharge(world, j)) {
+      zap(world, x, y, st);
+      world.place(i, EMPTY);
+      return;
+    }
+  }
+  if (--world.life[i] === 0) world.place(i, EMPTY);
+}
+
+/** A power source pulses its touching conductors every few frames. */
+function powerSource(world: World, x: number, y: number, t: number): void {
+  world.wake(x, y);
+  if (world.frame % POWER_EVERY_OF[t] === 0) zap(world, x, y, world.currentStamp());
+}
+
+// ---- Life -------------------------------------------------------------------------
+
+/** Frames a seed needs on wet dirt, on average, before it sprouts. */
+const SPROUT_EVERY = 45;
+/** Cells above a growing tip that must be open sky for it to grow. */
+const SKY = 24;
+
+/** True if the column above (x, y) is open to the sky (only air, gas or plant for SKY cells). */
+function openSky(world: World, x: number, y: number): boolean {
+  for (let k = 1; k <= SKY && y - k >= 0; k++) {
+    const t = world.type[(y - k) * world.w + x];
+    if (t !== EMPTY && t !== PLANT && PHASE_OF[t] !== PH_GAS) return false;
+  }
+  return true;
+}
+
+/** A seed on wet dirt with sky above sprouts: it becomes a plant with a growth budget, drinking from the dirt. */
+function sprout(world: World, x: number, y: number, i: number): void {
+  if (y + 1 >= world.h) return;
+  const below = i + world.w;
+  if (world.type[below] !== DIRT || world.conc[below] === 0 || world.solute[below] !== WATER) return;
+  world.wake(x, y);
+  if (world.rng.nextU32() % SPROUT_EVERY !== 0 || !openSky(world, x, y)) return;
+  world.conc[below] = world.conc[below] > 24 ? world.conc[below] - 24 : 0;
+  if (world.conc[below] === 0) world.solute[below] = 0;
+  world.type[i] = PLANT;
+  world.life[i] = 18 + (world.rng.nextU32() % 24);
+}
+
+/** A growing tip adds a cell above (sometimes a side shoot) while it has budget and sky. */
+function grow(world: World, x: number, y: number, i: number): void {
+  world.wake(x, y);
+  const r = world.rng.nextU32();
+  if ((r & 15) !== 0 || y === 0) return;
+  const budget = world.life[i];
+  if (!openSky(world, x, y)) return;
+  const up = i - world.w;
+  // Usually straight up; now and then a slanted shoot to one side.
+  const side = (r >>> 4) % 5 === 0 ? ((r >>> 8) & 1 ? 1 : -1) : 0;
+  const j = side !== 0 && x + side >= 0 && x + side < world.w ? up + side : up;
+  if (world.type[j] !== EMPTY) return;
+  world.place(j, PLANT);
+  world.life[j] = budget - 1;
+  world.life[i] = side !== 0 && budget > 6 ? budget >> 1 : 0;
 }
 
 /** Index of the neighbour of (x, y) in direction d (0 up, 1 right, 2 down, 3 left), or -1 off the grid. */

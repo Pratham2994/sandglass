@@ -1,6 +1,6 @@
 import { P_MIN_T, P_RULE, explain } from './chem';
 import { downChange, upChange } from './describe';
-import { ELEMENTS, ELEMENT_COUNT, EMPTY, FIRE, FUEL_OF, OXIDISER_OF, SOLVENT_OF, VY_UNIT } from './elements';
+import { ELEMENTS, ELEMENT_COUNT, EMPTY, FIRE, FUEL_OF, OXIDISER_OF, PLANT as PLANT_ID, SOLVENT_OF, VY_UNIT } from './elements';
 import type { World } from './world';
 
 export interface Reaction {
@@ -100,6 +100,8 @@ export function inspectCell(world: World, x: number, y: number): CellReport | nu
   } else if (cn !== 0 && so !== 0) {
     name = e.phase === 'liquid' ? `${e.name} with ${ELEMENTS[so].name.toLowerCase()}` : `Wet ${e.name.toLowerCase()}`;
   }
+  if (world.charge[i] !== 0) facts.push(['Charge', 'a pulse of current is passing through it']);
+  if (t === PLANT_ID && world.life[i] !== 0) facts.push(['Growing', `${world.life[i]} more cells while it has open sky`]);
   const vy = world.vy[i];
   if (vy > 0) {
     state = 'Falling';

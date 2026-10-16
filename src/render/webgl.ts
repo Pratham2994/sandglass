@@ -28,6 +28,7 @@ uniform usampler2D uStone;
 uniform usampler2D uTex;
 uniform usampler2D uSolute;
 uniform usampler2D uConc;
+uniform usampler2D uCharge;
 uniform sampler2D uTemp;
 uniform sampler2D uPal;
 uniform sampler2D uGlow;
@@ -153,6 +154,13 @@ void main() {
     float f = float(cn) / 255.0;
     if (tex == TEX_LIQUID) c = mix(c, pal(texelFetch(uSolute, p, 0).r, 128u), f * 0.45);
     else c *= 1.0 - min(0.6, f * 1.6);
+  }
+  // Electric charge: the cell flashes blue-white and lights its surroundings.
+  uint ch = texelFetch(uCharge, p, 0).r;
+  if (ch > 0u) {
+    float k = float(ch) / 5.0;
+    c = mix(c, vec3(0.78, 0.88, 1.0), 0.5 + 0.4 * k);
+    oEmit = vec4(vec3(0.45, 0.6, 1.0) * k, 1.0);
   }
   // Black-body glow from the real temperature; the shade adds a little texture.
   float T = texelFetch(uTemp, p, 0).r + (float(shade) - 128.0) * 0.5;
@@ -290,7 +298,7 @@ export class WebGLRenderer implements Renderer {
   private readonly comp: WebGLProgram;
   private readonly vao: WebGLVertexArrayObject;
   private readonly floatTargets: boolean;
-  private readonly dataTex: Record<'type' | 'shade' | 'stamp' | 'stone' | 'temp' | 'awake' | 'solute' | 'conc', WebGLTexture>;
+  private readonly dataTex: Record<'type' | 'shade' | 'stamp' | 'stone' | 'temp' | 'awake' | 'solute' | 'conc' | 'charge', WebGLTexture>;
   private readonly palTex: WebGLTexture;
   private readonly glowTex: WebGLTexture;
   private readonly texTex: WebGLTexture;
@@ -328,6 +336,7 @@ export class WebGLRenderer implements Renderer {
       awake: this.texture(),
       solute: this.texture(),
       conc: this.texture(),
+      charge: this.texture(),
     };
 
     // Palette: one row per element, 256 shades, plain light level.
@@ -382,6 +391,8 @@ export class WebGLRenderer implements Renderer {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_SHORT, null);
     gl.bindTexture(gl.TEXTURE_2D, this.dataTex.conc);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.charge);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
 
     // Scene targets at cell resolution: colour and emission.
     this.sceneTex = this.target(w, h, gl.RGBA8, gl.NEAREST);
@@ -420,6 +431,8 @@ export class WebGLRenderer implements Renderer {
     gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_SHORT, world.solute);
     gl.bindTexture(gl.TEXTURE_2D, this.dataTex.conc);
     gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.conc);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.charge);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.charge);
     if (this.showChunks) {
       gl.bindTexture(gl.TEXTURE_2D, this.dataTex.awake);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, world.cw, world.ch, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.awake);
@@ -440,6 +453,7 @@ export class WebGLRenderer implements Renderer {
     this.bind(this.scene, 'uGlow', this.glowTex, 7);
     this.bind(this.scene, 'uSolute', this.dataTex.solute, 8);
     this.bind(this.scene, 'uConc', this.dataTex.conc, 9);
+    this.bind(this.scene, 'uCharge', this.dataTex.charge, 10);
     gl.uniform2i(gl.getUniformLocation(this.scene, 'uSize'), w, h);
     gl.uniform1i(gl.getUniformLocation(this.scene, 'uMoved'), world.frame === 0 ? -1 : 1 + ((world.frame - 1) % 255));
     gl.uniform1i(gl.getUniformLocation(this.scene, 'uFrame'), world.frame);

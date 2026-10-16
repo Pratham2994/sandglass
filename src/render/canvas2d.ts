@@ -240,6 +240,8 @@ export class Canvas2DRenderer implements Renderer {
           else c = blend(c, 0xff000000, Math.min(154, (cn * 410) >> 8));
         }
         // Black-body glow from the cell's real temperature.
+        // Electric charge flashes blue-white.
+        if (world.charge[i] !== 0) c = blend(c, 0xffffe0c8, 150 + world.charge[i] * 20);
         // The shade nudges the glow temperature a little, so hot masses have texture.
         const T = temp[i] + (shade[i] - 128) * 0.5;
         if (T > GLOW_MIN) {
