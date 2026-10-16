@@ -112,6 +112,7 @@ export function elementFacts(id: number): [string, string][] {
     if (foods.length) out.push(['Eats', `${foods.join(', ')}; fed, it breeds`]);
     out.push(['Dies', `of heat over 55 °C or cold below −5 °C, into ${nameOf(e.creature.diesInto)}`]);
   }
+  if (e.waterLoss !== undefined && e.waterLoss < 1) out.push(['Thrifty', 'loses water very slowly, so it outlasts a drought']);
   if (e.witherInto) out.push(['Lives', `on water drawn from damp soil; dried out, it withers into ${ELEMENTS.find((x) => x.key === e.witherInto)!.name.toLowerCase()}`]);
   if (e.brittle) out.push(['Shatters', `into ${e.breaksInto ?? 'pieces'} when a blast hits it`]);
   if ((e.oxidiser ?? 0) > 0 && id !== EMPTY) out.push(['Feeds fire', `strength ${num.format(e.oxidiser ?? 0)} (air is 0.21)`]);
