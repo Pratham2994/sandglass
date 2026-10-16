@@ -42,6 +42,12 @@ import {
   LEAF_INTO_OF,
   RAIN_COLD_OF,
   DIES_INTO_OF,
+  BOLT_OF,
+  BURSTS_INTO_OF,
+  LAUNCHES_AS_OF,
+  LIGHTNING_FROM_OF,
+  SINKS_OF,
+  LIGHTNING,
   EATS,
   HABITAT_OF,
   RAIN_INTO_OF,
@@ -133,6 +139,14 @@ function updateCell(world: World, x: number, y: number, st: number): void {
   // Electricity and life first: they act in place.
   if (t === SPARK) {
     updateSpark(world, x, y, i, st);
+    return;
+  }
+  if (BOLT_OF[t] !== 0) {
+    strike(world, x, y, i, t);
+    return;
+  }
+  if (BURSTS_INTO_OF[t] !== 0) {
+    rocket(world, x, y, i, t, st);
     return;
   }
   if (POWER_EVERY_OF[t] !== 0) powerSource(world, x, y, t);
@@ -277,11 +291,102 @@ function rain(world: World, x: number, y: number, i: number, t: number): void {
   if ((r & 63) !== 0 || y + 1 >= world.h) return;
   const below = i + world.w;
   if (world.type[below] !== EMPTY) return;
+  // Now and then a storm cloud lets go a bolt instead of a drop.
+  if (LIGHTNING_FROM_OF[t] !== 0 && ((r >>> 12) & 255) === 0) {
+    world.place(below, LIGHTNING);
+    return;
+  }
   const T = world.temp[i];
   world.place(below, T < 0 ? RAIN_COLD_OF[t] : RAIN_INTO_OF[t]);
   world.temp[below] = T;
   // About one drop in sixteen is the cloud cell's last.
   if (((r >>> 6) & 15) < 1) world.place(i, EMPTY);
+}
+
+// ---- Sky: lightning and fireworks -------------------------------------------------------
+
+/** °C a lightning strike adds where it lands: enough to melt sand into glass. */
+const STRIKE_HEAT = 2500;
+
+/**
+ * Lightning: the bolt runs straight down at once in a jagged line through
+ * open air, leaving plasma on its path. Where it lands it pours in heat,
+ * throws a shock of air, lights the air around with flame and sends a
+ * pulse into anything that conducts.
+ */
+function strike(world: World, x: number, y: number, i: number, t: number): void {
+  const { w, h, type, temp } = world;
+  const trail = BOLT_OF[t];
+  world.place(i, trail);
+  let cx = x;
+  let cy = y;
+  for (let k = 0; k < h; k++) {
+    const r = world.rng.nextU32();
+    const nx = Math.max(0, Math.min(w - 1, cx + ((r & 3) === 0 ? -1 : (r & 3) === 1 ? 1 : 0)));
+    const ny = cy + 1;
+    if (ny >= h) break;
+    const j = ny * w + nx;
+    const tj = type[j];
+    if (tj !== EMPTY && PHASE_OF[tj] !== PH_GAS && PHASE_OF[tj] !== PH_ENERGY) {
+      // Impact.
+      temp[j] += STRIKE_HEAT;
+      world.wake(nx, ny);
+      if (ELECTRIC_OF[tj] !== 0 || (SOLVENT_OF[tj] !== 0 && world.conc[j] !== 0)) world.charge[j] = CHARGE_PEAK + 1;
+      world.air.addPressure(nx, cy, 14, 6);
+      for (let d = 0; d < 4; d++) {
+        const q = neighbour(world, nx, cy, d);
+        if (q >= 0 && type[q] === EMPTY) {
+          world.place(q, FIRE);
+          world.life[q] = 10 + ((r >>> 8) & 15);
+        }
+      }
+      break;
+    }
+    world.place(j, trail);
+    cx = nx;
+    cy = ny;
+  }
+}
+
+/** Can a rocket fly through this cell? */
+function passable(t: number): boolean {
+  return t === EMPTY || PHASE_OF[t] === PH_GAS || (PHASE_OF[t] === PH_ENERGY && BURSTS_INTO_OF[t] === 0);
+}
+
+/** A firework rocket climbs, trailing sparks, then bursts into falling embers. */
+function rocket(world: World, x: number, y: number, i: number, t: number, st: number): void {
+  const { w, type } = world;
+  world.wake(x, y);
+  const r = world.rng.nextU32();
+  const L = world.life[i] - 1;
+  // Climb two cells a frame through air, gas or flame, leaving a short spark trail.
+  if (L > 0 && y > 2 && passable(type[i - w]) && passable(type[i - 2 * w])) {
+    const to = i - 2 * w;
+    moveTo(world, i, to, 0, st);
+    world.life[to] = L;
+    if (type[i] === EMPTY) {
+      world.place(i, FIRE);
+      world.life[i] = 4 + (r & 3);
+    }
+    world.wake(x, y - 2);
+    return;
+  }
+  // Burst: a ball of embers (no air shock, so it never blows the ground about).
+  const ember = BURSTS_INTO_OF[t];
+  world.place(i, EMPTY);
+  const R = 5 + (r % 4);
+  for (let k = 0; k < 48; k++) {
+    const q = world.rng.nextU32();
+    const a = ((q & 1023) / 1024) * Math.PI * 2;
+    const d = 1 + ((q >>> 10) % R);
+    const ex = Math.round(x + Math.cos(a) * d);
+    const ey = Math.round(y + Math.sin(a) * d);
+    if (ex < 0 || ey < 0 || ex >= w || ey >= world.h) continue;
+    const j = ey * w + ex;
+    if (type[j] !== EMPTY) continue;
+    world.place(j, ember);
+    world.life[j] = 30 + ((q >>> 20) & 31);
+  }
 }
 
 // ---- Creatures ----------------------------------------------------------------------
@@ -540,6 +645,14 @@ function become(world: World, i: number, t: number): void {
 
 /** Sets cell i burning: it becomes fire that remembers its fuel. */
 function ignite(world: World, i: number, fuel: number): void {
+  if (LAUNCHES_AS_OF[fuel] !== 0) {
+    const T = world.temp[i];
+    world.place(i, LAUNCHES_AS_OF[fuel]);
+    world.temp[i] = T;
+    // Each rocket flies its own time, so a volley bursts at many heights.
+    world.life[i] = 50 + (world.rng.nextU32() % 40);
+    return;
+  }
   world.type[i] = FIRE;
   world.solute[i] = fuel;
   world.life[i] = FUEL_OF[fuel] || 30;
@@ -743,6 +856,16 @@ function updateFire(world: World, x: number, y: number, i: number, st: number): 
       else ignite(world, j, t);
       world.stamp[j] = st;
       break;
+    }
+    if (SINKS_OF[type[i]] !== 0) {
+      // Embers drift down, swaying, as they burn out.
+      if (y + 1 < world.h) {
+        const dn = i + w;
+        const dx = r & 65536 ? 1 : -1;
+        if (((r >>> 16) & 255) < 90 && x + dx >= 0 && x + dx < w && type[dn + dx] === EMPTY) moveTo(world, i, dn + dx, 0, st);
+        else if (type[dn] === EMPTY && ((r >>> 8) & 255) < 140) moveTo(world, i, dn, 0, st);
+      }
+      return;
     }
     if (y > 0) {
       // Rise, often slanting, so flames lick across the surface next to them.
