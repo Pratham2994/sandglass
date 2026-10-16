@@ -10,7 +10,7 @@ import {
   VMAX_OF,
   VY_UNIT,
 } from './elements';
-import type { World } from './world';
+import { CHUNK_SHIFT, type World } from './world';
 
 /**
  * Sub-cell offsets 0..31 in bit-reversed order. Speeds are in 1/32 cell per
@@ -40,25 +40,36 @@ const FLOW_VY = VY_UNIT >> 1;
  * Rows run bottom to top. The horizontal direction flips per row and per
  * frame so nothing drifts to one side. A cell that moved this frame carries
  * the frame's stamp and is skipped if the scan reaches it again.
+ * Only awake chunks run; within a row, the cells of sleeping chunks are
+ * skipped, so with every chunk awake the order is the same as a full scan.
+ * A chunk stays awake while anything in it moved or tried to move.
  * Movement only swaps cells, so the cell count of each element never changes.
  * No allocations in here.
  */
 export function step(world: World): void {
-  const { w, h, type } = world;
+  world.beginFrame();
+  const { w, h, cw, awake } = world;
   const st = world.currentStamp();
-  const stamp = world.stamp;
   for (let y = h - 1; y >= 0; y--) {
     const ltr = ((y + world.frame) & 1) === 0;
-    const row = y * w;
-    for (let k = 0; k < w; k++) {
-      const x = ltr ? k : w - 1 - k;
-      const i = row + x;
-      const ph = PHASE_OF[type[i]];
-      if (ph === 0 || stamp[i] === st) continue;
-      if (ph === PH_POWDER || ph === PH_LIQUID) updateMover(world, x, y, i, st, ph === PH_LIQUID);
+    const crow = (y >> CHUNK_SHIFT) * cw;
+    for (let kc = 0; kc < cw; kc++) {
+      const cx = ltr ? kc : cw - 1 - kc;
+      if (awake[crow + cx] === 0) continue;
+      const x0 = cx << CHUNK_SHIFT;
+      const x1 = Math.min(x0 + (1 << CHUNK_SHIFT), w);
+      if (ltr) for (let x = x0; x < x1; x++) updateCell(world, x, y, st);
+      else for (let x = x1 - 1; x >= x0; x--) updateCell(world, x, y, st);
     }
   }
   world.frame++;
+}
+
+function updateCell(world: World, x: number, y: number, st: number): void {
+  const i = y * world.w + x;
+  const ph = PHASE_OF[world.type[i]];
+  if (ph === 0 || world.stamp[i] === st) return;
+  if (ph === PH_POWDER || ph === PH_LIQUID) updateMover(world, x, y, i, st, ph === PH_LIQUID);
 }
 
 /** Swaps every field of cells i and j. */
@@ -137,6 +148,7 @@ function updateMover(world: World, x: number, y: number, i: number, st: number, 
     if (dist === 0) {
       // Still gathering speed; moves on a later frame.
       vy[i] = v;
+      world.wake(x, y);
       return;
     }
 
@@ -162,6 +174,8 @@ function updateMover(world: World, x: number, y: number, i: number, st: number, 
     swap(world, i, j);
     vy[j] = v;
     stamp[j] = st;
+    world.wake(x, y);
+    world.wake(x, ny);
     return;
   }
 
@@ -172,6 +186,7 @@ function updateMover(world: World, x: number, y: number, i: number, st: number, 
     let v = vy[i] + g;
     if (v > vy[below]) v = vy[below];
     vy[i] = v;
+    world.wake(x, y);
     return;
   }
 
@@ -179,8 +194,14 @@ function updateMover(world: World, x: number, y: number, i: number, st: number, 
   if (ENTER_P[t * N + tb] !== 0) {
     let v = vy[i] + g;
     if (v > SINK_VMAX) v = SINK_VMAX;
-    if ((v + sub) >> SHIFT !== 0 && canEnter(world, t, below)) moveTo(world, i, below, v, st);
-    else vy[i] = v;
+    if ((v + sub) >> SHIFT !== 0 && canEnter(world, t, below)) {
+      moveTo(world, i, below, v, st);
+      world.wake(x, y + 1);
+    } else {
+      // Not this frame (speed or chance): stay awake to try again.
+      vy[i] = v;
+    }
+    world.wake(x, y);
     return;
   }
 
@@ -194,14 +215,18 @@ function updateMover(world: World, x: number, y: number, i: number, st: number, 
       if (v > VY_UNIT) v = VY_UNIT;
       if ((v + sub) >> SHIFT === 0) {
         vy[i] = v;
+        world.wake(x, y);
         return;
       }
     }
-    let j: number;
-    if (openL && openR) j = world.rng.nextU32() & 1 ? below + 1 : below - 1;
-    else j = openL ? below - 1 : below + 1;
-    if (canEnter(world, t, j)) {
-      moveTo(world, i, j, v > VY_UNIT ? VY_UNIT : v, st);
+    let dx: number;
+    if (openL && openR) dx = world.rng.nextU32() & 1 ? 1 : -1;
+    else dx = openL ? -1 : 1;
+    // Awake either way: a slide into a liquid skipped by chance may succeed next frame.
+    world.wake(x, y);
+    if (canEnter(world, t, below + dx)) {
+      moveTo(world, i, below + dx, v > VY_UNIT ? VY_UNIT : v, st);
+      world.wake(x + dx, y + 1);
       return;
     }
   }
@@ -230,9 +255,13 @@ function updateMover(world: World, x: number, y: number, i: number, st: number, 
         if (type[j] !== t && ENTER_P[base + type[j]] !== 0) {
           // Keep some speed so it drops at once on reaching the edge.
           moveTo(world, i, j, FLOW_VY, st);
+          world.wake(x, y);
+          world.wake(x + dir * k, y);
           return;
         }
       }
+      // A drop is in sight but the way is full this frame: try again next frame.
+      world.wake(x, y);
     }
   }
 

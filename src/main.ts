@@ -7,6 +7,7 @@ import { step } from './sim/step';
 import { World } from './sim/world';
 import { mountCursor } from './ui/cursor';
 import { mountDock } from './ui/dock';
+import { PerfStats, mountHud } from './ui/hud';
 import { mountPill } from './ui/pill';
 
 const DEFAULT_SEED = 1;
@@ -26,15 +27,25 @@ function start(): void {
     step(world);
   };
 
+  const perf = new PerfStats();
   const loop = new FixedLoop({
     input: () => brush.apply(),
-    step: () => step(world),
-    render: () => renderer.draw(world),
+    step: () => {
+      const t0 = performance.now();
+      step(world);
+      perf.addSim(performance.now() - t0);
+    },
+    render: () => {
+      const t0 = performance.now();
+      renderer.draw(world);
+      perf.addDraw(performance.now() - t0);
+    },
   });
 
   mountCursor(brush);
   mountDock(brush);
   mountPill(loop, world);
+  const hud = mountHud(perf, world);
 
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
@@ -42,6 +53,10 @@ function start(): void {
       loop.paused = !loop.paused;
     } else if (e.key === '.' && loop.paused) {
       loop.stepOnce();
+    } else if (e.code === 'Backquote') {
+      // Debug: perf HUD and chunk overlay.
+      renderer.showChunks = hud.toggle();
+      loop.invalidate();
     }
   });
 

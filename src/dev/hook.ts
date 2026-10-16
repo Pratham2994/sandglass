@@ -31,6 +31,8 @@ export interface SimHook {
   heights(): number[];
   /** Hash of the whole grid, 8 hex digits. */
   hash(): string;
+  /** Chunks that ran in the last frame, and the total. */
+  chunks(): { awake: number; total: number };
 }
 
 declare global {
@@ -110,6 +112,9 @@ export function installSimHook(t: HookTargets): void {
     },
     hash() {
       return world.hash();
+    },
+    chunks() {
+      return { awake: world.awakeCount(), total: world.awake.length };
     },
   };
   window.__sim = hook;

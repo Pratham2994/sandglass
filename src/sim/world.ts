@@ -1,6 +1,10 @@
 import { EMPTY } from './elements';
 import { Rng } from './rng';
 
+/** Chunk side in cells, for sleep and wake. */
+export const CHUNK_SHIFT = 5;
+export const CHUNK = 1 << CHUNK_SHIFT;
+
 /**
  * The grid. Struct of arrays: each field is its own typed array, index i = y * w + x.
  * Fields are added only in the phase that needs them (see docs/SPEC.md).
@@ -12,12 +16,20 @@ export class World {
 
   /** Element id. */
   readonly type: Uint16Array;
-  /** Fall speed in quarter cells per frame, so falling accelerates. */
+  /** Fall speed in 1/32 cell per frame (see VY_UNIT), so falling accelerates. */
   readonly vy: Int8Array;
   /** Stamp of the frame in which the cell last moved; stops a cell moving twice in one frame. */
   readonly stamp: Uint8Array;
   /** Fixed colour noise, set at creation, moves with the cell. */
   readonly shade: Uint8Array;
+
+  /** Chunk grid size, in chunks of CHUNK × CHUNK cells. */
+  readonly cw: number;
+  readonly ch: number;
+  /** Chunks the cell pass runs this frame. */
+  readonly awake: Uint8Array;
+  /** Chunks woken during this frame, for the next one. */
+  readonly awakeNext: Uint8Array;
 
   readonly rng: Rng;
   seed: number;
@@ -32,6 +44,10 @@ export class World {
     this.vy = new Int8Array(this.size);
     this.stamp = new Uint8Array(this.size);
     this.shade = new Uint8Array(this.size);
+    this.cw = Math.ceil(w / CHUNK);
+    this.ch = Math.ceil(h / CHUNK);
+    this.awake = new Uint8Array(this.cw * this.ch);
+    this.awakeNext = new Uint8Array(this.cw * this.ch).fill(1);
     this.seed = seed;
     this.rng = new Rng(seed);
   }
@@ -42,9 +58,45 @@ export class World {
     this.vy.fill(0);
     this.stamp.fill(0);
     this.shade.fill(0);
+    this.awake.fill(0);
+    this.awakeNext.fill(1);
     this.seed = seed;
     this.rng.seed(seed);
     this.frame = 0;
+  }
+
+  /**
+   * Marks the chunks covering cell (x, y) and its 1-cell neighbourhood to run
+   * next frame, so a change at a chunk edge also wakes the chunk beside it.
+   */
+  wake(x: number, y: number): void {
+    const x0 = (x > 0 ? x - 1 : 0) >> CHUNK_SHIFT;
+    const x1 = (x + 1 < this.w ? x + 1 : x) >> CHUNK_SHIFT;
+    const r0 = ((y > 0 ? y - 1 : 0) >> CHUNK_SHIFT) * this.cw;
+    const r1 = ((y + 1 < this.h ? y + 1 : y) >> CHUNK_SHIFT) * this.cw;
+    const a = this.awakeNext;
+    a[r0 + x0] = 1;
+    a[r0 + x1] = 1;
+    a[r1 + x0] = 1;
+    a[r1 + x1] = 1;
+  }
+
+  /** Wakes every chunk for the next frame. */
+  wakeAll(): void {
+    this.awakeNext.fill(1);
+  }
+
+  /** Start of a frame: chunks woken last frame run now; a chunk nothing wakes this frame sleeps next. */
+  beginFrame(): void {
+    this.awake.set(this.awakeNext);
+    this.awakeNext.fill(0);
+  }
+
+  /** Chunks that ran in the last frame. */
+  awakeCount(): number {
+    let n = 0;
+    for (let k = 0; k < this.awake.length; k++) n += this.awake[k];
+    return n;
   }
 
   /**
@@ -55,12 +107,13 @@ export class World {
     return 1 + (this.frame % 255);
   }
 
-  /** Places a new cell of element `t` at index i, replacing what was there. */
+  /** Places a new cell of element `t` at index i, replacing what was there, and wakes it. */
   place(i: number, t: number): void {
     this.type[i] = t;
     this.vy[i] = 0;
     this.stamp[i] = 0;
     this.shade[i] = t === EMPTY ? 0 : this.rng.nextU32() & 255;
+    this.wake(i % this.w, (i / this.w) | 0);
   }
 
   /** Number of cells of element `t`. */

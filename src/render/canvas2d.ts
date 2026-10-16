@@ -1,5 +1,5 @@
 import { EMPTY } from '../sim/elements';
-import type { World } from '../sim/world';
+import { CHUNK, type World } from '../sim/world';
 import {
   LEVEL_STRIDE,
   L_DEEP,
@@ -27,6 +27,10 @@ function dark75(c: number): number {
   const rgb = c & 0xffffff;
   return (0xff000000 | (rgb - ((rgb >> 2) & 0x3f3f3f))) >>> 0;
 }
+
+/** Chunk overlay tints, packed 0xAABBGGRR. */
+const CHUNK_AWAKE = 0xff5ad27a;
+const CHUNK_ASLEEP = 0xff3a3a3a;
 
 /** Even mix of two packed colours, alpha opaque. */
 function mix(a: number, b: number): number {
@@ -59,6 +63,8 @@ function dark87(c: number): number {
  */
 export class Canvas2DRenderer {
   readonly pixels: Uint32Array;
+  /** Debug: outline chunks, green if they ran last frame, faint grey if asleep. */
+  showChunks = false;
   private readonly ctx: CanvasRenderingContext2D;
   private readonly image: ImageData;
   private readonly palette = buildPalette();
@@ -148,7 +154,31 @@ export class Canvas2DRenderer {
         px[i] = pal[level * LEVEL_STRIDE + ((t << 8) | s)];
       }
     }
+    if (this.showChunks) this.drawChunks(world);
     this.present();
+  }
+
+  /** Tints the border cells of every chunk. */
+  private drawChunks(world: World): void {
+    const { w, h, cw, ch, awake } = world;
+    const px = this.pixels;
+    for (let cy = 0; cy < ch; cy++) {
+      for (let cx = 0; cx < cw; cx++) {
+        const tint = awake[cy * cw + cx] ? CHUNK_AWAKE : CHUNK_ASLEEP;
+        const x0 = cx * CHUNK;
+        const y0 = cy * CHUNK;
+        const x1 = Math.min(x0 + CHUNK, w) - 1;
+        const y1 = Math.min(y0 + CHUNK, h) - 1;
+        for (let x = x0; x <= x1; x++) {
+          px[y0 * w + x] = mix(px[y0 * w + x], tint);
+          px[y1 * w + x] = mix(px[y1 * w + x], tint);
+        }
+        for (let y = y0 + 1; y < y1; y++) {
+          px[y * w + x0] = mix(px[y * w + x0], tint);
+          px[y * w + x1] = mix(px[y * w + x1], tint);
+        }
+      }
+    }
   }
 
   /** Copies `pixels` to the canvas. */

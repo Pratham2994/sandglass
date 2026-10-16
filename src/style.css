@@ -93,6 +93,28 @@ body.drawing .panel {
   box-shadow: 0 0 6px rgb(217 178 106 / 0.5);
 }
 
+/* Debug HUD, under the pill. */
+.hud {
+  top: 52px;
+  left: 14px;
+  display: grid;
+  gap: 2px;
+  min-width: 150px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.hud[hidden] {
+  display: none;
+}
+
+.hud div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 /* Element dock, bottom centre. */
 .dock {
   bottom: 16px;
