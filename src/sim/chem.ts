@@ -213,7 +213,7 @@ function compile(): void {
         continue;
       }
 
-      // 10. Toxic gas: living things it touches wither.
+      // 10. Poison: living things it touches wither.
       if (TOXIC_OF[a] !== 0 && WITHER_INTO_OF[b] !== 0) {
         set(a, b, R_TOXIC, KEEP, WITHER_INTO_OF[b], 0, 0.05);
         continue;

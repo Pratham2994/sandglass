@@ -30,6 +30,21 @@ import {
   GRAVITY_OF,
   IGNITION_OF,
   FLASH_OF,
+  BLOW_X_OF,
+  BLOW_Y_OF,
+  CHARGE_HEAT_OF,
+  COOL_RATE_OF,
+  AMBIENT,
+  CLONES_OF,
+  DEVICE_OF,
+  GROW_BUDGET_OF,
+  HOLD_T_OF,
+  LEAF_INTO_OF,
+  RAIN_COLD_OF,
+  RAIN_INTO_OF,
+  TOP_INTO_OF,
+  VOIDS_OF,
+  WALL,
   NO_FLAME_OF,
   SELF_FED_OF,
   UP_T,
@@ -118,6 +133,8 @@ function updateCell(world: World, x: number, y: number, st: number): void {
     return;
   }
   if (POWER_EVERY_OF[t] !== 0) powerSource(world, x, y, t);
+  if (DEVICE_OF[t] !== 0) device(world, x, y, i, t);
+  if (RAIN_INTO_OF[t] !== 0) rain(world, x, y, i, t);
   if (world.charge[i] !== 0) updateCharge(world, x, y, i, st);
   if (WITHER_INTO_OF[t] !== 0) live(world, x, y, i, st);
   else if (GROWS_INTO_OF[t] !== 0 && world.vy[i] === 0) sprout(world, x, y, i);
@@ -133,8 +150,6 @@ function updateCell(world: World, x: number, y: number, st: number): void {
 
 /** A pulse lasts this many frames in a cell; it passes on only at the peak, then the cell rests. */
 const CHARGE_PEAK = 4;
-/** °C a pulse warms the cell it runs through. */
-const CHARGE_HEAT = 4;
 /** Salt (concentration 0..255) water needs to carry charge. */
 const SALT_TO_CONDUCT = 8;
 
@@ -172,7 +187,7 @@ function updateCharge(world: World, x: number, y: number, i: number, st: number)
   const c = world.charge[i];
   if (c === CHARGE_PEAK) {
     zap(world, x, y, st);
-    world.temp[i] += CHARGE_HEAT;
+    world.temp[i] += CHARGE_HEAT_OF[world.type[i]];
     // Electrolysis: current through salty water splits it into hydrogen or oxygen.
     if (SOLVENT_OF[world.type[i]] !== 0 && (world.rng.nextU32() & 7) === 0) {
       const T = world.temp[i];
@@ -204,6 +219,62 @@ function powerSource(world: World, x: number, y: number, t: number): void {
   if (world.frame % POWER_EVERY_OF[t] === 0) zap(world, x, y, world.currentStamp());
 }
 
+// ---- Devices and weather ----------------------------------------------------------
+
+/**
+ * Devices act on their own each frame: a heater or cooler holds its
+ * temperature, a clone copies what first touched it into the empty space
+ * around it, a void deletes what touches it, a fan blows air.
+ */
+function device(world: World, x: number, y: number, i: number, t: number): void {
+  world.wake(x, y);
+  const hold = HOLD_T_OF[t];
+  if (hold === hold) world.temp[i] = hold;
+  // A filament sheds its heat fast, so it glows only while current runs.
+  const cool = COOL_RATE_OF[t];
+  if (cool !== 0) world.temp[i] += (AMBIENT - world.temp[i]) * cool;
+  const r = world.rng.nextU32();
+  if (CLONES_OF[t] !== 0) {
+    const src = world.solute[i];
+    if (src === 0) {
+      // Learn from the first thing that touches it (never another device or a
+      // wall), or from a clone cell beside it that has learned, so a whole
+      // block copies out of every free face.
+      const j = neighbour(world, x, y, r & 3);
+      const tj = j >= 0 ? world.type[j] : EMPTY;
+      if (tj === t && world.solute[j] !== 0) world.solute[i] = world.solute[j];
+      else if (tj !== EMPTY && tj !== WALL && DEVICE_OF[tj] === 0) world.solute[i] = tj;
+    } else if (((r >>> 2) & 7) === 0) {
+      const j = neighbour(world, x, y, (r >>> 5) & 3);
+      if (j >= 0 && world.type[j] === EMPTY) world.place(j, src);
+    }
+  }
+  if (VOIDS_OF[t] !== 0) {
+    const j = neighbour(world, x, y, r & 3);
+    if (j >= 0) {
+      const tj = world.type[j];
+      if (tj !== EMPTY && tj !== WALL && DEVICE_OF[tj] === 0) world.place(j, EMPTY);
+    }
+  }
+  if (BLOW_X_OF[t] !== 0 || BLOW_Y_OF[t] !== 0) {
+    world.air.addVelocity(x + Math.sign(BLOW_X_OF[t]) * 2, y + Math.sign(BLOW_Y_OF[t]) * 2, BLOW_X_OF[t] * 0.05, BLOW_Y_OF[t] * 0.05, 2);
+  }
+}
+
+/** Clouds drop rain (snow when below 0 °C) into the space below and slowly run dry. */
+function rain(world: World, x: number, y: number, i: number, t: number): void {
+  world.wake(x, y);
+  const r = world.rng.nextU32();
+  if ((r & 63) !== 0 || y + 1 >= world.h) return;
+  const below = i + world.w;
+  if (world.type[below] !== EMPTY) return;
+  const T = world.temp[i];
+  world.place(below, T < 0 ? RAIN_COLD_OF[t] : RAIN_INTO_OF[t]);
+  world.temp[below] = T;
+  // About one drop in sixteen is the cloud cell's last.
+  if (((r >>> 6) & 15) < 1) world.place(i, EMPTY);
+}
+
 // ---- Life -------------------------------------------------------------------------
 
 /** Frames a seed needs on damp soil, on average, before it sprouts. */
@@ -229,10 +300,11 @@ function sprout(world: World, x: number, y: number, i: number): void {
   const take = conc[below] < CONC_UNIT ? conc[below] : CONC_UNIT;
   conc[below] -= take;
   if (conc[below] === 0) solute[below] = 0;
+  const budget = GROW_BUDGET_OF[type[i]];
   become(world, i, GROWS_INTO_OF[type[i]]);
   solute[i] = WATER;
   conc[i] = take;
-  world.life[i] = 24 + ((r >>> 8) % 32);
+  world.life[i] = ((budget * 0.6) | 0) + ((r >>> 8) % (((budget * 0.8) | 0) + 1));
 }
 
 /** Moves `n` water units from cell `from` to cell `to`. */
@@ -280,7 +352,7 @@ function live(world: World, x: number, y: number, i: number, st: number): void {
   // the time it goes to the cell above, whatever that one holds, so the
   // growing tips are fed first.
   const k = ((r >>> 7) & 1) === 0 ? neighbour(world, x, y, 0) : neighbour(world, x, y, (r >>> 8) & 3);
-  if (k >= 0 && type[k] === t) {
+  if (k >= 0 && WITHER_INTO_OF[type[k]] !== 0) {
     if (k === i - w && conc[i] > 2 && conc[k] <= 255 - 2) moveWater(world, i, k, conc[i] >> 2);
     else if (conc[i] > conc[k] + 1) moveWater(world, i, k, (conc[i] - conc[k]) >> 1);
   }
@@ -303,19 +375,21 @@ function live(world: World, x: number, y: number, i: number, st: number): void {
   const up = (y - 1) * w + tx;
   if (type[up] !== EMPTY) return;
   const T = world.temp[i];
-  world.place(up, t);
+  // The last cell of a stem may be its flower.
+  const last = budget === 1 && TOP_INTO_OF[t] !== 0;
+  world.place(up, last ? TOP_INTO_OF[t] : t);
   world.temp[up] = T;
   world.stamp[up] = st;
   conc[i] -= GROW_COST;
   moveWater(world, i, up, conc[i] >> 1);
-  life[up] = budget - 1;
+  life[up] = last ? 0 : budget - 1;
   life[i] = side !== 0 && budget > 6 ? budget >> 1 : 0;
-  // A leaf beside the new cell, now and then.
-  if (((r >>> 26) & 3) === 0 && conc[up] >= 4) {
+  // A leaf beside the new cell, now and then; plants with leaves of their own (trees) leaf out often.
+  if ((LEAF_INTO_OF[t] !== 0 ? ((r >>> 26) & 1) === 0 : ((r >>> 26) & 3) === 0) && conc[up] >= 4) {
     const lx = tx + ((r >>> 28) & 1 ? 1 : -1);
     const leaf = (y - 1) * w + lx;
     if (lx >= 0 && lx < w && type[leaf] === EMPTY) {
-      world.place(leaf, t);
+      world.place(leaf, LEAF_INTO_OF[t] !== 0 ? LEAF_INTO_OF[t] : t);
       world.temp[leaf] = T;
       world.stamp[leaf] = st;
       moveWater(world, up, leaf, conc[up] >> 1);
