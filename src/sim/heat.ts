@@ -9,6 +9,10 @@ import {
   INV_CAP_OF,
   UP_INTO,
   UP_LATENT,
+  PHASE_OF,
+  PH_POWDER,
+  PH_SOLID,
+  RUBBLE_OF,
   UP_T,
 } from './elements';
 import { CHUNK_SHIFT, type World } from './world';
@@ -30,7 +34,8 @@ const AIR_RELAX = 0.005;
  *    chunk are exchanged too, and wake it if its cell changes enough.
  * 2. Phase changes: past a threshold (with a small margin against
  *    flicker) a cell becomes its melted, boiled, frozen or condensed form,
- *    paying or returning a little latent heat.
+ *    paying or returning a little latent heat. A solid that would form with
+ *    nothing solid under it forms as its rubble (lava → gravel, not stone).
  * 3. Air drifts back to room temperature.
  * No allocations in here.
  */
@@ -96,7 +101,13 @@ function settle(world: World, i: number, x: number, y: number): void {
     world.vy[i] = 0;
     world.wake(x, y);
   } else if (T < DOWN_T[t]) {
-    type[i] = DOWN_INTO[t];
+    let into = DOWN_INTO[t];
+    // A solid forming over nothing solid becomes its rubble instead.
+    if (RUBBLE_OF[into] !== 0) {
+      const below = y + 1 < world.h ? PHASE_OF[type[i + world.w]] : PH_SOLID;
+      if (below !== PH_SOLID && below !== PH_POWDER) into = RUBBLE_OF[into];
+    }
+    type[i] = into;
     temp[i] = T + DOWN_LATENT[t];
     world.vy[i] = 0;
     world.wake(x, y);

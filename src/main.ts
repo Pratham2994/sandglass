@@ -3,7 +3,7 @@ import './style.css';
 import { fitCanvas, gridFor, whenSized, type GridSize } from './core/grid';
 import { FixedLoop } from './core/loop';
 import { Brush } from './input/brush';
-import { Canvas2DRenderer } from './render/canvas2d';
+import { createRenderer } from './render/renderer';
 import { ELEMENTS } from './sim/elements';
 import { step } from './sim/step';
 import { World } from './sim/world';
@@ -37,10 +37,11 @@ const RESIZE_DEBOUNCE_MS = 120;
 
 function start(): void {
   const stage = document.getElementById('stage') as HTMLElement;
-  const canvas = document.getElementById('sim') as HTMLCanvasElement;
   let size: GridSize = gridFor(stage);
   const world = new World(size.w, size.h, DEFAULT_SEED);
-  const renderer = new Canvas2DRenderer(canvas, size.w, size.h);
+  const made = createRenderer(document.getElementById('sim') as HTMLCanvasElement, size.w, size.h, size.cellPx);
+  const canvas = made.canvas;
+  const renderer = made.renderer;
   const brush = new Brush(canvas, world);
   fitCanvas(canvas, size);
 
@@ -76,7 +77,7 @@ function start(): void {
       if (stage.clientWidth === 0 || stage.clientHeight === 0) return;
       size = gridFor(stage);
       world.resize(size.w, size.h);
-      renderer.resize(size.w, size.h);
+      renderer.resize(size.w, size.h, size.cellPx);
       fitCanvas(canvas, size);
       loop.invalidate();
     }, RESIZE_DEBOUNCE_MS);

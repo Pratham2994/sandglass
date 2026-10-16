@@ -1,0 +1,469 @@
+import { ELEMENTS, ELEMENT_COUNT } from '../sim/elements';
+import { CHUNK, type World } from '../sim/world';
+import { GLOW_MAX, GLOW_MIN, LEVEL_STRIDE, L_PLAIN, TEXTURE_OF, buildGlow, buildPalette, buildStoneShade } from './palette';
+import type { Renderer } from './renderer';
+
+const VERT = `#version 300 es
+void main() {
+  vec2 p = vec2((gl_VertexID << 1) & 2, gl_VertexID & 2);
+  gl_Position = vec4(p * 2.0 - 1.0, 0.0, 1.0);
+}`;
+
+/**
+ * Scene pass, one fragment per cell. Same rules as the Canvas2D renderer:
+ * light from above, bevelled stone, liquids darkening with depth, see-through
+ * gas, contact shadows, black-body glow. Writes colour and emission.
+ * Data textures are in world order (row 0 at the top); fragments count from
+ * the bottom, so the cell row is flipped.
+ */
+const SCENE = `#version 300 es
+precision highp float;
+precision highp int;
+precision highp usampler2D;
+uniform usampler2D uType;
+uniform usampler2D uShade;
+uniform usampler2D uStamp;
+uniform usampler2D uStone;
+uniform usampler2D uTex;
+uniform sampler2D uTemp;
+uniform sampler2D uPal;
+uniform sampler2D uGlow;
+uniform ivec2 uSize;
+uniform int uMoved;
+uniform int uFrame;
+uniform vec3 uBg;
+layout(location = 0) out vec4 oColor;
+layout(location = 1) out vec4 oEmit;
+
+const uint OUT = 65535u;
+const float LIGHT[7] = float[7](0.7, 0.85, 0.9, 1.0, 1.08, 1.17, 1.38);
+const int L_UNDER = 0, L_SHADE = 1, L_DEEP = 2, L_PLAIN = 3, L_SIDE = 4, L_TOP = 5, L_GLINT = 6;
+const uint TEX_STONE = 1u, TEX_LIQUID = 2u, TEX_GAS = 3u;
+
+uint typeAt(ivec2 p) {
+  if (p.x < 0 || p.y < 0 || p.x >= uSize.x || p.y >= uSize.y) return OUT;
+  return texelFetch(uType, p, 0).r;
+}
+uint texOf(uint t) { return texelFetch(uTex, ivec2(int(t), 0), 0).r; }
+bool solidish(uint t) { return t != 0u && t != OUT && texOf(t) != TEX_GAS; }
+vec3 pal(uint t, uint s) { return texelFetch(uPal, ivec2(int(s), int(t)), 0).rgb; }
+float hash(ivec2 p) {
+  uint n = uint(p.x) * 374761393u + uint(p.y) * 668265263u;
+  n = (n ^ (n >> 13)) * 1274126177u;
+  return float(n ^ (n >> 16)) / 4294967296.0;
+}
+vec3 background(ivec2 p) {
+  vec2 c = vec2(uSize - 1) * 0.5;
+  vec2 d = (vec2(p) - c) / c;
+  float k = 1.12 - 0.3 * min(1.0, dot(d, d) * 0.5);
+  return uBg * k + (hash(p) - 0.5) / 255.0;
+}
+/** Row where the run of filled, non-gas cells containing p starts (its surface). */
+int runTop(ivec2 p) {
+  int y = p.y;
+  for (int k = 0; k < 64; k++) {
+    if (y <= 0 || !solidish(typeAt(ivec2(p.x, y - 1)))) break;
+    y--;
+  }
+  return y;
+}
+
+void main() {
+  ivec2 p = ivec2(int(gl_FragCoord.x), uSize.y - 1 - int(gl_FragCoord.y));
+  uint t = typeAt(p);
+  vec3 bg = background(p);
+  oEmit = vec4(0.0);
+  uint up = typeAt(p + ivec2(0, -1));
+  bool upEmpty = p.y == 0 || up == 0u;
+  if (t == 0u) {
+    vec3 c = bg;
+    if (!upEmpty) c *= 0.75;
+    else if ((typeAt(p + ivec2(-1, 0)) != 0u && typeAt(p + ivec2(-1, 0)) != OUT) || (typeAt(p + ivec2(1, 0)) != 0u && typeAt(p + ivec2(1, 0)) != OUT)) c *= 0.875;
+    oColor = vec4(c, 1.0);
+    return;
+  }
+  uint tex = texOf(t);
+  uint shade = texelFetch(uShade, p, 0).r;
+  if (tex == TEX_GAS) {
+    oColor = vec4(mix(pal(t, shade), bg, 0.5), 1.0);
+    return;
+  }
+  int level = L_PLAIN;
+  uint s;
+  int top = runTop(p);
+  int d = p.y - top + 1;
+  if (tex == TEX_LIQUID) {
+    // Depth below the surface averaged over 5 columns, so a surface flat within 1 cell shows no stripes.
+    float sum = 0.0;
+    float n = 0.0;
+    for (int k = -2; k <= 2; k++) {
+      ivec2 q = ivec2(p.x + k, p.y);
+      if (!solidish(typeAt(q))) continue;
+      int tk = runTop(q);
+      if (tk < top - 2 || tk > top + 2) continue;
+      sum += float(tk);
+      n += 1.0;
+    }
+    float surface = n > 0.0 ? sum / n : float(top);
+    s = uint(clamp(floor((float(p.y) - surface) * 8.0 + 0.5) + float(shade & 3u), 0.0, 255.0));
+    if (upEmpty) {
+      bool lone = typeAt(p + ivec2(-1, 0)) == 0u && typeAt(p + ivec2(1, 0)) == 0u && typeAt(p + ivec2(0, 1)) == t;
+      if (lone) {
+        oColor = vec4(mix(pal(t, s) * LIGHT[L_TOP], bg, 0.75), 1.0);
+        return;
+      }
+      level = ((p.x * 13 + (uFrame >> 2) + int(shade >> 4)) & 63) == 0 ? L_GLINT : L_TOP;
+    } else if (int(texelFetch(uStamp, p, 0).r) == uMoved) {
+      level = L_SIDE;
+    }
+  } else if (tex == TEX_STONE) {
+    s = texelFetch(uStone, p, 0).r;
+    if (typeAt(p + ivec2(0, 1)) == 0u) level = L_UNDER;
+    else if (upEmpty) level = L_TOP;
+    else if (typeAt(p + ivec2(-1, 0)) == 0u) level = L_SIDE;
+    else if (typeAt(p + ivec2(1, 0)) == 0u) level = L_SHADE;
+  } else {
+    s = shade;
+    if (int(texelFetch(uStamp, p, 0).r) == uMoved && (shade & 15u) == 0u) level = L_GLINT;
+    else if (upEmpty) level = L_TOP;
+    else if (d > 6) level = L_DEEP;
+  }
+  vec3 c = min(pal(t, s) * LIGHT[level], vec3(1.0));
+  // Black-body glow from the real temperature; the shade adds a little texture.
+  float T = texelFetch(uTemp, p, 0).r + (float(shade) - 128.0) * 0.5;
+  if (T > ${GLOW_MIN.toFixed(1)}) {
+    vec4 g = texture(uGlow, vec2(clamp((T - ${GLOW_MIN.toFixed(1)}) / ${(GLOW_MAX - GLOW_MIN).toFixed(1)}, 0.0, 1.0) * (255.0 / 256.0) + 0.5 / 256.0, 0.5));
+    c = mix(c, g.rgb, g.a);
+    oEmit = vec4(g.rgb * g.a, 1.0);
+  }
+  oColor = vec4(c, 1.0);
+}`;
+
+/** Downsample by 4: average of a 4 × 4 block via four bilinear taps. */
+const DOWN = `#version 300 es
+precision highp float;
+uniform sampler2D uSrc;
+uniform vec2 uSrcSize;
+out vec4 o;
+void main() {
+  vec2 base = (floor(gl_FragCoord.xy) * 4.0 + 1.0) / uSrcSize;
+  vec2 t = 2.0 / uSrcSize;
+  o = 0.25 * (texture(uSrc, base) + texture(uSrc, base + vec2(t.x, 0.0)) + texture(uSrc, base + vec2(0.0, t.y)) + texture(uSrc, base + t));
+}`;
+
+/** Separable Gaussian blur, 9 taps. */
+const BLUR = `#version 300 es
+precision highp float;
+uniform sampler2D uSrc;
+uniform vec2 uStep;
+out vec4 o;
+const float W[5] = float[5](0.227, 0.194, 0.122, 0.054, 0.016);
+void main() {
+  vec2 uv = gl_FragCoord.xy / vec2(textureSize(uSrc, 0));
+  vec4 c = texture(uSrc, uv) * W[0];
+  for (int i = 1; i < 5; i++) {
+    c += texture(uSrc, uv + uStep * float(i)) * W[i];
+    c += texture(uSrc, uv - uStep * float(i)) * W[i];
+  }
+  o = c;
+}`;
+
+/**
+ * Composite at screen resolution: cells stay crisp (nearest), light is
+ * smooth (linear). Lit surfaces brighten and take the light's colour; a
+ * soft bloom sits on top; hot air bends what is behind it (heat haze).
+ */
+const COMPOSITE = `#version 300 es
+precision highp float;
+precision highp int;
+precision highp usampler2D;
+uniform sampler2D uScene;
+uniform sampler2D uLight;
+uniform sampler2D uTemp;
+uniform usampler2D uType;
+uniform usampler2D uAwake;
+uniform ivec2 uSize;
+uniform vec2 uCanvas;
+uniform float uTime;
+uniform int uChunks;
+out vec4 o;
+void main() {
+  vec2 uv = gl_FragCoord.xy / uCanvas;
+  vec2 cellF = vec2(uv.x, 1.0 - uv.y) * vec2(uSize);
+  ivec2 cell = clamp(ivec2(cellF), ivec2(0), uSize - 1);
+  // Heat haze: hot air wobbles the view sideways, more the hotter it is.
+  float air = texelFetch(uTemp, cell, 0).r;
+  if (texelFetch(uType, cell, 0).r == 0u && air > 45.0) {
+    float a = clamp((air - 45.0) / 250.0, 0.0, 1.0) * 0.9;
+    uv.x += sin(cellF.y * 0.55 + uTime * 7.0) * a / float(uSize.x);
+    uv.y += cos(cellF.x * 0.35 + uTime * 5.0) * a * 0.4 / float(uSize.y);
+  }
+  vec3 scene = texture(uScene, uv).rgb;
+  vec3 L = texture(uLight, gl_FragCoord.xy / uCanvas).rgb;
+  // Light falls off with distance (the blur); close surfaces take its colour strongly.
+  vec3 c = scene * (1.0 + L * 1.8) + L * 0.12;
+  if (uChunks == 1) {
+    ivec2 local = ivec2(cellF) % ${CHUNK};
+    if (local.x == 0 || local.y == 0) {
+      bool on = texelFetch(uAwake, ivec2(cellF) / ${CHUNK}, 0).r != 0u;
+      c = mix(c, on ? vec3(0.35, 0.82, 0.48) : vec3(0.23), 0.5);
+    }
+  }
+  o = vec4(min(c, vec3(1.0)), 1.0);
+}`;
+
+interface Target {
+  tex: WebGLTexture;
+  fb: WebGLFramebuffer;
+  w: number;
+  h: number;
+}
+
+/**
+ * WebGL2 renderer. The simulation stays on the CPU; each frame its arrays
+ * are uploaded as textures and drawn by shaders: scene, light (emission
+ * blurred at quarter resolution), and a composite with lighting, bloom and
+ * heat haze. Throws if WebGL2 or a shader is unavailable, so the caller can
+ * fall back to Canvas2D.
+ */
+export class WebGLRenderer implements Renderer {
+  showChunks = false;
+  private readonly gl: WebGL2RenderingContext;
+  private readonly canvas: HTMLCanvasElement;
+  private readonly scene: WebGLProgram;
+  private readonly down: WebGLProgram;
+  private readonly blur: WebGLProgram;
+  private readonly comp: WebGLProgram;
+  private readonly vao: WebGLVertexArrayObject;
+  private readonly floatTargets: boolean;
+  private readonly dataTex: Record<'type' | 'shade' | 'stamp' | 'stone' | 'temp' | 'awake', WebGLTexture>;
+  private readonly palTex: WebGLTexture;
+  private readonly glowTex: WebGLTexture;
+  private readonly texTex: WebGLTexture;
+  private sceneFb!: WebGLFramebuffer;
+  private sceneTex!: WebGLTexture;
+  private emitTex!: WebGLTexture;
+  private quarter!: Target;
+  private quarter2!: Target;
+  private w = 0;
+  private h = 0;
+  private cellPx = 1;
+  private readonly t0 = performance.now();
+  private readonly bg: [number, number, number];
+
+  constructor(canvas: HTMLCanvasElement, w: number, h: number, cellPx: number) {
+    const gl = canvas.getContext('webgl2', { alpha: false, antialias: false, premultipliedAlpha: false });
+    if (!gl) throw new Error('WebGL2 is not available');
+    this.gl = gl;
+    this.canvas = canvas;
+    this.floatTargets = gl.getExtension('EXT_color_buffer_float') !== null;
+    this.scene = this.program(SCENE);
+    this.down = this.program(DOWN);
+    this.blur = this.program(BLUR);
+    this.comp = this.program(COMPOSITE);
+    this.vao = gl.createVertexArray()!;
+    gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+
+    this.dataTex = {
+      type: this.texture(),
+      shade: this.texture(),
+      stamp: this.texture(),
+      stone: this.texture(),
+      temp: this.texture(),
+      awake: this.texture(),
+    };
+
+    // Palette: one row per element, 256 shades, plain light level.
+    const lut = buildPalette();
+    const plain = new Uint8Array(lut.buffer.slice(L_PLAIN * LEVEL_STRIDE * 4, (L_PLAIN + 1) * LEVEL_STRIDE * 4));
+    this.palTex = this.texture();
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, 256, ELEMENT_COUNT, 0, gl.RGBA, gl.UNSIGNED_BYTE, plain);
+
+    const glow = buildGlow();
+    const glowBytes = new Uint8Array(256 * 4);
+    for (let k = 0; k < 256; k++) {
+      const c = glow.colour[k];
+      glowBytes[k * 4] = c & 255;
+      glowBytes[k * 4 + 1] = (c >> 8) & 255;
+      glowBytes[k * 4 + 2] = (c >> 16) & 255;
+      glowBytes[k * 4 + 3] = Math.min(255, glow.alpha[k]);
+    }
+    this.glowTex = this.texture(gl.LINEAR);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, 256, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, glowBytes);
+
+    this.texTex = this.texture();
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, ELEMENT_COUNT, 1, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, TEXTURE_OF);
+
+    const n = parseInt(ELEMENTS[0].colours[0].slice(1), 16);
+    this.bg = [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+    this.resize(w, h, cellPx);
+  }
+
+  resize(w: number, h: number, cellPx: number): void {
+    if (w === this.w && h === this.h && cellPx === this.cellPx) return;
+    const gl = this.gl;
+    this.w = w;
+    this.h = h;
+    this.cellPx = cellPx;
+    this.canvas.width = w * cellPx;
+    this.canvas.height = h * cellPx;
+
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.stone);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, buildStoneShade(w, h));
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.type);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_SHORT, null);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.shade);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.stamp);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.temp);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R32F, w, h, 0, gl.RED, gl.FLOAT, null);
+
+    // Scene targets at cell resolution: colour and emission.
+    this.sceneTex = this.target(w, h, gl.RGBA8, gl.NEAREST);
+    this.emitTex = this.target(w, h, gl.RGBA8, gl.LINEAR);
+    this.sceneFb = gl.createFramebuffer()!;
+    gl.bindFramebuffer(gl.FRAMEBUFFER, this.sceneFb);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.sceneTex, 0);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT1, gl.TEXTURE_2D, this.emitTex, 0);
+    gl.drawBuffers([gl.COLOR_ATTACHMENT0, gl.COLOR_ATTACHMENT1]);
+
+    // Light at quarter resolution, float when possible so dark gradients do not band.
+    const qw = Math.max(1, Math.ceil(w / 4));
+    const qh = Math.max(1, Math.ceil(h / 4));
+    const fmt = this.floatTargets ? gl.RGBA16F : gl.RGBA8;
+    this.quarter = this.fbTarget(qw, qh, fmt);
+    this.quarter2 = this.fbTarget(qw, qh, fmt);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  }
+
+  draw(world: World): void {
+    const gl = this.gl;
+    if (world.w !== this.w || world.h !== this.h) this.resize(world.w, world.h, this.cellPx);
+    const { w, h } = this;
+
+    // Upload this frame's cells.
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.type);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_SHORT, world.type);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.shade);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.shade);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.stamp);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.stamp);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.temp);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED, gl.FLOAT, world.temp);
+    if (this.showChunks) {
+      gl.bindTexture(gl.TEXTURE_2D, this.dataTex.awake);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, world.cw, world.ch, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.awake);
+    }
+    gl.bindVertexArray(this.vao);
+
+    // 1. Scene.
+    gl.bindFramebuffer(gl.FRAMEBUFFER, this.sceneFb);
+    gl.viewport(0, 0, w, h);
+    gl.useProgram(this.scene);
+    this.bind(this.scene, 'uType', this.dataTex.type, 0);
+    this.bind(this.scene, 'uShade', this.dataTex.shade, 1);
+    this.bind(this.scene, 'uStamp', this.dataTex.stamp, 2);
+    this.bind(this.scene, 'uStone', this.dataTex.stone, 3);
+    this.bind(this.scene, 'uTex', this.texTex, 4);
+    this.bind(this.scene, 'uTemp', this.dataTex.temp, 5);
+    this.bind(this.scene, 'uPal', this.palTex, 6);
+    this.bind(this.scene, 'uGlow', this.glowTex, 7);
+    gl.uniform2i(gl.getUniformLocation(this.scene, 'uSize'), w, h);
+    gl.uniform1i(gl.getUniformLocation(this.scene, 'uMoved'), world.frame === 0 ? -1 : 1 + ((world.frame - 1) % 255));
+    gl.uniform1i(gl.getUniformLocation(this.scene, 'uFrame'), world.frame);
+    gl.uniform3f(gl.getUniformLocation(this.scene, 'uBg'), ...this.bg);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+    // 2. Light: downsample emission, blur twice each way (wide, soft).
+    gl.useProgram(this.down);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, this.quarter.fb);
+    gl.viewport(0, 0, this.quarter.w, this.quarter.h);
+    this.bind(this.down, 'uSrc', this.emitTex, 0);
+    gl.uniform2f(gl.getUniformLocation(this.down, 'uSrcSize'), w, h);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    gl.useProgram(this.blur);
+    for (let pass = 0; pass < 2; pass++) {
+      const spread = pass === 0 ? 1 : 2;
+      this.blurPass(this.quarter, this.quarter2, spread / this.quarter.w, 0);
+      this.blurPass(this.quarter2, this.quarter, 0, spread / this.quarter.h);
+    }
+
+    // 3. Composite to the screen.
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+    gl.useProgram(this.comp);
+    this.bind(this.comp, 'uScene', this.sceneTex, 0);
+    this.bind(this.comp, 'uLight', this.quarter.tex, 1);
+    this.bind(this.comp, 'uTemp', this.dataTex.temp, 2);
+    this.bind(this.comp, 'uType', this.dataTex.type, 3);
+    this.bind(this.comp, 'uAwake', this.dataTex.awake, 4);
+    gl.uniform2i(gl.getUniformLocation(this.comp, 'uSize'), w, h);
+    gl.uniform2f(gl.getUniformLocation(this.comp, 'uCanvas'), this.canvas.width, this.canvas.height);
+    gl.uniform1f(gl.getUniformLocation(this.comp, 'uTime'), (performance.now() - this.t0) / 1000);
+    gl.uniform1i(gl.getUniformLocation(this.comp, 'uChunks'), this.showChunks ? 1 : 0);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+
+  private blurPass(src: Target, dst: Target, sx: number, sy: number): void {
+    const gl = this.gl;
+    gl.bindFramebuffer(gl.FRAMEBUFFER, dst.fb);
+    gl.viewport(0, 0, dst.w, dst.h);
+    this.bind(this.blur, 'uSrc', src.tex, 0);
+    gl.uniform2f(gl.getUniformLocation(this.blur, 'uStep'), sx, sy);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+
+  private bind(prog: WebGLProgram, name: string, tex: WebGLTexture, unit: number): void {
+    const gl = this.gl;
+    gl.activeTexture(gl.TEXTURE0 + unit);
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.uniform1i(gl.getUniformLocation(prog, name), unit);
+  }
+
+  private texture(filter?: number): WebGLTexture {
+    const gl = this.gl;
+    const t = gl.createTexture()!;
+    gl.bindTexture(gl.TEXTURE_2D, t);
+    const f = filter ?? gl.NEAREST;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    return t;
+  }
+
+  private target(w: number, h: number, internal: number, filter: number): WebGLTexture {
+    const gl = this.gl;
+    const t = this.texture(filter);
+    gl.texStorage2D(gl.TEXTURE_2D, 1, internal, w, h);
+    return t;
+  }
+
+  private fbTarget(w: number, h: number, internal: number): Target {
+    const gl = this.gl;
+    const tex = this.target(w, h, internal, gl.LINEAR);
+    const fb = gl.createFramebuffer()!;
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    return { tex, fb, w, h };
+  }
+
+  private program(frag: string): WebGLProgram {
+    const gl = this.gl;
+    const compile = (type: number, src: string): WebGLShader => {
+      const s = gl.createShader(type)!;
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(`Shader: ${gl.getShaderInfoLog(s)}`);
+      return s;
+    };
+    const p = gl.createProgram()!;
+    gl.attachShader(p, compile(gl.VERTEX_SHADER, VERT));
+    gl.attachShader(p, compile(gl.FRAGMENT_SHADER, frag));
+    gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(`Program: ${gl.getProgramInfoLog(p)}`);
+    return p;
+  }
+}

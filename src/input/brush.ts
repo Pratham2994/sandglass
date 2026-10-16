@@ -144,7 +144,8 @@ export class Brush {
   }
 
   private onWheel(e: WheelEvent): void {
-    if (e.target instanceof Element && e.target.closest('.panel')) return;
+    // Only over the canvas: everywhere else (the library) the wheel scrolls as usual.
+    if (!(e.target instanceof Element) || !e.target.closest('#stage')) return;
     e.preventDefault();
     if (Math.sign(e.deltaY) !== Math.sign(this.wheelAcc)) this.wheelAcc = 0;
     this.wheelAcc += e.deltaMode === 0 ? e.deltaY : e.deltaY * WHEEL_STEP;

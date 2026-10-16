@@ -1,6 +1,6 @@
 import type { FixedLoop } from '../core/loop';
 import type { Brush } from '../input/brush';
-import type { Canvas2DRenderer } from '../render/canvas2d';
+import type { Renderer } from '../render/renderer';
 import { ELEMENTS, EMPTY, elementId } from '../sim/elements';
 import type { World } from '../sim/world';
 
@@ -45,7 +45,7 @@ export interface HookTargets {
   world: World;
   loop: FixedLoop;
   brush: Brush;
-  renderer: Canvas2DRenderer;
+  renderer: Renderer;
   frame(): void;
 }
 
@@ -87,7 +87,8 @@ export function installSimHook(t: HookTargets): void {
           n++;
         }
       }
-      renderer.draw(world);
+      // No redraw here: scripts fill thousands of rects; the next step or frame draws.
+      loop.invalidate();
       return n;
     },
     step(n = 1) {

@@ -42,6 +42,12 @@ export interface ElementDef {
   /** °C at which it boils, and what into. The reverse (condensing) is derived. */
   boil?: number;
   boilInto?: string;
+  /**
+   * Solids only: what forms instead when this solid freezes with nothing
+   * solid under it (lava cooling in mid-air or on a pool becomes loose
+   * rubble that falls or floats, not a block hanging in the air).
+   */
+  rubble?: string;
 }
 
 // Ids are indexes into ELEMENTS. Id 0 is empty space (air).
@@ -54,6 +60,7 @@ export const ICE = 5;
 export const STEAM = 6;
 export const LAVA = 7;
 export const STONE = 8;
+export const GRAVEL = 9;
 
 export const ELEMENTS: readonly ElementDef[] = [
   {
@@ -65,7 +72,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     phase: 'gas',
     density: 1.2,
     heatCapacity: 0.3,
-    conductivity: 0.05,
+    conductivity: 0.02,
   },
   {
     key: 'wall',
@@ -165,7 +172,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     fallMax: 90,
     dispersion: 2,
     temp: 1200,
-    heatCapacity: 1,
+    heatCapacity: 2.5,
     conductivity: 0.25,
   },
   {
@@ -177,6 +184,22 @@ export const ELEMENTS: readonly ElementDef[] = [
     texture: 'stone',
     phase: 'solid',
     density: 2600,
+    heatCapacity: 0.8,
+    conductivity: 0.3,
+    melt: 1000,
+    meltInto: 'lava',
+    rubble: 'gravel',
+  },
+  {
+    key: 'gravel',
+    name: 'Gravel',
+    blurb: 'Loose rock. Forms where lava cools with nothing under it; floats on lava, sinks in water.',
+    category: 'powders',
+    colours: ['#3b3835', '#4a4642', '#2f2d2b', '#56514c', '#433f3b'],
+    phase: 'powder',
+    density: 2000,
+    fallAccel: 240,
+    fallMax: 170,
     heatCapacity: 0.8,
     conductivity: 0.3,
     melt: 1000,
@@ -310,10 +333,16 @@ ELEMENTS.forEach((e, id) => {
   UP_T[id] = up.t + up.margin;
   UP_INTO[id] = into;
   UP_LATENT[id] = up.latent;
+  // The first element that melts or boils into another owns the reverse
+  // (stone, not gravel, is what lava freezes into).
+  if (DOWN_T[into] !== -Infinity) return;
   DOWN_T[into] = up.t - up.margin;
   DOWN_INTO[into] = id;
   DOWN_LATENT[into] = up.latent;
 });
+
+/** What a solid becomes instead when it freezes unsupported; 0 = itself. */
+export const RUBBLE_OF = Uint16Array.from(ELEMENTS, (e) => (e.rubble ? elementId(e.rubble) : 0));
 
 /** Element id for a key. Throws on an unknown key. */
 export function elementId(key: string): number {

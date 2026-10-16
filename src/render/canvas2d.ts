@@ -1,5 +1,6 @@
 import { EMPTY } from '../sim/elements';
 import { CHUNK, type World } from '../sim/world';
+import type { Renderer } from './renderer';
 import {
   LEVEL_STRIDE,
   L_DEEP,
@@ -79,7 +80,7 @@ function dark87(c: number): number {
  * Pixels are packed as 0xAABBGGRR, which is the byte order of RGBA on
  * little-endian machines (every desktop browser target).
  */
-export class Canvas2DRenderer {
+export class Canvas2DRenderer implements Renderer {
   pixels: Uint32Array;
   /** Debug: outline chunks, green if they ran last frame, faint grey if asleep. */
   showChunks = false;
