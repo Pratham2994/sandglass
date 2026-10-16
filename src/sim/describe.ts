@@ -28,7 +28,7 @@ const n0 = new Intl.NumberFormat('en-GB', { maximumFractionDigits: 0 });
 export function upChange(id: number): { verb: string; at: number; into: string } | null {
   const e = ELEMENTS[id];
   if (e.melt !== undefined && e.meltInto) return { verb: 'Melts', at: e.melt, into: ELEMENTS[UP_INTO[id]].name };
-  if (e.boil !== undefined && e.boilInto) return { verb: 'Boils', at: e.boil, into: ELEMENTS[UP_INTO[id]].name };
+  if (e.boil !== undefined && e.boilInto) return { verb: e.phase === 'solid' ? 'Sublimes' : 'Boils', at: e.boil, into: ELEMENTS[UP_INTO[id]].name };
   return null;
 }
 
@@ -129,7 +129,7 @@ export function pairLines(a: number, b: number): string[] {
     return lines;
   }
   const up = upChange(b);
-  if (up && Ta > AMBIENT && Ta > up.at + 2) lines.push(`${A.name} (${n0.format(Ta)} °C) is hot enough to ${up.verb === 'Melts' ? 'melt' : 'boil'} ${B.name.toLowerCase()} into ${up.into.toLowerCase()}`);
+  if (up && Ta > AMBIENT && Ta > up.at + 2) lines.push(`${A.name} (${n0.format(Ta)} °C) is hot enough to ${up.verb === 'Melts' ? 'melt' : up.verb === 'Sublimes' ? 'turn' : 'boil'} ${B.name.toLowerCase()} into ${up.into.toLowerCase()}`);
   const down = downChange(b);
   if (down && Ta < AMBIENT && Ta < down.at - 2) lines.push(`${A.name} (${n0.format(Ta)} °C) is cold enough to ${down.verb === 'Freezes' ? 'freeze' : 'condense'} ${B.name.toLowerCase()} into ${down.into.toLowerCase()}`);
   if (B.ignition !== undefined && Ta >= B.ignition && A.phase !== 'energy') {

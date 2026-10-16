@@ -112,7 +112,7 @@ The chemistry compiler applies these general rules to every pair of elements; no
 | Propane | gases | gas | 1.88 | 20 °C |  |  | from 470 °C |
 | Chlorine | gases | gas | 3.2 | 20 °C |  |  |  |
 | Sulfur dioxide | gases | gas | 2.6 | 20 °C |  |  |  |
-| Dry ice | solids | solid | 1,560 | -79 °C | boils at -78 °C → carbon dioxide |  |  |
+| Dry ice | solids | solid | 1,560 | -79 °C | sublimes at -78 °C → carbon dioxide |  |  |
 | Baking soda | powders | powder | 1,100 | 20 °C |  |  |  |
 | C4 | explosives | solid | 1,600 | 20 °C |  |  | from 900 °C |
 
@@ -384,7 +384,7 @@ With other elements (43 interact):
 - **Bleach:** Bleach falls through steam.
 - **Lye:** Lye falls through steam.
 - **Liquid nitrogen:** Steam (150 °C) is hot enough to boil liquid nitrogen into nitrogen. Liquid nitrogen falls through steam. Liquid nitrogen (-196 °C) is cold enough to condense steam into water.
-- **Dry ice:** Steam (150 °C) is hot enough to boil dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to condense steam into water.
+- **Dry ice:** Steam (150 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to condense steam into water.
 - **Baking soda:** Baking soda falls through steam.
 
 No direct interaction with: Air, Wall, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -455,7 +455,7 @@ With other elements (56 interact):
 - **Propane:** Lava falls through propane. Lava (1,200 °C) can set propane on fire (it ignites at 470 °C).
 - **Chlorine:** Lava falls through chlorine.
 - **Sulfur dioxide:** Lava falls through sulfur dioxide.
-- **Dry ice:** Lava (1,200 °C) is hot enough to boil dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze lava into stone.
+- **Dry ice:** Lava (1,200 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze lava into stone.
 - **C4:** Lava (1,200 °C) can set c4 on fire (it ignites at 900 °C).
 
 No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Rust, Sodium, Baking soda. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -580,7 +580,7 @@ With other elements (54 interact):
 - **Lye:** Lye falls through fire.
 - **Liquid nitrogen:** Liquid nitrogen puts out the fire, flashing into nitrogen. Fire (850 °C) is hot enough to boil liquid nitrogen into nitrogen. Liquid nitrogen falls through fire.
 - **Propane:** Propane catches from the flame touching it.
-- **Dry ice:** Fire (850 °C) is hot enough to boil dry ice into carbon dioxide.
+- **Dry ice:** Fire (850 °C) is hot enough to turn dry ice into carbon dioxide.
 - **Baking soda:** Baking soda falls through fire.
 
 No direct interaction with: Air, Wall, Steam, Stone, Smoke, Iron, Oxygen, Glass, Spark, Wire, Battery, Brick, Concrete, Limestone, Gold, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -636,7 +636,7 @@ With other elements (43 interact):
 - **Bleach:** Bleach falls through smoke.
 - **Lye:** Lye falls through smoke.
 - **Liquid nitrogen:** Smoke (150 °C) is hot enough to boil liquid nitrogen into nitrogen. Liquid nitrogen falls through smoke.
-- **Dry ice:** Smoke (150 °C) is hot enough to boil dry ice into carbon dioxide.
+- **Dry ice:** Smoke (150 °C) is hot enough to turn dry ice into carbon dioxide.
 - **Baking soda:** Baking soda falls through smoke.
 
 No direct interaction with: Air, Wall, Steam, Stone, Fire, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -1465,7 +1465,7 @@ With other elements (52 interact):
 - **Lye:** Lye falls through spark.
 - **Liquid nitrogen:** Spark (300 °C) is hot enough to boil liquid nitrogen into nitrogen. Liquid nitrogen falls through spark.
 - **Propane:** Propane catches from the flame touching it.
-- **Dry ice:** Spark (300 °C) is hot enough to boil dry ice into carbon dioxide.
+- **Dry ice:** Spark (300 °C) is hot enough to turn dry ice into carbon dioxide.
 - **Baking soda:** Baking soda falls through spark.
 
 No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Wire, Battery, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -1680,7 +1680,7 @@ With other elements (56 interact):
 - **Propane:** Molten copper falls through propane. Molten copper (1,200 °C) can set propane on fire (it ignites at 470 °C).
 - **Chlorine:** Molten copper falls through chlorine.
 - **Sulfur dioxide:** Molten copper falls through sulfur dioxide.
-- **Dry ice:** Molten copper (1,200 °C) is hot enough to boil dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten copper into wire.
+- **Dry ice:** Molten copper (1,200 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten copper into wire.
 - **C4:** Molten copper (1,200 °C) can set c4 on fire (it ignites at 900 °C).
 
 No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Rust, Sodium, Baking soda. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -1983,7 +1983,7 @@ With other elements (56 interact):
 - **Propane:** Molten gold falls through propane. Molten gold (1,150 °C) can set propane on fire (it ignites at 470 °C).
 - **Chlorine:** Molten gold falls through chlorine.
 - **Sulfur dioxide:** Molten gold falls through sulfur dioxide.
-- **Dry ice:** Molten gold (1,150 °C) is hot enough to boil dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten gold into gold.
+- **Dry ice:** Molten gold (1,150 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten gold into gold.
 - **C4:** Molten gold (1,150 °C) can set c4 on fire (it ignites at 900 °C).
 
 No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Rust, Sodium, Baking soda. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -2071,7 +2071,7 @@ With other elements (51 interact):
 - **Propane:** Molten aluminium falls through propane. Molten aluminium (750 °C) can set propane on fire (it ignites at 470 °C).
 - **Chlorine:** Molten aluminium falls through chlorine.
 - **Sulfur dioxide:** Molten aluminium falls through sulfur dioxide.
-- **Dry ice:** Molten aluminium (750 °C) is hot enough to boil dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten aluminium into aluminium.
+- **Dry ice:** Molten aluminium (750 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten aluminium into aluminium.
 
 No direct interaction with: Air, Wall, Sand, Stone, Gravel, Ash, Iron, Salt, Dirt, Glass, Wire, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Rust, Sodium, Thermite, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -2156,7 +2156,7 @@ With other elements (48 interact):
 - **Propane:** Molten lead falls through propane.
 - **Chlorine:** Molten lead falls through chlorine.
 - **Sulfur dioxide:** Molten lead falls through sulfur dioxide.
-- **Dry ice:** Molten lead (400 °C) is hot enough to boil dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten lead into lead.
+- **Dry ice:** Molten lead (400 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten lead into lead.
 
 No direct interaction with: Air, Wall, Sand, Stone, Gravel, Ash, Iron, Salt, Dirt, Glass, Shards, Wire, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Rust, Sodium, Coal, Thermite, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -2491,7 +2491,7 @@ With other elements (52 interact):
 - **Propane:** Molten wax falls through propane.
 - **Chlorine:** Molten wax falls through chlorine.
 - **Sulfur dioxide:** Molten wax falls through sulfur dioxide.
-- **Dry ice:** Molten wax (80 °C) is hot enough to boil dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten wax into wax.
+- **Dry ice:** Molten wax (80 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten wax into wax.
 - **Baking soda:** Baking soda sinks through molten wax (1,100 vs 800 kg/m³).
 
 No direct interaction with: Wall, Stone, Wood, Ash, Iron, Sawdust, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Paper, Rubber, Flour, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -3241,21 +3241,21 @@ Frozen carbon dioxide, very cold. Stays put and turns straight into gas without 
 
 - **State:** Solid, 1,560 kg/m³
 - **Starts at:** -79 °C
-- **Boils:** at -78 °C, into carbon dioxide
+- **Sublimes:** at -78 °C, into carbon dioxide
 
 With other elements (11 interact):
 
 - **Water:** Dry ice (-79 °C) is cold enough to freeze water into ice.
-- **Steam:** Dry ice (-79 °C) is cold enough to condense steam into water. Steam (150 °C) is hot enough to boil dry ice into carbon dioxide.
-- **Lava:** Dry ice (-79 °C) is cold enough to freeze lava into stone. Lava (1,200 °C) is hot enough to boil dry ice into carbon dioxide.
-- **Fire:** Fire (850 °C) is hot enough to boil dry ice into carbon dioxide.
-- **Smoke:** Smoke (150 °C) is hot enough to boil dry ice into carbon dioxide.
-- **Spark:** Spark (300 °C) is hot enough to boil dry ice into carbon dioxide.
-- **Molten copper:** Dry ice (-79 °C) is cold enough to freeze molten copper into wire. Molten copper (1,200 °C) is hot enough to boil dry ice into carbon dioxide.
-- **Molten gold:** Dry ice (-79 °C) is cold enough to freeze molten gold into gold. Molten gold (1,150 °C) is hot enough to boil dry ice into carbon dioxide.
-- **Molten aluminium:** Dry ice (-79 °C) is cold enough to freeze molten aluminium into aluminium. Molten aluminium (750 °C) is hot enough to boil dry ice into carbon dioxide.
-- **Molten lead:** Dry ice (-79 °C) is cold enough to freeze molten lead into lead. Molten lead (400 °C) is hot enough to boil dry ice into carbon dioxide.
-- **Molten wax:** Dry ice (-79 °C) is cold enough to freeze molten wax into wax. Molten wax (80 °C) is hot enough to boil dry ice into carbon dioxide.
+- **Steam:** Dry ice (-79 °C) is cold enough to condense steam into water. Steam (150 °C) is hot enough to turn dry ice into carbon dioxide.
+- **Lava:** Dry ice (-79 °C) is cold enough to freeze lava into stone. Lava (1,200 °C) is hot enough to turn dry ice into carbon dioxide.
+- **Fire:** Fire (850 °C) is hot enough to turn dry ice into carbon dioxide.
+- **Smoke:** Smoke (150 °C) is hot enough to turn dry ice into carbon dioxide.
+- **Spark:** Spark (300 °C) is hot enough to turn dry ice into carbon dioxide.
+- **Molten copper:** Dry ice (-79 °C) is cold enough to freeze molten copper into wire. Molten copper (1,200 °C) is hot enough to turn dry ice into carbon dioxide.
+- **Molten gold:** Dry ice (-79 °C) is cold enough to freeze molten gold into gold. Molten gold (1,150 °C) is hot enough to turn dry ice into carbon dioxide.
+- **Molten aluminium:** Dry ice (-79 °C) is cold enough to freeze molten aluminium into aluminium. Molten aluminium (750 °C) is hot enough to turn dry ice into carbon dioxide.
+- **Molten lead:** Dry ice (-79 °C) is cold enough to freeze molten lead into lead. Molten lead (400 °C) is hot enough to turn dry ice into carbon dioxide.
+- **Molten wax:** Dry ice (-79 °C) is cold enough to freeze molten wax into wax. Molten wax (80 °C) is hot enough to turn dry ice into carbon dioxide.
 
 No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
