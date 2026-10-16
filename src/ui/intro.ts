@@ -1,16 +1,23 @@
-import { EMPTY, OIL, SAND, WALL, WATER } from '../sim/elements';
+import { ACID, EMPTY, GRAVEL, GUNPOWDER, LAVA, OIL, PHASE_OF, PH_SOLID, SALT, SAND, SUGAR, WALL, WATER } from '../sim/elements';
 import type { World } from '../sim/world';
 
 const WORD = 'SANDGLASS';
-/** Material each letter turns into, left to right: sand sinks, oil floats on water. */
-const MATERIALS = [SAND, WATER, OIL, SAND, WATER, OIL, SAND, WATER, SAND];
+/**
+ * Material each letter turns into, left to right, chosen so neighbours
+ * react as they collapse into each other: sand soaks up water, lava boils
+ * water into steam and lights the oil, burning oil pops the gunpowder, salt
+ * dissolves into water, acid eats sugar.
+ */
+const MATERIALS = [SAND, WATER, LAVA, OIL, GUNPOWDER, WATER, SALT, ACID, SUGAR];
+/** Fall speed a letter starts with when it breaks (1.5 cells per frame), so the letters land together and react. */
+const DROP_VY = 48;
 /** Order letters break in: scattered, so no fragment of the word is left standing alone. */
 const ORDER = [4, 1, 7, 3, 8, 0, 5, 2, 6];
 /** Frames (60 per second): the word holds, then letters break one by one. */
-const HOLD = 40;
-const STAGGER = 5;
+const HOLD = 30;
+const STAGGER = 4;
 /** Frame the floor opens and everything drains out. */
-const DRAIN = 165;
+const DRAIN = 180;
 /** Hard stop: whatever is left is cleared. */
 const END = 290;
 const FONT = '"Geist Variable", ui-sans-serif, system-ui, sans-serif';
@@ -57,11 +64,18 @@ export class Intro {
         const letter = ORDER[k];
         const id = MATERIALS[letter];
         for (let i = 0; i < this.letterOf.length; i++)
-          if (this.letterOf[i] === letter + 1 && world.type[i] === WALL) world.place(i, id);
+          if (this.letterOf[i] === letter + 1 && world.type[i] === WALL) {
+            world.place(i, id);
+            world.vy[i] = DROP_VY;
+          }
       }
     }
     // The floor opens: the bottom row empties every frame and everything
     // plunges at full fall speed instead of restarting from rest.
+    if (f === DRAIN) {
+      // Anything that set solid on the way (cooled lava) breaks loose so it drains too.
+      for (let i = 0; i < world.size; i++) if (PHASE_OF[world.type[i]] === PH_SOLID) world.type[i] = GRAVEL;
+    }
     if (f >= DRAIN) {
       const vy = world.vy;
       for (let i = 0; i < world.size; i++) if (world.type[i] !== EMPTY) vy[i] = 96;
