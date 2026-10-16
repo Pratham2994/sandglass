@@ -23,6 +23,7 @@ import {
   FIRE,
   GRAVEL,
   GROWS_INTO_OF,
+  WITHER_INTO_OF,
   HYDROGEN,
   IGNITION_OF,
   LIFE_OF,
@@ -72,6 +73,7 @@ function allowed(start: number[]): Set<number> {
       if (RUBBLE_OF[e]) grew = add(RUBBLE_OF[e]) || grew;
       if (BREAKS_INTO_OF[e]) grew = add(BREAKS_INTO_OF[e]) || grew;
       if (GROWS_INTO_OF[e]) grew = add(GROWS_INTO_OF[e]) || grew;
+      if (WITHER_INTO_OF[e]) grew = add(WITHER_INTO_OF[e]) || grew;
       if (IGNITION_OF[e] !== Infinity || BLAST_POWER_OF[e] > 0 || PHASE_OF[e] === PH_ENERGY) {
         grew = add(FIRE) || grew;
         grew = add(SMOKE) || grew;

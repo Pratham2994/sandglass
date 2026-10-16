@@ -1,6 +1,6 @@
 import { P_MIN_T, P_RULE, explain } from './chem';
 import { downChange, upChange } from './describe';
-import { ELEMENTS, ELEMENT_COUNT, EMPTY, FIRE, FUEL_OF, OXIDISER_OF, PLANT as PLANT_ID, SOLVENT_OF, VY_UNIT } from './elements';
+import { ELEMENTS, ELEMENT_COUNT, EMPTY, FIRE, FUEL_OF, GROWS_INTO_OF, OXIDISER_OF, POROUS_MAX_OF, SOLVENT_OF, VY_UNIT, WATER, WITHER_INTO_OF } from './elements';
 import type { World } from './world';
 
 export interface Reaction {
@@ -77,7 +77,8 @@ export function inspectCell(world: World, x: number, y: number): CellReport | nu
   const facts: [string, string][] = [['Temperature', tempText]];
   const so = world.solute[i];
   const cn = world.conc[i];
-  if (cn !== 0 && t !== FIRE && so !== 0) {
+  const living = WITHER_INTO_OF[t] !== 0;
+  if (cn !== 0 && t !== FIRE && so !== 0 && !living) {
     const what = ELEMENTS[so].name.toLowerCase();
     if (e.phase === 'liquid') facts.push(['Carries', `dissolved ${what}, ${n0.format((cn / 255) * 100)}% of the cell`]);
     else facts.push(['Soaked with', `${what}, ${n0.format((cn / 255) * 100)}% of the cell${SOLVENT_OF[so] ? ': will not burn, holds steeper slopes' : ''}`]);
@@ -97,11 +98,24 @@ export function inspectCell(world: World, x: number, y: number): CellReport | nu
     }
   } else if (t === EMPTY) {
     state = 'Air';
-  } else if (cn !== 0 && so !== 0) {
+  } else if (cn !== 0 && so !== 0 && !living) {
     name = e.phase === 'liquid' ? `${e.name} with ${ELEMENTS[so].name.toLowerCase()}` : `Wet ${e.name.toLowerCase()}`;
   }
   if (world.charge[i] !== 0) facts.push(['Charge', 'a pulse of current is passing through it']);
-  if (t === PLANT_ID && world.life[i] !== 0) facts.push(['Growing', `${world.life[i]} more cells while it has open sky`]);
+  if (living) {
+    const into = ELEMENTS[WITHER_INTO_OF[t]].name.toLowerCase();
+    facts.push(['Water', cn === 0 ? `none left: it withers into ${into} soon` : `${n0.format((cn / 255) * 100)}% of the cell, drawn from damp soil or water it touches`]);
+    if (world.life[i] !== 0) facts.push(['Growing', `${world.life[i]} more cells while its tip has water and room above`]);
+  }
+  if (GROWS_INTO_OF[t] !== 0) {
+    // Say why a seed is waiting, so "nothing happens" is never a mystery.
+    const below = i + world.w;
+    const damp = below < world.size && POROUS_MAX_OF[world.type[below]] !== 0 && world.solute[below] === WATER && world.conc[below] >= 16;
+    const up = i - world.w;
+    const room = up >= 0 && (world.type[up] === EMPTY || (world.type[up] === WATER && world.conc[up] === 0));
+    const what = ELEMENTS[GROWS_INTO_OF[t]].name.toLowerCase();
+    facts.push(['Sprouts', damp && room ? `soon, into ${what}` : !damp ? 'needs damp soil under it (dirt or sand with water)' : 'needs air or fresh water above it']);
+  }
   const vy = world.vy[i];
   if (vy > 0) {
     state = 'Falling';

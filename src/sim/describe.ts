@@ -81,11 +81,13 @@ export function elementFacts(id: number): [string, string][] {
   } else if (e.ignition !== undefined) {
     const left = e.burnInto && e.burnInto !== 'empty' ? `, leaves ${ELEMENTS.find((x) => x.key === e.burnInto)!.name.toLowerCase()}` : '';
     out.push(['Burns', `from ${n0.format(e.ignition)} °C in air, ${num.format((e.fuel ?? 0) / 60)} s per cell${left}`]);
+    if (e.flash !== undefined) out.push(['Flash point', `${n0.format(e.flash)} °C: above it, flames spread across it`]);
   }
   if (e.electric) out.push(['Conducts', 'electric charge, warming as pulses pass']);
   if (e.solvent) out.push(['Conducts', 'only when it carries salt; current then splits it into hydrogen and oxygen']);
   if (e.powerEvery) out.push(['Powers', `touching conductors with a pulse every ${num.format(e.powerEvery / 60)} s`]);
-  if (e.growsInto) out.push(['Grows', 'into a plant on wet dirt with open sky above']);
+  if (e.growsInto) out.push(['Grows', `into ${ELEMENTS.find((x) => x.key === e.growsInto)!.name.toLowerCase()} on damp soil (wet dirt or sand), even under a puddle`]);
+  if (e.witherInto) out.push(['Lives', `on water drawn from damp soil; dried out, it withers into ${ELEMENTS.find((x) => x.key === e.witherInto)!.name.toLowerCase()}`]);
   if (e.brittle) out.push(['Shatters', `into ${e.breaksInto ?? 'pieces'} when a blast hits it`]);
   if ((e.oxidiser ?? 0) > 0 && id !== EMPTY) out.push(['Feeds fire', `strength ${num.format(e.oxidiser ?? 0)} (air is 0.21)`]);
   if ((e.acidity ?? 0) >= 0.3) out.push(['Eats', `metal, rock and wood softer than ${num.format(e.acidity ?? 0)}, weakening as it fills`]);

@@ -79,6 +79,12 @@ export interface ElementDef {
   rubble?: string;
   /** °C at which it catches fire when touching an oxidiser (air, oxygen). */
   ignition?: number;
+  /**
+   * Flash point, °C: above it, its vapour catches from a burning neighbour
+   * wherever air reaches it, so a pool of fuel burns across its surface.
+   * Unset: a neighbour must heat it all the way to `ignition`.
+   */
+  flash?: number;
   /** Frames one cell burns for. */
   fuel?: number;
   /** °C its flame reaches. */
@@ -121,8 +127,10 @@ export interface ElementDef {
   powerEvery?: number;
   /** Energy: frames a placed cell lasts (fire 45, spark 10). */
   lifetime?: number;
-  /** Seeds: grow into this element on wet dirt with open sky above. */
+  /** Seeds: grow into this element on damp soil with room above. */
   growsInto?: string;
+  /** Living things: what a cell becomes when it has no water left (plant → dry plant). */
+  witherInto?: string;
   /** Hand-written reactions by the other element's key; they win over the compiler. */
   overrides?: Record<string, Override>;
 }
@@ -164,6 +172,8 @@ export const BATTERY = 32;
 export const MERCURY = 33;
 export const SEED = 34;
 export const PLANT = 35;
+export const MOLTEN_COPPER = 36;
+export const DRY_PLANT = 37;
 
 export const ELEMENTS: readonly ElementDef[] = [
   {
@@ -235,6 +245,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'organic',
     hardness: 0.1,
     ignition: 250,
+    flash: 55,
     fuel: 240,
     flameTemp: 950,
     burnEnergy: 6,
@@ -506,6 +517,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.6,
     conductivity: 0.17,
     ignition: 365,
+    flash: 13,
     fuel: 120,
     flameTemp: 750,
     burnInto: 'steam',
@@ -757,13 +769,13 @@ export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'seed',
     name: 'Seed',
-    blurb: 'A small seed, a light powder. Falls and rests. On wet dirt with open sky above it sprouts and grows into a plant.',
+    blurb: 'A small seed, a light powder. Falls, sinks in water and rests. On damp soil (wet dirt or sand), it sprouts into a plant, even under a puddle.',
     category: 'life',
     colours: ['#9b7a3c', '#866630', '#b08c48', '#76592a'],
     phase: 'powder',
     cls: 'life',
     hardness: 0.2,
-    density: 700,
+    density: 1100,
     fallAccel: 200,
     fallMax: 140,
     heatCapacity: 0.8,
@@ -777,7 +789,7 @@ export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'plant',
     name: 'Plant',
-    blurb: 'A living green stem. Grows upwards towards open sky, drinking water from the dirt below. Burns, and acid eats it.',
+    blurb: 'A living green plant. Its roots drink from damp soil or water and pass it up the stem; it grows while it has water and puts out leaves. Dried out, it withers. Burns, and acid eats it.',
     category: 'life',
     colours: ['#3f8f3a', '#4ea446', '#357a31', '#5cb553'],
     texture: 'stone',
@@ -792,6 +804,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 750,
     burnInto: 'ash',
     residue: 0.4,
+    witherInto: 'dry_plant',
   },
   {
     key: 'molten_copper',
@@ -811,6 +824,25 @@ export const ELEMENTS: readonly ElementDef[] = [
     temp: 1200,
     heatCapacity: 0.4,
     conductivity: 0.9,
+  },
+  {
+    key: 'dry_plant',
+    name: 'Dry plant',
+    blurb: 'A plant that ran out of water, dry and brown. Stays put. Catches fire very easily and burns fast, leaving ash.',
+    category: 'life',
+    colours: ['#8a7a3e', '#9c8a48', '#76683a', '#a8945a'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 300,
+    heatCapacity: 0.8,
+    conductivity: 0.08,
+    ignition: 200,
+    fuel: 40,
+    flameTemp: 700,
+    burnInto: 'ash',
+    residue: 0.3,
   },
 ];
 
@@ -954,6 +986,8 @@ ELEMENTS.forEach((e, id) => {
 export const LIFE_OF = Uint16Array.from(ELEMENTS, (e) => e.lifetime ?? (e.phase === 'energy' ? 45 : 0));
 /** °C at which an element ignites next to an oxidiser; Infinity = never. */
 export const IGNITION_OF = Float32Array.from(ELEMENTS, (e) => e.ignition ?? Infinity);
+/** Flash point, °C: a burning neighbour lights it above this if air reaches it; Infinity = never. */
+export const FLASH_OF = Float32Array.from(ELEMENTS, (e) => e.flash ?? Infinity);
 /** Frames one cell of an element burns. */
 export const FUEL_OF = Uint16Array.from(ELEMENTS, (e) => e.fuel ?? 0);
 /** °C the flame of an element reaches. */
@@ -1011,6 +1045,8 @@ export const ELECTRIC_OF = Uint8Array.from(ELEMENTS, (e) => ((e.electric ?? 0) >
 export const POWER_EVERY_OF = Uint8Array.from(ELEMENTS, (e) => e.powerEvery ?? 0);
 /** Seeds: what they grow into, 0 = not a seed. */
 export const GROWS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.growsInto ? elementId(e.growsInto) : 0));
+/** What a living cell withers into without water; 0 = it does not. */
+export const WITHER_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.witherInto ? elementId(e.witherInto) : 0));
 
 /** What a solid becomes instead when it freezes unsupported; 0 = itself. */
 export const RUBBLE_OF = Uint16Array.from(ELEMENTS, (e) => (e.rubble ? elementId(e.rubble) : 0));
