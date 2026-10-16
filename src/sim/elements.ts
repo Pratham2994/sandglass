@@ -42,7 +42,7 @@ export interface ElementDef {
    * to the grid, bevelled edges. liquid: colours run from surface to deep by
    * depth, surface glints.
    */
-  texture?: 'grain' | 'stone' | 'liquid' | 'gas' | 'fire';
+  texture?: 'grain' | 'stone' | 'liquid' | 'gas' | 'fire' | 'glass';
   phase: Phase;
   cls: Cls;
   /** 0..1: resists acid (and, later, pressure). */
@@ -99,6 +99,18 @@ export interface ElementDef {
   solubility?: number;
   /** Powders: how much liquid it soaks up, 0..1 (sand 0.3, dirt 0.5). */
   porosity?: number;
+  /**
+   * Explosives: once lit (by heat past `ignition` or a flame, no air needed),
+   * every cell of it within `radius` goes up at once: a pressure blast of
+   * about `power` per cell (square-root scaled), heat and flames.
+   */
+  explosive?: { power: number; radius: number };
+  /** Liquid explosives: also go off when they land faster than this (cells/s). */
+  impact?: number;
+  /** Brittle solids: shatter when the air pressure on them passes this. */
+  brittle?: number;
+  /** What a brittle solid shatters into. */
+  breaksInto?: string;
   /** Hand-written reactions by the other element's key; they win over the compiler. */
   overrides?: Record<string, Override>;
 }
@@ -129,6 +141,11 @@ export const SALT = 21;
 export const SUGAR = 22;
 export const DIRT = 23;
 export const SNOW = 24;
+export const TNT = 25;
+export const GUNPOWDER = 26;
+export const NITRO = 27;
+export const GLASS = 28;
+export const SHARDS = 29;
 
 export const ELEMENTS: readonly ElementDef[] = [
   {
@@ -568,6 +585,90 @@ export const ELEMENTS: readonly ElementDef[] = [
     melt: 0,
     meltInto: 'water',
   },
+  {
+    key: 'tnt',
+    name: 'TNT',
+    blurb: 'A packed explosive block. Stays put. Heat or a flame sets it off: the whole block blasts outwards, throwing what is nearby.',
+    category: 'explosives',
+    colours: ['#b8322a', '#a52b24', '#c43a31', '#962620'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.3,
+    density: 1650,
+    heatCapacity: 0.8,
+    conductivity: 0.1,
+    ignition: 300,
+    explosive: { power: 6, radius: 7 },
+  },
+  {
+    key: 'gunpowder',
+    name: 'Gunpowder',
+    blurb: 'A dark explosive powder. Falls and piles. Lit, it goes off grain by grain in quick small bangs.',
+    category: 'explosives',
+    colours: ['#2b2a2a', '#3a3838', '#222121', '#454241', '#323030'],
+    phase: 'powder',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 1700,
+    fallAccel: 230,
+    fallMax: 160,
+    heatCapacity: 0.7,
+    conductivity: 0.1,
+    ignition: 250,
+    explosive: { power: 3, radius: 2 },
+  },
+  {
+    key: 'nitro',
+    name: 'Nitro',
+    blurb: 'An oily explosive liquid. Flows slowly. Goes off when heated, lit, or dropped hard.',
+    category: 'explosives',
+    colours: ['#d8e27a', '#c2cd5c', '#a8b447', '#8d9837', '#717a2b'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0,
+    density: 1600,
+    fallAccel: 220,
+    fallMax: 160,
+    dispersion: 3,
+    heatCapacity: 0.6,
+    conductivity: 0.15,
+    ignition: 200,
+    explosive: { power: 14, radius: 6 },
+    impact: 140,
+  },
+  {
+    key: 'glass',
+    name: 'Glass',
+    blurb: 'A clear, brittle solid. Stays put and lets you see through it. Shatters into shards when a blast hits it.',
+    category: 'solids',
+    colours: ['#a9d6e5', '#bfe2ee', '#93c6d8', '#d2ecf4'],
+    texture: 'glass',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 0.9,
+    density: 2500,
+    heatCapacity: 0.8,
+    conductivity: 0.15,
+    brittle: 3,
+    breaksInto: 'shards',
+  },
+  {
+    key: 'shards',
+    name: 'Shards',
+    blurb: 'Broken glass, a sharp powder. Falls and piles in glittering heaps.',
+    category: 'powders',
+    colours: ['#b6dfec', '#9ccfe0', '#d6eff6', '#86bfd3', '#c4e6f1'],
+    phase: 'powder',
+    cls: 'mineral',
+    hardness: 0.9,
+    density: 2500,
+    fallAccel: 240,
+    fallMax: 170,
+    heatCapacity: 0.8,
+    conductivity: 0.15,
+  },
 ];
 
 export const ELEMENT_COUNT = ELEMENTS.length;
@@ -746,6 +847,18 @@ export const SOLVENT_OF = Uint8Array.from(ELEMENTS, (e) => (e.solvent ? 1 : 0));
 export const SOLUBLE_MAX_OF = Uint8Array.from(ELEMENTS, (e) => Math.round((e.solubility ?? 0) * 255));
 /** Most liquid (0..255) a porous powder soaks up. */
 export const POROUS_MAX_OF = Uint8Array.from(ELEMENTS, (e) => Math.round((e.porosity ?? 0) * 255));
+
+// ---- Air, explosives, brittle --------------------------------------------------
+
+/** Blast power per cell of an explosive (0 = not explosive) and its radius in cells. */
+export const BLAST_POWER_OF = Float32Array.from(ELEMENTS, (e) => e.explosive?.power ?? 0);
+export const BLAST_RADIUS_OF = Uint8Array.from(ELEMENTS, (e) => e.explosive?.radius ?? 0);
+/** Landing speed (vy units) that sets off a shock-sensitive explosive; 0 = never. */
+export const IMPACT_VY_OF = Uint8Array.from(ELEMENTS, (e) => (e.impact ? Math.min(127, Math.round((e.impact / 60) * VY_UNIT)) : 0));
+/** Air pressure that shatters a brittle solid; 0 = never. */
+export const BRITTLE_OF = Float32Array.from(ELEMENTS, (e) => e.brittle ?? 0);
+/** What a brittle solid shatters into. */
+export const BREAKS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.breaksInto ? elementId(e.breaksInto) : 0));
 
 /** What a solid becomes instead when it freezes unsupported; 0 = itself. */
 export const RUBBLE_OF = Uint16Array.from(ELEMENTS, (e) => (e.rubble ? elementId(e.rubble) : 0));

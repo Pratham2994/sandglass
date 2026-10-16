@@ -1,9 +1,10 @@
 import type { FixedLoop } from '../core/loop';
-import { MAX_RADIUS, type Brush } from '../input/brush';
+import { MAX_RADIUS, type Brush, type Tool } from '../input/brush';
 import { ELEMENTS, EMPTY, PHASE_OF, PH_LIQUID, PH_POWDER, type Category } from '../sim/elements';
 import type { World } from '../sim/world';
 import { elementFacts } from '../sim/describe';
 import { inspectCell } from '../sim/inspect';
+import type { View } from '../render/renderer';
 import { icon } from './icons';
 import { MiniSim } from './preview';
 
@@ -40,7 +41,12 @@ function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: 
  * tiles by category with live previews, a detail card for the selected
  * element, and brush size.
  */
-export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, world: World, onClear: () => void): void {
+export interface ViewControl {
+  get(): View;
+  set(v: View): void;
+}
+
+export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, world: World, onClear: () => void, views: ViewControl): void {
   host.classList.add('library');
 
   // Stats line at the very bottom: useful, but not a control, so out of the way.
@@ -139,6 +145,34 @@ export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, w
 
   // Tiles by category.
   const groups = el('div', 'groups');
+
+  // Tools first: heat, cool and wind change what is there instead of adding to it.
+  const toolGroup = el('section', 'group');
+  toolGroup.append(el('h3', 'group-name', 'Tools'));
+  const toolGrid = el('div', 'tiles');
+  const toolButtons: { tool: Tool; b: HTMLButtonElement }[] = [];
+  const toolInfo: [Tool, string, string][] = [
+    ['heat', 'Heat', 'Warms whatever is under the brush'],
+    ['cool', 'Cool', 'Chills whatever is under the brush'],
+    ['wind', 'Wind', 'Drag to blow air along the stroke'],
+  ];
+  for (const [tool, name, hint] of toolInfo) {
+    const b = el('button', 'tile tool-tile');
+    b.type = 'button';
+    b.setAttribute('aria-label', name);
+    b.dataset.tip = hint;
+    const face = el('span', `tool-face ${tool}`);
+    face.append(icon(tool));
+    b.append(face, el('span', 'tile-name', name));
+    b.addEventListener('pointerdown', (ev) => ev.preventDefault());
+    b.addEventListener('click', () => brush.setTool(tool));
+    b.addEventListener('pointerenter', () => showTip(b));
+    b.addEventListener('pointerleave', () => (tip.hidden = true));
+    toolGrid.append(b);
+    toolButtons.push({ tool, b });
+  }
+  toolGroup.append(toolGrid);
+  groups.append(toolGroup);
   const tiles: { id: number; button: HTMLButtonElement; group: HTMLElement; sim: MiniSim }[] = [];
   let hotkey = 1;
   for (const cat of CATEGORY_ORDER) {
@@ -277,8 +311,46 @@ export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, w
   setInterval(refreshLens, 120);
   brush.subscribe(refreshLens);
 
+  // View switch: normal, or heat / pressure / flow over the scene (keys H, P, F).
+  const viewBar = el('div', 'views');
+  viewBar.setAttribute('role', 'tablist');
+  viewBar.setAttribute('aria-label', 'View');
+  const viewNames: [View, string][] = [
+    ['normal', 'Normal'],
+    ['heat', 'Heat'],
+    ['pressure', 'Pressure'],
+    ['flow', 'Flow'],
+  ];
+  const viewButtons = viewNames.map(([v, name]) => {
+    const b = el('button', 'view', name);
+    b.type = 'button';
+    b.setAttribute('role', 'tab');
+    b.addEventListener('pointerdown', (e) => e.preventDefault());
+    b.addEventListener('click', () => {
+      views.set(v);
+      refreshViews();
+    });
+    viewBar.append(b);
+    return { v, b };
+  });
+  const refreshViews = (): void => {
+    for (const { v, b } of viewButtons) {
+      b.classList.toggle('on', views.get() === v);
+      b.setAttribute('aria-selected', String(views.get() === v));
+    }
+  };
+  refreshViews();
+  window.addEventListener('keydown', (e) => {
+    if (e.target instanceof HTMLInputElement && e.target.type !== 'range') return;
+    const k = e.key.toLowerCase();
+    const want: View | null = k === 'h' ? 'heat' : k === 'p' ? 'pressure' : k === 'f' ? 'flow' : null;
+    if (!want) return;
+    views.set(views.get() === want ? 'normal' : want);
+    refreshViews();
+  });
+
   const top = el('div', 'lib-top');
-  top.append(bar, search, chips);
+  top.append(bar, viewBar, search, chips);
   const foot = el('div', 'lib-foot');
   foot.append(detail, lens, sizeRow, stats);
   host.append(top, groups, foot);
@@ -304,8 +376,13 @@ export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, w
   };
 
   const refresh = (): void => {
+    for (const { tool, b } of toolButtons) {
+      const on = brush.tool === tool;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', String(on));
+    }
     for (const t of tiles) {
-      const on = t.id === brush.element && !brush.erasing;
+      const on = t.id === brush.element && !brush.erasing && !brush.tool;
       t.button.classList.toggle('on', on);
       t.button.setAttribute('aria-pressed', String(on));
     }

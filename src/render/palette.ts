@@ -31,7 +31,8 @@ export const TEX_STONE = 1;
 export const TEX_LIQUID = 2;
 export const TEX_GAS = 3;
 export const TEX_FIRE = 4;
-const TEX_CODE = { grain: TEX_GRAIN, stone: TEX_STONE, liquid: TEX_LIQUID, gas: TEX_GAS, fire: TEX_FIRE } as const;
+export const TEX_GLASS = 5;
+const TEX_CODE = { grain: TEX_GRAIN, stone: TEX_STONE, liquid: TEX_LIQUID, gas: TEX_GAS, fire: TEX_FIRE, glass: TEX_GLASS } as const;
 export const TEXTURE_OF = Uint8Array.from(ELEMENTS, (e) => TEX_CODE[e.texture ?? 'grain']);
 
 function lerp(a: number, b: number, t: number): number {
@@ -51,7 +52,7 @@ export function buildPalette(): Uint32Array {
     const cols = el.colours.map(parseHex);
     for (let s = 0; s < 256; s++) {
       let r: number, g: number, b: number;
-      if ((el.texture === 'stone' || el.texture === 'liquid') && cols.length > 1) {
+      if ((el.texture === 'stone' || el.texture === 'liquid' || el.texture === 'glass') && cols.length > 1) {
         const f = (s / 255) * (cols.length - 1);
         const k = Math.min(cols.length - 2, Math.floor(f));
         const [a, c] = [cols[k], cols[k + 1]];

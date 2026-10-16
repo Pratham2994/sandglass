@@ -73,10 +73,16 @@ export function elementFacts(id: number): [string, string][] {
   const down = downChange(id);
   if (down) out.push([down.verb, `below ${n0.format(down.at)} °C, into ${down.into.toLowerCase()}`]);
 
-  if (e.ignition !== undefined) {
+  if (e.explosive) {
+    out.push([
+      'Explodes',
+      `from ${n0.format(e.ignition ?? 0)} °C or a flame${e.impact ? ', or when it lands hard' : ''}; blast radius ${e.explosive.radius} cells`,
+    ]);
+  } else if (e.ignition !== undefined) {
     const left = e.burnInto && e.burnInto !== 'empty' ? `, leaves ${ELEMENTS.find((x) => x.key === e.burnInto)!.name.toLowerCase()}` : '';
     out.push(['Burns', `from ${n0.format(e.ignition)} °C in air, ${num.format((e.fuel ?? 0) / 60)} s per cell${left}`]);
   }
+  if (e.brittle) out.push(['Shatters', `into ${e.breaksInto ?? 'pieces'} when a blast hits it`]);
   if ((e.oxidiser ?? 0) > 0 && id !== EMPTY) out.push(['Feeds fire', `strength ${num.format(e.oxidiser ?? 0)} (air is 0.21)`]);
   if ((e.acidity ?? 0) >= 0.3) out.push(['Eats', `metal, rock and wood softer than ${num.format(e.acidity ?? 0)}, weakening as it fills`]);
   if (e.solvent) out.push(['Dissolves', 'soluble powders (salt, sugar), up to each one’s limit; saltier is heavier']);

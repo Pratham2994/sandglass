@@ -1,7 +1,8 @@
 import { ELEMENTS, ELEMENT_COUNT } from '../sim/elements';
 import { CHUNK, type World } from '../sim/world';
 import { GLOW_MAX, GLOW_MIN, LEVEL_STRIDE, L_PLAIN, TEXTURE_OF, buildGlow, buildPalette, buildStoneShade } from './palette';
-import type { Renderer } from './renderer';
+import type { Renderer, View } from './renderer';
+import { AIR } from '../sim/air';
 
 const VERT = `#version 300 es
 void main() {
@@ -40,7 +41,7 @@ layout(location = 1) out vec4 oEmit;
 const uint OUT = 65535u;
 const float LIGHT[7] = float[7](0.7, 0.85, 0.9, 1.0, 1.08, 1.17, 1.38);
 const int L_UNDER = 0, L_SHADE = 1, L_DEEP = 2, L_PLAIN = 3, L_SIDE = 4, L_TOP = 5, L_GLINT = 6;
-const uint TEX_STONE = 1u, TEX_LIQUID = 2u, TEX_GAS = 3u, TEX_FIRE = 4u;
+const uint TEX_STONE = 1u, TEX_LIQUID = 2u, TEX_GAS = 3u, TEX_FIRE = 4u, TEX_GLASS = 5u;
 
 uint typeAt(ivec2 p) {
   if (p.x < 0 || p.y < 0 || p.x >= uSize.x || p.y >= uSize.y) return OUT;
@@ -88,6 +89,13 @@ void main() {
   uint shade = texelFetch(uShade, p, 0).r;
   if (tex == TEX_GAS) {
     oColor = vec4(mix(pal(t, shade), bg, 0.5), 1.0);
+    return;
+  }
+  if (tex == TEX_GLASS) {
+    // See-through: mostly what is behind it, with a bright top edge and a faint sheen.
+    vec3 g = pal(t, texelFetch(uStone, p, 0).r);
+    vec3 c = mix(bg, g, 0.42) + (upEmpty ? vec3(0.18) : vec3(0.0));
+    oColor = vec4(min(c, vec3(1.0)), 1.0);
     return;
   }
   if (tex == TEX_FIRE) {
@@ -199,11 +207,27 @@ uniform sampler2D uLight;
 uniform sampler2D uTemp;
 uniform usampler2D uType;
 uniform usampler2D uAwake;
+uniform sampler2D uPress;
+uniform sampler2D uVel;
 uniform ivec2 uSize;
 uniform vec2 uCanvas;
 uniform float uTime;
 uniform int uChunks;
+uniform int uView;
 out vec4 o;
+
+/** Temperature to colour: blue cold, grey room, orange warm, red hot, yellow-white very hot. */
+vec3 heatColour(float T) {
+  if (T < 0.0) return mix(vec3(0.55, 0.8, 1.0), vec3(0.1, 0.25, 0.9), clamp(-T / 60.0, 0.0, 1.0));
+  if (T < 20.0) return mix(vec3(0.55, 0.8, 1.0), vec3(0.17), T / 20.0);
+  if (T < 100.0) return mix(vec3(0.17), vec3(0.95, 0.55, 0.15), (T - 20.0) / 80.0);
+  if (T < 500.0) return mix(vec3(0.95, 0.55, 0.15), vec3(0.85, 0.12, 0.08), (T - 100.0) / 400.0);
+  return mix(vec3(0.85, 0.12, 0.08), vec3(1.0, 0.95, 0.7), clamp((T - 500.0) / 700.0, 0.0, 1.0));
+}
+vec3 hsv(float h, float s, float v) {
+  vec3 k = clamp(abs(mod(h * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
+  return v * mix(vec3(1.0), k, s);
+}
 void main() {
   vec2 uv = gl_FragCoord.xy / uCanvas;
   vec2 cellF = vec2(uv.x, 1.0 - uv.y) * vec2(uSize);
@@ -219,6 +243,16 @@ void main() {
   vec3 L = texture(uLight, gl_FragCoord.xy / uCanvas).rgb;
   // Light falls off with distance (the blur); close surfaces take its colour strongly.
   vec3 c = scene * (1.0 + L * 1.8) + L * 0.12;
+  if (uView == 1) {
+    c = mix(c * 0.3, heatColour(texelFetch(uTemp, cell, 0).r), 0.78);
+  } else if (uView == 2) {
+    float pv = texelFetch(uPress, cell / ${AIR}, 0).r;
+    c = c * 0.35 + vec3(max(pv, 0.0), max(pv, 0.0) * 0.25, max(-pv, 0.0)) * 0.22;
+  } else if (uView == 3) {
+    vec2 v = texelFetch(uVel, cell / ${AIR}, 0).rg;
+    float sp = length(v);
+    c = c * 0.35 + hsv(atan(v.y, v.x) / 6.2832 + 0.5, 0.75, min(1.0, sp * 0.9));
+  }
   if (uChunks == 1) {
     ivec2 local = ivec2(cellF) % ${CHUNK};
     if (local.x == 0 || local.y == 0) {
@@ -245,7 +279,10 @@ interface Target {
  */
 export class WebGLRenderer implements Renderer {
   showChunks = false;
+  view: View = 'normal';
   private readonly gl: WebGL2RenderingContext;
+  private readonly pressTex: WebGLTexture;
+  private readonly velTex: WebGLTexture;
   private readonly canvas: HTMLCanvasElement;
   private readonly scene: WebGLProgram;
   private readonly down: WebGLProgram;
@@ -266,6 +303,7 @@ export class WebGLRenderer implements Renderer {
   private h = 0;
   private cellPx = 1;
   private readonly t0 = performance.now();
+  private velScratch = new Float32Array(0);
   private readonly bg: [number, number, number];
 
   constructor(canvas: HTMLCanvasElement, w: number, h: number, cellPx: number) {
@@ -312,6 +350,9 @@ export class WebGLRenderer implements Renderer {
 
     this.texTex = this.texture();
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, ELEMENT_COUNT, 1, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, TEXTURE_OF);
+
+    this.pressTex = this.texture();
+    this.velTex = this.texture();
 
     const n = parseInt(ELEMENTS[0].colours[0].slice(1), 16);
     this.bg = [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
@@ -419,6 +460,21 @@ export class WebGLRenderer implements Renderer {
       this.blurPass(this.quarter2, this.quarter, 0, spread / this.quarter.h);
     }
 
+    // Air fields for the pressure and flow views.
+    const viewCode = this.view === 'heat' ? 1 : this.view === 'pressure' ? 2 : this.view === 'flow' ? 3 : 0;
+    if (viewCode >= 2) {
+      const air = world.air;
+      gl.bindTexture(gl.TEXTURE_2D, this.pressTex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.R32F, air.aw, air.ah, 0, gl.RED, gl.FLOAT, air.p);
+      const vel = this.velScratch.length === air.aw * air.ah * 2 ? this.velScratch : (this.velScratch = new Float32Array(air.aw * air.ah * 2));
+      for (let k = 0; k < air.aw * air.ah; k++) {
+        vel[k * 2] = air.vx[k];
+        vel[k * 2 + 1] = air.vy[k];
+      }
+      gl.bindTexture(gl.TEXTURE_2D, this.velTex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RG32F, air.aw, air.ah, 0, gl.RG, gl.FLOAT, vel);
+    }
+
     // 3. Composite to the screen.
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.viewport(0, 0, this.canvas.width, this.canvas.height);
@@ -432,6 +488,9 @@ export class WebGLRenderer implements Renderer {
     gl.uniform2f(gl.getUniformLocation(this.comp, 'uCanvas'), this.canvas.width, this.canvas.height);
     gl.uniform1f(gl.getUniformLocation(this.comp, 'uTime'), (performance.now() - this.t0) / 1000);
     gl.uniform1i(gl.getUniformLocation(this.comp, 'uChunks'), this.showChunks ? 1 : 0);
+    gl.uniform1i(gl.getUniformLocation(this.comp, 'uView'), viewCode);
+    this.bind(this.comp, 'uPress', this.pressTex, 5);
+    this.bind(this.comp, 'uVel', this.velTex, 6);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
 

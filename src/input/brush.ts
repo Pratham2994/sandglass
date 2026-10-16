@@ -2,8 +2,18 @@ import { EMPTY, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER, SAND } from '../sim/elem
 import type { World } from '../sim/world';
 
 export const MAX_RADIUS = 64;
-/** Mode value queued for erase strokes. */
+/** Mode values queued for strokes that are not an element. */
 const ERASE = -1;
+const HEAT = -2;
+const COOL = -3;
+const WIND = -4;
+/** °C a heat or cool stroke adds or takes per stamp. */
+const TOOL_DT = 14;
+/** Air speed the wind tool adds per stamp, along the stroke. */
+const WIND_SPEED = 1.6;
+
+/** Brush tools that are not elements. */
+export type Tool = 'heat' | 'cool' | 'wind';
 /** Chance per empty cell per stamp that a powder grain appears, so pours look like a stream, not a block. */
 const POWDER_FILL = 0.3;
 /** Same for liquids: a pour of separate drops that merge as they land. */
@@ -24,6 +34,8 @@ export class Brush {
   element = SAND;
   /** Eraser tool: left drag erases too. */
   erasing = false;
+  /** Heat, cool or wind tool in place of an element, or null. */
+  tool: Tool | null = null;
   /** True while a mouse button is down on the canvas. */
   held = false;
   /** Last pointer position in client px, and whether it is over the canvas. */
@@ -70,11 +82,19 @@ export class Brush {
   setElement(id: number): void {
     this.element = id;
     this.erasing = false;
+    this.tool = null;
+    this.emit();
+  }
+
+  setTool(tool: Tool): void {
+    this.tool = tool;
+    this.erasing = false;
     this.emit();
   }
 
   setErasing(on: boolean): void {
     this.erasing = on;
+    if (on) this.tool = null;
     this.emit();
   }
 
@@ -135,7 +155,8 @@ export class Brush {
     e.preventDefault();
     this.canvas.setPointerCapture(e.pointerId);
     this.button = e.button;
-    this.mode = e.button === 2 || this.erasing ? ERASE : this.element;
+    this.mode =
+      e.button === 2 || this.erasing ? ERASE : this.tool === 'heat' ? HEAT : this.tool === 'cool' ? COOL : this.tool === 'wind' ? WIND : this.element;
     this.queue.push(NaN, NaN, this.mode);
     this.track(e);
     this.queuePoint(e);
@@ -194,6 +215,16 @@ export class Brush {
   private segment(x0: number, y0: number, x1: number, y1: number, mode: number): void {
     const dx = x1 - x0;
     const dy = y1 - y0;
+    if (mode === WIND) {
+      // Wind blows along the stroke, stronger the faster you drag.
+      const len = Math.hypot(dx, dy);
+      if (len > 0) {
+        const k = (WIND_SPEED * Math.min(3, len / 4)) / len;
+        this.world.air.addVelocity(Math.round(x1), Math.round(y1), dx * k, dy * k, this.radius);
+        this.world.wake(Math.max(0, Math.min(this.world.w - 1, Math.round(x1))), Math.max(0, Math.min(this.world.h - 1, Math.round(y1))));
+      }
+      return;
+    }
     const len = Math.max(Math.abs(dx), Math.abs(dy));
     const stride = Math.max(1, this.radius >> 1);
     const n = Math.ceil(len / stride);
@@ -205,6 +236,7 @@ export class Brush {
   private stamp(cx: number, cy: number, mode: number): void {
     const world = this.world;
     const { w, h, type } = world;
+    if (mode === WIND) return;
     const r = this.radius;
     const r2 = r * r + r;
     const ph = mode === ERASE ? 0 : PHASE_OF[mode];
@@ -221,6 +253,10 @@ export class Brush {
         const i = y * w + x;
         if (mode === ERASE) {
           if (type[i] !== EMPTY) world.place(i, EMPTY);
+        } else if (mode === HEAT || mode === COOL) {
+          const T = world.temp[i] + (mode === HEAT ? TOOL_DT : -TOOL_DT);
+          world.temp[i] = T > 3000 ? 3000 : T < -200 ? -200 : T;
+          world.wake(x, y);
         } else if (type[i] === EMPTY && (p >= 1 || world.rng.next() < p)) {
           world.place(i, mode);
         }

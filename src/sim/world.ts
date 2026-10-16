@@ -1,4 +1,5 @@
 import { AMBIENT, EMPTY, LIFE_OF, TEMP_OF } from './elements';
+import { Air } from './air';
 import { Rng } from './rng';
 
 /** Chunk side in cells, for sleep and wake. */
@@ -39,6 +40,8 @@ export class World {
   /** Chunks woken during this frame, for the next one. */
   awakeNext: Uint8Array;
 
+  /** Air pressure and wind, on a coarse grid. */
+  air: Air;
   readonly rng: Rng;
   seed: number;
   /** Number of steps run since the last reset. */
@@ -62,6 +65,7 @@ export class World {
     this.awakeNext = new Uint8Array(this.cw * this.ch).fill(1);
     this.seed = seed;
     this.rng = new Rng(seed);
+    this.air = new Air(w, h);
   }
 
   /**
@@ -114,6 +118,7 @@ export class World {
     this.ch = Math.ceil(h / CHUNK);
     this.awake = new Uint8Array(this.cw * this.ch);
     this.awakeNext = new Uint8Array(this.cw * this.ch).fill(1);
+    this.air = new Air(w, h);
   }
 
   /** Turns the whole grid upside down (180°), as when an hourglass is flipped. */
@@ -126,6 +131,7 @@ export class World {
     this.conc.reverse();
     this.stamp.fill(0);
     this.vy.fill(0);
+    this.air.clear();
     this.wakeAll();
   }
 
@@ -141,6 +147,7 @@ export class World {
     this.conc.fill(0);
     this.awake.fill(0);
     this.awakeNext.fill(1);
+    this.air.clear();
     this.seed = seed;
     this.rng.seed(seed);
     this.frame = 0;
@@ -186,6 +193,35 @@ export class World {
    */
   currentStamp(): number {
     return 1 + (this.frame % 255);
+  }
+
+  /** Swaps every field of cells i and j (movement never creates or destroys). */
+  swapCells(i: number, j: number): void {
+    const { type, vy, stamp, shade, temp, life, solute, conc } = this;
+    let v: number = type[i];
+    type[i] = type[j];
+    type[j] = v;
+    v = vy[i];
+    vy[i] = vy[j];
+    vy[j] = v;
+    v = stamp[i];
+    stamp[i] = stamp[j];
+    stamp[j] = v;
+    v = shade[i];
+    shade[i] = shade[j];
+    shade[j] = v;
+    v = temp[i];
+    temp[i] = temp[j];
+    temp[j] = v;
+    v = life[i];
+    life[i] = life[j];
+    life[j] = v;
+    v = solute[i];
+    solute[i] = solute[j];
+    solute[j] = v;
+    v = conc[i];
+    conc[i] = conc[j];
+    conc[j] = v;
   }
 
   /** Places a new cell of element `t` at index i, replacing what was there, and wakes it. */

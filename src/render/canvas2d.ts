@@ -1,6 +1,6 @@
 import { EMPTY } from '../sim/elements';
 import { CHUNK, type World } from '../sim/world';
-import type { Renderer } from './renderer';
+import type { Renderer, View } from './renderer';
 import {
   LEVEL_STRIDE,
   L_DEEP,
@@ -15,6 +15,7 @@ import {
   TEXTURE_OF,
   TEX_FIRE,
   TEX_GAS,
+  TEX_GLASS,
   TEX_LIQUID,
   TEX_STONE,
   buildBackground,
@@ -85,6 +86,8 @@ export class Canvas2DRenderer implements Renderer {
   pixels: Uint32Array;
   /** Debug: outline chunks, green if they ran last frame, faint grey if asleep. */
   showChunks = false;
+  /** Views need the shaders; Canvas2D always draws the normal view. */
+  view: View = 'normal';
   private readonly ctx: CanvasRenderingContext2D;
   private image: ImageData;
   private readonly palette = buildPalette();
@@ -164,6 +167,12 @@ export class Canvas2DRenderer implements Renderer {
           continue;
         }
         const tex = TEXTURE_OF[t];
+        if (tex === TEX_GLASS) {
+          depth[x] = 0;
+          const g = mix(pal[L_PLAIN * LEVEL_STRIDE + ((t << 8) | stone[i])], bg[i]);
+          px[i] = upEmpty ? blend(g, 0xffffffff, 46) : g;
+          continue;
+        }
         if (tex === TEX_FIRE) {
           depth[x] = 0;
           px[i] = pal[L_PLAIN * LEVEL_STRIDE + ((t << 8) | ((shade[i] + world.frame * 53 + x * 7 + y * 3) & 255))];

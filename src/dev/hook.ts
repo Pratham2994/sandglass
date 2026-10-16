@@ -33,6 +33,8 @@ export interface SimHook {
   pair(a: string, b: string): { reason: string; rule: number; prob: number; minT: number } | null;
   /** The inspect lens report for cell (x, y). */
   inspect(x: number, y: number): CellReport | null;
+  /** Adds wind (vx, vy) around cell (x, y), over radius r, as the wind tool does. */
+  wind(x: number, y: number, vx: number, vy: number, r: number): void;
   /** Everything stored in cell (x, y). */
   probe(x: number, y: number): { key: string; temp: number; life: number; solute: string; conc: number };
   /** Height of the filled stack in each column, counted from the bottom row up to the first empty cell. */
@@ -120,6 +122,10 @@ export function installSimHook(t: HookTargets): void {
     },
     inspect(x, y) {
       return inspectCell(world, x, y);
+    },
+    wind(x, y, vx, vy, r) {
+      world.air.addVelocity(x, y, vx, vy, r);
+      world.wakeAll();
     },
     probe(x, y) {
       const i = y * world.w + x;

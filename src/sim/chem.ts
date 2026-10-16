@@ -156,6 +156,11 @@ export function explain(a: number, b: number): string | null {
       return `${acid.name} eats ${target.name.toLowerCase()}: acidity ${fmt.format(acid.acidity ?? 0)} beats hardness ${fmt.format(target.hardness)}${gas}`;
     }
     case R_COMBUST:
+      if (A.explosive) {
+        return B.phase === 'energy'
+          ? `${A.name} explodes when a flame touches it`
+          : `${A.name} explodes at ${fmt.format(A.ignition ?? 0)} °C; it needs no air`;
+      }
       if (B.phase === 'energy') return `${A.name} catches from the flame touching it`;
       return `${A.name} burns: it catches fire at ${fmt.format(A.ignition ?? 0)} °C next to ${b === EMPTY ? 'air' : B.name.toLowerCase()} (oxidiser ${fmt.format(OXIDISER_OF[b])})`;
     case R_NEUTRAL:

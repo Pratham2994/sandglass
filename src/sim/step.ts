@@ -1,7 +1,9 @@
 import { HAS_REACTION, KEEP, P_GAS, P_MIN_T, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R_ABSORB, R_COMBUST, R_CORRODE, R_DISSOLVE } from './chem';
 import {
+  BLAST_POWER_OF,
   BUOY_DIR_OF,
   CONC_UNIT,
+  IMPACT_VY_OF,
   POROUS_MAX_OF,
   SOLUBLE_MAX_OF,
   SOLVENT_OF,
@@ -32,6 +34,7 @@ import {
   VMAX_OF,
   VY_UNIT,
 } from './elements';
+import { airPass, explode } from './blast';
 import { heatStep } from './heat';
 import { CHUNK_SHIFT, type World } from './world';
 
@@ -88,6 +91,7 @@ export function step(world: World): void {
     }
   }
   heatStep(world);
+  airPass(world, st);
   world.frame++;
 }
 
@@ -165,7 +169,9 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
   const p = rule === R_CORRODE ? (P_PROB[k] * (255 - conc[acid])) >> 8 : P_PROB[k];
   if (((r >>> 8) & 255) >= p) return false;
   if (rule === R_COMBUST) {
-    ignite(world, i, a);
+    // Explosives do not burn: they go off.
+    if (BLAST_POWER_OF[a] > 0) explode(world, x, y);
+    else ignite(world, i, a);
   } else if (host >= 0) {
     // The guest cell moves into the host: dissolved or soaked up.
     solute[host] = type[guest];
@@ -472,6 +478,12 @@ function updateMover(world: World, x: number, y: number, i: number, st: number, 
       if (ny + 1 < h && stamp[next] === st && vy[next] > 0) {
         if (vy[next] < v) v = vy[next];
       } else {
+        // Landed hard: shock-sensitive explosives go off.
+        if (IMPACT_VY_OF[t] !== 0 && v >= IMPACT_VY_OF[t]) {
+          swap(world, i, j);
+          explode(world, x, ny);
+          return;
+        }
         v >>= 1;
       }
     }

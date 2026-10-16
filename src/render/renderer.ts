@@ -2,10 +2,14 @@ import type { World } from '../sim/world';
 import { Canvas2DRenderer } from './canvas2d';
 import { WebGLRenderer } from './webgl';
 
+export type View = 'normal' | 'heat' | 'pressure' | 'flow';
+
 /** What the app needs from a renderer: WebGL2 by default, Canvas2D as the fallback. */
 export interface Renderer {
   /** Debug: outline chunks, green if they ran last frame. */
   showChunks: boolean;
+  /** What to show over the scene: normal, heat, pressure or flow (WebGL only). */
+  view: View;
   draw(world: World): void;
   resize(w: number, h: number, cellPx: number): void;
 }

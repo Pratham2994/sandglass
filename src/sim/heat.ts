@@ -13,10 +13,13 @@ import {
   PH_POWDER,
   PH_SOLID,
   RUBBLE_OF,
+  BLAST_POWER_OF,
+  IGNITION_OF,
   CONC_UNIT,
   SOLVENT_OF,
   UP_T,
 } from './elements';
+import { explode } from './blast';
 import { CHUNK_SHIFT, type World } from './world';
 
 const N = ELEMENT_COUNT;
@@ -95,6 +98,11 @@ function settle(world: World, i: number, x: number, y: number): void {
     }
     temp[i] = T + d * AIR_RELAX;
     world.wake(x, y);
+    return;
+  }
+  // Explosives go off from heat alone: they carry their own oxygen.
+  if (BLAST_POWER_OF[t] > 0 && T >= IGNITION_OF[t]) {
+    explode(world, x, y);
     return;
   }
   // Wet: above the boiling point of what it has soaked up, it dries out.

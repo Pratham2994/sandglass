@@ -85,11 +85,24 @@ function start(): void {
 
   mountCursor(brush, world);
   const hud = mountHud(perf, world);
-  mountLibrary(document.getElementById('panel') as HTMLElement, brush, loop, world, () => {
-    brush.cancel();
-    world.reset(world.seed);
-    loop.invalidate();
-  });
+  mountLibrary(
+    document.getElementById('panel') as HTMLElement,
+    brush,
+    loop,
+    world,
+    () => {
+      brush.cancel();
+      world.reset(world.seed);
+      loop.invalidate();
+    },
+    {
+      get: () => renderer.view,
+      set: (v) => {
+        renderer.view = v;
+        loop.invalidate();
+      },
+    },
+  );
 
   window.addEventListener('keydown', (e) => {
     if (e.target instanceof HTMLInputElement && e.target.type !== 'range') return;
