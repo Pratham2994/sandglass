@@ -1091,6 +1091,47 @@ check('chocolate', 'melts in a little warmth and sets again', () => {
   return { ok: melted && f > 0, detail: `melted ${melted}, set again ${f > 0 ? `after ${f} frames` : 'no'}` };
 });
 
+// ---- Batch 8 ----------------------------------------------------------------------
+
+check('egg', 'cooks when warmed', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'egg', 80);
+  const f = until(s, 60, () => s.count('cooked_egg') > 0);
+  return { ok: f > 0, detail: f > 0 ? `cooked after ${f} frames` : 'raw' };
+});
+check('phosphorus', 'bursts into flame in warm air, but not under water', () => {
+  const air = new Scene().fill(20, 58, 24, 6, 'phosphorus', 40).heat(0, 0, W, H, 40);
+  const f = until(air, 300, () => air.count('fire') > 0);
+  const wet = new Scene().fill(20, 58, 24, 6, 'phosphorus', 40).fill(0, 40, W, 18, 'water').fill(0, 58, 20, 6, 'water').fill(44, 58, 20, 6, 'water');
+  wet.heat(0, 40, W, 24, 40).run(300);
+  return { ok: f > 0 && wet.count('phosphorus') === 144, detail: `in air: ${f > 0 ? `fire after ${f} frames` : 'no fire'}; under water: ${wet.count('phosphorus')} of 144 left` };
+});
+check('lithium', 'fizzes in water into lye and hydrogen', () => {
+  const s = new Scene().fill(0, 50, W, 14, 'water').fill(28, 48, 4, 2, 'lithium');
+  const f = until(s, 600, () => s.count('lye') > 0);
+  return { ok: f > 0, detail: f > 0 ? `lye after ${f} frames` : 'nothing' };
+});
+check('calcium_carbide', 'water makes acetylene and slaked lime', () => {
+  const s = new Scene().fill(10, 58, 44, 6, 'calcium_carbide').fill(10, 52, 44, 4, 'water');
+  let gas = 0;
+  until(s, 600, () => ((gas = Math.max(gas, s.count('acetylene'))), false));
+  return { ok: gas > 0 && s.count('slaked_lime') > 0, detail: `acetylene seen ${gas}, slaked lime ${s.count('slaked_lime')}` };
+});
+check('acetylene', 'burns hotter than any other fuel', () => {
+  const s = new Scene().fill(10, 20, 44, 20, 'acetylene').fill(30, 42, 2, 2, 'fire');
+  let hottest = 0;
+  until(s, 300, () => {
+    for (let i = 0; i < s.world.size; i++) if (s.world.temp[i] > hottest) hottest = s.world.temp[i];
+    return false;
+  });
+  return { ok: hottest > 1500, detail: `hottest ${fmt(hottest)} °C` };
+});
+check('iodine', 'sublimes into violet vapour that settles back as crystals', () => {
+  const s = new Scene().fill(20, 58, 24, 6, 'iodine', 130);
+  const vapour = until(s, 60, () => s.count('iodine_vapour') > 0) > 0;
+  const f = until(s, 9000, () => s.count('iodine_vapour') === 0);
+  return { ok: vapour && f > 0 && s.count('iodine') > 0, detail: `vapour ${vapour}, settled ${f > 0 ? `after ${f} frames` : 'no'}, iodine ${s.count('iodine')}` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {
