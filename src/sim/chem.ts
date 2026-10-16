@@ -109,6 +109,7 @@ function compile(): void {
 compile();
 
 const fmt = new Intl.NumberFormat('en-GB', { maximumFractionDigits: 2 });
+// (Values come from Float32 tables, so they are always formatted, never printed raw.)
 
 /** Plain-language reason for the reaction of a with b, or null when nothing happens. */
 export function explain(a: number, b: number): string | null {

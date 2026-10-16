@@ -3,6 +3,7 @@ import type { Brush } from '../input/brush';
 import type { Renderer } from '../render/renderer';
 import { P_MIN_T, P_PROB, P_RULE, explain } from '../sim/chem';
 import { ELEMENTS, ELEMENT_COUNT, EMPTY, elementId } from '../sim/elements';
+import { inspectCell, type CellReport } from '../sim/inspect';
 import type { World } from '../sim/world';
 
 /**
@@ -30,6 +31,8 @@ export interface SimHook {
   cell(x: number, y: number): string;
   /** The compiled reaction of element a touching element b: reason text and raw entry, or null. */
   pair(a: string, b: string): { reason: string; rule: number; prob: number; minT: number } | null;
+  /** The inspect lens report for cell (x, y). */
+  inspect(x: number, y: number): CellReport | null;
   /** Everything stored in cell (x, y). */
   probe(x: number, y: number): { key: string; temp: number; life: number; solute: string };
   /** Height of the filled stack in each column, counted from the bottom row up to the first empty cell. */
@@ -114,6 +117,9 @@ export function installSimHook(t: HookTargets): void {
       if (reason === null) return null;
       const k = ia * ELEMENT_COUNT + ib;
       return { reason, rule: P_RULE[k], prob: P_PROB[k], minT: P_MIN_T[k] };
+    },
+    inspect(x, y) {
+      return inspectCell(world, x, y);
     },
     probe(x, y) {
       const i = y * world.w + x;

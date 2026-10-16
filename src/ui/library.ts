@@ -1,22 +1,8 @@
 import type { FixedLoop } from '../core/loop';
 import { MAX_RADIUS, type Brush } from '../input/brush';
-import {
-  ELEMENTS,
-  ELEMENT_COUNT,
-  EMPTY,
-  DOWN_INTO,
-  DOWN_T,
-  ENTER_P,
-  PHASE_OF,
-  PH_GAS,
-  UP_INTO,
-  UP_T,
-  PH_LIQUID,
-  PH_POWDER,
-  type Category,
-  type ElementDef,
-} from '../sim/elements';
+import { ELEMENTS, EMPTY, PHASE_OF, PH_LIQUID, PH_POWDER, type Category } from '../sim/elements';
 import type { World } from '../sim/world';
+import { elementFacts } from '../sim/describe';
 import { inspectCell } from '../sim/inspect';
 import { icon } from './icons';
 import { MiniSim } from './preview';
@@ -47,39 +33,6 @@ function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: 
   if (cls) e.className = cls;
   if (text !== undefined) e.textContent = text;
   return e;
-}
-
-function names(ids: number[]): string {
-  return ids.map((id) => ELEMENTS[id].name).join(', ');
-}
-
-/** Facts for the detail card, read from the element data and the swap table. */
-function facts(id: number): [string, string][] {
-  const e: ElementDef = ELEMENTS[id];
-  const ph = PHASE_OF[id];
-  const out: [string, string][] = [['Density', `${fmt.format(e.density)} kg/m³`]];
-  if (e.fallMax) out.push(['Top speed', `${e.fallMax} cells/s`]);
-  if (ph === PH_LIQUID && e.dispersion) out.push(['Flow', `${e.dispersion} cells/frame`]);
-  const sinks: number[] = [];
-  const floats: number[] = [];
-  for (let b = 1; b < ELEMENT_COUNT; b++) {
-    if (b === id) continue;
-    if (ENTER_P[id * ELEMENT_COUNT + b] > 0 && ENTER_P[id * ELEMENT_COUNT + b] < 255 && PHASE_OF[b] === PH_LIQUID) sinks.push(b);
-    if (ph === PH_LIQUID && ENTER_P[b * ELEMENT_COUNT + id] > 0 && PHASE_OF[b] === PH_LIQUID) floats.push(b);
-  }
-  if (sinks.length) out.push(['Sinks through', names(sinks)]);
-  if (floats.length) out.push(['Floats on', names(floats)]);
-  if (e.temp !== undefined) out.push(['Starts at', `${fmt.format(e.temp)} °C`]);
-  if (UP_T[id] !== Infinity) {
-    const verb = e.melt !== undefined ? 'Melts' : 'Boils';
-    out.push([verb, `${fmt.format(e.melt ?? e.boil ?? 0)} °C → ${ELEMENTS[UP_INTO[id]].name}`]);
-  }
-  if (DOWN_T[id] !== -Infinity) {
-    const from = ELEMENTS[DOWN_INTO[id]];
-    const verb = PHASE_OF[id] === PH_GAS ? 'Condenses' : 'Freezes';
-    out.push([verb, `${fmt.format(from.melt ?? from.boil ?? 0)} °C → ${from.name}`]);
-  }
-  return out;
 }
 
 /**
@@ -340,7 +293,7 @@ export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, w
     tag.textContent = CATEGORY_NAMES[e.category];
     blurb.textContent = e.blurb;
     dl.replaceChildren(
-      ...facts(id).flatMap(([k, v]) => {
+      ...elementFacts(id).flatMap(([k, v]) => {
         const dt = el('dt', '', k);
         const dd = el('dd', 'num', v);
         return [dt, dd];
