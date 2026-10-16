@@ -113,6 +113,8 @@ kbd {
 
 .lib-top {
   display: grid;
+  /* One column that never grows past the panel, whatever a row holds. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
   padding: 12px 12px 10px;
   border-bottom: 1px solid var(--line);
@@ -344,8 +346,10 @@ kbd {
   color: var(--text);
 }
 
+/* Nine equal slots: a full row of recent elements always fits the panel. */
 .recent {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
   gap: 4px;
 }
 
@@ -356,9 +360,11 @@ kbd {
 .chip-el {
   display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
   height: 24px;
-  padding: 0 7px 0 4px;
+  padding: 0;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: transparent;
