@@ -128,7 +128,7 @@ const findings: Finding[] = [];
 // The reverse of a change belongs to the first element that melts or boils
 // into a target. Any other source comes back as that owner, not as itself:
 // smoke once condensed into mercury this way. Listed exceptions are intended.
-const REVERSE_OK = new Set(['gravel', 'snow']);
+const REVERSE_OK = new Set(['gravel', 'snow', 'obsidian']);
 for (let e = 1; e < N; e++) {
   if (UP_T[e] === Infinity) continue;
   const into = UP_INTO[e];
@@ -145,7 +145,7 @@ for (let e = 1; e < N; e++) {
 // A product of burning or a reaction that condenses or freezes back must turn
 // into the thing it really is, or smoke from a fire rains out as mercury.
 // The listed pairs have been checked by hand.
-const CONDENSE_OK = new Set(['steam>water', 'water>ice', 'nitrogen>liquid_nitrogen', 'carbon_dioxide>dry_ice']);
+const CONDENSE_OK = new Set(['steam>water', 'water>ice', 'nitrogen>liquid_nitrogen', 'carbon_dioxide>dry_ice', 'oxygen>liquid_oxygen']);
 const made = new Set<number>([SMOKE]);
 for (let e = 1; e < N; e++) {
   if (BURN_INTO_OF[e]) made.add(BURN_INTO_OF[e]);
