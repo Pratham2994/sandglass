@@ -60,6 +60,7 @@ Also welcome: anything that makes the grid, motion or animation look and feel be
 - Do not add or run tests after every small change.
 - Run focused E2E tests at milestones (end of phases 1, 2, 4, 6, 8, 9, 11) or when a feature is complete.
 - Tests use the deterministic hook: assert exact cell counts and grid hashes, not screenshots.
+- After any change to elements, chemistry or heat rules, run `npm run docs` and commit its output with the change. It runs the pairwise audit (`docs/AUDIT.md`, must show 0 findings) and rebuilds the master list (`docs/MASTER_LIST.md` and `public/master-list.html`, opened from the panel's list button).
 
 ## Change report (mandatory after every code change)
 

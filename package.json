@@ -10,7 +10,8 @@
     "typecheck": "tsc",
     "test:e2e": "playwright test",
     "master-list": "tsx scripts/master-list.ts",
-    "audit": "tsx scripts/audit.ts"
+    "audit": "tsx scripts/audit.ts",
+    "docs": "npm run audit && npm run master-list"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",

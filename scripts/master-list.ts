@@ -1,5 +1,5 @@
 /**
- * Writes docs/MASTER_LIST.md: every element, its properties, and what it
+ * Writes docs/MASTER_LIST.md and its web page public/master-list.html: every element, its properties, and what it
  * does with every other element, generated from the element data and the
  * compiled chemistry, so it can never drift from the game.
  * Run: npm run master-list
@@ -7,6 +7,7 @@
 import { writeFileSync } from 'node:fs';
 import { density, elementFacts, num, pairLines, downChange, upChange } from '../src/sim/describe';
 import { AMBIENT, ELEMENTS, EMPTY, OXIDISER_OF } from '../src/sim/elements';
+import { renderHtml } from './report-html';
 
 const n0 = new Intl.NumberFormat('en-GB', { maximumFractionDigits: 0 });
 const ids = ELEMENTS.map((_, id) => id);
@@ -90,4 +91,5 @@ for (const a of real) {
 out.push('');
 
 writeFileSync(new URL('../docs/MASTER_LIST.md', import.meta.url), out.join('\n'));
-console.log(`Wrote docs/MASTER_LIST.md (${real.length} elements).`);
+writeFileSync(new URL('../public/master-list.html', import.meta.url), renderHtml());
+console.log(`Wrote docs/MASTER_LIST.md and public/master-list.html (${real.length} elements).`);

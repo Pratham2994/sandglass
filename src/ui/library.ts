@@ -90,6 +90,7 @@ export function mountLibrary(
   const playBtn = tool('pause', 'Pause (Space)');
   const stepBtn = tool('step', 'Step one frame (.)');
   const eraseBtn = tool('eraser', 'Eraser (E)');
+  const listBtn = tool('list', 'Master list: every element and what it does with every other');
   const saveBtn = tool('save', 'Save the world to a file');
   const openBtn = tool('open', 'Open a saved world');
   const clearBtn = tool('clear', 'Clear the world');
@@ -99,7 +100,9 @@ export function mountLibrary(
   const pausedTag = el('span', 'paused-tag', 'Paused');
   const gap = el('span', 'tool-gap');
   // The confirm hint sits before the buttons so arming Clear never moves them.
-  bar.append(playBtn, stepBtn, pausedTag, gap, clearHint, saveBtn, openBtn, eraseBtn, clearBtn);
+  bar.append(playBtn, stepBtn, pausedTag, gap, clearHint, listBtn, saveBtn, openBtn, eraseBtn, clearBtn);
+  // The master list is a page of its own, built from the element data (npm run master-list).
+  listBtn.addEventListener('click', () => window.open(`${import.meta.env.BASE_URL}master-list.html`, '_blank', 'noopener'));
   saveBtn.addEventListener('click', () => void files.save());
   openBtn.addEventListener('click', () => void files.open());
 
