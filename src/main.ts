@@ -6,6 +6,8 @@ import { Canvas2DRenderer } from './render/canvas2d';
 import { step } from './sim/step';
 import { World } from './sim/world';
 import { mountCursor } from './ui/cursor';
+import { mountDock } from './ui/dock';
+import { mountPill } from './ui/pill';
 
 const DEFAULT_SEED = 1;
 
@@ -25,6 +27,8 @@ function start(): void {
   });
 
   mountCursor(brush);
+  mountDock(brush);
+  mountPill(loop, world);
 
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
