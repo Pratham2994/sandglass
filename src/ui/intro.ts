@@ -31,27 +31,17 @@ const WORD = 'SANDGLASS';
  */
 const STRATA = [SNOW, SALT, GUNPOWDER, DIRT, OIL, SAND, WATER, LAVA, ICE, ACID, MERCURY, SAWDUST];
 /** Frames (60 per second). */
-const REVEAL = 26; // the word dissolves in, left to right
-/**
- * Pours from the top edge, in the clear margins either side of the word:
- * [first frame, last frame, left, right (share of width), element]. They
- * fill a pool under the word while the air is still cool, and meet in the
- * middle in a burst of steam.
- */
-const POURS: [number, number, number, number, number][] = [
-  [4, 84, 0.012, 0.1, WATER],
-  [12, 88, 0.9, 0.988, LAVA],
-  // Oil lands on the standing word and runs off its letters: fuel for the blasts.
-  [24, 70, 0.44, 0.56, OIL],
-];
-const CHAIN = 92; // first letter pops and drops into the pool; one more every CHAIN_STEP frames
-const CHAIN_STEP = 7;
-const GEYSER = 176; // a charge in the pool throws up a crown of liquid
-const FIREWORKS = 182; // bursts in the sky, one every 5 frames
+const REVEAL = 20; // the word dissolves in, left to right
+const CHAIN = 30; // first letter blows; one more every CHAIN_STEP frames
+const CHAIN_STEP = 5;
+const DEBRIS = [36, 100]; // stray charges go off in the flying debris, one every 3 frames
+const IMPLODE = [80, 104]; // the air pulls everything into the centre
+const BOOM = 106; // then the centre blows it all apart
+const FIREWORKS = 110; // bursts in the sky, one every 4 frames
 const FIREWORK_COUNT = 10;
-const DRAIN = 236; // the floor opens
-const FADE = 290; // the canvas fades out over the last half second
-const END = 318; // whatever is left is cleared, then the empty canvas fades back in
+const DRAIN = 168; // the floor opens
+const FADE = 218; // the canvas fades out over the last half second
+const END = 246; // whatever is left is cleared, then the empty canvas fades back in
 /** Bottom rows emptied per frame once the floor opens: everything plunges out fast. */
 const DRAIN_ROWS = 3;
 /** Share of air pressure and speed kept each frame during the intro. */
@@ -82,14 +72,12 @@ function noise(x: number, y: number, scale: number): number {
  * Opening showcase on the main canvas. It is choreographed, not a rule of
  * the sandbox, but it runs on the real engine (air, heat, fire, fluids):
  * 1. SANDGLASS dissolves in, every letter veined with a dozen materials.
- * 2. Water pours down the left edge and lava down the right; they fill a
- *    pool under the word and meet in the middle in bursts of steam.
- * 3. The letters pop one by one, left to right, and drop into the pool:
- *    oil floats up, flames catch, gunpowder bands go off.
- * 4. Charges in the pool throw up crowns of liquid, then fireworks burst
- *    in the sky.
+ * 2. The letters blow one by one, left to right, burning, and stray
+ *    charges keep going off in the flying debris.
+ * 3. The air turns inwards and drags everything into the centre.
+ * 4. The centre blows it all apart, then fireworks burst in the sky.
  * 5. The floor opens and the canvas fades clear.
- * About 5 s; any click or key skips it.
+ * About 4 s; any click or key skips it.
  */
 export class Intro {
   active = false;
@@ -104,6 +92,8 @@ export class Intro {
   private letterX: number[] = [];
   private letterY: number[] = [];
   private top = 0;
+  private cx = 0;
+  private cy = 0;
   private bottom = 0;
   private f = 0;
   private onDone: () => void = () => {};
@@ -159,6 +149,8 @@ export class Intro {
     this.letterX = sx.map((v, k) => (sn[k] ? Math.round(v / sn[k]) : w >> 1));
     this.letterY = sy.map((v, k) => (sn[k] ? Math.round(v / sn[k]) : h >> 1));
     this.top = top;
+    this.cx = Math.round((left + right) / 2);
+    this.cy = Math.round((top + bottom) / 2);
     this.bottom = bottom;
     this.f = 0;
     this.active = true;
@@ -204,40 +196,22 @@ export class Intro {
       if (k < WORD.length) this.blowLetter(k);
     }
 
-    // 3. Pours: thick falls of water, lava and oil fill a real pool. Oil
-    // floats on the water, lava meets water in bursts of steam and sets the
-    // oil alight.
-    for (const [from, to, x0, x1, element] of POURS) {
-      if (f < from || f > to) continue;
-      const a = Math.round(w * x0);
-      const b = Math.round(w * x1);
-      for (let x = a; x <= b; x++) {
-        // Ragged edges and a little gap noise, so it reads as a falling sheet, not a block.
-        const edge = Math.min(x - a, b - x);
-        if (edge < 3 && (world.rng.nextU32() & 3) === 0) continue;
-        if ((world.rng.nextU32() & 7) === 0) continue;
-        for (let y = 0; y < 3; y++) {
-          const i = y * w + x;
-          if (world.type[i] !== EMPTY) continue;
-          world.place(i, element);
-          // Poured, not dropped: it leaves the spout already moving.
-          world.vy[i] = 64;
-        }
-      }
+    // 3. Stray charges go off in the flying debris.
+    if (f >= DEBRIS[0] && f < DEBRIS[1] && (f - DEBRIS[0]) % 3 === 0) {
+      const r = world.rng.nextU32();
+      const x = Math.round(w * (0.1 + ((r & 1023) / 1023) * 0.8));
+      const y = this.top - 24 + ((r >>> 10) % Math.max(1, this.bottom - this.top + 56));
+      if (x > 2 && y > 2 && x < w - 3 && y < h - 3) this.blast(x, y, 12, 14, 24, true);
     }
 
-    // 4. A charge in the pool throws up a crown of liquid; then fireworks in the sky.
-    if (f === GEYSER) {
-      for (const share of [0.5, 0.22, 0.78]) {
-        const x = Math.round(w * share);
-        const y = this.surface(x);
-        const d = Math.min(h - 3, y + 5);
-        this.blast(x, d, 26, 22, 50, true);
-        world.air.addVelocity(x, y, 0, -3.2, 8);
-      }
+    // 4. Implosion: the air turns inwards and drags the debris into the centre, then it all blows.
+    if (f >= IMPLODE[0] && f < IMPLODE[1]) this.implode(this.cx, this.cy, (f - IMPLODE[0]) / (IMPLODE[1] - IMPLODE[0]));
+    if (f === BOOM) {
+      this.blast(this.cx, this.cy, 80, 70, 220, true);
+      for (const dx of [-0.22, 0.22]) this.blast(Math.round(this.cx + w * dx), this.cy, 30, 30, 60, true);
     }
-    if (f >= FIREWORKS && (f - FIREWORKS) % 5 === 0 && (f - FIREWORKS) / 5 < FIREWORK_COUNT) {
-      const k = (f - FIREWORKS) / 5;
+    if (f >= FIREWORKS && (f - FIREWORKS) % 4 === 0 && (f - FIREWORKS) / 4 < FIREWORK_COUNT) {
+      const k = (f - FIREWORKS) / 4;
       const r = world.rng.nextU32();
       const x = Math.round(w * (0.14 + ((k * 0.37 + (r & 255) / 2560) % 1) * 0.72));
       const y = Math.round(h * (0.12 + ((r >>> 8) & 255) / 1280));
@@ -325,12 +299,24 @@ export class Intro {
     world.wakeAll();
   }
 
-  /** The row of the first empty cell above the pile in column x (the pool's surface). */
-  private surface(x: number): number {
-    const { w, h, type } = this.world;
-    let y = h - 1;
-    while (y > 0 && type[y * w + x] !== EMPTY) y--;
-    return y;
+  /**
+   * Turns the air around (x, y) inwards, ring by ring, stronger as t (0..1)
+   * runs on, with a little spin so the debris spirals in rather than stacking.
+   */
+  private implode(x: number, y: number, t: number): void {
+    const { w, h, air } = this.world;
+    const s = 0.8 + t * 1.6;
+    for (const share of [0.14, 0.26, 0.38]) {
+      const R = Math.min(w, h) * share;
+      const steps = Math.max(12, Math.round((Math.PI * 2 * R) / 6));
+      for (let k = 0; k < steps; k++) {
+        const a = (k / steps) * Math.PI * 2;
+        const c = Math.cos(a);
+        const sn = Math.sin(a);
+        air.addVelocity(Math.round(x + c * R * 1.6), Math.round(y + sn * R), -c * s - sn * s * 0.3, -sn * s + c * s * 0.3, 4);
+      }
+    }
+    this.world.wakeAll();
   }
 
   /** A starburst of flame in open sky: rays of fire that the air throws outwards. */
