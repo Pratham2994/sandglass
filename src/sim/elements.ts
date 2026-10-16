@@ -192,6 +192,13 @@ export interface ElementDef {
   /** Clouds: drops this below now and then, or `rainsColdInto` when below 0 °C, and slowly runs dry. */
   rainsInto?: string;
   rainsColdInto?: string;
+  /**
+   * Creatures: where it lives and moves (swims in water, walks on ground,
+   * digs through soil, flies in air), what it eats (eating makes it breed),
+   * and what it becomes when it dies of heat, cold or leaving its habitat.
+   * `eats` maps food to what the food becomes ('empty': eaten whole).
+   */
+  creature?: { lives: 'water' | 'ground' | 'soil' | 'air'; eats?: Record<string, string>; diesInto: string };
   /** Hand-written reactions by the other element's key; they win over the compiler. */
   overrides?: Record<string, Override>;
 }
@@ -2321,6 +2328,83 @@ export const ELEMENTS: readonly ElementDef[] = [
       rust: { self: 'oxygen', other: 'keep', chance: 0.2, reason: 'Rust speeds up peroxide breaking down: it fizzes into oxygen' },
     },
   },
+  // ---- Creatures -------------------------------------------------------------------
+  {
+    key: 'fish',
+    name: 'Fish',
+    blurb: 'A small fish. Swims about in water, eating seeds that sink to it and breeding when fed. Out of water it suffocates; heat or cold kill it.',
+    category: 'life',
+    colours: ['#e8833a', '#f09a4c', '#d9732e', '#f4b06a'],
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 1000,
+    heatCapacity: 1,
+    conductivity: 0.1,
+    ignition: 300,
+    fuel: 60,
+    flameTemp: 700,
+    burnInto: 'ash',
+    creature: { lives: 'water', eats: { seed: 'empty', grass_seed: 'empty', acorn: 'empty', ant: 'empty' }, diesInto: 'meat' },
+  },
+  {
+    key: 'ant',
+    name: 'Ant',
+    blurb: 'A busy little ant. Walks over the ground and climbs steps, eating anything sweet or meaty and breeding when fed. Water drowns it; heat or cold kill it.',
+    category: 'life',
+    colours: ['#3a1f1a', '#2a1712', '#4a2820', '#1f110d'],
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 1000,
+    heatCapacity: 1,
+    conductivity: 0.1,
+    ignition: 200,
+    fuel: 10,
+    flameTemp: 600,
+    burnInto: 'ash',
+    creature: {
+      lives: 'ground',
+      eats: { sugar: 'empty', honey: 'empty', caramel: 'empty', flour: 'empty', meat: 'empty', cooked_meat: 'empty', popcorn: 'empty' },
+      diesInto: 'dirt',
+    },
+  },
+  {
+    key: 'worm',
+    name: 'Worm',
+    blurb: 'An earthworm. Digs through soil, turning dead plants, paper and ash into rich dirt, and breeds as it eats. Dried out above ground, it dies.',
+    category: 'life',
+    colours: ['#c98b8b', '#b87a7a', '#d69c9c', '#a86b6b'],
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 1050,
+    heatCapacity: 1,
+    conductivity: 0.1,
+    creature: { lives: 'soil', eats: { dry_plant: 'dirt', paper: 'dirt', ash: 'dirt' }, diesInto: 'dirt' },
+  },
+  {
+    key: 'bird',
+    name: 'Bird',
+    blurb: 'A small bird. Flies about in the open air, eating seeds and ants and breeding when fed. Water drowns it; heat or cold kill it.',
+    category: 'life',
+    colours: ['#6b5a4a', '#8a7560', '#5a4a3c', '#9c8670'],
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 1000,
+    heatCapacity: 1,
+    conductivity: 0.1,
+    ignition: 300,
+    fuel: 60,
+    flameTemp: 700,
+    burnInto: 'ash',
+    creature: {
+      lives: 'air',
+      eats: { seed: 'empty', grass_seed: 'empty', acorn: 'empty', ant: 'empty', popcorn_kernel: 'empty', popcorn: 'empty' },
+      diesInto: 'meat',
+    },
+  },
 ];
 
 export const ELEMENT_COUNT = ELEMENTS.length;
@@ -2557,6 +2641,14 @@ export const CHARGE_HEAT_OF = Float32Array.from(ELEMENTS, (e) => e.chargeHeat ??
 export const COOL_RATE_OF = Float32Array.from(ELEMENTS, (e) => e.coolRate ?? 0);
 export const RAIN_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.rainsInto));
 export const RAIN_COLD_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.rainsColdInto ?? e.rainsInto));
+/** Creature habitat: 0 none, 1 water, 2 ground, 3 soil, 4 air. */
+export const HABITAT_OF = Uint8Array.from(ELEMENTS, (e) => (e.creature ? { water: 1, ground: 2, soil: 3, air: 4 }[e.creature.lives] : 0));
+export const DIES_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.creature?.diesInto));
+/** Per pair (creature, food): what the food becomes, plus one (0 = not food; 1 = eaten whole). */
+export const EATS = new Uint16Array(ELEMENT_COUNT * ELEMENT_COUNT);
+ELEMENTS.forEach((e, a) => {
+  for (const [food, left] of Object.entries(e.creature?.eats ?? {})) EATS[a * ELEMENT_COUNT + elementId(food)] = (left === 'empty' ? 0 : elementId(left)) + 1;
+});
 /** Any device behaviour, so the cell pass checks one table. */
 export const DEVICE_OF = Uint8Array.from(ELEMENTS, (e) => (e.holdTemp !== undefined || e.clones || e.voids || e.blows || e.coolRate ? 1 : 0));
 
