@@ -33,6 +33,9 @@ import {
   RAIN_COLD_OF,
   RAIN_INTO_OF,
   TOP_INTO_OF,
+  DIES_INTO_OF,
+  EATS,
+  HABITAT_OF,
   BAKE_GAS_OF,
   HYDROGEN,
   IGNITION_OF,
@@ -90,6 +93,8 @@ function allowed(start: number[]): Set<number> {
       if (TOP_INTO_OF[e]) grew = add(TOP_INTO_OF[e]) || grew;
       if (RAIN_INTO_OF[e]) grew = add(RAIN_INTO_OF[e]) || grew;
       if (RAIN_COLD_OF[e]) grew = add(RAIN_COLD_OF[e]) || grew;
+      if (DIES_INTO_OF[e]) grew = add(DIES_INTO_OF[e]) || grew;
+      for (const o of now) if (EATS[e * N + o] > 1) grew = add(EATS[e * N + o] - 1) || grew;
       if (IGNITION_OF[e] !== Infinity || BLAST_POWER_OF[e] > 0 || PHASE_OF[e] === PH_ENERGY) {
         grew = add(FIRE) || grew;
         grew = add(SMOKE) || grew;
@@ -195,6 +200,7 @@ const active = (e: number): boolean =>
   GROWS_INTO_OF[e] > 0 ||
   DEVICE_OF[e] > 0 ||
   RAIN_INTO_OF[e] > 0 ||
+  HABITAT_OF[e] > 0 ||
   PHASE_OF[e] === PH_ENERGY;
 /** Simulates every pair whose first element is in `as`; returns the run count and what it found, each with a sort key. */
 function runPairs(as: number[]): { runs: number; found: (Finding & { key: number })[] } {
@@ -236,7 +242,7 @@ function runPairs(as: number[]): { runs: number; found: (Finding & { key: number
       const after = matter(world);
       // Plants grow, and a bake that gives off gas splits one cell into two (limestone → quicklime + carbon dioxide).
       // Clones make more of what touches them, and a cloud's rain outweighs the cloud.
-      const grows = [...ok].some((e) => GROWS_INTO_OF[e] > 0 || BAKE_GAS_OF[e] > 0 || CLONES_OF[e] > 0 || RAIN_INTO_OF[e] > 0);
+      const grows = [...ok].some((e) => GROWS_INTO_OF[e] > 0 || BAKE_GAS_OF[e] > 0 || CLONES_OF[e] > 0 || RAIN_INTO_OF[e] > 0 || HABITAT_OF[e] > 0);
       if (after > before && !grows) found.push({ ...pair, problem: `matter grew from ${before} to ${after} cells` });
       // Two elements with no rule between them, neither changed: both counts must be exact.
       const inert = P_RULE[a * N + b] === 0 && P_RULE[b * N + a] === 0 && !active(a) && !active(b) && !phasePair(a, b);

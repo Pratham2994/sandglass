@@ -863,6 +863,75 @@ check('hydrogen_peroxide', 'breaks down on rust into oxygen', () => {
   return { ok: f > 0, detail: f > 0 ? `oxygen after ${f} frames` : 'none' };
 });
 
+// ---- Creatures --------------------------------------------------------------------
+
+check('fish', 'swims and lives in water', () => {
+  const s = new Scene().fill(0, 34, W, 30, 'water').fill(30, 50, 2, 2, 'fish');
+  const start = s.meanY('fish');
+  let moved = false;
+  until(s, 900, () => ((moved = moved || Math.abs(s.meanY('fish') - start) > 0.5), false));
+  return { ok: s.count('fish') >= 4 && moved, detail: `fish ${s.count('fish')}, moved ${moved}` };
+});
+check('fish', 'out of water it dies into meat', () => {
+  const s = new Scene().fill(30, 60, 2, 1, 'fish');
+  const f = until(s, 900, () => s.count('meat') > 0);
+  return { ok: f > 0 && s.count('fish') === 0, detail: f > 0 ? `meat after ${f} frames` : `fish ${s.count('fish')}` };
+});
+check('fish', 'in boiling water it cooks', () => {
+  const s = new Scene().fill(0, 44, W, 20, 'water', 95).heat(0, 44, W, 20, 95).fill(30, 54, 2, 2, 'fish');
+  const f = until(s, 300, () => s.count('cooked_meat') > 0);
+  return { ok: f > 0, detail: f > 0 ? `cooked meat after ${f} frames` : `fish ${s.count('fish')}, meat ${s.count('meat')}` };
+});
+check('fish', 'eats sinking seeds and breeds', () => {
+  const s = new Scene().fill(0, 30, W, 34, 'water').fill(20, 50, 4, 2, 'fish').fill(10, 31, 44, 2, 'seed');
+  const f = until(s, 3000, () => s.count('fish') > 8);
+  return { ok: f > 0, detail: f > 0 ? `${s.count('fish')} fish after ${f} frames` : `fish ${s.count('fish')}, seeds ${s.count('seed')}` };
+});
+check('ant', 'walks over the ground', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(30, 59, 1, 1, 'ant');
+  const xs = new Set<number>();
+  until(s, 600, () => {
+    for (let x = 0; x < W; x++) if (s.at(x, 59) === 'ant') xs.add(x);
+    return false;
+  });
+  return { ok: s.count('ant') === 1 && xs.size > 5, detail: `visited ${xs.size} columns` };
+});
+check('ant', 'eats sugar and breeds', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(10, 58, 44, 2, 'sugar').fill(30, 57, 2, 1, 'ant');
+  const f = until(s, 3000, () => s.count('ant') > 6);
+  return { ok: f > 0 && s.count('sugar') < 88, detail: f > 0 ? `${s.count('ant')} ants after ${f} frames, sugar ${s.count('sugar')}` : `ants ${s.count('ant')}, sugar ${s.count('sugar')}` };
+});
+check('ant', 'drowns in water', () => {
+  const s = new Scene().fill(0, 40, W, 24, 'water').fill(30, 50, 1, 1, 'ant');
+  const f = until(s, 900, () => s.count('ant') === 0);
+  return { ok: f > 0, detail: f > 0 ? `drowned after ${f} frames` : 'still alive' };
+});
+check('worm', 'digs through soil', () => {
+  const s = new Scene().fill(0, 40, W, 24, 'dirt').fill(30, 50, 1, 1, 'worm');
+  const cells = new Set<number>();
+  until(s, 900, () => {
+    for (let i = 0; i < s.world.size; i++) if (s.world.type[i] === s.id('worm')) cells.add(i);
+    return false;
+  });
+  return { ok: s.count('worm') === 1 && cells.size > 5 && s.count('dirt') === 1535, detail: `visited ${cells.size} cells, dirt ${s.count('dirt')} of 1535` };
+});
+check('worm', 'turns dead plants into dirt', () => {
+  const s = new Scene().fill(0, 44, W, 20, 'dirt').fill(0, 40, W, 4, 'dry_plant').fill(20, 50, 2, 2, 'worm');
+  const before = s.count('dry_plant');
+  s.run(3000);
+  return { ok: s.count('dry_plant') < before, detail: `dry plant ${before} to ${s.count('dry_plant')}, worms ${s.count('worm')}` };
+});
+check('bird', 'flies and stays up', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(30, 20, 2, 2, 'bird').run(900);
+  return { ok: s.count('bird') === 4 && s.meanY('bird') < 58, detail: `birds ${s.count('bird')}, row ${fmt(s.meanY('bird'))}` };
+});
+check('bird', 'eats ants', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(0, 59, W, 1, 'ant').fill(10, 50, 44, 2, 'bird');
+  const before = s.count('ant');
+  s.run(1800);
+  return { ok: s.count('ant') < before, detail: `ants ${before} to ${s.count('ant')}, birds ${s.count('bird')}` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {

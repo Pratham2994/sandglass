@@ -86,4 +86,4 @@ Keep the report short and concrete. Plain English, short sentences, simple words
 
 ## Current status
 
-Phases 0 to 3 are done and pushed (sand, wall, water, oil, chunk sleep, perf HUD), plus the library column, the canvas intro and per-element fall physics. Next: phase 4 (temperature, phase changes) and the owner's ongoing UI feedback.
+All roadmap phases (0 to 11) are done and pushed. Since then (17 Oct 2026): per-element behaviour checks (`npm run behaviour`), a parallel pairwise audit, a master list web page, 13 chemistry rule families, devices, weather, a plant life cycle and creatures; about 115 elements. The owner wants many more elements, each with deep interactions, added in large batches (each batch: properties first, then `npm run docs` green, then commit). Next: more batches (lightning, fireworks, more creatures and materials) and continued right-panel polish.
