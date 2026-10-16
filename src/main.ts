@@ -83,7 +83,7 @@ function start(): void {
     }, RESIZE_DEBOUNCE_MS);
   }).observe(stage);
 
-  mountCursor(brush);
+  mountCursor(brush, world);
   const hud = mountHud(perf, world);
   mountLibrary(document.getElementById('panel') as HTMLElement, brush, loop, world, () => {
     brush.cancel();

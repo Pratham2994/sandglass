@@ -30,7 +30,8 @@ export const TEX_GRAIN = 0;
 export const TEX_STONE = 1;
 export const TEX_LIQUID = 2;
 export const TEX_GAS = 3;
-const TEX_CODE = { grain: TEX_GRAIN, stone: TEX_STONE, liquid: TEX_LIQUID, gas: TEX_GAS } as const;
+export const TEX_FIRE = 4;
+const TEX_CODE = { grain: TEX_GRAIN, stone: TEX_STONE, liquid: TEX_LIQUID, gas: TEX_GAS, fire: TEX_FIRE } as const;
 export const TEXTURE_OF = Uint8Array.from(ELEMENTS, (e) => TEX_CODE[e.texture ?? 'grain']);
 
 function lerp(a: number, b: number, t: number): number {

@@ -6,6 +6,24 @@
 
 export type Category = 'powders' | 'liquids' | 'gases' | 'solids' | 'energy' | 'explosives' | 'life' | 'tools';
 export type Phase = 'powder' | 'liquid' | 'gas' | 'solid' | 'energy';
+/** Material class, read by the chemistry rules (acid eats metal, mineral and organic). */
+export type Cls = 'mineral' | 'metal' | 'organic' | 'salt' | 'water' | 'gas' | 'energy' | 'life';
+
+/** A hand-written reaction with another element; wins over the compiler. */
+export interface Override {
+  /** What this cell becomes ('keep' leaves it). */
+  self: string;
+  /** What the other cell becomes ('keep' leaves it). */
+  other: string;
+  /** Gas released into an empty neighbour. */
+  gas?: string;
+  /** Chance per frame while touching, 0..1. */
+  chance: number;
+  /** Only above this temperature (°C) of this cell. */
+  minTemp?: number;
+  /** Shown in the inspector as the reason. */
+  reason: string;
+}
 
 export interface ElementDef {
   key: string;
@@ -20,8 +38,11 @@ export interface ElementDef {
    * to the grid, bevelled edges. liquid: colours run from surface to deep by
    * depth, surface glints.
    */
-  texture?: 'grain' | 'stone' | 'liquid' | 'gas';
+  texture?: 'grain' | 'stone' | 'liquid' | 'gas' | 'fire';
   phase: Phase;
+  cls: Cls;
+  /** 0..1: resists acid (and, later, pressure). */
+  hardness: number;
   /** kg/m³ */
   density: number;
   /** Movers only: fall acceleration in cells/s². Light powders accelerate slowly. */
@@ -48,6 +69,28 @@ export interface ElementDef {
    * rubble that falls or floats, not a block hanging in the air).
    */
   rubble?: string;
+  /** °C at which it catches fire when touching an oxidiser (air, oxygen). */
+  ignition?: number;
+  /** Frames one cell burns for. */
+  fuel?: number;
+  /** °C its flame reaches. */
+  flameTemp?: number;
+  /** What is left when a cell burns out: 'empty' for nothing. */
+  burnInto?: string;
+  /** °C a burning cell pushes into each touching cell per frame (radiant heat). Default 3. */
+  burnEnergy?: number;
+  /** Chance (0..1) a burnt-out cell leaves `burnInto`; otherwise it is gone (burnt off as gas). Default 1. */
+  residue?: number;
+  /** 0..1, how well it feeds a fire. Air is 0.21. */
+  oxidiser?: number;
+  /** -1 strong base .. +1 strong acid. */
+  acidity?: number;
+  /** Gases: leaves the world at the top edge (smoke drifting off). */
+  vents?: boolean;
+  /** Light powders: chance per frame of drifting sideways while falling. */
+  drift?: number;
+  /** Hand-written reactions by the other element's key; they win over the compiler. */
+  overrides?: Record<string, Override>;
 }
 
 // Ids are indexes into ELEMENTS. Id 0 is empty space (air).
@@ -61,10 +104,21 @@ export const STEAM = 6;
 export const LAVA = 7;
 export const STONE = 8;
 export const GRAVEL = 9;
+export const FIRE = 10;
+export const SMOKE = 11;
+export const WOOD = 12;
+export const ASH = 13;
+export const ACID = 14;
+export const IRON = 15;
+export const HYDROGEN = 16;
+export const OXYGEN = 17;
 
 export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'empty',
+    cls: 'gas',
+    hardness: 0,
+    oxidiser: 0.21,
     name: 'Air',
     blurb: 'Empty space.',
     category: 'tools',
@@ -76,6 +130,8 @@ export const ELEMENTS: readonly ElementDef[] = [
   },
   {
     key: 'wall',
+    cls: 'mineral',
+    hardness: 1,
     name: 'Wall',
     blurb: 'Fixed stone. Holds back anything that moves.',
     category: 'solids',
@@ -88,6 +144,8 @@ export const ELEMENTS: readonly ElementDef[] = [
   },
   {
     key: 'sand',
+    cls: 'mineral',
+    hardness: 0.95,
     name: 'Sand',
     blurb: 'Falls, speeds up, piles into slopes and sinks through liquids.',
     category: 'powders',
@@ -101,6 +159,8 @@ export const ELEMENTS: readonly ElementDef[] = [
   },
   {
     key: 'water',
+    cls: 'water',
+    hardness: 0,
     name: 'Water',
     blurb: 'Pours, runs along surfaces and settles flat.',
     category: 'liquids',
@@ -118,6 +178,13 @@ export const ELEMENTS: readonly ElementDef[] = [
   },
   {
     key: 'oil',
+    cls: 'organic',
+    hardness: 0.1,
+    ignition: 250,
+    fuel: 240,
+    flameTemp: 950,
+    burnEnergy: 6,
+    burnInto: 'smoke',
     name: 'Oil',
     blurb: 'Thick and slow. Lighter than water, so it floats as a film.',
     category: 'liquids',
@@ -133,6 +200,8 @@ export const ELEMENTS: readonly ElementDef[] = [
   },
   {
     key: 'ice',
+    cls: 'water',
+    hardness: 0.2,
     name: 'Ice',
     blurb: 'Frozen water. Melts above 0 °C; water freezes back below it.',
     category: 'solids',
@@ -148,6 +217,8 @@ export const ELEMENTS: readonly ElementDef[] = [
   },
   {
     key: 'steam',
+    cls: 'gas',
+    hardness: 0,
     name: 'Steam',
     blurb: 'Hot water vapour. Rises, cools, and turns back into water below 100 °C.',
     category: 'gases',
@@ -161,6 +232,8 @@ export const ELEMENTS: readonly ElementDef[] = [
   },
   {
     key: 'lava',
+    cls: 'mineral',
+    hardness: 0.5,
     name: 'Lava',
     blurb: 'Molten rock at 1200 °C. Flows slowly, heats what it touches and cools into stone.',
     category: 'liquids',
@@ -177,6 +250,8 @@ export const ELEMENTS: readonly ElementDef[] = [
   },
   {
     key: 'stone',
+    cls: 'mineral',
+    hardness: 0.85,
     name: 'Stone',
     blurb: 'Solid rock. Glows as it heats and melts into lava at 1000 °C.',
     category: 'solids',
@@ -192,6 +267,8 @@ export const ELEMENTS: readonly ElementDef[] = [
   },
   {
     key: 'gravel',
+    cls: 'mineral',
+    hardness: 0.8,
     name: 'Gravel',
     blurb: 'Loose rock. Forms where lava cools with nothing under it; floats on lava, sinks in water.',
     category: 'powders',
@@ -204,6 +281,200 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.3,
     melt: 1000,
     meltInto: 'lava',
+  },
+  {
+    key: 'fire',
+    name: 'Fire',
+    blurb: 'Burns while it has fuel and air. Heats what it touches; leaves ash or smoke.',
+    category: 'energy',
+    colours: ['#fff1b0', '#ffd25a', '#ffaa2b', '#ff7a1a', '#e5481a', '#b8260f'],
+    texture: 'fire',
+    phase: 'energy',
+    cls: 'energy',
+    hardness: 0,
+    density: 0.3,
+    temp: 850,
+    heatCapacity: 0.5,
+    conductivity: 0.5,
+  },
+  {
+    key: 'smoke',
+    name: 'Smoke',
+    blurb: 'What burning leaves in the air. Rises and drifts off the top; does not feed fire.',
+    category: 'gases',
+    colours: ['#4a4b4e', '#3d3e41', '#56575a', '#36373a'],
+    texture: 'gas',
+    phase: 'gas',
+    cls: 'gas',
+    hardness: 0,
+    density: 0.7,
+    temp: 150,
+    heatCapacity: 0.4,
+    conductivity: 0.03,
+    vents: true,
+  },
+  {
+    key: 'wood',
+    name: 'Wood',
+    blurb: 'Solid fuel. Catches fire at 300 °C where it meets air and burns down to ash.',
+    category: 'solids',
+    colours: ['#4a2f1a', '#5a3a20', '#6b4627', '#7a5230'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.3,
+    density: 700,
+    heatCapacity: 1.2,
+    conductivity: 0.12,
+    ignition: 300,
+    fuel: 150,
+    flameTemp: 800,
+    burnEnergy: 10,
+    burnInto: 'ash',
+    residue: 0.15,
+  },
+  {
+    key: 'ash',
+    name: 'Ash',
+    blurb: 'Light grey dust left by fire. Drifts as it falls and floats on water.',
+    category: 'powders',
+    colours: ['#8d8a86', '#a09d98', '#7b7874', '#b2afaa', '#96938e'],
+    phase: 'powder',
+    cls: 'mineral',
+    hardness: 0.2,
+    density: 600,
+    fallAccel: 80,
+    fallMax: 45,
+    drift: 0.35,
+    heatCapacity: 0.8,
+    conductivity: 0.1,
+  },
+  {
+    key: 'acid',
+    name: 'Acid',
+    blurb: 'Eats metal, wood and soft rock. Each drop is spent as it dissolves; metal fizzes hydrogen.',
+    category: 'liquids',
+    colours: ['#b6f24a', '#8fd63a', '#6cb52e', '#4f8f22', '#3a6c19'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'water',
+    hardness: 0,
+    density: 1100,
+    fallAccel: 230,
+    fallMax: 160,
+    dispersion: 6,
+    heatCapacity: 0.9,
+    conductivity: 0.3,
+    acidity: 0.8,
+  },
+  {
+    key: 'iron',
+    name: 'Iron',
+    blurb: 'Hard metal. Carries heat fast; acid eats it and releases hydrogen.',
+    category: 'solids',
+    colours: ['#4c5258', '#59606a', '#666e78', '#737c86'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.55,
+    density: 7870,
+    heatCapacity: 0.45,
+    conductivity: 0.8,
+  },
+  {
+    key: 'hydrogen',
+    name: 'Hydrogen',
+    blurb: 'The lightest gas. Shoots upwards and burns in a flash into steam.',
+    category: 'gases',
+    colours: ['#9fb8d6', '#b3c8e2', '#8eabcf', '#c3d4ea'],
+    texture: 'gas',
+    phase: 'gas',
+    cls: 'gas',
+    hardness: 0,
+    density: 0.09,
+    heatCapacity: 0.4,
+    conductivity: 0.05,
+    ignition: 500,
+    fuel: 6,
+    flameTemp: 1100,
+    burnEnergy: 25,
+    burnInto: 'steam',
+  },
+  {
+    key: 'oxygen',
+    name: 'Oxygen',
+    blurb: 'A touch heavier than air, so it sinks slowly. Makes fire burn hotter and faster.',
+    category: 'gases',
+    colours: ['#8fc6d8', '#a3d3e2', '#7fb8cc', '#b5dde9'],
+    texture: 'gas',
+    phase: 'gas',
+    cls: 'gas',
+    hardness: 0,
+    density: 1.43,
+    heatCapacity: 0.4,
+    conductivity: 0.03,
+    oxidiser: 1,
+  },
+  {
+    key: 'methane',
+    name: 'Methane',
+    blurb: 'Natural gas, lighter than air. Burns hot into steam.',
+    category: 'gases',
+    colours: ['#a7b39a', '#b7c2aa', '#98a58b', '#c4ceb8'],
+    texture: 'gas',
+    phase: 'gas',
+    cls: 'gas',
+    hardness: 0,
+    density: 0.66,
+    heatCapacity: 0.4,
+    conductivity: 0.04,
+    ignition: 540,
+    fuel: 10,
+    flameTemp: 1000,
+    burnEnergy: 20,
+    burnInto: 'steam',
+  },
+  {
+    key: 'alcohol',
+    name: 'Alcohol',
+    blurb: 'Runny and light. Catches fire easily and burns clean into steam.',
+    category: 'liquids',
+    colours: ['#dfeef5', '#c8e1ec', '#b2d2e1', '#9cc3d6', '#86b4cb'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0,
+    density: 789,
+    fallAccel: 230,
+    fallMax: 165,
+    dispersion: 8,
+    heatCapacity: 0.6,
+    conductivity: 0.17,
+    ignition: 365,
+    fuel: 120,
+    flameTemp: 750,
+    burnInto: 'steam',
+  },
+  {
+    key: 'sawdust',
+    name: 'Sawdust',
+    blurb: 'Fine wood dust. Drifts, floats on water and burns fast.',
+    category: 'powders',
+    colours: ['#c9a26b', '#b98f58', '#d6b27e', '#a87f4b', '#c29a63'],
+    phase: 'powder',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 250,
+    fallAccel: 90,
+    fallMax: 55,
+    drift: 0.3,
+    heatCapacity: 0.9,
+    conductivity: 0.08,
+    ignition: 260,
+    fuel: 150,
+    flameTemp: 750,
+    burnInto: 'ash',
+    residue: 0.2,
   },
 ];
 
@@ -262,7 +533,7 @@ export const ENTER_P = (() => {
     p[a * n + EMPTY] = 255;
     for (let b = 1; b < n; b++) {
       const B = ELEMENTS[b];
-      if ((B.phase !== 'liquid' && B.phase !== 'gas') || B.density >= A.density) continue;
+      if ((B.phase !== 'liquid' && B.phase !== 'gas' && B.phase !== 'energy') || B.density >= A.density) continue;
       // Square root: small gaps (water under oil) still separate at a visible pace.
       const chance = Math.min(1, Math.sqrt(((A.density - B.density) / A.density) * SWAP_GAIN));
       p[a * n + b] = Math.max(1, Math.min(254, Math.round(chance * 255)));
@@ -340,6 +611,38 @@ ELEMENTS.forEach((e, id) => {
   DOWN_INTO[into] = id;
   DOWN_LATENT[into] = up.latent;
 });
+
+// ---- Burning, gases, powders ------------------------------------------------
+
+/** Lifetime of a placed cell in frames (a loose flame burns out); 0 = forever. */
+export const LIFE_OF = Uint16Array.from(ELEMENTS, (e) => (e.phase === 'energy' ? 45 : 0));
+/** °C at which an element ignites next to an oxidiser; Infinity = never. */
+export const IGNITION_OF = Float32Array.from(ELEMENTS, (e) => e.ignition ?? Infinity);
+/** Frames one cell of an element burns. */
+export const FUEL_OF = Uint16Array.from(ELEMENTS, (e) => e.fuel ?? 0);
+/** °C the flame of an element reaches. */
+export const FLAME_T_OF = Float32Array.from(ELEMENTS, (e) => e.flameTemp ?? 800);
+/** °C a burning cell of an element pushes into each neighbour per frame. */
+export const BURN_ENERGY_OF = Float32Array.from(ELEMENTS, (e) => e.burnEnergy ?? 3);
+/** Chance (0..255) a burnt-out cell leaves its residue. */
+export const RESIDUE_OF = Uint8Array.from(ELEMENTS, (e) => Math.round((e.residue ?? 1) * 255));
+/** What a cell of an element leaves when it burns out. */
+export const BURN_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.burnInto ? elementId(e.burnInto) : 0));
+/** Oxidiser strength, 0..1. Air (empty) is 0.21. */
+export const OXIDISER_OF = Float32Array.from(ELEMENTS, (e) => e.oxidiser ?? 0);
+/** Gases that leave the world at the top edge. */
+export const VENTS_OF = Uint8Array.from(ELEMENTS, (e) => (e.vents ? 1 : 0));
+/** Light powders: chance (0..255) per frame of drifting sideways while falling. */
+export const DRIFT_OF = Uint8Array.from(ELEMENTS, (e) => Math.round((e.drift ?? 0) * 255));
+/**
+ * Gases: chance (0..255) per frame of moving with their buoyancy, and which
+ * way: lighter than air rises, heavier sinks. Steam and hydrogen climb fast,
+ * oxygen settles slowly.
+ */
+export const BUOY_P_OF = Uint8Array.from(ELEMENTS, (e) =>
+  Math.round(Math.min(1, (Math.abs(ELEMENTS[0].density - e.density) / ELEMENTS[0].density) * 1.4) * 255),
+);
+export const BUOY_DIR_OF = Int8Array.from(ELEMENTS, (e) => (e.density < ELEMENTS[0].density ? -1 : 1));
 
 /** What a solid becomes instead when it freezes unsupported; 0 = itself. */
 export const RUBBLE_OF = Uint16Array.from(ELEMENTS, (e) => (e.rubble ? elementId(e.rubble) : 0));

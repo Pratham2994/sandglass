@@ -1,13 +1,28 @@
+import { HAS_REACTION, KEEP, P_GAS, P_MIN_T, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R_COMBUST } from './chem';
 import {
+  BUOY_DIR_OF,
+  BUOY_P_OF,
+  BURN_ENERGY_OF,
+  BURN_INTO_OF,
+  RESIDUE_OF,
   DISPERSION_OF,
+  DRIFT_OF,
   ELEMENT_COUNT,
   EMPTY,
   ENTER_P,
+  FIRE,
+  FLAME_T_OF,
+  FUEL_OF,
   GRAVITY_OF,
+  IGNITION_OF,
+  OXIDISER_OF,
   PHASE_OF,
+  PH_ENERGY,
   PH_GAS,
   PH_LIQUID,
   PH_POWDER,
+  SMOKE,
+  VENTS_OF,
   VMAX_OF,
   VY_UNIT,
 } from './elements';
@@ -70,36 +85,112 @@ export function step(world: World): void {
 
 function updateCell(world: World, x: number, y: number, st: number): void {
   const i = y * world.w + x;
-  const ph = PHASE_OF[world.type[i]];
+  const t = world.type[i];
+  const ph = PHASE_OF[t];
   if (ph === 0 || world.stamp[i] === st) return;
+  // One pair-table lookup with a random neighbour; a cell that reacted does not also move.
+  if (HAS_REACTION[t] !== 0 && react(world, x, y, i, st)) return;
   if (ph === PH_POWDER || ph === PH_LIQUID) updateMover(world, x, y, i, st, ph === PH_LIQUID);
   else if (ph === PH_GAS) updateGas(world, x, y, i, st);
+  else if (ph === PH_ENERGY) updateFire(world, x, y, i, st);
 }
 
-/** Chance (of 256) per frame that a gas cell rises when it can: below 1, so plumes billow. */
-const RISE_P = 180;
+/** Index of the neighbour of (x, y) in direction d (0 up, 1 right, 2 down, 3 left), or -1 off the grid. */
+function neighbour(world: World, x: number, y: number, d: number): number {
+  const { w, h } = world;
+  if (d === 0) return y > 0 ? (y - 1) * w + x : -1;
+  if (d === 1) return x + 1 < w ? y * w + x + 1 : -1;
+  if (d === 2) return y + 1 < h ? (y + 1) * w + x : -1;
+  return x > 0 ? y * w + x - 1 : -1;
+}
+
+/** Replaces cell i with element t, keeping its temperature (a reaction product starts where its parent was). */
+function become(world: World, i: number, t: number): void {
+  const T = world.temp[i];
+  world.place(i, t);
+  if (t !== EMPTY) world.temp[i] = T;
+}
+
+/** Sets cell i burning: it becomes fire that remembers its fuel. */
+function ignite(world: World, i: number, fuel: number): void {
+  world.type[i] = FIRE;
+  world.solute[i] = fuel;
+  world.life[i] = FUEL_OF[fuel] || 30;
+  world.vy[i] = 0;
+  if (world.temp[i] < FLAME_T_OF[fuel] * 0.8) world.temp[i] = FLAME_T_OF[fuel] * 0.8;
+}
 
 /**
- * Gases: rise into empty space above (by chance, so plumes look loose),
- * else slip diagonally up, else drift sideways. A gas never fully rests,
- * so its chunk stays awake while it lasts. Heavier cells falling into it
- * push it aside through the density swap.
+ * Looks up the pair table for this cell and one random neighbour. A rule
+ * whose temperature condition holds keeps the chunk awake (a reaction
+ * skipped by chance must get another try). Returns true if it reacted.
+ */
+function react(world: World, x: number, y: number, i: number, st: number): boolean {
+  const { type, temp } = world;
+  const r = world.rng.nextU32();
+  const j = neighbour(world, x, y, r & 3);
+  if (j < 0) return false;
+  const a = type[i];
+  const k = a * ELEMENT_COUNT + type[j];
+  const rule = P_RULE[k];
+  if (rule === 0 || temp[i] < P_MIN_T[k]) return false;
+  // Only a loose flame (out in the air) lights fuel by touch; a burning cell's
+  // neighbours must heat up and meet air themselves, or they would light and
+  // smother over and over.
+  if (rule === R_COMBUST && type[j] === FIRE && world.solute[j] !== 0) return false;
+  world.wake(x, y);
+  if (((r >>> 8) & 255) >= P_PROB[k]) return false;
+  if (rule === R_COMBUST) {
+    ignite(world, i, a);
+  } else {
+    const outA = P_OUT_A[k];
+    const outB = P_OUT_B[k];
+    if (outA !== KEEP) become(world, i, outA);
+    if (outB !== KEEP) become(world, j, outB);
+    const gas = P_GAS[k];
+    if (gas !== 0) {
+      if (type[j] === EMPTY) become(world, j, gas);
+      else if (type[i] === EMPTY) become(world, i, gas);
+    }
+    world.stamp[j] = st;
+  }
+  world.stamp[i] = st;
+  world.wake(j % world.w, (j / world.w) | 0);
+  return true;
+}
+
+/**
+ * Gases move with their buoyancy against air: lighter ones rise, heavier
+ * ones (oxygen) sink, by chance per frame so plumes look loose. Blocked,
+ * they slip diagonally, else drift sideways. Into another gas they swap
+ * when that makes the heavier one lower. Venting gases (smoke) leave the
+ * world at the top edge. A gas never fully rests, so its chunk stays awake.
  */
 function updateGas(world: World, x: number, y: number, i: number, st: number): void {
-  const { w, type, rng } = world;
+  const { w, h, type, rng } = world;
+  const t = type[i];
   world.wake(x, y);
+  if (y === 0 && VENTS_OF[t] !== 0) {
+    world.place(i, EMPTY);
+    return;
+  }
   const r = rng.nextU32();
-  if (y > 0) {
-    const up = i - w;
-    if (type[up] === EMPTY && (r & 255) < RISE_P) {
-      moveTo(world, i, up, 0, st);
-      world.wake(x, y - 1);
+  const dir = BUOY_DIR_OF[t];
+  const ny = y + dir;
+  if (ny >= 0 && ny < h && (r & 255) < BUOY_P_OF[t]) {
+    const j = i + dir * w;
+    const tj = type[j];
+    // Into empty space, or past a gas it should not sit behind (heavier above a lighter, or the reverse).
+    const pass = tj === EMPTY || (PHASE_OF[tj] === PH_GAS && (dir < 0 ? densityOver(tj, t) : densityOver(t, tj)));
+    if (pass) {
+      moveTo(world, i, j, 0, st);
+      world.wake(x, ny);
       return;
     }
     const dx = r & 256 ? 1 : -1;
-    if (x + dx >= 0 && x + dx < w && type[up + dx] === EMPTY) {
-      moveTo(world, i, up + dx, 0, st);
-      world.wake(x + dx, y - 1);
+    if (x + dx >= 0 && x + dx < w && type[j + dx] === EMPTY) {
+      moveTo(world, i, j + dx, 0, st);
+      world.wake(x + dx, ny);
       return;
     }
   }
@@ -110,12 +201,122 @@ function updateGas(world: World, x: number, y: number, i: number, st: number): v
   }
 }
 
+/** True if element a is denser than element b (both gases). */
+function densityOver(a: number, b: number): boolean {
+  return BUOY_DIR_OF[a] > BUOY_DIR_OF[b] || (BUOY_DIR_OF[a] === BUOY_DIR_OF[b] && BUOY_P_OF[a] * BUOY_DIR_OF[a] > BUOY_P_OF[b] * BUOY_DIR_OF[b]);
+}
+
+/** Chance (of 256) per frame that a burning cell turns a touching oxidiser into smoke. */
+const CONSUME_P = 12;
+/** Oxidiser strength of air. */
+const AIR_OXIDISER = OXIDISER_OF[EMPTY];
+/** Chance (of 256) per frame that a burning cell sends a flame up into open air above. */
+const FLAME_P = 140;
+
+/**
+ * Fire. A burning cell (solute = its fuel) stays put, holds itself at its
+ * flame temperature while it has an oxidiser next to it, pushes radiant
+ * heat into its neighbours (so fire spreads), uses up fuel
+ * (faster in pure oxygen), turns touching air into smoke now and then (so a
+ * sealed box runs out of air), and throws loose flames upwards. With no
+ * oxidiser it smothers, and if something cools it below its ignition point
+ * it goes out: both leave the unburnt fuel. Burnt out, it leaves ash or
+ * smoke. A loose flame (no fuel) rises, flickers and dies within a moment.
+ */
+function updateFire(world: World, x: number, y: number, i: number, st: number): void {
+  const { w, type, temp, life, solute, rng } = world;
+  world.wake(x, y);
+  const r = rng.nextU32();
+  const fuel = solute[i];
+
+  if (fuel === 0) {
+    // Loose flame: short-lived, rising, heats what it touches by conduction.
+    const L = life[i] - 1;
+    if (L <= 0) {
+      world.place(i, (r & 255) < 40 ? SMOKE : EMPTY);
+      return;
+    }
+    life[i] = L;
+    if (y > 0) {
+      // Rise, often slanting, so flames lick across the surface next to them.
+      const up = i - w;
+      const dx = r & 65536 ? 1 : -1;
+      const slant = ((r >>> 16) & 255) < 110;
+      if (slant && x + dx >= 0 && x + dx < w && type[up + dx] === EMPTY) {
+        moveTo(world, i, up + dx, 0, st);
+        world.wake(x + dx, y - 1);
+        return;
+      }
+      if (type[up] === EMPTY && ((r >>> 8) & 255) < 200) {
+        moveTo(world, i, up, 0, st);
+        world.wake(x, y - 1);
+      }
+    }
+    return;
+  }
+
+  // Burning cell: find the strongest oxidiser touching it.
+  let ox = 0;
+  let oxJ = -1;
+  for (let d = 0; d < 4; d++) {
+    const j = neighbour(world, x, y, (r + d) & 3);
+    if (j < 0) continue;
+    // A loose flame is surrounded by air; it does not starve its own fire.
+    const o = type[j] === FIRE && solute[j] === 0 ? AIR_OXIDISER : OXIDISER_OF[type[j]];
+    if (o > ox) {
+      ox = o;
+      oxJ = j;
+    }
+  }
+  if (ox === 0 || temp[i] < IGNITION_OF[fuel] - 20) {
+    // Smothered or cooled: the fire goes out and the fuel is left.
+    if (ox === 0 && ((r >>> 8) & 255) >= 10) return;
+    type[i] = fuel;
+    solute[i] = 0;
+    life[i] = 0;
+    return;
+  }
+  temp[i] += (FLAME_T_OF[fuel] * (0.8 + ox) - temp[i]) * 0.1;
+  // Radiant heat into everything touching it: this is what spreads a fire.
+  const push = BURN_ENERGY_OF[fuel];
+  for (let d = 0; d < 4; d++) {
+    const j = neighbour(world, x, y, d);
+    if (j >= 0 && type[j] !== FIRE) temp[j] += push;
+  }
+  const L = life[i] - (ox >= 0.5 ? 3 : 1);
+  if (((r >>> 8) & 255) < CONSUME_P && type[oxJ] !== FIRE) {
+    become(world, oxJ, SMOKE);
+    world.temp[oxJ] = temp[i] * 0.5;
+  }
+  if (y > 0 && type[i - w] === EMPTY && ((r >>> 16) & 255) < FLAME_P) {
+    const up = i - w;
+    world.place(up, FIRE);
+    life[up] = 8 + ((r >>> 24) & 15);
+    temp[up] = FLAME_T_OF[fuel];
+    world.stamp[up] = st;
+  }
+  if (L <= 0) {
+    // Burnt out: a little residue (ash) stays, the rest has gone off as gas.
+    const T = temp[i];
+    world.place(i, (r >>> 24) <= RESIDUE_OF[fuel] ? BURN_INTO_OF[fuel] : EMPTY);
+    if (type[i] !== EMPTY) temp[i] = T;
+    return;
+  }
+  life[i] = L;
+}
+
 /** Swaps every field of cells i and j. */
 function swap(world: World, i: number, j: number): void {
-  const { type, vy, stamp, shade, temp } = world;
+  const { type, vy, stamp, shade, temp, life, solute } = world;
   const t = type[i];
   type[i] = type[j];
   type[j] = t;
+  const l = life[i];
+  life[i] = life[j];
+  life[j] = l;
+  const so = solute[i];
+  solute[i] = solute[j];
+  solute[j] = so;
   const T = temp[i];
   temp[i] = temp[j];
   temp[j] = T;
@@ -183,6 +384,18 @@ function updateMover(world: World, x: number, y: number, i: number, st: number, 
   const below = i + w;
   const tb = type[below];
   if (tb === EMPTY) {
+    // Light powders (ash, sawdust) flutter: now and then they drift a cell sideways.
+    const drift = DRIFT_OF[t];
+    if (drift !== 0) {
+      const r = world.rng.nextU32();
+      const dx = r & 256 ? 1 : -1;
+      if ((r & 255) < drift && x + dx >= 0 && x + dx < w && type[below + dx] === EMPTY && type[i + dx] === EMPTY) {
+        moveTo(world, i, below + dx, vy[i] >> 1, st);
+        world.wake(x, y);
+        world.wake(x + dx, y + 1);
+        return;
+      }
+    }
     let v = vy[i] + g;
     if (v > VMAX_OF[t]) v = VMAX_OF[t];
     const dist = (v + sub) >> SHIFT;

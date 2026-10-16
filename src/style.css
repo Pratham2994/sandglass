@@ -484,6 +484,77 @@ input[type='range']::-moz-range-thumb {
   color: var(--muted);
 }
 
+/* Inspect lens in the panel, and its one-line label beside the cursor. */
+.lens[hidden],
+.detail[hidden] {
+  display: none;
+}
+
+.lens {
+  display: grid;
+  gap: 8px;
+  min-height: 96px;
+}
+
+.reactions {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 8px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+  font-size: 12px;
+  color: var(--faint);
+}
+
+.reactions li {
+  padding-left: 12px;
+  text-indent: -12px;
+  text-wrap: pretty;
+}
+
+.reactions li::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--raise-2);
+  vertical-align: 1px;
+}
+
+.reactions li.on {
+  color: var(--text);
+}
+
+.reactions li.on::before {
+  background: var(--run);
+}
+
+.reactions li.none::before {
+  display: none;
+}
+
+.cursor-label {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 4;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: rgb(17 18 22 / 0.88);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.cursor-label[hidden] {
+  display: none;
+}
+
 /* Tile tooltip: one themed element, placed above the hovered tile. */
 .tip {
   position: fixed;

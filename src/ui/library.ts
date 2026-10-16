@@ -17,6 +17,7 @@ import {
   type ElementDef,
 } from '../sim/elements';
 import type { World } from '../sim/world';
+import { inspectCell } from '../sim/inspect';
 import { icon } from './icons';
 import { MiniSim } from './preview';
 
@@ -63,7 +64,7 @@ function facts(id: number): [string, string][] {
   const floats: number[] = [];
   for (let b = 1; b < ELEMENT_COUNT; b++) {
     if (b === id) continue;
-    if (ENTER_P[id * ELEMENT_COUNT + b] > 0 && ENTER_P[id * ELEMENT_COUNT + b] < 255) sinks.push(b);
+    if (ENTER_P[id * ELEMENT_COUNT + b] > 0 && ENTER_P[id * ELEMENT_COUNT + b] < 255 && PHASE_OF[b] === PH_LIQUID) sinks.push(b);
     if (ph === PH_LIQUID && ENTER_P[b * ELEMENT_COUNT + id] > 0 && PHASE_OF[b] === PH_LIQUID) floats.push(b);
   }
   if (sinks.length) out.push(['Sinks through', names(sinks)]);
@@ -290,10 +291,41 @@ export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, w
   sizeRow.append(sizeLabel, range, sizeValue);
   range.addEventListener('input', () => brush.setRadius(Number(range.value)));
 
+  // Inspect lens: while the pointer is over the canvas, the card shows the cell under it.
+  const lens = el('section', 'lens');
+  lens.hidden = true;
+  const lensTitle = el('div', 'detail-title');
+  const lensName = el('h2', 'detail-name');
+  const lensState = el('span', 'detail-tag');
+  lensTitle.append(lensName, lensState);
+  const lensFacts = el('dl', 'facts');
+  const lensReactions = el('ul', 'reactions');
+  lens.append(lensTitle, lensFacts, lensReactions);
+  const refreshLens = (): void => {
+    const cell = brush.held ? null : brush.cellUnderPointer();
+    const rep = cell ? inspectCell(world, cell[0], cell[1]) : null;
+    lens.hidden = !rep;
+    detail.hidden = !!rep;
+    if (!rep) return;
+    lensName.textContent = rep.name;
+    lensState.textContent = rep.state;
+    lensFacts.replaceChildren(...rep.facts.flatMap(([k, v]) => [el('dt', '', k), el('dd', 'num', v)]));
+    lensReactions.replaceChildren(
+      ...(rep.reactions.length
+        ? rep.reactions.map((r) => {
+            const li = el('li', r.active ? 'on' : '', r.text);
+            return li;
+          })
+        : [el('li', 'none', 'No reaction with what it touches.')]),
+    );
+  };
+  setInterval(refreshLens, 120);
+  brush.subscribe(refreshLens);
+
   const top = el('div', 'lib-top');
   top.append(bar, search, chips);
   const foot = el('div', 'lib-foot');
-  foot.append(detail, sizeRow, stats);
+  foot.append(detail, lens, sizeRow, stats);
   host.append(top, groups, foot);
   applyFilter();
 

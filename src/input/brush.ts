@@ -83,6 +83,16 @@ export class Brush {
     this.emit();
   }
 
+  /** Grid cell under the pointer, or null when the pointer is not over the canvas. */
+  cellUnderPointer(): [number, number] | null {
+    if (!this.hovering) return null;
+    const r = this.canvas.getBoundingClientRect();
+    const x = Math.floor(((this.clientX - r.left) / r.width) * this.world.w);
+    const y = Math.floor(((this.clientY - r.top) / r.height) * this.world.h);
+    if (x < 0 || y < 0 || x >= this.world.w || y >= this.world.h) return null;
+    return [x, y];
+  }
+
   /** Size of one cell on screen, in CSS px. */
   cellCssSize(): number {
     return this.canvas.getBoundingClientRect().width / this.world.w;

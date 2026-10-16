@@ -38,7 +38,7 @@ layout(location = 1) out vec4 oEmit;
 const uint OUT = 65535u;
 const float LIGHT[7] = float[7](0.7, 0.85, 0.9, 1.0, 1.08, 1.17, 1.38);
 const int L_UNDER = 0, L_SHADE = 1, L_DEEP = 2, L_PLAIN = 3, L_SIDE = 4, L_TOP = 5, L_GLINT = 6;
-const uint TEX_STONE = 1u, TEX_LIQUID = 2u, TEX_GAS = 3u;
+const uint TEX_STONE = 1u, TEX_LIQUID = 2u, TEX_GAS = 3u, TEX_FIRE = 4u;
 
 uint typeAt(ivec2 p) {
   if (p.x < 0 || p.y < 0 || p.x >= uSize.x || p.y >= uSize.y) return OUT;
@@ -86,6 +86,14 @@ void main() {
   uint shade = texelFetch(uShade, p, 0).r;
   if (tex == TEX_GAS) {
     oColor = vec4(mix(pal(t, shade), bg, 0.5), 1.0);
+    return;
+  }
+  if (tex == TEX_FIRE) {
+    // Flicker: the colour index moves every frame; fire is a light source.
+    uint f = (shade + uint(uFrame) * 53u + uint(p.x) * 7u + uint(p.y) * 3u) & 255u;
+    vec3 c = pal(t, f);
+    oColor = vec4(c, 1.0);
+    oEmit = vec4(c * 0.9, 1.0);
     return;
   }
   int level = L_PLAIN;

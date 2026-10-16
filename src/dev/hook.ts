@@ -1,7 +1,8 @@
 import type { FixedLoop } from '../core/loop';
 import type { Brush } from '../input/brush';
 import type { Renderer } from '../render/renderer';
-import { ELEMENTS, EMPTY, elementId } from '../sim/elements';
+import { P_MIN_T, P_PROB, P_RULE, explain } from '../sim/chem';
+import { ELEMENTS, ELEMENT_COUNT, EMPTY, elementId } from '../sim/elements';
 import type { World } from '../sim/world';
 
 /**
@@ -27,6 +28,10 @@ export interface SimHook {
   count(element?: string): number;
   /** Element key at (x, y). */
   cell(x: number, y: number): string;
+  /** The compiled reaction of element a touching element b: reason text and raw entry, or null. */
+  pair(a: string, b: string): { reason: string; rule: number; prob: number; minT: number } | null;
+  /** Everything stored in cell (x, y). */
+  probe(x: number, y: number): { key: string; temp: number; life: number; solute: string };
   /** Height of the filled stack in each column, counted from the bottom row up to the first empty cell. */
   heights(): number[];
   /** Hash of the whole grid, 8 hex digits. */
@@ -101,6 +106,23 @@ export function installSimHook(t: HookTargets): void {
     cell(x, y) {
       if (x < 0 || y < 0 || x >= world.w || y >= world.h) throw new Error(`Out of grid: ${x}, ${y}`);
       return ELEMENTS[world.type[y * world.w + x]].key;
+    },
+    pair(a, b) {
+      const ia = elementId(a);
+      const ib = elementId(b);
+      const reason = explain(ia, ib);
+      if (reason === null) return null;
+      const k = ia * ELEMENT_COUNT + ib;
+      return { reason, rule: P_RULE[k], prob: P_PROB[k], minT: P_MIN_T[k] };
+    },
+    probe(x, y) {
+      const i = y * world.w + x;
+      return {
+        key: ELEMENTS[world.type[i]].key,
+        temp: world.temp[i],
+        life: world.life[i],
+        solute: ELEMENTS[world.solute[i]].key,
+      };
     },
     heights() {
       const out: number[] = [];
