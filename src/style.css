@@ -418,9 +418,7 @@ kbd {
 .facts dd {
   margin: 0;
   text-align: right;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-wrap: pretty;
 }
 
 .brush-size {
@@ -484,6 +482,44 @@ input[type='range']::-moz-range-thumb {
 .wordmark {
   font-weight: 600;
   color: var(--muted);
+}
+
+/* Tile tooltip: one themed element, placed above the hovered tile. */
+.tip {
+  position: fixed;
+  z-index: 5;
+  padding: 4px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--raise-2);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: pre;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.4);
+}
+
+.tip[hidden] {
+  display: none;
+}
+
+/* First-use line on the empty canvas after the intro. */
+.first-hint {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  color: var(--muted);
+  font-size: 14px;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.first-hint.gone {
+  opacity: 0;
 }
 
 /* While the intro plays, the panel waits quietly. */

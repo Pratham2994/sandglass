@@ -4,6 +4,7 @@ import { fitCanvas, gridFor, whenSized, type GridSize } from './core/grid';
 import { FixedLoop } from './core/loop';
 import { Brush } from './input/brush';
 import { Canvas2DRenderer } from './render/canvas2d';
+import { ELEMENTS } from './sim/elements';
 import { step } from './sim/step';
 import { World } from './sim/world';
 import { mountCursor } from './ui/cursor';
@@ -12,6 +13,25 @@ import { Intro } from './ui/intro';
 import { mountLibrary } from './ui/library';
 
 const DEFAULT_SEED = 1;
+
+/** One quiet line on the empty canvas after the intro; gone on the first stroke. */
+function showFirstHint(stage: HTMLElement, brush: Brush): void {
+  const hint = document.createElement('p');
+  hint.className = 'first-hint';
+  const text = (): string => {
+    const e = ELEMENTS[brush.element];
+    const verb = e.phase === 'solid' ? 'draw' : 'pour';
+    return `Drag to ${verb} ${e.name.toLowerCase()}. Right drag erases.`;
+  };
+  hint.textContent = text();
+  stage.append(hint);
+  brush.subscribe(() => {
+    if (brush.held) {
+      hint.classList.add('gone');
+      window.setTimeout(() => hint.remove(), 400);
+    } else hint.textContent = text();
+  });
+}
 /** Wait after the last resize event before rebuilding the grid. */
 const RESIZE_DEBOUNCE_MS = 120;
 
@@ -96,6 +116,7 @@ function start(): void {
       document.body.classList.remove('intro');
       brush.cancel();
       loop.invalidate();
+      showFirstHint(stage, brush);
     };
     const skip = (e: Event): void => {
       if (!intro.active) return;

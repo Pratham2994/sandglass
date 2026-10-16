@@ -79,7 +79,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     name: 'Oil',
     blurb: 'Thick and slow. Lighter than water, so it floats as a film.',
     category: 'liquids',
-    colours: ['#c79a45', '#93692a', '#6b4a1d', '#4b3314', '#36240e'],
+    colours: ['#9a5a1e', '#7a4416', '#5c3110', '#43230b', '#2f1807'],
     texture: 'liquid',
     phase: 'liquid',
     density: 900,

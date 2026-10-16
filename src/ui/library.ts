@@ -51,10 +51,7 @@ function names(ids: number[]): string {
 function facts(id: number): [string, string][] {
   const e: ElementDef = ELEMENTS[id];
   const ph = PHASE_OF[id];
-  const out: [string, string][] = [
-    ['State', e.phase[0].toUpperCase() + e.phase.slice(1)],
-    ['Density', `${fmt.format(e.density)} kg/m³`],
-  ];
+  const out: [string, string][] = [['Density', `${fmt.format(e.density)} kg/m³`]];
   if (e.fallMax) out.push(['Top speed', `${e.fallMax} cells/s`]);
   if (ph === PH_LIQUID && e.dispersion) out.push(['Flow', `${e.dispersion} cells/frame`]);
   const sinks: number[] = [];
@@ -103,7 +100,8 @@ export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, w
   // Run state sits next to the play button: it is what the button changes.
   const pausedTag = el('span', 'paused-tag', 'Paused');
   const gap = el('span', 'tool-gap');
-  bar.append(playBtn, stepBtn, pausedTag, gap, eraseBtn, clearBtn, clearHint);
+  // The confirm hint sits before the buttons so arming Clear never moves them.
+  bar.append(playBtn, stepBtn, pausedTag, gap, clearHint, eraseBtn, clearBtn);
 
   playBtn.addEventListener('click', () => {
     loop.paused = !loop.paused;
@@ -158,6 +156,18 @@ export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, w
     return { c, b };
   });
 
+  // One themed tooltip for all tiles (name and hotkey), instead of browser tooltips.
+  const tip = el('div', 'tip num');
+  tip.hidden = true;
+  document.body.append(tip);
+  const showTip = (b: HTMLElement): void => {
+    tip.textContent = b.dataset.tip ?? '';
+    tip.hidden = false;
+    const r = b.getBoundingClientRect();
+    tip.style.left = `${r.left + r.width / 2}px`;
+    tip.style.top = `${r.top - 6}px`;
+  };
+
   // Tiles by category.
   const groups = el('div', 'groups');
   const tiles: { id: number; button: HTMLButtonElement; group: HTMLElement; sim: MiniSim }[] = [];
@@ -177,21 +187,23 @@ export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, w
       b.type = 'button';
       b.dataset.id = String(id);
       b.setAttribute('aria-pressed', 'false');
-      b.title = `${e.name}: ${e.blurb}`;
+      b.setAttribute('aria-label', e.name);
       const label = el('span', 'tile-name', e.name);
       b.append(sim.canvas, label);
-      if (hotkey <= 9) b.title += ` (${hotkey})`;
+      b.dataset.tip = hotkey <= 9 ? `${e.name}  ${hotkey}` : e.name;
       b.addEventListener('pointerdown', (ev) => ev.preventDefault());
       b.addEventListener('click', () => brush.setElement(id));
       b.addEventListener('pointerenter', () => {
         hovered = tiles.find((t) => t.id === id) ?? null;
         hovered?.sim.reset();
+        showTip(b);
       });
       b.addEventListener('pointerleave', () => {
         if (hovered?.id === id) {
           hovered.sim.still();
           hovered = null;
         }
+        tip.hidden = true;
       });
       grid.append(b);
       tiles.push({ id, button: b, group, sim });
@@ -281,7 +293,7 @@ export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, w
     tag.textContent = CATEGORY_NAMES[e.category];
     blurb.textContent = e.blurb;
     dl.replaceChildren(
-      ...facts(id).slice(1).flatMap(([k, v]) => {
+      ...facts(id).flatMap(([k, v]) => {
         const dt = el('dt', '', k);
         const dd = el('dd', 'num', v);
         return [dt, dd];

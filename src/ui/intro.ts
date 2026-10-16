@@ -4,6 +4,8 @@ import type { World } from '../sim/world';
 const WORD = 'SANDGLASS';
 /** Material each letter turns into, left to right: sand sinks, oil floats on water. */
 const MATERIALS = [SAND, WATER, OIL, SAND, WATER, OIL, SAND, WATER, SAND];
+/** Order letters break in: scattered, so no fragment of the word is left standing alone. */
+const ORDER = [4, 1, 7, 3, 8, 0, 5, 2, 6];
 /** Frames (60 per second): the word holds, then letters break one by one. */
 const HOLD = 40;
 const STAGGER = 5;
@@ -52,9 +54,10 @@ export class Intro {
     if (f >= HOLD && (f - HOLD) % STAGGER === 0) {
       const k = (f - HOLD) / STAGGER;
       if (k < WORD.length) {
-        const id = MATERIALS[k];
+        const letter = ORDER[k];
+        const id = MATERIALS[letter];
         for (let i = 0; i < this.letterOf.length; i++)
-          if (this.letterOf[i] === k + 1 && world.type[i] === WALL) world.place(i, id);
+          if (this.letterOf[i] === letter + 1 && world.type[i] === WALL) world.place(i, id);
       }
     }
     // The floor opens: the bottom row empties every frame and everything
