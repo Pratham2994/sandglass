@@ -1178,6 +1178,40 @@ check('cactus', 'outlasts a drought', () => {
   return { ok: cactusBefore > 0 && c.count('cactus') > 0 && c.count('cactus') / cactusBefore > p.count('plant') / Math.max(1, p.count('plant') + p.count('dry_plant')), detail: `cactus ${cactusBefore} to ${c.count('cactus')}; plant left ${p.count('plant')}, withered ${p.count('dry_plant')}` };
 });
 
+// ---- Batch 10 ---------------------------------------------------------------------
+
+check('smoke_bomb', 'lit, it pours out smoke', () => {
+  const s = new Scene().fill(26, 58, 12, 6, 'smoke_bomb').fill(31, 56, 2, 2, 'fire');
+  let smoke = 0;
+  until(s, 900, () => ((smoke = Math.max(smoke, s.count('smoke'))), false));
+  return { ok: smoke > 40, detail: `smoke seen ${smoke}` };
+});
+check('peat', 'dry, it smoulders; soaked, it will not burn', () => {
+  const dry = new Scene().fill(10, 56, 44, 8, 'peat').fill(30, 54, 2, 2, 'fire').run(600);
+  const wet = new Scene().fill(10, 56, 44, 8, 'peat').fill(10, 50, 44, 4, 'water').run(600);
+  wet.fill(30, wet.topY('peat') - 2, 2, 2, 'fire').run(600);
+  return { ok: dry.count('peat') < 352 && wet.count('peat') === 352, detail: `dry peat left ${dry.count('peat')}, soaked peat left ${wet.count('peat')} of 352` };
+});
+check('basalt', 'melts into lava', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'basalt', 1150);
+  const f = until(s, 60, () => s.count('lava') > 0);
+  return { ok: f > 0, detail: f > 0 ? `lava after ${f} frames` : 'solid' };
+});
+check('granite', 'resists heat that melts basalt', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'granite', 1150).run(60);
+  return { ok: s.count('lava') === 0, detail: `lava ${s.count('lava')}` };
+});
+check('sandstone', 'a blast crumbles it into sand', () => {
+  const s = new Scene().fill(20, 40, 3, 20, 'sandstone').fill(25, 46, 4, 4, 'tnt', 400);
+  const f = until(s, 300, () => s.count('sand') > 0);
+  return { ok: f > 0, detail: f > 0 ? `sand after ${f} frames` : 'held' };
+});
+check('soda', 'warmed, it fizzes out carbon dioxide', () => {
+  const s = new Scene().fill(10, 56, 44, 8, 'soda', 40);
+  const f = until(s, 60, () => s.count('carbon_dioxide') > 0);
+  return { ok: f > 0, detail: f > 0 ? `carbon dioxide after ${f} frames` : 'still fizzy' };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {
