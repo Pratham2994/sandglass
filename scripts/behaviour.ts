@@ -677,6 +677,116 @@ check('c4', 'a spark sets it off', () => {
   return { ok: f > 0, detail: f > 0 ? `went off after ${f} frames` : 'did not go off' };
 });
 
+// ---- Life pack, weather, devices --------------------------------------------------
+
+/** Damp soil with seeds dropped on it, run long enough to grow. */
+function garden(seed: string, frames: number): Scene {
+  return new Scene().fill(0, 50, W, 14, 'dirt').fill(0, 46, W, 3, 'water').run(600).fill(16, 40, 1, 1, seed).fill(44, 40, 1, 1, seed).run(frames);
+}
+check('grass_seed', 'sprouts into short grass', () => {
+  const s = garden('grass_seed', 2400);
+  return { ok: s.count('grass') > 0 && s.topY('grass') > 30, detail: `grass cells ${s.count('grass')}, top row ${s.topY('grass')}` };
+});
+check('acorn', 'grows into a tall tree with leaves', () => {
+  // Trees drink a lot: give the soil plenty of water.
+  const s = new Scene().fill(0, 50, W, 14, 'dirt').fill(0, 40, W, 8, 'water').run(900).fill(16, 30, 1, 1, 'acorn').fill(44, 30, 1, 1, 'acorn').run(2400);
+  return { ok: s.count('tree') >= 15 && s.count('leaves') > 0, detail: `trunk cells ${s.count('tree')}, leaves ${s.count('leaves')}, top row ${Math.min(s.topY('tree'), s.topY('leaves'))}` };
+});
+check('plant', 'flowers at its tips', () => {
+  const s = garden('seed', 5400);
+  return { ok: s.count('flower') > 0, detail: `flowers ${s.count('flower')}, plant cells ${s.count('plant')}` };
+});
+check('tree', 'dead and dry, it is wood', () => {
+  const s = new Scene().fill(20, 40, 4, 24, 'tree').run(3000);
+  return { ok: s.count('wood') > 0, detail: `wood ${s.count('wood')}, still living ${s.count('tree')}` };
+});
+check('salt', 'kills plants it touches', () => {
+  const s = new Scene().fill(10, 50, 44, 14, 'plant').fill(10, 46, 44, 2, 'salt');
+  const f = until(s, 1200, () => s.count('dry_plant') > 0);
+  return { ok: f > 0, detail: f > 0 ? `withered after ${f} frames` : 'plants fine' };
+});
+check('cloud', 'rains', () => {
+  const s = new Scene().fill(10, 10, 44, 6, 'cloud');
+  const f = until(s, 600, () => s.count('water') > 0);
+  return { ok: f > 0, detail: f > 0 ? `water after ${f} frames` : 'no rain' };
+});
+check('cloud', 'snows below freezing', () => {
+  const s = new Scene().fill(10, 10, 44, 6, 'cloud', -10);
+  const f = until(s, 600, () => s.count('snow') > 0);
+  return { ok: f > 0, detail: f > 0 ? `snow after ${f} frames` : 'no snow' };
+});
+check('cloud', 'runs dry', () => {
+  const s = new Scene().fill(10, 10, 44, 6, 'cloud').run(6000);
+  return { ok: s.count('cloud') < 264, detail: `cloud cells left ${s.count('cloud')} of 264` };
+});
+check('heater', 'boils water above it', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'heater').fill(0, 50, W, 10, 'water');
+  const f = until(s, 1800, () => s.count('steam') > 0);
+  return { ok: f > 0, detail: f > 0 ? `steam after ${f} frames` : 'no steam' };
+});
+check('cooler', 'freezes water above it', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'cooler').fill(0, 50, W, 10, 'water');
+  const f = until(s, 1800, () => s.count('ice') > 0);
+  return { ok: f > 0, detail: f > 0 ? `ice after ${f} frames` : 'no ice' };
+});
+check('clone', 'copies what touches it', () => {
+  const s = new Scene().fill(28, 30, 8, 2, 'clone').fill(30, 28, 2, 2, 'sand').run(600);
+  return { ok: s.count('sand') > 20, detail: `sand cells ${s.count('sand')} (started with 4)` };
+});
+check('void', 'deletes what touches it', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'void').fill(10, 30, 44, 10, 'sand').run(900);
+  return { ok: s.count('sand') === 0 && s.count('void') === 256, detail: `sand left ${s.count('sand')}, void ${s.count('void')}` };
+});
+check('fan', 'lifts light powder', () => {
+  const s = new Scene().fill(20, 62, 24, 2, 'fan').fill(20, 50, 24, 4, 'sawdust').run(300);
+  const still = new Scene().fill(20, 62, 24, 2, 'wall').fill(20, 50, 24, 4, 'sawdust').run(300);
+  return { ok: s.topY('sawdust') < still.topY('sawdust'), detail: `top of sawdust: over fan row ${s.topY('sawdust')}, over wall row ${still.topY('sawdust')}` };
+});
+check('bulb', 'glows while powered', () => {
+  const s = new Scene().fill(2, 38, 3, 3, 'battery').fill(5, 39, 10, 1, 'wire').fill(15, 39, 6, 1, 'bulb');
+  let hottest = 0;
+  until(s, 600, () => ((hottest = Math.max(hottest, s.tempAt(18, 39))), false));
+  return { ok: hottest > 450, detail: `filament peak ${fmt(hottest)} °C (glow starts near 450 °C)` };
+});
+check('magnesium', 'burns hot enough to set off thermite', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'thermite').fill(20, 54, 24, 2, 'magnesium', 700);
+  const f = until(s, 900, () => s.count('thermite') < 192);
+  return { ok: f > 0, detail: f > 0 ? `thermite going after ${f} frames` : 'thermite untouched' };
+});
+check('potassium', 'bursts in water', () => {
+  const s = new Scene().fill(0, 50, W, 14, 'water').fill(28, 48, 4, 2, 'potassium');
+  const f = until(s, 300, () => s.count('lye') > 0);
+  return { ok: f > 0, detail: f > 0 ? `lye after ${f} frames` : 'nothing' };
+});
+check('sugar', 'bakes into caramel', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'sugar', 200);
+  const f = until(s, 60, () => s.count('caramel') > 0);
+  return { ok: f > 0, detail: f > 0 ? `caramel after ${f} frames` : 'no caramel' };
+});
+check('sand', 'bakes into glass in great heat', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'sand', 1460);
+  const f = until(s, 60, () => s.count('glass') > 0);
+  return { ok: f > 0, detail: f > 0 ? `glass after ${f} frames` : 'no glass' };
+});
+check('wood', 'heated without air, it turns to charcoal', () => {
+  // Wood packed between walls, no air reaching it, heated from below.
+  const s = new Scene().fill(0, 40, W, 24, 'wall').fill(20, 48, 24, 8, 'wood').fill(20, 56, 24, 2, 'heater');
+  s.world.temp.fill(20);
+  const hot = new Scene().fill(0, 40, W, 24, 'wall').fill(20, 48, 24, 8, 'wood', 450);
+  const f = until(hot, 60, () => hot.count('charcoal') > 0);
+  return { ok: f > 0 && hot.count('fire') === 0, detail: f > 0 ? `charcoal after ${f} frames, no flames` : 'no charcoal' };
+});
+check('marble', 'acid fizzes it into carbon dioxide', () => {
+  const s = new Scene().fill(10, 56, 44, 8, 'marble').fill(10, 48, 44, 6, 'acid');
+  const f = until(s, 900, () => s.count('carbon_dioxide') > 0);
+  return { ok: f > 0, detail: f > 0 ? `carbon dioxide after ${f} frames` : 'no fizz' };
+});
+check('chalk', 'acid fizzes it into carbon dioxide', () => {
+  const s = new Scene().fill(10, 56, 44, 8, 'chalk').fill(10, 48, 44, 6, 'acid');
+  const f = until(s, 900, () => s.count('carbon_dioxide') > 0);
+  return { ok: f > 0, detail: f > 0 ? `carbon dioxide after ${f} frames` : 'no fizz' };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {

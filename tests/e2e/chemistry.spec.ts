@@ -26,10 +26,12 @@ test('wood burns in the open; fire dies in a sealed box', async ({ page }) => {
       return n;
     };
     s.step(3600);
-    return { open: count('wood', 10, 80), sealed: count('wood', 94, 146), sealedFire: count('fire', 94, 146) };
+    // Unburnt fuel: wood, plus wood that the heat turned to charcoal without air (pyrolysis).
+    const fuel = (x0: number, x1: number): number => count('wood', x0, x1) + count('charcoal', x0, x1);
+    return { open: fuel(10, 80), sealed: fuel(94, 146), sealedFire: count('fire', 94, 146) };
   });
   // 1,200 wood cells each to start with.
-  expect(r.open).toBeLessThan(1200 * 0.7);
+  expect(r.open).toBeLessThan(1200 * 0.8);
   expect(r.sealed).toBeGreaterThan(1200 * 0.75);
   expect(r.sealed).toBeGreaterThan(r.open);
   // The sealed fire has run out of air and gone out.

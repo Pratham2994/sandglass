@@ -25,6 +25,12 @@ import {
   GROWS_INTO_OF,
   WITHER_INTO_OF,
   BAKE_INTO_OF,
+  CLONES_OF,
+  DEVICE_OF,
+  LEAF_INTO_OF,
+  RAIN_COLD_OF,
+  RAIN_INTO_OF,
+  TOP_INTO_OF,
   BAKE_GAS_OF,
   HYDROGEN,
   IGNITION_OF,
@@ -78,6 +84,10 @@ function allowed(start: number[]): Set<number> {
       if (WITHER_INTO_OF[e]) grew = add(WITHER_INTO_OF[e]) || grew;
       if (BAKE_INTO_OF[e]) grew = add(BAKE_INTO_OF[e]) || grew;
       if (BAKE_GAS_OF[e]) grew = add(BAKE_GAS_OF[e]) || grew;
+      if (LEAF_INTO_OF[e]) grew = add(LEAF_INTO_OF[e]) || grew;
+      if (TOP_INTO_OF[e]) grew = add(TOP_INTO_OF[e]) || grew;
+      if (RAIN_INTO_OF[e]) grew = add(RAIN_INTO_OF[e]) || grew;
+      if (RAIN_COLD_OF[e]) grew = add(RAIN_COLD_OF[e]) || grew;
       if (IGNITION_OF[e] !== Infinity || BLAST_POWER_OF[e] > 0 || PHASE_OF[e] === PH_ENERGY) {
         grew = add(FIRE) || grew;
         grew = add(SMOKE) || grew;
@@ -181,6 +191,8 @@ const active = (e: number): boolean =>
   VENTS_OF[e] > 0 ||
   POWER_EVERY_OF[e] > 0 ||
   GROWS_INTO_OF[e] > 0 ||
+  DEVICE_OF[e] > 0 ||
+  RAIN_INTO_OF[e] > 0 ||
   PHASE_OF[e] === PH_ENERGY;
 let runs = 0;
 const t0 = Date.now();
@@ -217,7 +229,8 @@ for (let a = 1; a < N; a++) {
       if (broken) findings.push({ ...pair, problem: 'temperature became NaN or infinite' });
       const after = matter(world);
       // Plants grow, and a bake that gives off gas splits one cell into two (limestone → quicklime + carbon dioxide).
-      const grows = [...ok].some((e) => GROWS_INTO_OF[e] > 0 || BAKE_GAS_OF[e] > 0);
+      // Clones make more of what touches them, and a cloud's rain outweighs the cloud.
+      const grows = [...ok].some((e) => GROWS_INTO_OF[e] > 0 || BAKE_GAS_OF[e] > 0 || CLONES_OF[e] > 0 || RAIN_INTO_OF[e] > 0);
       if (after > before && !grows) findings.push({ ...pair, problem: `matter grew from ${before} to ${after} cells` });
       // Two elements with no rule between them, neither changed: both counts must be exact.
       const inert = P_RULE[a * N + b] === 0 && P_RULE[b * N + a] === 0 && !active(a) && !active(b) && !phasePair(a, b);

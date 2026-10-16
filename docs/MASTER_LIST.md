@@ -2,7 +2,7 @@
 
 Generated from the game code by `npm run master-list`. Do not edit by hand: change the element data in `src/sim/elements.ts` (or the rules in `src/sim/chem.ts`) and run the script again.
 
-76 elements. Every pair of elements is listed below, in both directions, with what happens and why.
+94 elements. Every pair of elements is listed below, in both directions, with what happens and why.
 
 ## World rules
 
@@ -115,6 +115,24 @@ The chemistry compiler applies these general rules to every pair of elements; no
 | Dry ice | solids | solid | 1,560 | -79 °C | sublimes at -78 °C → carbon dioxide |  |  |
 | Baking soda | powders | powder | 1,100 | 20 °C |  |  |  |
 | C4 | explosives | solid | 1,600 | 20 °C |  |  | from 900 °C |
+| Grass seed | life | powder | 1,100 | 20 °C |  |  | from 250 °C |
+| Grass | life | solid | 600 | 20 °C |  |  | from 220 °C |
+| Acorn | life | powder | 1,100 | 20 °C |  |  | from 260 °C |
+| Tree | life | solid | 750 | 20 °C |  |  | from 300 °C |
+| Leaves | life | solid | 500 | 20 °C |  |  | from 230 °C |
+| Flower | life | solid | 400 | 20 °C |  |  | from 220 °C |
+| Cloud | gases | gas | 1.1 | 20 °C |  |  |  |
+| Heater | devices | solid | 3,000 | 20 °C |  |  |  |
+| Cooler | devices | solid | 3,000 | 20 °C |  |  |  |
+| Clone | devices | solid | 3,000 | 20 °C |  |  |  |
+| Void | devices | solid | 3,000 | 20 °C |  |  |  |
+| Fan | devices | solid | 3,000 | 20 °C |  |  |  |
+| Bulb | electronics | solid | 3,000 | 20 °C |  |  |  |
+| Magnesium | metals | solid | 1,740 | 20 °C |  |  | from 650 °C |
+| Potassium | metals | solid | 862 | 20 °C |  |  |  |
+| Caramel | liquids | liquid | 1,300 | 190 °C |  |  | from 400 °C |
+| Marble | building | solid | 2,700 | 20 °C |  |  |  |
+| Chalk | powders | powder | 1,500 | 20 °C |  |  |  |
 
 ## Elements
 
@@ -128,7 +146,7 @@ An indestructible solid. Never moves. Nothing melts, burns or eats it; use it fo
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sand
 
@@ -137,10 +155,11 @@ A fine, heavy powder. Falls, piles into slopes and sinks through lighter liquids
 - **State:** Powder, 1,600 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,600 kg/m³, rests on heavier ones
 - **Falls:** up to 165 cells/s
+- **Bakes:** at 1,450 °C into glass; there is no way back
 - **Soaks up:** water, up to 30% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.95 (acid stronger than this eats it)
 
-With other elements (24 interact):
+With other elements (26 interact):
 
 - **Water:** Sand soaks up water: it is porous and holds up to 30% water. Sand sinks through water (1,600 vs 1,000 kg/m³).
 - **Oil:** Sand sinks through oil (1,600 vs 900 kg/m³).
@@ -166,8 +185,10 @@ With other elements (24 interact):
 - **Propane:** Sand falls through propane.
 - **Chlorine:** Sand falls through chlorine.
 - **Sulfur dioxide:** Sand falls through sulfur dioxide.
+- **Cloud:** Sand falls through cloud.
+- **Caramel:** Sand sinks through caramel (1,600 vs 1,300 kg/m³).
 
-No direct interaction with: Air, Wall, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Water
 
@@ -181,7 +202,7 @@ A runny liquid. Flows and settles flat. Boils into steam when hot, freezes into 
 - **Conducts:** only when it carries salt; current then splits it into hydrogen and oxygen
 - **Dissolves:** soluble powders (salt, sugar), up to each one’s limit; saltier is heavier
 
-With other elements (56 interact):
+With other elements (62 interact):
 
 - **Sand:** Sand soaks up water: it is porous and holds up to 30% water. Sand sinks through water (1,600 vs 1,000 kg/m³).
 - **Oil:** Water sinks through oil (1,000 vs 900 kg/m³).
@@ -239,8 +260,14 @@ With other elements (56 interact):
 - **Sulfur dioxide:** Sulfur dioxide dissolves in water and turns it into acid. Water falls through sulfur dioxide.
 - **Dry ice:** Dry ice (-79 °C) is cold enough to freeze water into ice.
 - **Baking soda:** Baking soda dissolves into water: water is a solvent and each cell holds up to 20% baking soda. Baking soda sinks through water (1,100 vs 1,000 kg/m³).
+- **Grass seed:** Grass seed sinks through water (1,100 vs 1,000 kg/m³).
+- **Acorn:** Acorn sinks through water (1,100 vs 1,000 kg/m³).
+- **Cloud:** Water falls through cloud.
+- **Potassium:** Potassium bursts in water: it becomes lye and hydrogen, hot enough to set the hydrogen alight.
+- **Caramel:** Caramel sinks through water (1,300 vs 1,000 kg/m³). Caramel (190 °C) is hot enough to boil water into steam.
+- **Chalk:** Chalk sinks through water (1,500 vs 1,000 kg/m³).
 
-No direct interaction with: Air, Wall, Stone, Wood, Ash, TNT, Glass, Wire, Battery, Plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Charcoal, Wax, Rubber, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Stone, Wood, Ash, TNT, Glass, Wire, Battery, Plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Charcoal, Wax, Rubber, C4, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Oil
 
@@ -252,7 +279,7 @@ A thick, slow liquid. Floats on water. Burns into smoke once hot enough.
 - **Burns:** from 250 °C in air, 4 s per cell, leaves smoke
 - **Flash point:** 55 °C: above it, flames spread across it
 
-With other elements (48 interact):
+With other elements (53 interact):
 
 - **Air:** Oil burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through oil (1,600 vs 900 kg/m³).
@@ -302,8 +329,13 @@ With other elements (48 interact):
 - **Chlorine:** Oil falls through chlorine.
 - **Sulfur dioxide:** Oil falls through sulfur dioxide.
 - **Baking soda:** Baking soda sinks through oil (1,100 vs 900 kg/m³).
+- **Grass seed:** Grass seed sinks through oil (1,100 vs 900 kg/m³).
+- **Acorn:** Acorn sinks through oil (1,100 vs 900 kg/m³).
+- **Cloud:** Oil falls through cloud.
+- **Caramel:** Caramel sinks through oil (1,300 vs 900 kg/m³).
+- **Chalk:** Chalk sinks through oil (1,500 vs 900 kg/m³).
 
-No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Dry ice, C4, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Ice
 
@@ -313,7 +345,7 @@ Frozen water, a cold solid. Stays put. Chills what it touches and melts back int
 - **Starts at:** -20 °C
 - **Melts:** at 0 °C, into water
 
-With other elements (14 interact):
+With other elements (15 interact):
 
 - **Water:** Ice (-20 °C) is cold enough to freeze water into ice.
 - **Steam:** Ice (-20 °C) is cold enough to condense steam into water. Steam (150 °C) is hot enough to melt ice into water.
@@ -329,8 +361,9 @@ With other elements (14 interact):
 - **Molten lead:** Ice (-20 °C) is cold enough to freeze molten lead into lead. Molten lead (400 °C) is hot enough to melt ice into water.
 - **Molten wax:** Ice (-20 °C) is cold enough to freeze molten wax into wax. Molten wax (80 °C) is hot enough to melt ice into water.
 - **Baking soda:** Baking soda melts ice: dissolved, it lowers the freezing point.
+- **Caramel:** Caramel (190 °C) is hot enough to melt ice into water.
 
-No direct interaction with: Air, Wall, Sand, Oil, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Steam
 
@@ -341,7 +374,7 @@ Hot water vapour. Rises and spreads. Turns back into water as it cools, so it ra
 - **In air:** Rises (lighter than air)
 - **Condenses:** below 100 °C, into water
 
-With other elements (43 interact):
+With other elements (47 interact):
 
 - **Sand:** Sand falls through steam.
 - **Water:** Steam (150 °C) is hot enough to boil water into steam. Water falls through steam.
@@ -386,8 +419,12 @@ With other elements (43 interact):
 - **Liquid nitrogen:** Steam (150 °C) is hot enough to boil liquid nitrogen into nitrogen. Liquid nitrogen falls through steam. Liquid nitrogen (-196 °C) is cold enough to condense steam into water.
 - **Dry ice:** Steam (150 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to condense steam into water.
 - **Baking soda:** Baking soda falls through steam.
+- **Grass seed:** Grass seed falls through steam.
+- **Acorn:** Acorn falls through steam.
+- **Caramel:** Caramel falls through steam.
+- **Chalk:** Chalk falls through steam.
 
-No direct interaction with: Air, Wall, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Lava
 
@@ -399,7 +436,7 @@ Molten rock, extremely hot. Flows slowly and glows. Sets fuel alight, boils wate
 - **Falls:** up to 90 cells/s
 - **Freezes:** below 1,000 °C, into stone
 
-With other elements (56 interact):
+With other elements (65 interact):
 
 - **Water:** Lava sinks through water (2,600 vs 1,000 kg/m³). Lava (1,200 °C) is hot enough to boil water into steam.
 - **Oil:** Lava sinks through oil (2,600 vs 900 kg/m³). Lava (1,200 °C) can set oil on fire (it ignites at 250 °C).
@@ -457,8 +494,17 @@ With other elements (56 interact):
 - **Sulfur dioxide:** Lava falls through sulfur dioxide.
 - **Dry ice:** Lava (1,200 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze lava into stone.
 - **C4:** Lava (1,200 °C) can set c4 on fire (it ignites at 900 °C).
+- **Grass seed:** Lava (1,200 °C) can set grass seed on fire (it ignites at 250 °C).
+- **Grass:** Lava (1,200 °C) can set grass on fire (it ignites at 220 °C).
+- **Acorn:** Lava (1,200 °C) can set acorn on fire (it ignites at 260 °C).
+- **Tree:** Lava (1,200 °C) can set tree on fire (it ignites at 300 °C).
+- **Leaves:** Lava (1,200 °C) can set leaves on fire (it ignites at 230 °C).
+- **Flower:** Lava (1,200 °C) can set flower on fire (it ignites at 220 °C).
+- **Cloud:** Lava falls through cloud.
+- **Magnesium:** Lava (1,200 °C) can set magnesium on fire (it ignites at 650 °C).
+- **Caramel:** Lava sinks through caramel (2,600 vs 1,300 kg/m³). Lava (1,200 °C) can set caramel on fire (it ignites at 400 °C).
 
-No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Rust, Sodium, Baking soda. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Rust, Sodium, Baking soda, Heater, Cooler, Clone, Void, Fan, Bulb, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Stone
 
@@ -474,7 +520,7 @@ With other elements (3 interact):
 - **Molten copper:** Molten copper (1,200 °C) is hot enough to melt stone into lava.
 - **Molten gold:** Molten gold (1,150 °C) is hot enough to melt stone into lava.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Gravel
 
@@ -486,7 +532,7 @@ Loose rock, a heavy powder. Falls and piles. Forms where lava sets with nothing 
 - **Melts:** at 1,000 °C, into lava
 - **Hardness:** 0.8 (acid stronger than this eats it)
 
-With other elements (28 interact):
+With other elements (30 interact):
 
 - **Water:** Gravel sinks through water (2,000 vs 1,000 kg/m³).
 - **Oil:** Gravel sinks through oil (2,000 vs 900 kg/m³).
@@ -516,8 +562,10 @@ With other elements (28 interact):
 - **Propane:** Gravel falls through propane.
 - **Chlorine:** Gravel falls through chlorine.
 - **Sulfur dioxide:** Gravel falls through sulfur dioxide.
+- **Cloud:** Gravel falls through cloud.
+- **Caramel:** Gravel sinks through caramel (2,000 vs 1,300 kg/m³).
 
-No direct interaction with: Air, Wall, Sand, Ice, Stone, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Stone, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Fire
 
@@ -526,7 +574,7 @@ Loose flames. Rise and burn out quickly. Light anything flammable they touch; a 
 - **State:** Energy, 0.3 kg/m³
 - **Starts at:** 850 °C
 
-With other elements (54 interact):
+With other elements (63 interact):
 
 - **Sand:** Sand falls through fire.
 - **Water:** Water puts out the fire, flashing into steam. Fire (850 °C) is hot enough to boil water into steam. Water falls through fire.
@@ -582,8 +630,17 @@ With other elements (54 interact):
 - **Propane:** Propane catches from the flame touching it.
 - **Dry ice:** Fire (850 °C) is hot enough to turn dry ice into carbon dioxide.
 - **Baking soda:** Baking soda falls through fire.
+- **Grass seed:** Grass seed catches from the flame touching it. Grass seed falls through fire.
+- **Grass:** Grass catches from the flame touching it.
+- **Acorn:** Acorn catches from the flame touching it. Acorn falls through fire.
+- **Tree:** Tree catches from the flame touching it.
+- **Leaves:** Leaves catches from the flame touching it.
+- **Flower:** Flower catches from the flame touching it.
+- **Magnesium:** Magnesium catches from the flame touching it.
+- **Caramel:** Caramel catches from the flame touching it. Caramel falls through fire.
+- **Chalk:** Chalk falls through fire.
 
-No direct interaction with: Air, Wall, Steam, Stone, Smoke, Iron, Oxygen, Glass, Spark, Wire, Battery, Brick, Concrete, Limestone, Gold, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Stone, Smoke, Iron, Oxygen, Glass, Spark, Wire, Battery, Brick, Concrete, Limestone, Gold, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Smoke
 
@@ -593,7 +650,7 @@ What burning leaves behind, a warm gas. Rises and drifts off the top. Does not f
 - **Starts at:** 150 °C
 - **In air:** Rises (lighter than air)
 
-With other elements (43 interact):
+With other elements (47 interact):
 
 - **Sand:** Sand falls through smoke.
 - **Water:** Smoke (150 °C) is hot enough to boil water into steam. Water falls through smoke.
@@ -638,8 +695,12 @@ With other elements (43 interact):
 - **Liquid nitrogen:** Smoke (150 °C) is hot enough to boil liquid nitrogen into nitrogen. Liquid nitrogen falls through smoke.
 - **Dry ice:** Smoke (150 °C) is hot enough to turn dry ice into carbon dioxide.
 - **Baking soda:** Baking soda falls through smoke.
+- **Grass seed:** Grass seed falls through smoke.
+- **Acorn:** Acorn falls through smoke.
+- **Caramel:** Caramel falls through smoke.
+- **Chalk:** Chalk falls through smoke.
 
-No direct interaction with: Air, Wall, Steam, Stone, Fire, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Stone, Fire, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Wood
 
@@ -647,6 +708,7 @@ A solid fuel. Stays put. Catches fire where it touches air once hot enough, and 
 
 - **State:** Solid, 700 kg/m³
 - **Burns:** from 300 °C in air, 2.5 s per cell, leaves ash
+- **Bakes:** at 400 °C into charcoal, giving off smoke; there is no way back
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
 With other elements (10 interact):
@@ -662,7 +724,7 @@ With other elements (10 interact):
 - **Molten aluminium:** Molten aluminium (750 °C) can set wood on fire (it ignites at 300 °C).
 - **Molten lead:** Molten lead (400 °C) can set wood on fire (it ignites at 300 °C).
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Ash
 
@@ -673,7 +735,7 @@ A very light powder left by fire. Drifts as it falls. Floats on water.
 - **Falls:** up to 45 cells/s
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (14 interact):
+With other elements (15 interact):
 
 - **Steam:** Ash falls through steam.
 - **Fire:** Ash falls through fire.
@@ -689,8 +751,9 @@ With other elements (14 interact):
 - **Propane:** Ash falls through propane.
 - **Chlorine:** Ash falls through chlorine.
 - **Sulfur dioxide:** Ash falls through sulfur dioxide.
+- **Cloud:** Ash falls through cloud.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Lava, Stone, Gravel, Wood, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Lava, Stone, Gravel, Wood, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Acid
 
@@ -701,7 +764,7 @@ A corrosive liquid. Flows like water. Eats metal, wood and soft rock and is used
 - **Falls:** up to 160 cells/s
 - **Eats:** metal, rock and wood softer than 0.8, weakening as it fills
 
-With other elements (65 interact):
+With other elements (75 interact):
 
 - **Sand:** Sand sinks through acid (1,600 vs 1,100 kg/m³).
 - **Water:** Acid sinks through water (1,100 vs 1,000 kg/m³).
@@ -768,8 +831,18 @@ With other elements (65 interact):
 - **Sulfur dioxide:** Acid falls through sulfur dioxide.
 - **Baking soda:** Acid and baking soda neutralise each other into water, fizzing out carbon dioxide, and warm up. Baking soda and acid neutralise each other into water, fizzing out carbon dioxide, and warm up.
 - **C4:** Acid eats c4: acidity 0.8 beats hardness 0.3.
+- **Grass:** Acid eats grass: acidity 0.8 beats hardness 0.1.
+- **Tree:** Acid eats tree: acidity 0.8 beats hardness 0.3.
+- **Leaves:** Acid eats leaves: acidity 0.8 beats hardness 0.1.
+- **Flower:** Acid eats flower: acidity 0.8 beats hardness 0.1.
+- **Cloud:** Acid falls through cloud.
+- **Magnesium:** Acid eats magnesium: acidity 0.8 beats hardness 0.35, giving off hydrogen.
+- **Potassium:** Acid eats potassium: acidity 0.8 beats hardness 0.05, giving off hydrogen.
+- **Caramel:** Caramel sinks through acid (1,300 vs 1,100 kg/m³).
+- **Marble:** Acid eats marble: acidity 0.8 beats hardness 0.5, fizzing out carbon dioxide.
+- **Chalk:** Acid eats chalk: acidity 0.8 beats hardness 0.2, fizzing out carbon dioxide. Chalk sinks through acid (1,500 vs 1,100 kg/m³).
 
-No direct interaction with: Air, Wall, Ice, Stone, Snow, Glass, Seed, Brick, Gold, Charcoal, Dry ice. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Stone, Snow, Glass, Seed, Brick, Gold, Charcoal, Dry ice, Grass seed, Acorn, Heater, Cooler, Clone, Void, Fan, Bulb. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Iron
 
@@ -777,6 +850,7 @@ A dense metal. Stays put and moves heat quickly. Acid eats it, giving off hydrog
 
 - **State:** Solid, 7,870 kg/m³
 - **Conducts:** electric charge, warming as pulses pass
+- **Rusts:** slowly into rust where water or oxygen touches it
 - **Hardness:** 0.55 (acid stronger than this eats it)
 
 With other elements (3 interact):
@@ -785,7 +859,7 @@ With other elements (3 interact):
 - **Acid:** Acid eats iron: acidity 0.8 beats hardness 0.55, giving off hydrogen.
 - **Oxygen:** Iron slowly rusts into rust where oxygen touches it.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Hydrogen
 
@@ -795,7 +869,7 @@ The lightest gas. Shoots upwards. Burns in a flash into steam when hot and touch
 - **In air:** Rises (lighter than air)
 - **Burns:** from 500 °C in air, 0.1 s per cell, leaves steam
 
-With other elements (44 interact):
+With other elements (48 interact):
 
 - **Air:** Hydrogen burns: it catches fire at 500 °C next to air (oxidiser 0.21).
 - **Sand:** Sand falls through hydrogen.
@@ -841,8 +915,12 @@ With other elements (44 interact):
 - **Lye:** Lye falls through hydrogen.
 - **Liquid nitrogen:** Liquid nitrogen falls through hydrogen.
 - **Baking soda:** Baking soda falls through hydrogen.
+- **Grass seed:** Grass seed falls through hydrogen.
+- **Acorn:** Acorn falls through hydrogen.
+- **Caramel:** Caramel falls through hydrogen.
+- **Chalk:** Chalk falls through hydrogen.
 
-No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Methane, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Methane, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Oxygen
 
@@ -852,7 +930,7 @@ A gas slightly heavier than air. Sinks and pools low. Makes fire burn hotter and
 - **In air:** Sinks slowly (heavier than air)
 - **Feeds fire:** strength 1 (air is 0.21)
 
-With other elements (52 interact):
+With other elements (61 interact):
 
 - **Sand:** Sand falls through oxygen.
 - **Water:** Water falls through oxygen.
@@ -906,8 +984,17 @@ With other elements (52 interact):
 - **Propane:** Oxygen makes burning propane hotter and faster. Propane burns: it catches fire at 470 °C next to oxygen (oxidiser 1).
 - **Baking soda:** Baking soda falls through oxygen.
 - **C4:** Oxygen makes burning c4 hotter and faster. C4 explodes at 900 °C; it needs no air.
+- **Grass seed:** Oxygen makes burning grass seed hotter and faster. Grass seed burns: it catches fire at 250 °C next to oxygen (oxidiser 1). Grass seed falls through oxygen.
+- **Grass:** Oxygen makes burning grass hotter and faster. Grass burns: it catches fire at 220 °C next to oxygen (oxidiser 1).
+- **Acorn:** Oxygen makes burning acorn hotter and faster. Acorn burns: it catches fire at 260 °C next to oxygen (oxidiser 1). Acorn falls through oxygen.
+- **Tree:** Oxygen makes burning tree hotter and faster. Tree burns: it catches fire at 300 °C next to oxygen (oxidiser 1).
+- **Leaves:** Oxygen makes burning leaves hotter and faster. Leaves burns: it catches fire at 230 °C next to oxygen (oxidiser 1).
+- **Flower:** Oxygen makes burning flower hotter and faster. Flower burns: it catches fire at 220 °C next to oxygen (oxidiser 1).
+- **Magnesium:** Oxygen makes burning magnesium hotter and faster. Magnesium burns: it catches fire at 650 °C next to oxygen (oxidiser 1).
+- **Caramel:** Oxygen makes burning caramel hotter and faster. Caramel burns: it catches fire at 400 °C next to oxygen (oxidiser 1). Caramel falls through oxygen.
+- **Chalk:** Chalk falls through oxygen.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Glass, Spark, Wire, Battery, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, Dry ice. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Glass, Spark, Wire, Battery, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, Dry ice, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Methane
 
@@ -917,7 +1004,7 @@ Natural gas, lighter than air. Rises. Burns hot into steam when it meets heat an
 - **In air:** Rises (lighter than air)
 - **Burns:** from 540 °C in air, 0.17 s per cell, leaves steam
 
-With other elements (44 interact):
+With other elements (48 interact):
 
 - **Air:** Methane burns: it catches fire at 540 °C next to air (oxidiser 0.21).
 - **Sand:** Sand falls through methane.
@@ -963,8 +1050,12 @@ With other elements (44 interact):
 - **Lye:** Lye falls through methane.
 - **Liquid nitrogen:** Liquid nitrogen falls through methane.
 - **Baking soda:** Baking soda falls through methane.
+- **Grass seed:** Grass seed falls through methane.
+- **Acorn:** Acorn falls through methane.
+- **Caramel:** Caramel falls through methane.
+- **Chalk:** Chalk falls through methane.
 
-No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Alcohol
 
@@ -976,7 +1067,7 @@ A thin, light liquid. Floats on water. Catches fire easily and burns clean into 
 - **Burns:** from 365 °C in air, 2 s per cell, leaves steam
 - **Flash point:** 13 °C: above it, flames spread across it
 
-With other elements (48 interact):
+With other elements (53 interact):
 
 - **Air:** Alcohol burns: it catches fire at 365 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through alcohol (1,600 vs 789 kg/m³).
@@ -1026,8 +1117,13 @@ With other elements (48 interact):
 - **Chlorine:** Alcohol falls through chlorine.
 - **Sulfur dioxide:** Alcohol falls through sulfur dioxide.
 - **Baking soda:** Baking soda sinks through alcohol (1,100 vs 789 kg/m³).
+- **Grass seed:** Grass seed sinks through alcohol (1,100 vs 789 kg/m³).
+- **Acorn:** Acorn sinks through alcohol (1,100 vs 789 kg/m³).
+- **Cloud:** Alcohol falls through cloud.
+- **Caramel:** Caramel sinks through alcohol (1,300 vs 789 kg/m³).
+- **Chalk:** Chalk sinks through alcohol (1,500 vs 789 kg/m³).
 
-No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Dry ice, C4, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sawdust
 
@@ -1040,7 +1136,7 @@ Fine wood dust, a very light powder. Drifts and floats on water. Catches fire ea
 - **Soaks up:** water, up to 60% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (21 interact):
+With other elements (22 interact):
 
 - **Air:** Sawdust burns: it catches fire at 260 °C next to air (oxidiser 0.21).
 - **Water:** Sawdust soaks up water: it is porous and holds up to 60% water.
@@ -1063,8 +1159,9 @@ With other elements (21 interact):
 - **Propane:** Sawdust falls through propane.
 - **Chlorine:** Sawdust falls through chlorine.
 - **Sulfur dioxide:** Sawdust falls through sulfur dioxide.
+- **Cloud:** Sawdust falls through cloud.
 
-No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Alcohol, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Alcohol, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Salt
 
@@ -1073,9 +1170,10 @@ White crystals, a powder. Falls and piles. Dissolves into water, making it heavi
 - **State:** Powder, 2,160 kg/m³
 - **In liquids:** Sinks through liquids lighter than 2,160 kg/m³, rests on heavier ones
 - **Falls:** up to 160 cells/s
+- **Poisons:** living things it touches: they wither
 - **Dissolves in:** water, up to 40% of a cell; boiling leaves it as crystals
 
-With other elements (27 interact):
+With other elements (34 interact):
 
 - **Water:** Salt dissolves into water: water is a solvent and each cell holds up to 40% salt. Salt sinks through water (2,160 vs 1,000 kg/m³).
 - **Oil:** Salt sinks through oil (2,160 vs 900 kg/m³).
@@ -1091,6 +1189,7 @@ With other elements (27 interact):
 - **Snow:** Salt melts snow: dissolved, it lowers the freezing point.
 - **Nitro:** Salt sinks through nitro (2,160 vs 1,600 kg/m³).
 - **Spark:** Salt falls through spark.
+- **Plant:** Salt is toxic: plant touching it withers.
 - **Petrol:** Salt sinks through petrol (2,160 vs 740 kg/m³).
 - **Molten wax:** Salt sinks through molten wax (2,160 vs 800 kg/m³).
 - **Honey:** Salt sinks through honey (2,160 vs 1,420 kg/m³).
@@ -1104,8 +1203,14 @@ With other elements (27 interact):
 - **Propane:** Salt falls through propane.
 - **Chlorine:** Salt falls through chlorine.
 - **Sulfur dioxide:** Salt falls through sulfur dioxide.
+- **Grass:** Salt is toxic: grass touching it withers.
+- **Tree:** Salt is toxic: tree touching it withers.
+- **Leaves:** Salt is toxic: leaves touching it withers.
+- **Flower:** Salt is toxic: flower touching it withers.
+- **Cloud:** Salt falls through cloud.
+- **Caramel:** Salt sinks through caramel (2,160 vs 1,300 kg/m³).
 
-No direct interaction with: Air, Wall, Sand, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Sugar, Dirt, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Sugar, Dirt, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Acorn, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sugar
 
@@ -1115,10 +1220,11 @@ Sweet crystals, a powder. Falls and piles. Dissolves into water even more than s
 - **In liquids:** Sinks through liquids lighter than 1,590 kg/m³, rests on heavier ones
 - **Falls:** up to 155 cells/s
 - **Burns:** from 350 °C in air, 1.5 s per cell, leaves smoke
+- **Bakes:** at 186 °C into caramel; there is no way back
 - **Dissolves in:** water, up to 70% of a cell; boiling leaves it as crystals
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (32 interact):
+With other elements (34 interact):
 
 - **Air:** Sugar burns: it catches fire at 350 °C next to air (oxidiser 0.21).
 - **Water:** Sugar dissolves into water: water is a solvent and each cell holds up to 70% sugar. Sugar sinks through water (1,590 vs 1,000 kg/m³).
@@ -1152,8 +1258,10 @@ With other elements (32 interact):
 - **Propane:** Sugar falls through propane.
 - **Chlorine:** Sugar falls through chlorine.
 - **Sulfur dioxide:** Sugar falls through sulfur dioxide.
+- **Cloud:** Sugar falls through cloud.
+- **Caramel:** Sugar sinks through caramel (1,590 vs 1,300 kg/m³).
 
-No direct interaction with: Wall, Sand, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Dirt
 
@@ -1165,7 +1273,7 @@ Earth, a heavy powder. Falls and piles. Soaks up a lot of water and turns into d
 - **Soaks up:** water, up to 50% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (24 interact):
+With other elements (26 interact):
 
 - **Water:** Dirt soaks up water: it is porous and holds up to 50% water. Dirt sinks through water (1,500 vs 1,000 kg/m³).
 - **Oil:** Dirt sinks through oil (1,500 vs 900 kg/m³).
@@ -1191,8 +1299,10 @@ With other elements (24 interact):
 - **Propane:** Dirt falls through propane.
 - **Chlorine:** Dirt falls through chlorine.
 - **Sulfur dioxide:** Dirt falls through sulfur dioxide.
+- **Cloud:** Dirt falls through cloud.
+- **Caramel:** Dirt sinks through caramel (1,500 vs 1,300 kg/m³).
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Snow
 
@@ -1204,7 +1314,7 @@ Loose frozen flakes, a very light powder. Drifts down and settles in soft piles.
 - **Falls:** up to 35 cells/s
 - **Melts:** at 0 °C, into water
 
-With other elements (23 interact):
+With other elements (25 interact):
 
 - **Water:** Snow (-5 °C) is cold enough to freeze water into ice.
 - **Steam:** Snow falls through steam. Snow (-5 °C) is cold enough to condense steam into water. Steam (150 °C) is hot enough to melt snow into water.
@@ -1229,8 +1339,10 @@ With other elements (23 interact):
 - **Chlorine:** Snow falls through chlorine.
 - **Sulfur dioxide:** Snow falls through sulfur dioxide.
 - **Baking soda:** Baking soda melts snow: dissolved, it lowers the freezing point.
+- **Cloud:** Snow falls through cloud.
+- **Caramel:** Caramel (190 °C) is hot enough to melt snow into water.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Alcohol, Sawdust, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Alcohol, Sawdust, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### TNT
 
@@ -1253,7 +1365,7 @@ With other elements (10 interact):
 - **Molten aluminium:** Molten aluminium (750 °C) can set tnt on fire (it ignites at 300 °C).
 - **Molten lead:** Molten lead (400 °C) can set tnt on fire (it ignites at 300 °C).
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Gunpowder
 
@@ -1265,7 +1377,7 @@ A dark explosive powder. Falls and piles. Lit, it goes off grain by grain in qui
 - **Explodes:** from 250 °C or a flame; blast radius 2 cells
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (31 interact):
+With other elements (33 interact):
 
 - **Air:** Gunpowder explodes at 250 °C; it needs no air.
 - **Water:** Gunpowder sinks through water (1,700 vs 1,000 kg/m³).
@@ -1298,8 +1410,10 @@ With other elements (31 interact):
 - **Propane:** Gunpowder falls through propane.
 - **Chlorine:** Gunpowder falls through chlorine.
 - **Sulfur dioxide:** Gunpowder falls through sulfur dioxide.
+- **Cloud:** Gunpowder falls through cloud.
+- **Caramel:** Gunpowder sinks through caramel (1,700 vs 1,300 kg/m³).
 
-No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Nitro
 
@@ -1310,7 +1424,7 @@ An oily explosive liquid. Flows slowly. Goes off when heated, lit, or dropped ha
 - **Falls:** up to 160 cells/s
 - **Explodes:** from 200 °C or a flame, or when it lands hard; blast radius 6 cells
 
-With other elements (38 interact):
+With other elements (40 interact):
 
 - **Air:** Nitro explodes at 200 °C; it needs no air.
 - **Water:** Nitro sinks through water (1,600 vs 1,000 kg/m³).
@@ -1350,8 +1464,10 @@ With other elements (38 interact):
 - **Propane:** Nitro falls through propane.
 - **Chlorine:** Nitro falls through chlorine.
 - **Sulfur dioxide:** Nitro falls through sulfur dioxide.
+- **Cloud:** Nitro falls through cloud.
+- **Caramel:** Nitro sinks through caramel (1,600 vs 1,300 kg/m³).
 
-No direct interaction with: Wall, Sand, Ice, Stone, Wood, Ash, Iron, Sawdust, Sugar, Dirt, Snow, TNT, Glass, Wire, Battery, Seed, Plant, Dry plant, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Sodium, Coal, Charcoal, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Wood, Ash, Iron, Sawdust, Sugar, Dirt, Snow, TNT, Glass, Wire, Battery, Seed, Plant, Dry plant, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Sodium, Coal, Charcoal, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Glass
 
@@ -1364,7 +1480,7 @@ A clear, brittle solid. Stays put and lets you see through it. Shatters into sha
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Shards
 
@@ -1375,7 +1491,7 @@ Broken glass, a sharp powder. Falls and piles in glittering heaps.
 - **Falls:** up to 170 cells/s
 - **Hardness:** 0.9 (acid stronger than this eats it)
 
-With other elements (26 interact):
+With other elements (28 interact):
 
 - **Water:** Shards sinks through water (2,500 vs 1,000 kg/m³).
 - **Oil:** Shards sinks through oil (2,500 vs 900 kg/m³).
@@ -1403,8 +1519,10 @@ With other elements (26 interact):
 - **Propane:** Shards falls through propane.
 - **Chlorine:** Shards falls through chlorine.
 - **Sulfur dioxide:** Shards falls through sulfur dioxide.
+- **Cloud:** Shards falls through cloud.
+- **Caramel:** Shards sinks through caramel (2,500 vs 1,300 kg/m³).
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Spark
 
@@ -1413,7 +1531,7 @@ A flash of electric charge. Jumps into any conductor it touches and runs along i
 - **State:** Energy, 0.1 kg/m³
 - **Starts at:** 300 °C
 
-With other elements (52 interact):
+With other elements (61 interact):
 
 - **Sand:** Sand falls through spark.
 - **Water:** Spark (300 °C) is hot enough to boil water into steam. Water falls through spark.
@@ -1467,8 +1585,17 @@ With other elements (52 interact):
 - **Propane:** Propane catches from the flame touching it.
 - **Dry ice:** Spark (300 °C) is hot enough to turn dry ice into carbon dioxide.
 - **Baking soda:** Baking soda falls through spark.
+- **Grass seed:** Grass seed catches from the flame touching it. Grass seed falls through spark.
+- **Grass:** Grass catches from the flame touching it.
+- **Acorn:** Acorn catches from the flame touching it. Acorn falls through spark.
+- **Tree:** Tree catches from the flame touching it.
+- **Leaves:** Leaves catches from the flame touching it.
+- **Flower:** Flower catches from the flame touching it.
+- **Magnesium:** Magnesium catches from the flame touching it.
+- **Caramel:** Caramel catches from the flame touching it. Caramel falls through spark.
+- **Chalk:** Chalk falls through spark.
 
-No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Wire, Battery, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Wire, Battery, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Wire
 
@@ -1486,7 +1613,7 @@ With other elements (4 interact):
 - **Molten copper:** Molten copper (1,200 °C) is hot enough to melt wire into molten copper.
 - **Molten gold:** Molten gold (1,150 °C) is hot enough to melt wire into molten copper.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Battery
 
@@ -1500,7 +1627,7 @@ With other elements (1 interact):
 
 - **Acid:** Acid eats battery: acidity 0.8 beats hardness 0.6, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Mercury
 
@@ -1511,7 +1638,7 @@ A liquid metal, very heavy. Flows and sinks through almost everything. Carries c
 - **Falls:** up to 170 cells/s
 - **Conducts:** electric charge, warming as pulses pass
 
-With other elements (30 interact):
+With other elements (32 interact):
 
 - **Water:** Mercury sinks through water (13,534 vs 1,000 kg/m³).
 - **Oil:** Mercury sinks through oil (13,534 vs 900 kg/m³).
@@ -1543,8 +1670,10 @@ With other elements (30 interact):
 - **Propane:** Mercury falls through propane.
 - **Chlorine:** Mercury falls through chlorine.
 - **Sulfur dioxide:** Mercury falls through sulfur dioxide.
+- **Cloud:** Mercury falls through cloud.
+- **Caramel:** Mercury sinks through caramel (13,534 vs 1,300 kg/m³).
 
-No direct interaction with: Air, Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Seed
 
@@ -1556,7 +1685,7 @@ A small seed, a light powder. Falls, sinks in water and rests. On damp soil (wet
 - **Burns:** from 250 °C in air, 1 s per cell, leaves ash
 - **Grows:** into plant on damp soil (wet dirt or sand), even under a puddle
 
-With other elements (26 interact):
+With other elements (27 interact):
 
 - **Air:** Seed burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Water:** Seed sinks through water (1,100 vs 1,000 kg/m³).
@@ -1584,8 +1713,9 @@ With other elements (26 interact):
 - **Propane:** Seed falls through propane.
 - **Chlorine:** Seed falls through chlorine.
 - **Sulfur dioxide:** Seed falls through sulfur dioxide.
+- **Cloud:** Seed falls through cloud.
 
-No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Plant
 
@@ -1593,25 +1723,28 @@ A living green plant. Its roots drink from damp soil or water and pass it up the
 
 - **State:** Solid, 900 kg/m³
 - **Burns:** from 250 °C in air, 1.5 s per cell, leaves ash
+- **Flowers:** each stem ends in flower
 - **Lives:** on water drawn from damp soil; dried out, it withers into dry plant
 - **Hardness:** 0.15 (acid stronger than this eats it)
 
-With other elements (12 interact):
+With other elements (14 interact):
 
 - **Air:** Plant burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set plant on fire (it ignites at 250 °C).
 - **Fire:** Plant catches from the flame touching it.
 - **Acid:** Acid eats plant: acidity 0.8 beats hardness 0.15.
 - **Oxygen:** Plant burns: it catches fire at 250 °C next to oxygen (oxidiser 1). Oxygen makes burning plant hotter and faster.
+- **Salt:** Salt is toxic: plant touching it withers.
 - **Spark:** Plant catches from the flame touching it.
 - **Molten copper:** Molten copper (1,200 °C) can set plant on fire (it ignites at 250 °C).
 - **Molten gold:** Molten gold (1,150 °C) can set plant on fire (it ignites at 250 °C).
 - **Molten aluminium:** Molten aluminium (750 °C) can set plant on fire (it ignites at 250 °C).
 - **Molten lead:** Molten lead (400 °C) can set plant on fire (it ignites at 250 °C).
+- **Bleach:** Bleach is toxic: plant touching it withers.
 - **Chlorine:** Chlorine is toxic: plant touching it withers.
 - **Sulfur dioxide:** Sulfur dioxide is toxic: plant touching it withers.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten copper
 
@@ -1624,7 +1757,7 @@ Melted wire, bright and very hot. Flows and sinks through lighter liquids. Carri
 - **Freezes:** below 1,085 °C, into wire
 - **Conducts:** electric charge, warming as pulses pass
 
-With other elements (56 interact):
+With other elements (65 interact):
 
 - **Water:** Molten copper sinks through water (8,020 vs 1,000 kg/m³). Molten copper (1,200 °C) is hot enough to boil water into steam.
 - **Oil:** Molten copper sinks through oil (8,020 vs 900 kg/m³). Molten copper (1,200 °C) can set oil on fire (it ignites at 250 °C).
@@ -1682,8 +1815,17 @@ With other elements (56 interact):
 - **Sulfur dioxide:** Molten copper falls through sulfur dioxide.
 - **Dry ice:** Molten copper (1,200 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten copper into wire.
 - **C4:** Molten copper (1,200 °C) can set c4 on fire (it ignites at 900 °C).
+- **Grass seed:** Molten copper (1,200 °C) can set grass seed on fire (it ignites at 250 °C).
+- **Grass:** Molten copper (1,200 °C) can set grass on fire (it ignites at 220 °C).
+- **Acorn:** Molten copper (1,200 °C) can set acorn on fire (it ignites at 260 °C).
+- **Tree:** Molten copper (1,200 °C) can set tree on fire (it ignites at 300 °C).
+- **Leaves:** Molten copper (1,200 °C) can set leaves on fire (it ignites at 230 °C).
+- **Flower:** Molten copper (1,200 °C) can set flower on fire (it ignites at 220 °C).
+- **Cloud:** Molten copper falls through cloud.
+- **Magnesium:** Molten copper (1,200 °C) can set magnesium on fire (it ignites at 650 °C).
+- **Caramel:** Molten copper sinks through caramel (8,020 vs 1,300 kg/m³). Molten copper (1,200 °C) can set caramel on fire (it ignites at 400 °C).
 
-No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Rust, Sodium, Baking soda. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Rust, Sodium, Baking soda, Heater, Cooler, Clone, Void, Fan, Bulb, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Dry plant
 
@@ -1691,6 +1833,7 @@ A plant that ran out of water, dry and brown. Stays put. Catches fire very easil
 
 - **State:** Solid, 300 kg/m³
 - **Burns:** from 200 °C in air, 0.67 s per cell, leaves ash
+- **Rots:** slowly into dirt where water touches it
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
 With other elements (11 interact):
@@ -1707,7 +1850,7 @@ With other elements (11 interact):
 - **Molten aluminium:** Molten aluminium (750 °C) can set dry plant on fire (it ignites at 200 °C).
 - **Molten lead:** Molten lead (400 °C) can set dry plant on fire (it ignites at 200 °C).
 
-No direct interaction with: Wall, Sand, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Clay
 
@@ -1716,10 +1859,11 @@ Fine, sticky earth, a heavy powder. Falls and piles, and soaks up water. Fired i
 - **State:** Powder, 1,700 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,700 kg/m³, rests on heavier ones
 - **Falls:** up to 150 cells/s
+- **Bakes:** at 900 °C into brick; there is no way back
 - **Soaks up:** water, up to 40% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Water:** Clay soaks up water: it is porous and holds up to 40% water. Clay sinks through water (1,700 vs 1,000 kg/m³).
 - **Oil:** Clay sinks through oil (1,700 vs 900 kg/m³).
@@ -1746,8 +1890,10 @@ With other elements (25 interact):
 - **Propane:** Clay falls through propane.
 - **Chlorine:** Clay falls through chlorine.
 - **Sulfur dioxide:** Clay falls through sulfur dioxide.
+- **Cloud:** Clay falls through cloud.
+- **Caramel:** Clay sinks through caramel (1,700 vs 1,300 kg/m³).
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Brick
 
@@ -1760,7 +1906,7 @@ Fired clay, a solid block. Stays put and shrugs off heat. A strong blast breaks 
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Cement
 
@@ -1769,9 +1915,10 @@ Grey building powder. Falls and piles. Water touching it is taken in, and it set
 - **State:** Powder, 1,440 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,440 kg/m³, rests on heavier ones
 - **Falls:** up to 150 cells/s
+- **Sets:** with water into concrete
 - **Hardness:** 0.4 (acid stronger than this eats it)
 
-With other elements (24 interact):
+With other elements (26 interact):
 
 - **Water:** Cement takes in the water and sets into concrete. Cement sinks through water (1,440 vs 1,000 kg/m³).
 - **Oil:** Cement sinks through oil (1,440 vs 900 kg/m³).
@@ -1797,8 +1944,10 @@ With other elements (24 interact):
 - **Propane:** Cement falls through propane.
 - **Chlorine:** Cement falls through chlorine.
 - **Sulfur dioxide:** Cement falls through sulfur dioxide.
+- **Cloud:** Cement falls through cloud.
+- **Caramel:** Cement sinks through caramel (1,440 vs 1,300 kg/m³).
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Concrete
 
@@ -1812,20 +1961,22 @@ With other elements (1 interact):
 
 - **Acid:** Acid eats concrete: acidity 0.8 beats hardness 0.6.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Limestone
 
 Pale sedimentary rock. Stays put. Acid fizzes it away into carbon dioxide, and great heat bakes it into quicklime.
 
 - **State:** Solid, 2,700 kg/m³
+- **Bakes:** at 900 °C into quicklime, giving off carbon dioxide; there is no way back
+- **Fizzes:** into carbon dioxide when acid eats or neutralises it
 - **Hardness:** 0.4 (acid stronger than this eats it)
 
 With other elements (1 interact):
 
 - **Acid:** Acid eats limestone: acidity 0.8 beats hardness 0.4, fizzing out carbon dioxide.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Quicklime
 
@@ -1834,9 +1985,10 @@ Burnt lime, a white caustic powder and a strong base. Falls and piles. Water mak
 - **State:** Powder, 1,200 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,200 kg/m³, rests on heavier ones
 - **Falls:** up to 150 cells/s
+- **Sets:** with water into slaked lime, getting very hot
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (23 interact):
+With other elements (24 interact):
 
 - **Water:** Quicklime takes in the water and sets into slaked lime, getting very hot. Quicklime sinks through water (1,200 vs 1,000 kg/m³).
 - **Oil:** Quicklime sinks through oil (1,200 vs 900 kg/m³).
@@ -1861,8 +2013,9 @@ With other elements (23 interact):
 - **Propane:** Quicklime falls through propane.
 - **Chlorine:** Quicklime falls through chlorine.
 - **Sulfur dioxide:** Quicklime falls through sulfur dioxide.
+- **Cloud:** Quicklime falls through cloud.
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Slaked lime
 
@@ -1873,7 +2026,7 @@ A soft white powder and a base. Falls and piles. It neutralises acids into water
 - **Falls:** up to 140 cells/s
 - **Hardness:** 0.25 (acid stronger than this eats it)
 
-With other elements (21 interact):
+With other elements (22 interact):
 
 - **Water:** Slaked lime sinks through water (1,100 vs 1,000 kg/m³).
 - **Oil:** Slaked lime sinks through oil (1,100 vs 900 kg/m³).
@@ -1896,8 +2049,9 @@ With other elements (21 interact):
 - **Propane:** Slaked lime falls through propane.
 - **Chlorine:** Slaked lime falls through chlorine.
 - **Sulfur dioxide:** Slaked lime falls through sulfur dioxide.
+- **Cloud:** Slaked lime falls through cloud.
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Gold
 
@@ -1914,7 +2068,7 @@ With other elements (3 interact):
 - **Molten copper:** Molten copper (1,200 °C) is hot enough to melt gold into molten gold.
 - **Molten gold:** Molten gold (1,150 °C) is hot enough to melt gold into molten gold.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten gold
 
@@ -1927,7 +2081,7 @@ Melted gold, glowing and very heavy. Flows and sinks through almost everything. 
 - **Freezes:** below 1,064 °C, into gold
 - **Conducts:** electric charge, warming as pulses pass
 
-With other elements (56 interact):
+With other elements (65 interact):
 
 - **Water:** Molten gold sinks through water (17,300 vs 1,000 kg/m³). Molten gold (1,150 °C) is hot enough to boil water into steam.
 - **Oil:** Molten gold sinks through oil (17,300 vs 900 kg/m³). Molten gold (1,150 °C) can set oil on fire (it ignites at 250 °C).
@@ -1985,8 +2139,17 @@ With other elements (56 interact):
 - **Sulfur dioxide:** Molten gold falls through sulfur dioxide.
 - **Dry ice:** Molten gold (1,150 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten gold into gold.
 - **C4:** Molten gold (1,150 °C) can set c4 on fire (it ignites at 900 °C).
+- **Grass seed:** Molten gold (1,150 °C) can set grass seed on fire (it ignites at 250 °C).
+- **Grass:** Molten gold (1,150 °C) can set grass on fire (it ignites at 220 °C).
+- **Acorn:** Molten gold (1,150 °C) can set acorn on fire (it ignites at 260 °C).
+- **Tree:** Molten gold (1,150 °C) can set tree on fire (it ignites at 300 °C).
+- **Leaves:** Molten gold (1,150 °C) can set leaves on fire (it ignites at 230 °C).
+- **Flower:** Molten gold (1,150 °C) can set flower on fire (it ignites at 220 °C).
+- **Cloud:** Molten gold falls through cloud.
+- **Magnesium:** Molten gold (1,150 °C) can set magnesium on fire (it ignites at 650 °C).
+- **Caramel:** Molten gold sinks through caramel (17,300 vs 1,300 kg/m³). Molten gold (1,150 °C) can set caramel on fire (it ignites at 400 °C).
 
-No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Rust, Sodium, Baking soda. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ash, Iron, Salt, Dirt, Glass, Shards, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Rust, Sodium, Baking soda, Heater, Cooler, Clone, Void, Fan, Bulb, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Aluminium
 
@@ -2006,7 +2169,7 @@ With other elements (6 interact):
 - **Molten gold:** Molten gold (1,150 °C) is hot enough to melt aluminium into molten aluminium.
 - **Molten aluminium:** Molten aluminium (750 °C) is hot enough to melt aluminium into molten aluminium.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten aluminium
 
@@ -2019,7 +2182,7 @@ Melted aluminium, dull red and runny. Flows and sinks through water. Sets back i
 - **Freezes:** below 660 °C, into aluminium
 - **Conducts:** electric charge, warming as pulses pass
 
-With other elements (51 interact):
+With other elements (60 interact):
 
 - **Water:** Molten aluminium sinks through water (2,375 vs 1,000 kg/m³). Molten aluminium (750 °C) is hot enough to boil water into steam.
 - **Oil:** Molten aluminium sinks through oil (2,375 vs 900 kg/m³). Molten aluminium (750 °C) can set oil on fire (it ignites at 250 °C).
@@ -2072,8 +2235,17 @@ With other elements (51 interact):
 - **Chlorine:** Molten aluminium falls through chlorine.
 - **Sulfur dioxide:** Molten aluminium falls through sulfur dioxide.
 - **Dry ice:** Molten aluminium (750 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten aluminium into aluminium.
+- **Grass seed:** Molten aluminium (750 °C) can set grass seed on fire (it ignites at 250 °C).
+- **Grass:** Molten aluminium (750 °C) can set grass on fire (it ignites at 220 °C).
+- **Acorn:** Molten aluminium (750 °C) can set acorn on fire (it ignites at 260 °C).
+- **Tree:** Molten aluminium (750 °C) can set tree on fire (it ignites at 300 °C).
+- **Leaves:** Molten aluminium (750 °C) can set leaves on fire (it ignites at 230 °C).
+- **Flower:** Molten aluminium (750 °C) can set flower on fire (it ignites at 220 °C).
+- **Cloud:** Molten aluminium falls through cloud.
+- **Magnesium:** Molten aluminium (750 °C) can set magnesium on fire (it ignites at 650 °C).
+- **Caramel:** Molten aluminium sinks through caramel (2,375 vs 1,300 kg/m³). Molten aluminium (750 °C) can set caramel on fire (it ignites at 400 °C).
 
-No direct interaction with: Air, Wall, Sand, Stone, Gravel, Ash, Iron, Salt, Dirt, Glass, Wire, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Rust, Sodium, Thermite, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Stone, Gravel, Ash, Iron, Salt, Dirt, Glass, Wire, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Rust, Sodium, Thermite, Baking soda, C4, Heater, Cooler, Clone, Void, Fan, Bulb, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Lead
 
@@ -2094,7 +2266,7 @@ With other elements (7 interact):
 - **Molten aluminium:** Molten aluminium (750 °C) is hot enough to melt lead into molten lead.
 - **Molten lead:** Molten lead (400 °C) is hot enough to melt lead into molten lead.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten lead
 
@@ -2107,7 +2279,7 @@ Melted lead, hot and very heavy. Flows and sinks through almost everything. Sets
 - **Freezes:** below 327 °C, into lead
 - **Conducts:** electric charge, warming as pulses pass
 
-With other elements (48 interact):
+With other elements (56 interact):
 
 - **Water:** Molten lead sinks through water (10,660 vs 1,000 kg/m³). Molten lead (400 °C) is hot enough to boil water into steam.
 - **Oil:** Molten lead sinks through oil (10,660 vs 900 kg/m³). Molten lead (400 °C) can set oil on fire (it ignites at 250 °C).
@@ -2157,8 +2329,16 @@ With other elements (48 interact):
 - **Chlorine:** Molten lead falls through chlorine.
 - **Sulfur dioxide:** Molten lead falls through sulfur dioxide.
 - **Dry ice:** Molten lead (400 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten lead into lead.
+- **Grass seed:** Molten lead (400 °C) can set grass seed on fire (it ignites at 250 °C).
+- **Grass:** Molten lead (400 °C) can set grass on fire (it ignites at 220 °C).
+- **Acorn:** Molten lead (400 °C) can set acorn on fire (it ignites at 260 °C).
+- **Tree:** Molten lead (400 °C) can set tree on fire (it ignites at 300 °C).
+- **Leaves:** Molten lead (400 °C) can set leaves on fire (it ignites at 230 °C).
+- **Flower:** Molten lead (400 °C) can set flower on fire (it ignites at 220 °C).
+- **Cloud:** Molten lead falls through cloud.
+- **Caramel:** Molten lead sinks through caramel (10,660 vs 1,300 kg/m³). Molten lead (400 °C) can set caramel on fire (it ignites at 400 °C).
 
-No direct interaction with: Air, Wall, Sand, Stone, Gravel, Ash, Iron, Salt, Dirt, Glass, Shards, Wire, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Rust, Sodium, Coal, Thermite, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Stone, Gravel, Ash, Iron, Salt, Dirt, Glass, Shards, Wire, Battery, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Rust, Sodium, Coal, Thermite, Baking soda, C4, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Rust
 
@@ -2169,7 +2349,7 @@ Flaky red iron oxide, a powder. Falls and piles. It forms where water or oxygen 
 - **Falls:** up to 160 cells/s
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Water:** Rust sinks through water (2,000 vs 1,000 kg/m³).
 - **Oil:** Rust sinks through oil (2,000 vs 900 kg/m³).
@@ -2196,8 +2376,10 @@ With other elements (25 interact):
 - **Propane:** Rust falls through propane.
 - **Chlorine:** Rust falls through chlorine.
 - **Sulfur dioxide:** Rust falls through sulfur dioxide.
+- **Cloud:** Rust falls through cloud.
+- **Caramel:** Rust sinks through caramel (2,000 vs 1,300 kg/m³).
 
-No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sodium
 
@@ -2212,7 +2394,7 @@ With other elements (2 interact):
 - **Water:** Sodium reacts violently with water: it becomes lye and hydrogen, hot enough to set the hydrogen alight.
 - **Acid:** Acid eats sodium: acidity 0.8 beats hardness 0.1, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Coal
 
@@ -2224,7 +2406,7 @@ Black lumps of fossil fuel, a heavy powder. Falls and piles. Hard to light, but 
 - **Burns:** from 450 °C in air, 15 s per cell, leaves ash
 - **Hardness:** 0.85 (acid stronger than this eats it)
 
-With other elements (28 interact):
+With other elements (30 interact):
 
 - **Air:** Coal burns: it catches fire at 450 °C next to air (oxidiser 0.21).
 - **Water:** Coal sinks through water (1,350 vs 1,000 kg/m³).
@@ -2254,8 +2436,10 @@ With other elements (28 interact):
 - **Propane:** Coal falls through propane.
 - **Chlorine:** Coal falls through chlorine.
 - **Sulfur dioxide:** Coal falls through sulfur dioxide.
+- **Cloud:** Coal falls through cloud.
+- **Caramel:** Coal sinks through caramel (1,350 vs 1,300 kg/m³).
 
-No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Molten lead, Rust, Sodium, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Molten lead, Rust, Sodium, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Charcoal
 
@@ -2267,7 +2451,7 @@ Charred wood, a light black powder. Falls and piles. It catches more easily than
 - **Burns:** from 350 °C in air, 8.33 s per cell, leaves ash
 - **Hardness:** 0.85 (acid stronger than this eats it)
 
-With other elements (19 interact):
+With other elements (20 interact):
 
 - **Air:** Charcoal burns: it catches fire at 350 °C next to air (oxidiser 0.21).
 - **Steam:** Charcoal falls through steam.
@@ -2288,8 +2472,9 @@ With other elements (19 interact):
 - **Propane:** Charcoal falls through propane.
 - **Chlorine:** Charcoal falls through chlorine.
 - **Sulfur dioxide:** Charcoal falls through sulfur dioxide.
+- **Cloud:** Charcoal falls through cloud.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sulfur
 
@@ -2301,7 +2486,7 @@ Yellow crystals, a powder. Falls and piles. It burns with a blue flame into chok
 - **Burns:** from 232 °C in air, 1.5 s per cell, leaves sulfur dioxide
 - **Hardness:** 0.9 (acid stronger than this eats it)
 
-With other elements (31 interact):
+With other elements (33 interact):
 
 - **Air:** Sulfur burns: it catches fire at 232 °C next to air (oxidiser 0.21).
 - **Water:** Sulfur sinks through water (2,000 vs 1,000 kg/m³).
@@ -2334,8 +2519,10 @@ With other elements (31 interact):
 - **Propane:** Sulfur falls through propane.
 - **Chlorine:** Sulfur falls through chlorine.
 - **Sulfur dioxide:** Sulfur falls through sulfur dioxide.
+- **Cloud:** Sulfur falls through cloud.
+- **Caramel:** Sulfur sinks through caramel (2,000 vs 1,300 kg/m³).
 
-No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Petrol
 
@@ -2347,7 +2534,7 @@ A thin, volatile fuel. Flows freely and floats on water. Its vapour catches from
 - **Burns:** from 280 °C in air, 1 s per cell
 - **Flash point:** -43 °C: above it, flames spread across it
 
-With other elements (48 interact):
+With other elements (53 interact):
 
 - **Air:** Petrol burns: it catches fire at 280 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through petrol (1,600 vs 740 kg/m³).
@@ -2397,8 +2584,13 @@ With other elements (48 interact):
 - **Chlorine:** Petrol falls through chlorine.
 - **Sulfur dioxide:** Petrol falls through sulfur dioxide.
 - **Baking soda:** Baking soda sinks through petrol (1,100 vs 740 kg/m³).
+- **Grass seed:** Grass seed sinks through petrol (1,100 vs 740 kg/m³).
+- **Acorn:** Acorn sinks through petrol (1,100 vs 740 kg/m³).
+- **Cloud:** Petrol falls through cloud.
+- **Caramel:** Caramel sinks through petrol (1,300 vs 740 kg/m³).
+- **Chalk:** Chalk sinks through petrol (1,500 vs 740 kg/m³).
 
-No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Dry ice, C4, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Wax
 
@@ -2409,7 +2601,7 @@ Soft, pale wax. Stays put. It melts at a gentle heat into molten wax and burns s
 - **Burns:** from 300 °C in air, 5 s per cell
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (13 interact):
+With other elements (14 interact):
 
 - **Air:** Wax burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Steam:** Steam (150 °C) is hot enough to melt wax into molten wax.
@@ -2424,8 +2616,9 @@ With other elements (13 interact):
 - **Molten aluminium:** Molten aluminium (750 °C) is hot enough to melt wax into molten wax. Molten aluminium (750 °C) can set wax on fire (it ignites at 300 °C).
 - **Molten lead:** Molten lead (400 °C) is hot enough to melt wax into molten wax. Molten lead (400 °C) can set wax on fire (it ignites at 300 °C).
 - **Molten wax:** Molten wax (80 °C) is hot enough to melt wax into molten wax.
+- **Caramel:** Caramel (190 °C) is hot enough to melt wax into molten wax.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten wax
 
@@ -2439,7 +2632,7 @@ Melted wax, warm and runny. Flows and floats on water. It sets back into wax as 
 - **Burns:** from 300 °C in air, 3.33 s per cell
 - **Flash point:** 200 °C: above it, flames spread across it
 
-With other elements (52 interact):
+With other elements (57 interact):
 
 - **Air:** Molten wax burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through molten wax (1,600 vs 800 kg/m³).
@@ -2493,8 +2686,13 @@ With other elements (52 interact):
 - **Sulfur dioxide:** Molten wax falls through sulfur dioxide.
 - **Dry ice:** Molten wax (80 °C) is hot enough to turn dry ice into carbon dioxide. Dry ice (-79 °C) is cold enough to freeze molten wax into wax.
 - **Baking soda:** Baking soda sinks through molten wax (1,100 vs 800 kg/m³).
+- **Grass seed:** Grass seed sinks through molten wax (1,100 vs 800 kg/m³).
+- **Acorn:** Acorn sinks through molten wax (1,100 vs 800 kg/m³).
+- **Cloud:** Molten wax falls through cloud.
+- **Caramel:** Caramel sinks through molten wax (1,300 vs 800 kg/m³).
+- **Chalk:** Chalk sinks through molten wax (1,500 vs 800 kg/m³).
 
-No direct interaction with: Wall, Stone, Wood, Ash, Iron, Sawdust, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Paper, Rubber, Flour, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Stone, Wood, Ash, Iron, Sawdust, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Paper, Rubber, Flour, C4, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Paper
 
@@ -2502,6 +2700,7 @@ Thin sheets of wood pulp. Stays put. It catches at the lightest flame and burns 
 
 - **State:** Solid, 700 kg/m³
 - **Burns:** from 233 °C in air, 0.67 s per cell, leaves ash
+- **Rots:** slowly into dirt where water touches it
 - **Hardness:** 0.05 (acid stronger than this eats it)
 
 With other elements (11 interact):
@@ -2518,7 +2717,7 @@ With other elements (11 interact):
 - **Molten aluminium:** Molten aluminium (750 °C) can set paper on fire (it ignites at 233 °C).
 - **Molten lead:** Molten lead (400 °C) can set paper on fire (it ignites at 233 °C).
 
-No direct interaction with: Wall, Sand, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Rubber
 
@@ -2541,7 +2740,7 @@ With other elements (10 interact):
 - **Molten aluminium:** Molten aluminium (750 °C) can set rubber on fire (it ignites at 400 °C).
 - **Molten lead:** Molten lead (400 °C) can set rubber on fire (it ignites at 400 °C).
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Flour
 
@@ -2555,7 +2754,7 @@ Fine white powder, very light. Drifts as it falls. It catches easily and burns f
 - **Soaks up:** water, up to 30% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (21 interact):
+With other elements (22 interact):
 
 - **Air:** Flour burns: it catches fire at 380 °C next to air (oxidiser 0.21).
 - **Water:** Flour soaks up water: it is porous and holds up to 30% water.
@@ -2578,8 +2777,9 @@ With other elements (21 interact):
 - **Propane:** Flour falls through propane.
 - **Chlorine:** Flour falls through chlorine.
 - **Sulfur dioxide:** Flour falls through sulfur dioxide.
+- **Cloud:** Flour falls through cloud.
 
-No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Thermite
 
@@ -2589,9 +2789,11 @@ A grey-red metal powder that carries its own oxygen. Falls and piles. A flame wi
 - **In liquids:** Sinks through liquids lighter than 1,500 kg/m³, rests on heavier ones
 - **Falls:** up to 160 cells/s
 - **Burns:** from 900 °C in air, 2 s per cell, leaves iron
+- **Burns without air:** it carries its own oxygen
+- **A flame:** will not light it; it needs 900 °C
 - **Hardness:** 0.9 (acid stronger than this eats it)
 
-With other elements (28 interact):
+With other elements (30 interact):
 
 - **Air:** Thermite burns: it catches fire at 900 °C next to air (oxidiser 0.21).
 - **Water:** Thermite sinks through water (1,500 vs 1,000 kg/m³).
@@ -2621,8 +2823,10 @@ With other elements (28 interact):
 - **Propane:** Thermite falls through propane.
 - **Chlorine:** Thermite falls through chlorine.
 - **Sulfur dioxide:** Thermite falls through sulfur dioxide.
+- **Cloud:** Thermite falls through cloud.
+- **Caramel:** Thermite sinks through caramel (1,500 vs 1,300 kg/m³).
 
-No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Honey
 
@@ -2632,7 +2836,7 @@ Thick golden syrup. Oozes very slowly and sinks through water. Sticky and sweet;
 - **In liquids:** Sinks through liquids lighter than 1,420 kg/m³, floats on heavier ones
 - **Falls:** up to 40 cells/s
 
-With other elements (42 interact):
+With other elements (45 interact):
 
 - **Sand:** Sand sinks through honey (1,600 vs 1,420 kg/m³).
 - **Water:** Honey sinks through water (1,420 vs 1,000 kg/m³).
@@ -2676,8 +2880,11 @@ With other elements (42 interact):
 - **Propane:** Honey falls through propane.
 - **Chlorine:** Honey falls through chlorine.
 - **Sulfur dioxide:** Honey falls through sulfur dioxide.
+- **Cloud:** Honey falls through cloud.
+- **Caramel:** Honey sinks through caramel (1,420 vs 1,300 kg/m³).
+- **Chalk:** Chalk sinks through honey (1,500 vs 1,420 kg/m³).
 
-No direct interaction with: Air, Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Seed, Plant, Dry plant, Brick, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Sodium, Coal, Charcoal, Wax, Paper, Rubber, Flour, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Seed, Plant, Dry plant, Brick, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Sodium, Coal, Charcoal, Wax, Paper, Rubber, Flour, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Vinegar
 
@@ -2687,7 +2894,7 @@ A weak acid, mostly water. Flows like water. Too weak to eat metal, but it fizze
 - **In liquids:** Sinks through liquids lighter than 1,010 kg/m³, floats on heavier ones
 - **Falls:** up to 165 cells/s
 
-With other elements (47 interact):
+With other elements (52 interact):
 
 - **Sand:** Sand sinks through vinegar (1,600 vs 1,010 kg/m³).
 - **Water:** Vinegar sinks through water (1,010 vs 1,000 kg/m³).
@@ -2736,8 +2943,13 @@ With other elements (47 interact):
 - **Chlorine:** Vinegar falls through chlorine.
 - **Sulfur dioxide:** Vinegar falls through sulfur dioxide.
 - **Baking soda:** Vinegar and baking soda neutralise each other into water, fizzing out carbon dioxide, and warm up. Baking soda and vinegar neutralise each other into water, fizzing out carbon dioxide, and warm up. Baking soda sinks through vinegar (1,100 vs 1,010 kg/m³).
+- **Grass seed:** Grass seed sinks through vinegar (1,100 vs 1,010 kg/m³).
+- **Acorn:** Acorn sinks through vinegar (1,100 vs 1,010 kg/m³).
+- **Cloud:** Vinegar falls through cloud.
+- **Caramel:** Caramel sinks through vinegar (1,300 vs 1,010 kg/m³).
+- **Chalk:** Chalk sinks through vinegar (1,500 vs 1,010 kg/m³).
 
-No direct interaction with: Air, Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Dry ice, C4, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Bleach
 
@@ -2746,8 +2958,9 @@ A strong cleaning base. Flows like water. Mixed with any acid it gives off poiso
 - **State:** Liquid, 1,100 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,100 kg/m³, floats on heavier ones
 - **Falls:** up to 165 cells/s
+- **Poisons:** living things it touches: they wither
 
-With other elements (43 interact):
+With other elements (51 interact):
 
 - **Sand:** Sand sinks through bleach (1,600 vs 1,100 kg/m³).
 - **Water:** Bleach sinks through water (1,100 vs 1,000 kg/m³).
@@ -2770,6 +2983,7 @@ With other elements (43 interact):
 - **Shards:** Shards sinks through bleach (2,500 vs 1,100 kg/m³).
 - **Spark:** Bleach falls through spark.
 - **Mercury:** Mercury sinks through bleach (13,534 vs 1,100 kg/m³).
+- **Plant:** Bleach is toxic: plant touching it withers.
 - **Molten copper:** Molten copper sinks through bleach (8,020 vs 1,100 kg/m³).
 - **Clay:** Clay sinks through bleach (1,700 vs 1,100 kg/m³).
 - **Cement:** Cement sinks through bleach (1,440 vs 1,100 kg/m³).
@@ -2792,8 +3006,15 @@ With other elements (43 interact):
 - **Propane:** Bleach falls through propane.
 - **Chlorine:** Bleach falls through chlorine.
 - **Sulfur dioxide:** Bleach falls through sulfur dioxide.
+- **Grass:** Bleach is toxic: grass touching it withers.
+- **Tree:** Bleach is toxic: tree touching it withers.
+- **Leaves:** Bleach is toxic: leaves touching it withers.
+- **Flower:** Bleach is toxic: flower touching it withers.
+- **Cloud:** Bleach falls through cloud.
+- **Caramel:** Caramel sinks through bleach (1,300 vs 1,100 kg/m³).
+- **Chalk:** Chalk sinks through bleach (1,500 vs 1,100 kg/m³).
 
-No direct interaction with: Air, Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Seed, Plant, Dry plant, Brick, Concrete, Limestone, Slaked lime, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Lye, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Seed, Dry plant, Brick, Concrete, Limestone, Slaked lime, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Lye, Dry ice, Baking soda, C4, Grass seed, Acorn, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Lye
 
@@ -2803,7 +3024,7 @@ A caustic alkaline liquid. Flows like water. It neutralises acid into water, war
 - **In liquids:** Sinks through liquids lighter than 1,100 kg/m³, floats on heavier ones
 - **Falls:** up to 160 cells/s
 
-With other elements (43 interact):
+With other elements (46 interact):
 
 - **Sand:** Sand sinks through lye (1,600 vs 1,100 kg/m³).
 - **Water:** Lye sinks through water (1,100 vs 1,000 kg/m³).
@@ -2848,8 +3069,11 @@ With other elements (43 interact):
 - **Propane:** Lye falls through propane.
 - **Chlorine:** Lye falls through chlorine.
 - **Sulfur dioxide:** Lye falls through sulfur dioxide.
+- **Cloud:** Lye falls through cloud.
+- **Caramel:** Caramel sinks through lye (1,300 vs 1,100 kg/m³).
+- **Chalk:** Chalk sinks through lye (1,500 vs 1,100 kg/m³).
 
-No direct interaction with: Air, Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Seed, Plant, Dry plant, Brick, Concrete, Limestone, Slaked lime, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Bleach, Dry ice, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Seed, Plant, Dry plant, Brick, Concrete, Limestone, Slaked lime, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Bleach, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Liquid nitrogen
 
@@ -2861,7 +3085,7 @@ Nitrogen cooled to a liquid, bitterly cold. Flows and boils away fast into nitro
 - **Falls:** up to 165 cells/s
 - **Boils:** at -196 °C, into nitrogen
 
-With other elements (47 interact):
+With other elements (52 interact):
 
 - **Sand:** Sand sinks through liquid nitrogen (1,600 vs 808 kg/m³).
 - **Water:** Liquid nitrogen (-196 °C) is cold enough to freeze water into ice. Water sinks through liquid nitrogen (1,000 vs 808 kg/m³).
@@ -2910,8 +3134,13 @@ With other elements (47 interact):
 - **Chlorine:** Liquid nitrogen falls through chlorine.
 - **Sulfur dioxide:** Liquid nitrogen falls through sulfur dioxide.
 - **Baking soda:** Baking soda sinks through liquid nitrogen (1,100 vs 808 kg/m³).
+- **Grass seed:** Grass seed sinks through liquid nitrogen (1,100 vs 808 kg/m³).
+- **Acorn:** Acorn sinks through liquid nitrogen (1,100 vs 808 kg/m³).
+- **Cloud:** Liquid nitrogen falls through cloud.
+- **Caramel:** Caramel sinks through liquid nitrogen (1,300 vs 808 kg/m³). Caramel (190 °C) is hot enough to boil liquid nitrogen into nitrogen.
+- **Chalk:** Chalk sinks through liquid nitrogen (1,500 vs 808 kg/m³).
 
-No direct interaction with: Air, Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Stone, Wood, Ash, Iron, Sawdust, Snow, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Charcoal, Wax, Paper, Rubber, Flour, Dry ice, C4, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Nitrogen
 
@@ -2921,7 +3150,7 @@ The inert gas that makes up most of air. Drifts slowly upwards. It feeds no fire
 - **In air:** Rises (lighter than air)
 - **Condenses:** below -196 °C, into liquid nitrogen
 
-With other elements (40 interact):
+With other elements (44 interact):
 
 - **Sand:** Sand falls through nitrogen.
 - **Water:** Water falls through nitrogen.
@@ -2963,8 +3192,12 @@ With other elements (40 interact):
 - **Lye:** Lye falls through nitrogen.
 - **Liquid nitrogen:** Liquid nitrogen falls through nitrogen.
 - **Baking soda:** Baking soda falls through nitrogen.
+- **Grass seed:** Grass seed falls through nitrogen.
+- **Acorn:** Acorn falls through nitrogen.
+- **Caramel:** Caramel falls through nitrogen.
+- **Chalk:** Chalk falls through nitrogen.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Carbon dioxide
 
@@ -2974,7 +3207,7 @@ A heavy, colourless gas. Sinks and pools low like water. It feeds no fire, so it
 - **In air:** Sinks slowly (heavier than air)
 - **Condenses:** below -78 °C, into dry ice
 
-With other elements (40 interact):
+With other elements (44 interact):
 
 - **Sand:** Sand falls through carbon dioxide.
 - **Water:** Water falls through carbon dioxide.
@@ -3016,8 +3249,12 @@ With other elements (40 interact):
 - **Lye:** Lye falls through carbon dioxide.
 - **Liquid nitrogen:** Liquid nitrogen falls through carbon dioxide. Liquid nitrogen (-196 °C) is cold enough to condense carbon dioxide into dry ice.
 - **Baking soda:** Baking soda falls through carbon dioxide.
+- **Grass seed:** Grass seed falls through carbon dioxide.
+- **Acorn:** Acorn falls through carbon dioxide.
+- **Caramel:** Caramel falls through carbon dioxide.
+- **Chalk:** Chalk falls through carbon dioxide.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Helium
 
@@ -3026,7 +3263,7 @@ A very light, inert gas. Rises fast and gathers at the top. It never burns or re
 - **State:** Gas, 0.18 kg/m³
 - **In air:** Rises (lighter than air)
 
-With other elements (40 interact):
+With other elements (44 interact):
 
 - **Sand:** Sand falls through helium.
 - **Water:** Water falls through helium.
@@ -3068,8 +3305,12 @@ With other elements (40 interact):
 - **Lye:** Lye falls through helium.
 - **Liquid nitrogen:** Liquid nitrogen falls through helium.
 - **Baking soda:** Baking soda falls through helium.
+- **Grass seed:** Grass seed falls through helium.
+- **Acorn:** Acorn falls through helium.
+- **Caramel:** Caramel falls through helium.
+- **Chalk:** Chalk falls through helium.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Propane, Chlorine, Sulfur dioxide, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Propane
 
@@ -3080,7 +3321,7 @@ A fuel gas, heavier than air. Sinks and pools in low places. Its vapour catches 
 - **Burns:** from 470 °C in air, 0.2 s per cell, leaves steam
 - **Flash point:** -104 °C: above it, flames spread across it
 
-With other elements (44 interact):
+With other elements (48 interact):
 
 - **Air:** Propane burns: it catches fire at 470 °C next to air (oxidiser 0.21).
 - **Sand:** Sand falls through propane.
@@ -3126,8 +3367,12 @@ With other elements (44 interact):
 - **Lye:** Lye falls through propane.
 - **Liquid nitrogen:** Liquid nitrogen falls through propane.
 - **Baking soda:** Baking soda falls through propane.
+- **Grass seed:** Grass seed falls through propane.
+- **Acorn:** Acorn falls through propane.
+- **Caramel:** Caramel falls through propane.
+- **Chalk:** Chalk falls through propane.
 
-No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, Methane, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, Methane, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Chlorine
 
@@ -3135,8 +3380,10 @@ A poisonous yellow-green gas, very heavy. Sinks and pools low. It kills plants a
 
 - **State:** Gas, 3.2 kg/m³
 - **In air:** Sinks slowly (heavier than air)
+- **In water:** dissolves and turns the water into acid
+- **Poisons:** living things it touches: they wither
 
-With other elements (41 interact):
+With other elements (49 interact):
 
 - **Sand:** Sand falls through chlorine.
 - **Water:** Chlorine dissolves in water and turns it into acid. Water falls through chlorine.
@@ -3179,8 +3426,16 @@ With other elements (41 interact):
 - **Lye:** Lye falls through chlorine.
 - **Liquid nitrogen:** Liquid nitrogen falls through chlorine.
 - **Baking soda:** Baking soda falls through chlorine.
+- **Grass seed:** Grass seed falls through chlorine.
+- **Grass:** Chlorine is toxic: grass touching it withers.
+- **Acorn:** Acorn falls through chlorine.
+- **Tree:** Chlorine is toxic: tree touching it withers.
+- **Leaves:** Chlorine is toxic: leaves touching it withers.
+- **Flower:** Chlorine is toxic: flower touching it withers.
+- **Caramel:** Caramel falls through chlorine.
+- **Chalk:** Chalk falls through chlorine.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Sulfur dioxide, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Sulfur dioxide, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sulfur dioxide
 
@@ -3188,8 +3443,10 @@ A choking gas, much heavier than air. Sinks and pools low. It turns water it tou
 
 - **State:** Gas, 2.6 kg/m³
 - **In air:** Sinks slowly (heavier than air)
+- **In water:** dissolves and turns the water into acid
+- **Poisons:** living things it touches: they wither
 
-With other elements (41 interact):
+With other elements (49 interact):
 
 - **Sand:** Sand falls through sulfur dioxide.
 - **Water:** Sulfur dioxide dissolves in water and turns it into acid. Water falls through sulfur dioxide.
@@ -3232,8 +3489,16 @@ With other elements (41 interact):
 - **Lye:** Lye falls through sulfur dioxide.
 - **Liquid nitrogen:** Liquid nitrogen falls through sulfur dioxide.
 - **Baking soda:** Baking soda falls through sulfur dioxide.
+- **Grass seed:** Grass seed falls through sulfur dioxide.
+- **Grass:** Sulfur dioxide is toxic: grass touching it withers.
+- **Acorn:** Acorn falls through sulfur dioxide.
+- **Tree:** Sulfur dioxide is toxic: tree touching it withers.
+- **Leaves:** Sulfur dioxide is toxic: leaves touching it withers.
+- **Flower:** Sulfur dioxide is toxic: flower touching it withers.
+- **Caramel:** Caramel falls through sulfur dioxide.
+- **Chalk:** Chalk falls through sulfur dioxide.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Dry ice
 
@@ -3243,7 +3508,7 @@ Frozen carbon dioxide, very cold. Stays put and turns straight into gas without 
 - **Starts at:** -79 °C
 - **Sublimes:** at -78 °C, into carbon dioxide
 
-With other elements (11 interact):
+With other elements (12 interact):
 
 - **Water:** Dry ice (-79 °C) is cold enough to freeze water into ice.
 - **Steam:** Dry ice (-79 °C) is cold enough to condense steam into water. Steam (150 °C) is hot enough to turn dry ice into carbon dioxide.
@@ -3256,8 +3521,9 @@ With other elements (11 interact):
 - **Molten aluminium:** Dry ice (-79 °C) is cold enough to freeze molten aluminium into aluminium. Molten aluminium (750 °C) is hot enough to turn dry ice into carbon dioxide.
 - **Molten lead:** Dry ice (-79 °C) is cold enough to freeze molten lead into lead. Molten lead (400 °C) is hot enough to turn dry ice into carbon dioxide.
 - **Molten wax:** Dry ice (-79 °C) is cold enough to freeze molten wax into wax. Molten wax (80 °C) is hot enough to turn dry ice into carbon dioxide.
+- **Caramel:** Caramel (190 °C) is hot enough to turn dry ice into carbon dioxide.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Baking soda, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Baking soda
 
@@ -3266,9 +3532,10 @@ A mild white powder and a base. Falls and piles. Acid makes it fizz into carbon 
 - **State:** Powder, 1,100 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,100 kg/m³, rests on heavier ones
 - **Falls:** up to 150 cells/s
+- **Fizzes:** into carbon dioxide when acid eats or neutralises it
 - **Dissolves in:** water, up to 20% of a cell; boiling leaves it as crystals
 
-With other elements (23 interact):
+With other elements (24 interact):
 
 - **Water:** Baking soda dissolves into water: water is a solvent and each cell holds up to 20% baking soda. Baking soda sinks through water (1,100 vs 1,000 kg/m³).
 - **Oil:** Baking soda sinks through oil (1,100 vs 900 kg/m³).
@@ -3293,8 +3560,9 @@ With other elements (23 interact):
 - **Propane:** Baking soda falls through propane.
 - **Chlorine:** Baking soda falls through chlorine.
 - **Sulfur dioxide:** Baking soda falls through sulfur dioxide.
+- **Cloud:** Baking soda falls through cloud.
 
-No direct interaction with: Air, Wall, Sand, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, C4. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### C4
 
@@ -3302,6 +3570,7 @@ A putty-like plastic explosive. Stays put. A flame alone will not set it off, bu
 
 - **State:** Solid, 1,600 kg/m³
 - **Explodes:** from 900 °C or a flame; blast radius 6 cells
+- **A flame:** will not light it; it needs 900 °C or a spark
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
 With other elements (6 interact):
@@ -3313,4 +3582,497 @@ With other elements (6 interact):
 - **Molten copper:** Molten copper (1,200 °C) can set c4 on fire (it ignites at 900 °C).
 - **Molten gold:** Molten gold (1,150 °C) can set c4 on fire (it ignites at 900 °C).
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Grass seed
+
+Tiny pale seeds, a light powder. Falls and sinks in water. On damp soil it sprouts into a short tuft of grass.
+
+- **State:** Powder, 1,100 kg/m³
+- **In liquids:** Sinks through liquids lighter than 1,100 kg/m³, rests on heavier ones
+- **Falls:** up to 120 cells/s
+- **Burns:** from 250 °C in air, 0.67 s per cell, leaves ash
+- **Grows:** into grass on damp soil (wet dirt or sand), even under a puddle
+
+With other elements (27 interact):
+
+- **Air:** Grass seed burns: it catches fire at 250 °C next to air (oxidiser 0.21).
+- **Water:** Grass seed sinks through water (1,100 vs 1,000 kg/m³).
+- **Oil:** Grass seed sinks through oil (1,100 vs 900 kg/m³).
+- **Steam:** Grass seed falls through steam.
+- **Lava:** Lava (1,200 °C) can set grass seed on fire (it ignites at 250 °C).
+- **Fire:** Grass seed catches from the flame touching it. Grass seed falls through fire.
+- **Smoke:** Grass seed falls through smoke.
+- **Hydrogen:** Grass seed falls through hydrogen.
+- **Oxygen:** Grass seed burns: it catches fire at 250 °C next to oxygen (oxidiser 1). Grass seed falls through oxygen. Oxygen makes burning grass seed hotter and faster.
+- **Methane:** Grass seed falls through methane.
+- **Alcohol:** Grass seed sinks through alcohol (1,100 vs 789 kg/m³).
+- **Spark:** Grass seed catches from the flame touching it. Grass seed falls through spark.
+- **Molten copper:** Molten copper (1,200 °C) can set grass seed on fire (it ignites at 250 °C).
+- **Molten gold:** Molten gold (1,150 °C) can set grass seed on fire (it ignites at 250 °C).
+- **Molten aluminium:** Molten aluminium (750 °C) can set grass seed on fire (it ignites at 250 °C).
+- **Molten lead:** Molten lead (400 °C) can set grass seed on fire (it ignites at 250 °C).
+- **Petrol:** Grass seed sinks through petrol (1,100 vs 740 kg/m³).
+- **Molten wax:** Grass seed sinks through molten wax (1,100 vs 800 kg/m³).
+- **Vinegar:** Grass seed sinks through vinegar (1,100 vs 1,010 kg/m³).
+- **Liquid nitrogen:** Grass seed sinks through liquid nitrogen (1,100 vs 808 kg/m³).
+- **Nitrogen:** Grass seed falls through nitrogen.
+- **Carbon dioxide:** Grass seed falls through carbon dioxide.
+- **Helium:** Grass seed falls through helium.
+- **Propane:** Grass seed falls through propane.
+- **Chlorine:** Grass seed falls through chlorine.
+- **Sulfur dioxide:** Grass seed falls through sulfur dioxide.
+- **Cloud:** Grass seed falls through cloud.
+
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Grass
+
+Short living blades. Stays put and drinks from damp soil. Dried out it withers into dry plant, and it burns easily.
+
+- **State:** Solid, 600 kg/m³
+- **Burns:** from 220 °C in air, 0.67 s per cell, leaves ash
+- **Lives:** on water drawn from damp soil; dried out, it withers into dry plant
+- **Hardness:** 0.1 (acid stronger than this eats it)
+
+With other elements (14 interact):
+
+- **Air:** Grass burns: it catches fire at 220 °C next to air (oxidiser 0.21).
+- **Lava:** Lava (1,200 °C) can set grass on fire (it ignites at 220 °C).
+- **Fire:** Grass catches from the flame touching it.
+- **Acid:** Acid eats grass: acidity 0.8 beats hardness 0.1.
+- **Oxygen:** Grass burns: it catches fire at 220 °C next to oxygen (oxidiser 1). Oxygen makes burning grass hotter and faster.
+- **Salt:** Salt is toxic: grass touching it withers.
+- **Spark:** Grass catches from the flame touching it.
+- **Molten copper:** Molten copper (1,200 °C) can set grass on fire (it ignites at 220 °C).
+- **Molten gold:** Molten gold (1,150 °C) can set grass on fire (it ignites at 220 °C).
+- **Molten aluminium:** Molten aluminium (750 °C) can set grass on fire (it ignites at 220 °C).
+- **Molten lead:** Molten lead (400 °C) can set grass on fire (it ignites at 220 °C).
+- **Bleach:** Bleach is toxic: grass touching it withers.
+- **Chlorine:** Chlorine is toxic: grass touching it withers.
+- **Sulfur dioxide:** Sulfur dioxide is toxic: grass touching it withers.
+
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4, Grass seed, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Acorn
+
+A heavy brown seed, a powder. Falls and sinks in water. On damp soil it sprouts into a tall, branching tree.
+
+- **State:** Powder, 1,100 kg/m³
+- **In liquids:** Sinks through liquids lighter than 1,100 kg/m³, rests on heavier ones
+- **Falls:** up to 150 cells/s
+- **Burns:** from 260 °C in air, 1 s per cell, leaves ash
+- **Grows:** into tree on damp soil (wet dirt or sand), even under a puddle
+
+With other elements (27 interact):
+
+- **Air:** Acorn burns: it catches fire at 260 °C next to air (oxidiser 0.21).
+- **Water:** Acorn sinks through water (1,100 vs 1,000 kg/m³).
+- **Oil:** Acorn sinks through oil (1,100 vs 900 kg/m³).
+- **Steam:** Acorn falls through steam.
+- **Lava:** Lava (1,200 °C) can set acorn on fire (it ignites at 260 °C).
+- **Fire:** Acorn catches from the flame touching it. Acorn falls through fire.
+- **Smoke:** Acorn falls through smoke.
+- **Hydrogen:** Acorn falls through hydrogen.
+- **Oxygen:** Acorn burns: it catches fire at 260 °C next to oxygen (oxidiser 1). Acorn falls through oxygen. Oxygen makes burning acorn hotter and faster.
+- **Methane:** Acorn falls through methane.
+- **Alcohol:** Acorn sinks through alcohol (1,100 vs 789 kg/m³).
+- **Spark:** Acorn catches from the flame touching it. Acorn falls through spark.
+- **Molten copper:** Molten copper (1,200 °C) can set acorn on fire (it ignites at 260 °C).
+- **Molten gold:** Molten gold (1,150 °C) can set acorn on fire (it ignites at 260 °C).
+- **Molten aluminium:** Molten aluminium (750 °C) can set acorn on fire (it ignites at 260 °C).
+- **Molten lead:** Molten lead (400 °C) can set acorn on fire (it ignites at 260 °C).
+- **Petrol:** Acorn sinks through petrol (1,100 vs 740 kg/m³).
+- **Molten wax:** Acorn sinks through molten wax (1,100 vs 800 kg/m³).
+- **Vinegar:** Acorn sinks through vinegar (1,100 vs 1,010 kg/m³).
+- **Liquid nitrogen:** Acorn sinks through liquid nitrogen (1,100 vs 808 kg/m³).
+- **Nitrogen:** Acorn falls through nitrogen.
+- **Carbon dioxide:** Acorn falls through carbon dioxide.
+- **Helium:** Acorn falls through helium.
+- **Propane:** Acorn falls through propane.
+- **Chlorine:** Acorn falls through chlorine.
+- **Sulfur dioxide:** Acorn falls through sulfur dioxide.
+- **Cloud:** Acorn falls through cloud.
+
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Tree
+
+A living woody trunk. Grows tall and branches, drinking from damp soil and putting out leaves. Dead and dry, it is plain wood.
+
+- **State:** Solid, 750 kg/m³
+- **Burns:** from 300 °C in air, 2.5 s per cell, leaves ash
+- **Leaves:** grows leaves beside its branches
+- **Lives:** on water drawn from damp soil; dried out, it withers into wood
+- **Hardness:** 0.3 (acid stronger than this eats it)
+
+With other elements (14 interact):
+
+- **Air:** Tree burns: it catches fire at 300 °C next to air (oxidiser 0.21).
+- **Lava:** Lava (1,200 °C) can set tree on fire (it ignites at 300 °C).
+- **Fire:** Tree catches from the flame touching it.
+- **Acid:** Acid eats tree: acidity 0.8 beats hardness 0.3.
+- **Oxygen:** Tree burns: it catches fire at 300 °C next to oxygen (oxidiser 1). Oxygen makes burning tree hotter and faster.
+- **Salt:** Salt is toxic: tree touching it withers.
+- **Spark:** Tree catches from the flame touching it.
+- **Molten copper:** Molten copper (1,200 °C) can set tree on fire (it ignites at 300 °C).
+- **Molten gold:** Molten gold (1,150 °C) can set tree on fire (it ignites at 300 °C).
+- **Molten aluminium:** Molten aluminium (750 °C) can set tree on fire (it ignites at 300 °C).
+- **Molten lead:** Molten lead (400 °C) can set tree on fire (it ignites at 300 °C).
+- **Bleach:** Bleach is toxic: tree touching it withers.
+- **Chlorine:** Chlorine is toxic: tree touching it withers.
+- **Sulfur dioxide:** Sulfur dioxide is toxic: tree touching it withers.
+
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Leaves
+
+Living green leaves on a tree. Stay put and take water from the branch. Dried out they wither, and they burn easily.
+
+- **State:** Solid, 500 kg/m³
+- **Burns:** from 230 °C in air, 0.5 s per cell, leaves ash
+- **Lives:** on water drawn from damp soil; dried out, it withers into dry plant
+- **Hardness:** 0.1 (acid stronger than this eats it)
+
+With other elements (14 interact):
+
+- **Air:** Leaves burns: it catches fire at 230 °C next to air (oxidiser 0.21).
+- **Lava:** Lava (1,200 °C) can set leaves on fire (it ignites at 230 °C).
+- **Fire:** Leaves catches from the flame touching it.
+- **Acid:** Acid eats leaves: acidity 0.8 beats hardness 0.1.
+- **Oxygen:** Leaves burns: it catches fire at 230 °C next to oxygen (oxidiser 1). Oxygen makes burning leaves hotter and faster.
+- **Salt:** Salt is toxic: leaves touching it withers.
+- **Spark:** Leaves catches from the flame touching it.
+- **Molten copper:** Molten copper (1,200 °C) can set leaves on fire (it ignites at 230 °C).
+- **Molten gold:** Molten gold (1,150 °C) can set leaves on fire (it ignites at 230 °C).
+- **Molten aluminium:** Molten aluminium (750 °C) can set leaves on fire (it ignites at 230 °C).
+- **Molten lead:** Molten lead (400 °C) can set leaves on fire (it ignites at 230 °C).
+- **Bleach:** Bleach is toxic: leaves touching it withers.
+- **Chlorine:** Chlorine is toxic: leaves touching it withers.
+- **Sulfur dioxide:** Sulfur dioxide is toxic: leaves touching it withers.
+
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Flower
+
+A bright bloom at the tip of a plant. Stays put and takes water from the stem. Dried out it withers, and it burns easily.
+
+- **State:** Solid, 400 kg/m³
+- **Burns:** from 220 °C in air, 0.33 s per cell, leaves ash
+- **Lives:** on water drawn from damp soil; dried out, it withers into dry plant
+- **Hardness:** 0.1 (acid stronger than this eats it)
+
+With other elements (14 interact):
+
+- **Air:** Flower burns: it catches fire at 220 °C next to air (oxidiser 0.21).
+- **Lava:** Lava (1,200 °C) can set flower on fire (it ignites at 220 °C).
+- **Fire:** Flower catches from the flame touching it.
+- **Acid:** Acid eats flower: acidity 0.8 beats hardness 0.1.
+- **Oxygen:** Flower burns: it catches fire at 220 °C next to oxygen (oxidiser 1). Oxygen makes burning flower hotter and faster.
+- **Salt:** Salt is toxic: flower touching it withers.
+- **Spark:** Flower catches from the flame touching it.
+- **Molten copper:** Molten copper (1,200 °C) can set flower on fire (it ignites at 220 °C).
+- **Molten gold:** Molten gold (1,150 °C) can set flower on fire (it ignites at 220 °C).
+- **Molten aluminium:** Molten aluminium (750 °C) can set flower on fire (it ignites at 220 °C).
+- **Molten lead:** Molten lead (400 °C) can set flower on fire (it ignites at 220 °C).
+- **Bleach:** Bleach is toxic: flower touching it withers.
+- **Chlorine:** Chlorine is toxic: flower touching it withers.
+- **Sulfur dioxide:** Sulfur dioxide is toxic: flower touching it withers.
+
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Cloud
+
+A drifting mass of droplets, a gas. Rises slowly and spreads. It rains, or snows when below freezing, until it runs dry.
+
+- **State:** Gas, 1.1 kg/m³
+- **In air:** Rises (lighter than air)
+- **Rains:** water, or snow below 0 °C, until it runs dry
+
+With other elements (44 interact):
+
+- **Sand:** Sand falls through cloud.
+- **Water:** Water falls through cloud.
+- **Oil:** Oil falls through cloud.
+- **Lava:** Lava falls through cloud.
+- **Gravel:** Gravel falls through cloud.
+- **Ash:** Ash falls through cloud.
+- **Acid:** Acid falls through cloud.
+- **Alcohol:** Alcohol falls through cloud.
+- **Sawdust:** Sawdust falls through cloud.
+- **Salt:** Salt falls through cloud.
+- **Sugar:** Sugar falls through cloud.
+- **Dirt:** Dirt falls through cloud.
+- **Snow:** Snow falls through cloud.
+- **Gunpowder:** Gunpowder falls through cloud.
+- **Nitro:** Nitro falls through cloud.
+- **Shards:** Shards falls through cloud.
+- **Mercury:** Mercury falls through cloud.
+- **Seed:** Seed falls through cloud.
+- **Molten copper:** Molten copper falls through cloud.
+- **Clay:** Clay falls through cloud.
+- **Cement:** Cement falls through cloud.
+- **Quicklime:** Quicklime falls through cloud.
+- **Slaked lime:** Slaked lime falls through cloud.
+- **Molten gold:** Molten gold falls through cloud.
+- **Molten aluminium:** Molten aluminium falls through cloud.
+- **Molten lead:** Molten lead falls through cloud.
+- **Rust:** Rust falls through cloud.
+- **Coal:** Coal falls through cloud.
+- **Charcoal:** Charcoal falls through cloud.
+- **Sulfur:** Sulfur falls through cloud.
+- **Petrol:** Petrol falls through cloud.
+- **Molten wax:** Molten wax falls through cloud.
+- **Flour:** Flour falls through cloud.
+- **Thermite:** Thermite falls through cloud.
+- **Honey:** Honey falls through cloud.
+- **Vinegar:** Vinegar falls through cloud.
+- **Bleach:** Bleach falls through cloud.
+- **Lye:** Lye falls through cloud.
+- **Liquid nitrogen:** Liquid nitrogen falls through cloud.
+- **Baking soda:** Baking soda falls through cloud.
+- **Grass seed:** Grass seed falls through cloud.
+- **Acorn:** Acorn falls through cloud.
+- **Caramel:** Caramel falls through cloud.
+- **Chalk:** Chalk falls through cloud.
+
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Heater
+
+A hot plate. Stays put and holds itself at a steady high heat, warming whatever touches it.
+
+- **State:** Solid, 3,000 kg/m³
+- **Holds:** itself at 300 °C
+- **Hardness:** 1 (acid stronger than this eats it)
+
+With other elements (0 interact):
+
+
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Cooler
+
+A cold plate. Stays put and holds itself far below freezing, chilling whatever touches it.
+
+- **State:** Solid, 3,000 kg/m³
+- **Holds:** itself at -60 °C
+- **Hardness:** 1 (acid stronger than this eats it)
+
+With other elements (0 interact):
+
+
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Clone
+
+A copying block. Stays put. It learns the first element that touches it and keeps making more of it in the space around.
+
+- **State:** Solid, 3,000 kg/m³
+- **Copies:** the first element that touches it into the space around
+- **Hardness:** 1 (acid stronger than this eats it)
+
+With other elements (0 interact):
+
+
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Void
+
+A hole in the world. Stays put and deletes anything that touches it, except walls and other devices.
+
+- **State:** Solid, 3,000 kg/m³
+- **Deletes:** anything that touches it, except walls and devices
+- **Hardness:** 1 (acid stronger than this eats it)
+
+With other elements (0 interact):
+
+
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Fan, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Fan
+
+A blower. Stays put and pushes a steady stream of air upwards, lifting gases, flames and light powders.
+
+- **State:** Solid, 3,000 kg/m³
+- **Blows:** air upwards above it
+- **Hardness:** 1 (acid stronger than this eats it)
+
+With other elements (0 interact):
+
+
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Bulb, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Bulb
+
+A light bulb filament. Stays put and carries charge; current heats it until it glows, and it fades when the power stops.
+
+- **State:** Solid, 3,000 kg/m³
+- **Conducts:** electric charge, warming as pulses pass
+- **Glows:** when current heats it, fading when the power stops
+- **Hardness:** 1 (acid stronger than this eats it)
+
+With other elements (0 interact):
+
+
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Magnesium, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Magnesium
+
+A light silvery metal. Stays put. Once very hot it burns with a blinding white flame, hot enough to set off thermite.
+
+- **State:** Solid, 1,740 kg/m³
+- **Burns:** from 650 °C in air, 2 s per cell, leaves ash
+- **Conducts:** electric charge, warming as pulses pass
+- **Hardness:** 0.35 (acid stronger than this eats it)
+
+With other elements (9 interact):
+
+- **Air:** Magnesium burns: it catches fire at 650 °C next to air (oxidiser 0.21).
+- **Lava:** Lava (1,200 °C) can set magnesium on fire (it ignites at 650 °C).
+- **Fire:** Magnesium catches from the flame touching it.
+- **Acid:** Acid eats magnesium: acidity 0.8 beats hardness 0.35, giving off hydrogen.
+- **Oxygen:** Magnesium burns: it catches fire at 650 °C next to oxygen (oxidiser 1). Oxygen makes burning magnesium hotter and faster.
+- **Spark:** Magnesium catches from the flame touching it.
+- **Molten copper:** Molten copper (1,200 °C) can set magnesium on fire (it ignites at 650 °C).
+- **Molten gold:** Molten gold (1,150 °C) can set magnesium on fire (it ignites at 650 °C).
+- **Molten aluminium:** Molten aluminium (750 °C) can set magnesium on fire (it ignites at 650 °C).
+
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Potassium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Potassium
+
+A very soft, light metal. Stays put. Water touching it makes it burst into lye and burning hydrogen, even more fiercely than sodium.
+
+- **State:** Solid, 862 kg/m³
+- **Conducts:** electric charge, warming as pulses pass
+- **Hardness:** 0.05 (acid stronger than this eats it)
+
+With other elements (2 interact):
+
+- **Water:** Potassium bursts in water: it becomes lye and hydrogen, hot enough to set the hydrogen alight.
+- **Acid:** Acid eats potassium: acidity 0.8 beats hardness 0.05, giving off hydrogen.
+
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Caramel, Marble, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Caramel
+
+Melted, browned sugar. Oozes very slowly. It burns once it gets very hot.
+
+- **State:** Liquid, 1,300 kg/m³
+- **Starts at:** 190 °C
+- **In liquids:** Sinks through liquids lighter than 1,300 kg/m³, floats on heavier ones
+- **Falls:** up to 30 cells/s
+- **Burns:** from 400 °C in air, 3.33 s per cell, leaves ash
+
+With other elements (51 interact):
+
+- **Air:** Caramel burns: it catches fire at 400 °C next to air (oxidiser 0.21).
+- **Sand:** Sand sinks through caramel (1,600 vs 1,300 kg/m³).
+- **Water:** Caramel sinks through water (1,300 vs 1,000 kg/m³). Caramel (190 °C) is hot enough to boil water into steam.
+- **Oil:** Caramel sinks through oil (1,300 vs 900 kg/m³).
+- **Ice:** Caramel (190 °C) is hot enough to melt ice into water.
+- **Steam:** Caramel falls through steam.
+- **Lava:** Lava sinks through caramel (2,600 vs 1,300 kg/m³). Lava (1,200 °C) can set caramel on fire (it ignites at 400 °C).
+- **Gravel:** Gravel sinks through caramel (2,000 vs 1,300 kg/m³).
+- **Fire:** Caramel catches from the flame touching it. Caramel falls through fire.
+- **Smoke:** Caramel falls through smoke.
+- **Acid:** Caramel sinks through acid (1,300 vs 1,100 kg/m³).
+- **Hydrogen:** Caramel falls through hydrogen.
+- **Oxygen:** Caramel burns: it catches fire at 400 °C next to oxygen (oxidiser 1). Caramel falls through oxygen. Oxygen makes burning caramel hotter and faster.
+- **Methane:** Caramel falls through methane.
+- **Alcohol:** Caramel sinks through alcohol (1,300 vs 789 kg/m³).
+- **Salt:** Salt sinks through caramel (2,160 vs 1,300 kg/m³).
+- **Sugar:** Sugar sinks through caramel (1,590 vs 1,300 kg/m³).
+- **Dirt:** Dirt sinks through caramel (1,500 vs 1,300 kg/m³).
+- **Snow:** Caramel (190 °C) is hot enough to melt snow into water.
+- **Gunpowder:** Gunpowder sinks through caramel (1,700 vs 1,300 kg/m³).
+- **Nitro:** Nitro sinks through caramel (1,600 vs 1,300 kg/m³).
+- **Shards:** Shards sinks through caramel (2,500 vs 1,300 kg/m³).
+- **Spark:** Caramel catches from the flame touching it. Caramel falls through spark.
+- **Mercury:** Mercury sinks through caramel (13,534 vs 1,300 kg/m³).
+- **Molten copper:** Molten copper sinks through caramel (8,020 vs 1,300 kg/m³). Molten copper (1,200 °C) can set caramel on fire (it ignites at 400 °C).
+- **Clay:** Clay sinks through caramel (1,700 vs 1,300 kg/m³).
+- **Cement:** Cement sinks through caramel (1,440 vs 1,300 kg/m³).
+- **Molten gold:** Molten gold sinks through caramel (17,300 vs 1,300 kg/m³). Molten gold (1,150 °C) can set caramel on fire (it ignites at 400 °C).
+- **Molten aluminium:** Molten aluminium sinks through caramel (2,375 vs 1,300 kg/m³). Molten aluminium (750 °C) can set caramel on fire (it ignites at 400 °C).
+- **Molten lead:** Molten lead sinks through caramel (10,660 vs 1,300 kg/m³). Molten lead (400 °C) can set caramel on fire (it ignites at 400 °C).
+- **Rust:** Rust sinks through caramel (2,000 vs 1,300 kg/m³).
+- **Coal:** Coal sinks through caramel (1,350 vs 1,300 kg/m³).
+- **Sulfur:** Sulfur sinks through caramel (2,000 vs 1,300 kg/m³).
+- **Petrol:** Caramel sinks through petrol (1,300 vs 740 kg/m³).
+- **Wax:** Caramel (190 °C) is hot enough to melt wax into molten wax.
+- **Molten wax:** Caramel sinks through molten wax (1,300 vs 800 kg/m³).
+- **Thermite:** Thermite sinks through caramel (1,500 vs 1,300 kg/m³).
+- **Honey:** Honey sinks through caramel (1,420 vs 1,300 kg/m³).
+- **Vinegar:** Caramel sinks through vinegar (1,300 vs 1,010 kg/m³).
+- **Bleach:** Caramel sinks through bleach (1,300 vs 1,100 kg/m³).
+- **Lye:** Caramel sinks through lye (1,300 vs 1,100 kg/m³).
+- **Liquid nitrogen:** Caramel sinks through liquid nitrogen (1,300 vs 808 kg/m³). Caramel (190 °C) is hot enough to boil liquid nitrogen into nitrogen.
+- **Nitrogen:** Caramel falls through nitrogen.
+- **Carbon dioxide:** Caramel falls through carbon dioxide.
+- **Helium:** Caramel falls through helium.
+- **Propane:** Caramel falls through propane.
+- **Chlorine:** Caramel falls through chlorine.
+- **Sulfur dioxide:** Caramel falls through sulfur dioxide.
+- **Dry ice:** Caramel (190 °C) is hot enough to turn dry ice into carbon dioxide.
+- **Cloud:** Caramel falls through cloud.
+- **Chalk:** Chalk sinks through caramel (1,500 vs 1,300 kg/m³).
+
+No direct interaction with: Wall, Stone, Wood, Ash, Iron, Sawdust, TNT, Glass, Wire, Battery, Seed, Plant, Dry plant, Brick, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Sodium, Charcoal, Paper, Rubber, Flour, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Marble
+
+Polished white rock, a carbonate. Stays put. Acid fizzes it away into carbon dioxide, and great heat bakes it into quicklime.
+
+- **State:** Solid, 2,700 kg/m³
+- **Bakes:** at 900 °C into quicklime, giving off carbon dioxide; there is no way back
+- **Fizzes:** into carbon dioxide when acid eats or neutralises it
+- **Hardness:** 0.5 (acid stronger than this eats it)
+
+With other elements (1 interact):
+
+- **Acid:** Acid eats marble: acidity 0.8 beats hardness 0.5, fizzing out carbon dioxide.
+
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Caramel, Chalk. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Chalk
+
+Soft white carbonate, a powder. Falls and piles. Acid fizzes it away into carbon dioxide.
+
+- **State:** Powder, 1,500 kg/m³
+- **In liquids:** Sinks through liquids lighter than 1,500 kg/m³, rests on heavier ones
+- **Falls:** up to 150 cells/s
+- **Fizzes:** into carbon dioxide when acid eats or neutralises it
+- **Hardness:** 0.2 (acid stronger than this eats it)
+
+With other elements (26 interact):
+
+- **Water:** Chalk sinks through water (1,500 vs 1,000 kg/m³).
+- **Oil:** Chalk sinks through oil (1,500 vs 900 kg/m³).
+- **Steam:** Chalk falls through steam.
+- **Fire:** Chalk falls through fire.
+- **Smoke:** Chalk falls through smoke.
+- **Acid:** Acid eats chalk: acidity 0.8 beats hardness 0.2, fizzing out carbon dioxide. Chalk sinks through acid (1,500 vs 1,100 kg/m³).
+- **Hydrogen:** Chalk falls through hydrogen.
+- **Oxygen:** Chalk falls through oxygen.
+- **Methane:** Chalk falls through methane.
+- **Alcohol:** Chalk sinks through alcohol (1,500 vs 789 kg/m³).
+- **Spark:** Chalk falls through spark.
+- **Petrol:** Chalk sinks through petrol (1,500 vs 740 kg/m³).
+- **Molten wax:** Chalk sinks through molten wax (1,500 vs 800 kg/m³).
+- **Honey:** Chalk sinks through honey (1,500 vs 1,420 kg/m³).
+- **Vinegar:** Chalk sinks through vinegar (1,500 vs 1,010 kg/m³).
+- **Bleach:** Chalk sinks through bleach (1,500 vs 1,100 kg/m³).
+- **Lye:** Chalk sinks through lye (1,500 vs 1,100 kg/m³).
+- **Liquid nitrogen:** Chalk sinks through liquid nitrogen (1,500 vs 808 kg/m³).
+- **Nitrogen:** Chalk falls through nitrogen.
+- **Carbon dioxide:** Chalk falls through carbon dioxide.
+- **Helium:** Chalk falls through helium.
+- **Propane:** Chalk falls through propane.
+- **Chlorine:** Chalk falls through chlorine.
+- **Sulfur dioxide:** Chalk falls through sulfur dioxide.
+- **Cloud:** Chalk falls through cloud.
+- **Caramel:** Chalk sinks through caramel (1,500 vs 1,300 kg/m³).
+
+No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Magnesium, Potassium, Marble. They still exchange heat by touch, and the heavier one ends up below when they can move.
