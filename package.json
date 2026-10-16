@@ -11,7 +11,8 @@
     "test:e2e": "playwright test",
     "master-list": "tsx scripts/master-list.ts",
     "audit": "tsx scripts/audit.ts",
-    "docs": "npm run audit && npm run master-list"
+    "docs": "npm run audit && npm run behaviour && npm run master-list",
+    "behaviour": "tsx scripts/behaviour.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
