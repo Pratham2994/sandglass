@@ -161,7 +161,7 @@ for (let e = 1; e < N; e++) {
 // A product of burning or a reaction that condenses or freezes back must turn
 // into the thing it really is, or smoke from a fire rains out as mercury.
 // The listed pairs have been checked by hand.
-const CONDENSE_OK = new Set(['steam>water', 'water>ice', 'nitrogen>liquid_nitrogen', 'carbon_dioxide>dry_ice', 'oxygen>liquid_oxygen']);
+const CONDENSE_OK = new Set(['steam>water', 'water>ice', 'nitrogen>liquid_nitrogen', 'carbon_dioxide>dry_ice', 'oxygen>liquid_oxygen', 'bromine_vapour>bromine']);
 const made = new Set<number>([SMOKE]);
 for (let e = 1; e < N; e++) {
   if (BURN_INTO_OF[e]) made.add(BURN_INTO_OF[e]);

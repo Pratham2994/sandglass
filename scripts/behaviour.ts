@@ -693,7 +693,8 @@ check('acorn', 'grows into a tall tree with leaves', () => {
   return { ok: s.count('tree') >= 15 && s.count('leaves') > 0, detail: `trunk cells ${s.count('tree')}, leaves ${s.count('leaves')}, top row ${Math.min(s.topY('tree'), s.topY('leaves'))}` };
 });
 check('plant', 'flowers at its tips', () => {
-  const s = garden('seed', 5400);
+  // Plenty of water, so the plants reach the end of their growth before the soil dries.
+  const s = new Scene().fill(0, 50, W, 14, 'dirt').fill(0, 40, W, 8, 'water').run(900).fill(16, 30, 1, 1, 'seed').fill(44, 30, 1, 1, 'seed').run(3600);
   return { ok: s.count('flower') > 0, detail: `flowers ${s.count('flower')}, plant cells ${s.count('plant')}` };
 });
 check('tree', 'dead and dry, it is wood', () => {
@@ -1130,6 +1131,51 @@ check('iodine', 'sublimes into violet vapour that settles back as crystals', () 
   const vapour = until(s, 60, () => s.count('iodine_vapour') > 0) > 0;
   const f = until(s, 9000, () => s.count('iodine_vapour') === 0);
   return { ok: vapour && f > 0 && s.count('iodine') > 0, detail: `vapour ${vapour}, settled ${f > 0 ? `after ${f} frames` : 'no'}, iodine ${s.count('iodine')}` };
+});
+
+// ---- Batch 9 ----------------------------------------------------------------------
+
+check('titanium', 'acid cannot eat it', () => {
+  const s = new Scene().fill(10, 56, 44, 8, 'titanium').fill(10, 48, 44, 6, 'acid').run(900);
+  return { ok: s.count('titanium') === 352, detail: `titanium ${s.count('titanium')} of 352` };
+});
+check('platinum', 'makes hydrogen burn into steam', () => {
+  // Hydrogen rises: trap it under a platinum lid.
+  const t = new Scene().fill(0, 20, W, 2, 'platinum').fill(10, 30, 44, 6, 'hydrogen');
+  const f = until(t, 900, () => t.count('steam') > 0);
+  return { ok: f > 0, detail: f > 0 ? `steam after ${f} frames` : 'none' };
+});
+check('argon', 'smothers fire', () => {
+  const s = new Scene().fill(20, 56, 24, 8, 'wood').fill(30, 54, 2, 2, 'fire').run(120).fill(0, 20, W, 34, 'argon').run(600);
+  const plain = new Scene().fill(20, 56, 24, 8, 'wood').fill(30, 54, 2, 2, 'fire').run(720);
+  return { ok: s.count('wood') > plain.count('wood'), detail: `wood left: under argon ${s.count('wood')}, in air ${plain.count('wood')}` };
+});
+check('bromine', 'boils into vapour that condenses back', () => {
+  const s = new Scene().fill(20, 58, 24, 6, 'bromine', 75);
+  const boiled = until(s, 60, () => s.count('bromine_vapour') > 0) > 0;
+  const f = until(s, 9000, () => s.count('bromine_vapour') === 0);
+  return { ok: boiled && f > 0, detail: `boiled ${boiled}, condensed ${f > 0 ? `after ${f} frames` : 'no'}` };
+});
+check('bromine', 'kills plants', () => {
+  const s = new Scene().fill(10, 50, 44, 14, 'plant').fill(10, 46, 44, 2, 'bromine');
+  const f = until(s, 1200, () => s.count('dry_plant') > 0);
+  return { ok: f > 0, detail: f > 0 ? `withered after ${f} frames` : 'plants fine' };
+});
+check('gallium', 'melts with a little warmth', () => {
+  const s = new Scene().fill(20, 58, 24, 6, 'gallium', 36);
+  const f = until(s, 60, () => s.count('liquid_gallium') > 0);
+  const back = until(s, 9000, () => s.count('gallium') === 144);
+  return { ok: f > 0 && back > 0, detail: `melted ${f > 0}, set again ${back > 0 ? `after ${back} frames` : 'no'}` };
+});
+check('cactus', 'outlasts a drought', () => {
+  // Grown plants of both kinds, then the soil dries: the cactus outlives the plant.
+  const grow = (seed: string): Scene => new Scene().fill(0, 50, W, 14, 'sand').fill(0, 46, W, 3, 'water').run(600).fill(30, 40, 1, 1, seed).run(2400);
+  const c = grow('cactus_seed');
+  const p = grow('seed');
+  const cactusBefore = c.count('cactus');
+  c.run(6000);
+  p.run(6000);
+  return { ok: cactusBefore > 0 && c.count('cactus') > 0 && c.count('cactus') / cactusBefore > p.count('plant') / Math.max(1, p.count('plant') + p.count('dry_plant')), detail: `cactus ${cactusBefore} to ${c.count('cactus')}; plant left ${p.count('plant')}, withered ${p.count('dry_plant')}` };
 });
 
 // ---- Run --------------------------------------------------------------------------
