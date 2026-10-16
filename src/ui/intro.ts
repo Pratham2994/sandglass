@@ -20,8 +20,12 @@ import {
   SNOW,
   TNT,
   WATER,
+  elementId,
 } from '../sim/elements';
 import type { World } from '../sim/world';
+
+const LIGHTNING_ID = elementId('lightning');
+const ROCKET_ID = elementId('rocket');
 
 const WORD = 'SANDGLASS';
 /**
@@ -37,7 +41,7 @@ const CHAIN_STEP = 5;
 const DEBRIS = [36, 100]; // stray charges go off in the flying debris, one every 3 frames
 const IMPLODE = [80, 104]; // the air pulls everything into the centre
 const BOOM = 106; // then the centre blows it all apart
-const FIREWORKS = 110; // bursts in the sky, one every 4 frames
+const FIREWORKS = 108; // firework rockets, one every 4 frames
 const FIREWORK_COUNT = 10;
 const DRAIN = 168; // the floor opens
 const FADE = 218; // the canvas fades out over the last half second
@@ -75,7 +79,8 @@ function noise(x: number, y: number, scale: number): number {
  * 2. The letters blow one by one, left to right, burning, and stray
  *    charges keep going off in the flying debris.
  * 3. The air turns inwards and drags everything into the centre.
- * 4. The centre blows it all apart, then fireworks burst in the sky.
+ * 4. The centre blows it all apart, lightning strikes the debris, and
+ *    firework rockets climb and burst into falling coloured embers.
  * 5. The floor opens and the canvas fades clear.
  * About 4 s; any click or key skips it.
  */
@@ -209,13 +214,18 @@ export class Intro {
     if (f === BOOM) {
       this.blast(this.cx, this.cy, 80, 70, 220, true);
       for (const dx of [-0.22, 0.22]) this.blast(Math.round(this.cx + w * dx), this.cy, 30, 30, 60, true);
+      // Real lightning: three bolts strike down into the debris.
+      for (const share of [0.2, 0.52, 0.81]) world.place(Math.round(w * share), LIGHTNING_ID);
     }
+    // Real fireworks: rockets launch from the debris, climb and burst into falling coloured embers.
     if (f >= FIREWORKS && (f - FIREWORKS) % 4 === 0 && (f - FIREWORKS) / 4 < FIREWORK_COUNT) {
       const k = (f - FIREWORKS) / 4;
       const r = world.rng.nextU32();
-      const x = Math.round(w * (0.14 + ((k * 0.37 + (r & 255) / 2560) % 1) * 0.72));
-      const y = Math.round(h * (0.12 + ((r >>> 8) & 255) / 1280));
-      this.firework(x, y);
+      const x = Math.round(w * (0.12 + ((k * 0.37 + (r & 255) / 2560) % 1) * 0.76));
+      const y = Math.round(h * 0.72);
+      const i = y * w + x;
+      world.place(i, ROCKET_ID);
+      world.life[i] = 24 + ((r >>> 8) % 18);
     }
 
     // 5. The floor opens: solids break loose, everything plunges out of the bottom edge.
@@ -317,28 +327,6 @@ export class Intro {
       }
     }
     this.world.wakeAll();
-  }
-
-  /** A starburst of flame in open sky: rays of fire that the air throws outwards. */
-  private firework(x: number, y: number): void {
-    const world = this.world;
-    const { w, h } = world;
-    const rays = 14;
-    const R = 4 + (world.rng.nextU32() % 5);
-    for (let k = 0; k < rays; k++) {
-      const a = (k / rays) * Math.PI * 2;
-      for (let d = 1; d <= R; d++) {
-        const fx = Math.round(x + Math.cos(a) * d);
-        const fy = Math.round(y + Math.sin(a) * d);
-        if (fx < 0 || fy < 0 || fx >= w || fy >= h) continue;
-        const j = fy * w + fx;
-        if (world.type[j] !== EMPTY) continue;
-        world.place(j, FIRE);
-        world.life[j] = 14 + d * 3 + (world.rng.nextU32() & 15);
-      }
-    }
-    world.air.addPressure(x, y, 9, R * 2);
-    world.wakeAll();
   }
 
   /** Ends at once with an empty world. */
