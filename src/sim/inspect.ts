@@ -70,7 +70,9 @@ export function inspectCell(world: World, x: number, y: number): CellReport | nu
   }
   let tempText = `${n1.format(T)} °C`;
   if (gapId >= 0 && Math.abs(gapMax) >= 3) {
-    tempText += gapMax > 0 ? `, warming: hotter ${label(gapId)} touches it` : `, cooling: colder ${label(gapId)} touches it`;
+    // Same element next to it: say so plainly, not "steam losing heat to steam".
+    const cause = gapId === t ? `the cells around it are ${gapMax > 0 ? 'hotter' : 'colder'}` : `${gapMax > 0 ? 'hotter' : 'colder'} ${label(gapId)} touches it`;
+    tempText += `, ${gapMax > 0 ? 'warming' : 'cooling'}: ${cause}`;
   }
   const facts: [string, string][] = [['Temperature', tempText]];
 

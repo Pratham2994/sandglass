@@ -64,7 +64,7 @@ kbd {
 /* App: canvas area on the left, library panel on the right. */
 #app {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 312px;
+  grid-template-columns: minmax(0, 1fr) 360px;
   height: 100vh;
 }
 
@@ -359,19 +359,24 @@ kbd {
 
 .detail {
   display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  grid-template-rows: auto auto 1fr;
+  grid-template-columns: 72px minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
   column-gap: 12px;
 }
 
 .detail-stage {
-  grid-row: 1 / 4;
+  grid-row: 1 / 3;
+}
+
+.detail .facts {
+  grid-column: 1 / -1;
+  margin-top: 10px;
 }
 
 .detail-stage canvas {
   display: block;
-  width: 96px;
-  height: 96px;
+  width: 72px;
+  height: 72px;
   border-radius: 8px;
   object-fit: cover;
   image-rendering: pixelated;
@@ -405,10 +410,11 @@ kbd {
 
 .facts {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 3px 10px;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 4px 12px;
   margin: 0;
   font-size: 12px;
+  line-height: 1.4;
 }
 
 .facts dt {
@@ -417,7 +423,6 @@ kbd {
 
 .facts dd {
   margin: 0;
-  text-align: right;
   text-wrap: pretty;
 }
 

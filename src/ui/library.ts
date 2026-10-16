@@ -269,7 +269,9 @@ export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, w
             const li = el('li', r.active ? 'on' : '', r.text);
             return li;
           })
-        : [el('li', 'none', 'No reaction with what it touches.')]),
+        : rep.key === 'empty'
+          ? []
+          : [el('li', 'none', 'No reaction with what it touches.')]),
     );
   };
   setInterval(refreshLens, 120);

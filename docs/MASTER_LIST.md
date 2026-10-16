@@ -56,7 +56,7 @@ The chemistry compiler applies these general rules to every pair of elements; no
 
 ### Wall
 
-Indestructible. Nothing moves, melts, burns or eats it. Use it for containers and floors.
+An indestructible solid. Never moves. Nothing melts, burns or eats it; use it for containers and floors.
 
 - **State:** Solid, 2,500 kg/m³
 - **Hardness:** 1 (acid stronger than this eats it)
@@ -68,7 +68,7 @@ No direct interaction with: Air, Sand, Water, Oil, Ice, Steam, Lava, Stone, Grav
 
 ### Sand
 
-Fine grains. Falls, piles into 45° slopes, and sinks through water and oil.
+A fine, heavy powder. Falls, piles into slopes and sinks through lighter liquids. Very hard to melt or eat away.
 
 - **State:** Powder, 1,600 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,600 kg/m³, rests on heavier ones
@@ -92,7 +92,7 @@ No direct interaction with: Air, Wall, Ice, Lava, Stone, Gravel, Wood, Ash, Iron
 
 ### Water
 
-Flows and levels out. Boils into steam at 100 °C, freezes into ice at 0 °C, and cools what it touches.
+A runny liquid. Flows and settles flat. Boils into steam when hot, freezes into ice when cold, and cools what it touches.
 
 - **State:** Liquid, 1,000 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,000 kg/m³, floats on heavier ones
@@ -120,7 +120,7 @@ No direct interaction with: Air, Wall, Stone, Wood, Ash, Iron, Sawdust. They sti
 
 ### Oil
 
-Thick, slow liquid that floats on water. Catches fire at 250 °C and burns into smoke.
+A thick, slow liquid. Floats on water. Burns into smoke once hot enough.
 
 - **State:** Liquid, 900 kg/m³
 - **In liquids:** Sinks through liquids lighter than 900 kg/m³, floats on heavier ones
@@ -147,7 +147,7 @@ No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust. They sti
 
 ### Ice
 
-Frozen water at −20 °C. Melts into water above 0 °C, and chills water around it, which can freeze.
+Frozen water, a cold solid. Stays put. Chills what it touches and melts back into water as it warms.
 
 - **State:** Solid, 917 kg/m³
 - **Starts at:** -20 °C
@@ -165,7 +165,7 @@ No direct interaction with: Air, Wall, Sand, Oil, Stone, Gravel, Wood, Ash, Acid
 
 ### Steam
 
-Water vapour at 150 °C. Rises, cools in the air and turns back into water below 100 °C, so it rains.
+Hot water vapour. Rises and spreads. Turns back into water as it cools, so it rains.
 
 - **State:** Gas, 0.6 kg/m³
 - **Starts at:** 150 °C
@@ -189,7 +189,7 @@ No direct interaction with: Air, Wall, Stone, Fire, Smoke, Wood, Iron, Hydrogen,
 
 ### Lava
 
-Molten rock at 1200 °C. Flows slowly, glows, sets fuel alight and boils water. Cools into stone, or loose gravel where nothing holds it up.
+Molten rock, extremely hot. Flows slowly and glows. Sets fuel alight, boils water, and cools into stone (or gravel where nothing holds it up).
 
 - **State:** Liquid, 2,600 kg/m³
 - **Starts at:** 1,200 °C
@@ -219,7 +219,7 @@ No direct interaction with: Air, Wall, Sand, Ash, Iron. They still exchange heat
 
 ### Stone
 
-Solid rock. Glows red as it heats and melts into lava at 1000 °C.
+Solid rock. Stays put. Glows as it heats and melts back into lava.
 
 - **State:** Solid, 2,600 kg/m³
 - **Melts:** at 1,000 °C, into lava
@@ -233,7 +233,7 @@ No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Gravel, Fir
 
 ### Gravel
 
-Loose rock. Forms where lava sets in mid-air or on a pool. Floats on lava, sinks in water, melts back at 1000 °C.
+Loose rock, a heavy powder. Falls and piles. Forms where lava sets with nothing under it, and melts back into lava.
 
 - **State:** Powder, 2,000 kg/m³
 - **In liquids:** Sinks through liquids lighter than 2,000 kg/m³, rests on heavier ones
@@ -259,7 +259,7 @@ No direct interaction with: Air, Wall, Sand, Ice, Stone, Wood, Ash, Iron, Sawdus
 
 ### Fire
 
-Short-lived flames. Lights anything flammable they touch. A real fire burns on fuel and needs air to keep going.
+Loose flames. Rise and burn out quickly. Light anything flammable they touch; a lasting fire needs fuel and air.
 
 - **State:** Energy, 0.3 kg/m³
 - **Starts at:** 850 °C
@@ -284,7 +284,7 @@ No direct interaction with: Air, Wall, Steam, Stone, Smoke, Iron, Oxygen. They s
 
 ### Smoke
 
-What burning leaves behind. Rises and drifts off the top. It does not feed fire, so it smothers flames in a closed space.
+What burning leaves behind, a warm gas. Rises and drifts off the top. Does not feed fire, so it smothers flames in a closed space.
 
 - **State:** Gas, 0.7 kg/m³
 - **Starts at:** 150 °C
@@ -307,7 +307,7 @@ No direct interaction with: Air, Wall, Steam, Stone, Fire, Wood, Iron, Hydrogen,
 
 ### Wood
 
-Solid fuel. Catches fire at 300 °C where it touches air, burns 2.5 s per cell and leaves a little ash.
+A solid fuel. Stays put. Catches fire where it touches air once hot enough, and burns down to a little ash.
 
 - **State:** Solid, 700 kg/m³
 - **Burns:** from 300 °C in air, 2.5 s per cell, leaves ash
@@ -325,7 +325,7 @@ No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, S
 
 ### Ash
 
-Light grey dust from burnt wood. Drifts as it falls and floats on water.
+A very light powder left by fire. Drifts as it falls. Floats on water.
 
 - **State:** Powder, 600 kg/m³
 - **In liquids:** Rests on heavier ones
@@ -346,7 +346,7 @@ No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Lava, Stone, Grave
 
 ### Acid
 
-Corrosive liquid. Eats metal, wood and soft rock, and each drop is used up as it eats. Metal gives off hydrogen.
+A corrosive liquid. Flows like water. Eats metal, wood and soft rock and is used up as it does; metal gives off hydrogen.
 
 - **State:** Liquid, 1,100 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,100 kg/m³, floats on heavier ones
@@ -376,7 +376,7 @@ No direct interaction with: Air, Wall, Ice, Stone. They still exchange heat by t
 
 ### Iron
 
-Dense metal that moves heat fast. Acid eats it and gives off hydrogen.
+A dense metal. Stays put and moves heat quickly. Acid eats it, giving off hydrogen.
 
 - **State:** Solid, 7,870 kg/m³
 - **Hardness:** 0.55 (acid stronger than this eats it)
@@ -389,7 +389,7 @@ No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone
 
 ### Hydrogen
 
-The lightest gas. Rises fast; above 500 °C, next to air or oxygen, it burns in a flash into steam.
+The lightest gas. Shoots upwards. Burns in a flash into steam when hot and touching air or oxygen.
 
 - **State:** Gas, 0.09 kg/m³
 - **In air:** Rises (lighter than air)
@@ -414,7 +414,7 @@ No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Methane.
 
 ### Oxygen
 
-Slightly heavier than air, so it pools low. A fire touching it burns hotter and uses fuel three times faster.
+A gas slightly heavier than air. Sinks and pools low. Makes fire burn hotter and use its fuel faster.
 
 - **State:** Gas, 1.43 kg/m³
 - **In air:** Sinks slowly (heavier than air)
@@ -439,7 +439,7 @@ No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Iron. The
 
 ### Methane
 
-Natural gas, lighter than air. Above 540 °C next to air it burns hot, into steam.
+Natural gas, lighter than air. Rises. Burns hot into steam when it meets heat and air.
 
 - **State:** Gas, 0.66 kg/m³
 - **In air:** Rises (lighter than air)
@@ -464,7 +464,7 @@ No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen
 
 ### Alcohol
 
-Thin, light liquid that floats on water. Catches fire at 365 °C and burns clean into steam.
+A thin, light liquid. Floats on water. Catches fire easily and burns clean into steam.
 
 - **State:** Liquid, 789 kg/m³
 - **In liquids:** Floats on heavier ones
@@ -491,7 +491,7 @@ No direct interaction with: Wall, Ice, Stone, Wood, Ash, Iron, Sawdust. They sti
 
 ### Sawdust
 
-Fine wood dust. Drifts, floats on water, catches fire at 260 °C and burns fast.
+Fine wood dust, a very light powder. Drifts and floats on water. Catches fire easily and burns fast.
 
 - **State:** Powder, 250 kg/m³
 - **In liquids:** Rests on heavier ones
