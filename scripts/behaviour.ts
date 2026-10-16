@@ -932,6 +932,40 @@ check('bird', 'eats ants', () => {
   return { ok: s.count('ant') < before, detail: `ants ${before} to ${s.count('ant')}, birds ${s.count('bird')}` };
 });
 
+// ---- Sky ----------------------------------------------------------------------------
+
+check('lightning', 'melts sand where it lands', () => {
+  const s = new Scene().fill(0, 56, W, 8, 'sand').fill(32, 2, 1, 1, 'lightning');
+  s.run(2);
+  return { ok: s.count('molten_glass') + s.count('glass') > 0, detail: `molten glass ${s.count('molten_glass')}, glass ${s.count('glass')}` };
+});
+check('lightning', 'sends current into a conductor', () => {
+  const s = new Scene().fill(0, 56, W, 1, 'wire').fill(0, 57, W, 7, 'wall').fill(32, 2, 1, 1, 'lightning');
+  let m = 0;
+  for (let f = 0; f < 120; f++) {
+    step(s.world);
+    m = Math.max(m, s.world.charge[56 * W + 5], s.world.charge[56 * W + 60]);
+  }
+  return { ok: m > 0, detail: `charge reached the wire ends: ${m}` };
+});
+check('cloud', 'storm clouds let go lightning', () => {
+  const s = new Scene().fill(0, 2, W, 8, 'cloud');
+  let bolts = 0;
+  until(s, 1800, () => ((bolts = Math.max(bolts, s.count('plasma'))), false));
+  return { ok: bolts > 0, detail: bolts > 0 ? `plasma seen ${bolts}` : 'no lightning' };
+});
+check('firework', 'a flame launches it and it bursts into embers', () => {
+  const s = new Scene().fill(28, 60, 8, 4, 'firework').fill(31, 58, 2, 2, 'fire');
+  let rocket = 0;
+  let embers = 0;
+  until(s, 300, () => ((rocket = Math.max(rocket, s.count('rocket'))), (embers = Math.max(embers, s.count('ember'))), false));
+  return { ok: rocket > 0 && embers > 0, detail: `rockets seen ${rocket}, embers seen ${embers}` };
+});
+check('ember', 'drifts down', () => {
+  const s = new Scene().fill(20, 10, 24, 4, 'ember').run(30);
+  return { ok: s.meanY('ember') > 13, detail: `ember row ${fmt(s.meanY('ember'))}` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {

@@ -34,6 +34,11 @@ import {
   RAIN_INTO_OF,
   TOP_INTO_OF,
   DIES_INTO_OF,
+  BOLT_OF,
+  BURSTS_INTO_OF,
+  LAUNCHES_AS_OF,
+  LIGHTNING,
+  LIGHTNING_FROM_OF,
   EATS,
   HABITAT_OF,
   BAKE_GAS_OF,
@@ -94,6 +99,10 @@ function allowed(start: number[]): Set<number> {
       if (RAIN_INTO_OF[e]) grew = add(RAIN_INTO_OF[e]) || grew;
       if (RAIN_COLD_OF[e]) grew = add(RAIN_COLD_OF[e]) || grew;
       if (DIES_INTO_OF[e]) grew = add(DIES_INTO_OF[e]) || grew;
+      if (BOLT_OF[e]) grew = add(BOLT_OF[e]) || grew;
+      if (LAUNCHES_AS_OF[e]) grew = add(LAUNCHES_AS_OF[e]) || grew;
+      if (BURSTS_INTO_OF[e]) grew = add(BURSTS_INTO_OF[e]) || grew;
+      if (LIGHTNING_FROM_OF[e]) grew = add(LIGHTNING) || grew;
       for (const o of now) if (EATS[e * N + o] > 1) grew = add(EATS[e * N + o] - 1) || grew;
       if (IGNITION_OF[e] !== Infinity || BLAST_POWER_OF[e] > 0 || PHASE_OF[e] === PH_ENERGY) {
         grew = add(FIRE) || grew;
