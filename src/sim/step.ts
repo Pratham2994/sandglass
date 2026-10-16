@@ -661,6 +661,26 @@ function ignite(world: World, i: number, fuel: number): void {
 }
 
 /**
+ * Could cell i react with any of its neighbours right now? Dissolving and
+ * soaking are left out (a full solution would keep its chunk awake for
+ * ever); so is a flame that is a burning cell, which never lights by touch.
+ */
+function reactionPending(world: World, x: number, y: number, i: number): boolean {
+  const { type, temp } = world;
+  const base = type[i] * ELEMENT_COUNT;
+  for (let d = 0; d < 4; d++) {
+    const j = neighbour(world, x, y, d);
+    if (j < 0) continue;
+    const k = base + type[j];
+    const rule = P_RULE[k];
+    if (rule === 0 || rule === R_DISSOLVE || rule === R_ABSORB || temp[i] < P_MIN_T[k]) continue;
+    if (rule === R_COMBUST && type[j] === FIRE && world.solute[j] !== 0) continue;
+    return true;
+  }
+  return false;
+}
+
+/**
  * Looks up the pair table for this cell and one random neighbour. A rule
  * whose temperature condition holds keeps the chunk awake (a reaction
  * skipped by chance must get another try). Returns true if it reacted.
@@ -673,7 +693,12 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
   const a = type[i];
   const k = a * ELEMENT_COUNT + type[j];
   const rule = P_RULE[k];
-  if (rule === 0 || temp[i] < P_MIN_T[k]) return false;
+  if (rule === 0 || temp[i] < P_MIN_T[k]) {
+    // This neighbour does not react, but another may (slowly, by chance):
+    // keep the chunk awake so the reaction still gets its tries.
+    if (reactionPending(world, x, y, i)) world.wake(x, y);
+    return false;
+  }
   // Only a loose flame (out in the air) lights fuel by touch; a burning cell's
   // neighbours must heat up and meet air themselves, or they would light and
   // smother over and over.
