@@ -141,7 +141,8 @@ export function mountLibrary(
   const search = el('label', 'search');
   const input = el('input');
   input.type = 'search';
-  input.placeholder = 'Search elements';
+  // The count shows the size of the library at a glance; search also matches descriptions (try "acid").
+  input.placeholder = `Search ${ELEMENTS.length - 1} elements`;
   input.setAttribute('aria-label', 'Search elements');
   const kbd = el('kbd', '', '/');
   search.append(icon('search'), input, kbd);
