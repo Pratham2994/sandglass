@@ -46,7 +46,20 @@ export interface ViewControl {
   set(v: View): void;
 }
 
-export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, world: World, onClear: () => void, views: ViewControl): void {
+export interface TimeControl {
+  info(): { frame: number; oldest: number; newest: number };
+  seek(frame: number): void;
+}
+
+export function mountLibrary(
+  host: HTMLElement,
+  brush: Brush,
+  loop: FixedLoop,
+  world: World,
+  onClear: () => void,
+  views: ViewControl,
+  time: TimeControl,
+): void {
   host.classList.add('library');
 
   // Stats line at the very bottom: useful, but not a control, so out of the way.
@@ -349,8 +362,48 @@ export function mountLibrary(host: HTMLElement, brush: Brush, loop: FixedLoop, w
     refreshViews();
   });
 
+  // Time: slow motion and the rewind scrubber (the last 30 s). Dragging back
+  // pauses on that moment; drawing there and playing starts a new branch.
+  const timeRow = el('div', 'time-row');
+  const speedBtn = el('button', 'speed num');
+  speedBtn.type = 'button';
+  speedBtn.title = 'Simulation speed';
+  const speeds = [1, 0.5, 0.25];
+  const speedLabel = (): string => (loop.speed === 1 ? '1×' : loop.speed === 0.5 ? '½×' : '¼×');
+  speedBtn.textContent = speedLabel();
+  speedBtn.addEventListener('pointerdown', (e) => e.preventDefault());
+  speedBtn.addEventListener('click', () => {
+    loop.speed = speeds[(speeds.indexOf(loop.speed) + 1) % speeds.length];
+    speedBtn.textContent = speedLabel();
+    speedBtn.classList.toggle('slow', loop.speed !== 1);
+  });
+  const scrub = el('input', 'scrub');
+  scrub.type = 'range';
+  scrub.min = '0';
+  scrub.setAttribute('aria-label', 'Rewind');
+  const ago = el('span', 'ago num');
+  timeRow.append(speedBtn, scrub, ago);
+  let scrubbing = false;
+  scrub.addEventListener('pointerdown', () => (scrubbing = true));
+  scrub.addEventListener('pointerup', () => (scrubbing = false));
+  scrub.addEventListener('input', () => {
+    time.seek(Number(scrub.value));
+    refreshTime();
+    refreshStatus();
+  });
+  const refreshTime = (): void => {
+    const t = time.info();
+    scrub.min = String(t.oldest);
+    scrub.max = String(Math.max(t.oldest + 1, t.newest));
+    if (!scrubbing) scrub.value = String(t.frame);
+    const back = (t.newest - t.frame) / 60;
+    ago.textContent = back < 0.05 ? 'now' : `−${back.toFixed(1)} s`;
+    timeRow.classList.toggle('past', back >= 0.05);
+  };
+  setInterval(refreshTime, 100);
+
   const top = el('div', 'lib-top');
-  top.append(bar, viewBar, search, chips);
+  top.append(bar, timeRow, viewBar, search, chips);
   const foot = el('div', 'lib-foot');
   foot.append(detail, lens, sizeRow, stats);
   host.append(top, groups, foot);

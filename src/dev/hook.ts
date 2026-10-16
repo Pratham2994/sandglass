@@ -1,4 +1,6 @@
 import type { FixedLoop } from '../core/loop';
+import type { Timeline } from '../core/timeline';
+import { OP_STAMP } from '../sim/ops';
 import type { Brush } from '../input/brush';
 import type { Renderer } from '../render/renderer';
 import { P_MIN_T, P_PROB, P_RULE, explain } from '../sim/chem';
@@ -35,6 +37,12 @@ export interface SimHook {
   inspect(x: number, y: number): CellReport | null;
   /** Adds wind (vx, vy) around cell (x, y), over radius r, as the wind tool does. */
   wind(x: number, y: number, vx: number, vy: number, r: number): void;
+  /** Paints a disc of an element at (x, y) as the brush would: recorded in the timeline, so it replays. */
+  paint(x: number, y: number, r: number, element: string): void;
+  /** Rewinds or replays to frame f, as the scrubber does. */
+  seek(f: number): void;
+  /** Current frame and the range the timeline can reach. */
+  time(): { frame: number; oldest: number; newest: number };
   /** Everything stored in cell (x, y). */
   probe(x: number, y: number): { key: string; temp: number; life: number; solute: string; conc: number };
   /** Height of the filled stack in each column, counted from the bottom row up to the first empty cell. */
@@ -57,6 +65,7 @@ export interface HookTargets {
   brush: Brush;
   renderer: Renderer;
   frame(): void;
+  timeline: Timeline;
 }
 
 export function installSimHook(t: HookTargets): void {
@@ -76,6 +85,7 @@ export function installSimHook(t: HookTargets): void {
       loop.paused = true;
       brush.cancel();
       world.reset(seed);
+      t.timeline.reset();
       renderer.draw(world);
     },
     pause() {
@@ -99,6 +109,8 @@ export function installSimHook(t: HookTargets): void {
       }
       // No redraw here: scripts fill thousands of rects; the next step or frame draws.
       loop.invalidate();
+      // A fill is not a recorded op, so history restarts from here (replays stay exact).
+      t.timeline.reset();
       return n;
     },
     step(n = 1) {
@@ -126,6 +138,16 @@ export function installSimHook(t: HookTargets): void {
     wind(x, y, vx, vy, r) {
       world.air.addVelocity(x, y, vx, vy, r);
       world.wakeAll();
+    },
+    paint(x, y, r, element) {
+      t.timeline.record({ kind: OP_STAMP, x, y, r, mode: elementId(element), vx: 0, vy: 0 });
+    },
+    seek(f) {
+      t.timeline.seek(f);
+      renderer.draw(world);
+    },
+    time() {
+      return { frame: world.frame, oldest: t.timeline.oldest(), newest: t.timeline.newest };
     },
     probe(x, y) {
       const i = y * world.w + x;

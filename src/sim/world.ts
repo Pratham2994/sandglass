@@ -135,6 +135,20 @@ export class World {
     this.wakeAll();
   }
 
+  /** Empties every cell (and the air) without touching the frame count or the RNG: the timeline's "clear". */
+  clearCells(): void {
+    this.type.fill(EMPTY);
+    this.vy.fill(0);
+    this.stamp.fill(0);
+    this.shade.fill(0);
+    this.temp.fill(AMBIENT);
+    this.life.fill(0);
+    this.solute.fill(0);
+    this.conc.fill(0);
+    this.air.clear();
+    this.wakeAll();
+  }
+
   /** Clears the grid and restarts the RNG from `seed`. */
   reset(seed: number): void {
     this.type.fill(EMPTY);

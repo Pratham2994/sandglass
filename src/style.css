@@ -192,6 +192,49 @@ kbd {
   color: var(--danger);
 }
 
+.time-row {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 52px;
+  align-items: center;
+  gap: 10px;
+}
+
+.speed {
+  height: 26px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.speed:hover {
+  color: var(--text);
+  border-color: var(--line-strong);
+}
+
+.speed.slow {
+  border-color: transparent;
+  background: rgb(140 199 234 / 0.16);
+  color: #8cc7ea;
+}
+
+.ago {
+  font-size: 12px;
+  color: var(--faint);
+  text-align: right;
+}
+
+.time-row.past .ago {
+  color: var(--pause);
+}
+
+.time-row.past .scrub::-webkit-slider-thumb {
+  background: var(--pause);
+}
+
 .views {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

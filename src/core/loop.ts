@@ -21,6 +21,8 @@ export interface LoopCallbacks {
  */
 export class FixedLoop {
   paused = false;
+  /** Simulation speed: 1 normal, 0.5 or 0.25 slow motion. */
+  speed = 1;
   /** Sim steps in the last full second. */
   stepsPerSecond = 0;
 
@@ -64,7 +66,7 @@ export class FixedLoop {
       this.acc = 0;
       if (this.cb.input()) this.dirty = true;
     } else {
-      this.acc += dt;
+      this.acc += dt * this.speed;
       let steps = 0;
       while (this.acc >= STEP_MS && steps < MAX_STEPS_PER_TICK) {
         this.cb.input();

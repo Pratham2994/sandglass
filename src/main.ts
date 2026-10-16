@@ -2,9 +2,11 @@ import '@fontsource-variable/geist';
 import './style.css';
 import { fitCanvas, gridFor, whenSized, type GridSize } from './core/grid';
 import { FixedLoop } from './core/loop';
+import { Timeline } from './core/timeline';
 import { Brush } from './input/brush';
 import { createRenderer } from './render/renderer';
 import { ELEMENTS } from './sim/elements';
+import { OP_CLEAR } from './sim/ops';
 import { step } from './sim/step';
 import { World } from './sim/world';
 import { mountCursor } from './ui/cursor';
@@ -44,11 +46,20 @@ function start(): void {
   const renderer = made.renderer;
   const brush = new Brush(canvas, world);
   fitCanvas(canvas, size);
+  // Every brush op goes through the timeline, which records it by frame for rewind and replay.
+  const timeline = new Timeline(world);
+  brush.sink = (op) => timeline.record(op);
 
-  /** One full frame: queued input first, then the cell pass. */
+  /** One simulation frame: recorded input replayed (when re-running the past), then the passes. */
+  const advance = (): void => {
+    timeline.replayInput();
+    step(world);
+    timeline.afterStep();
+  };
+  /** One full frame for the dev hook: new input first, then advance. */
   const frame = (): void => {
     brush.apply();
-    step(world);
+    advance();
   };
 
   const perf = new PerfStats();
@@ -58,7 +69,7 @@ function start(): void {
     input: () => (intro.active ? intro.frame() : brush.apply()),
     step: () => {
       const t0 = performance.now();
-      step(world);
+      advance();
       perf.addSim(performance.now() - t0);
     },
     render: () => {
@@ -79,6 +90,8 @@ function start(): void {
       world.resize(size.w, size.h);
       renderer.resize(size.w, size.h, size.cellPx);
       fitCanvas(canvas, size);
+      // History was recorded at the old size; it cannot be replayed at the new one.
+      timeline.reset();
       loop.invalidate();
     }, RESIZE_DEBOUNCE_MS);
   }).observe(stage);
@@ -92,7 +105,8 @@ function start(): void {
     world,
     () => {
       brush.cancel();
-      world.reset(world.seed);
+      // Clearing is an op too, so rewinding past it brings the scene back.
+      timeline.record({ kind: OP_CLEAR, x: 0, y: 0, r: 0, mode: 0, vx: 0, vy: 0 });
       loop.invalidate();
     },
     {
@@ -102,7 +116,37 @@ function start(): void {
         loop.invalidate();
       },
     },
+    {
+      info: () => ({ frame: world.frame, oldest: timeline.oldest(), newest: timeline.newest }),
+      seek: (f) => {
+        loop.paused = true;
+        brush.cancel();
+        timeline.seek(f);
+        loop.invalidate();
+      },
+    },
   );
+
+  // Hold R to rewind: back three frames per display frame (about 3× speed), paused.
+  let rewinding = false;
+  const rewind = (): void => {
+    if (!rewinding) return;
+    loop.paused = true;
+    if (world.frame > timeline.oldest()) {
+      timeline.seek(world.frame - 3);
+      loop.invalidate();
+    }
+    requestAnimationFrame(rewind);
+  };
+  window.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() !== 'r' || e.repeat || intro.active) return;
+    if (e.target instanceof HTMLInputElement && e.target.type !== 'range') return;
+    rewinding = true;
+    requestAnimationFrame(rewind);
+  });
+  window.addEventListener('keyup', (e) => {
+    if (e.key.toLowerCase() === 'r') rewinding = false;
+  });
 
   window.addEventListener('keydown', (e) => {
     if (e.target instanceof HTMLInputElement && e.target.type !== 'range') return;
@@ -119,7 +163,7 @@ function start(): void {
   });
 
   if (import.meta.env.DEV) {
-    void import('./dev/hook').then((m) => m.installSimHook({ world, loop, brush, renderer, frame }));
+    void import('./dev/hook').then((m) => m.installSimHook({ world, loop, brush, renderer, frame, timeline }));
   }
 
   // Opening sequence; any click or key skips it. Dev-only: ?intro=0 skips it (E2E tests).
@@ -129,6 +173,7 @@ function start(): void {
     const end = (): void => {
       document.body.classList.remove('intro');
       brush.cancel();
+      timeline.reset();
       loop.invalidate();
       showFirstHint(stage, brush);
     };

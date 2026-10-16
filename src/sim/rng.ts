@@ -13,6 +13,11 @@ export class Rng {
     this.s[0] = seed >>> 0;
   }
 
+  /** The current state, to save and later restore with seed(). */
+  getState(): number {
+    return this.s[0];
+  }
+
   /** Next unsigned 32-bit integer. */
   nextU32(): number {
     const a = (this.s[0] = (this.s[0] + 0x6d2b79f5) >>> 0);

@@ -1,23 +1,15 @@
-import { EMPTY, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER, SAND } from '../sim/elements';
+import { SAND } from '../sim/elements';
+import { MODE_COOL, MODE_ERASE, MODE_HEAT, OP_STAMP, OP_WIND, applyOp, type Op } from '../sim/ops';
 import type { World } from '../sim/world';
 
 export const MAX_RADIUS = 64;
-/** Mode values queued for strokes that are not an element. */
-const ERASE = -1;
-const HEAT = -2;
-const COOL = -3;
+/** Mode values queued for strokes that are not an element (wind is not a stamp). */
 const WIND = -4;
-/** °C a heat or cool stroke adds or takes per stamp. */
-const TOOL_DT = 14;
 /** Air speed the wind tool adds per stamp, along the stroke. */
 const WIND_SPEED = 1.6;
 
 /** Brush tools that are not elements. */
 export type Tool = 'heat' | 'cool' | 'wind';
-/** Chance per empty cell per stamp that a powder grain appears, so pours look like a stream, not a block. */
-const POWDER_FILL = 0.3;
-/** Same for liquids: a pour of separate drops that merge as they land. */
-const LIQUID_FILL = 0.45;
 /** Wheel delta (px) per brush size step. */
 const WHEEL_STEP = 40;
 
@@ -36,6 +28,8 @@ export class Brush {
   erasing = false;
   /** Heat, cool or wind tool in place of an element, or null. */
   tool: Tool | null = null;
+  /** Where the brush's ops go: the timeline records and applies them. Default: apply directly. */
+  sink: (op: Op) => void;
   /** True while a mouse button is down on the canvas. */
   held = false;
   /** Last pointer position in client px, and whether it is over the canvas. */
@@ -57,6 +51,7 @@ export class Brush {
   constructor(canvas: HTMLCanvasElement, world: World) {
     this.canvas = canvas;
     this.world = world;
+    this.sink = (op) => applyOp(world, op);
 
     canvas.addEventListener('contextmenu', (e) => e.preventDefault());
     canvas.addEventListener('pointerdown', (e) => this.onDown(e));
@@ -156,7 +151,15 @@ export class Brush {
     this.canvas.setPointerCapture(e.pointerId);
     this.button = e.button;
     this.mode =
-      e.button === 2 || this.erasing ? ERASE : this.tool === 'heat' ? HEAT : this.tool === 'cool' ? COOL : this.tool === 'wind' ? WIND : this.element;
+      e.button === 2 || this.erasing
+        ? MODE_ERASE
+        : this.tool === 'heat'
+          ? MODE_HEAT
+          : this.tool === 'cool'
+            ? MODE_COOL
+            : this.tool === 'wind'
+              ? WIND
+              : this.element;
     this.queue.push(NaN, NaN, this.mode);
     this.track(e);
     this.queuePoint(e);
@@ -211,7 +214,7 @@ export class Brush {
     for (const fn of this.listeners) fn();
   }
 
-  /** Stamps discs along a line, about two per radius. */
+  /** Stamps discs along a line, about two per radius; wind blows along it instead. */
   private segment(x0: number, y0: number, x1: number, y1: number, mode: number): void {
     const dx = x1 - x0;
     const dy = y1 - y0;
@@ -220,8 +223,7 @@ export class Brush {
       const len = Math.hypot(dx, dy);
       if (len > 0) {
         const k = (WIND_SPEED * Math.min(3, len / 4)) / len;
-        this.world.air.addVelocity(Math.round(x1), Math.round(y1), dx * k, dy * k, this.radius);
-        this.world.wake(Math.max(0, Math.min(this.world.w - 1, Math.round(x1))), Math.max(0, Math.min(this.world.h - 1, Math.round(y1))));
+        this.sink({ kind: OP_WIND, x: Math.round(x1), y: Math.round(y1), r: this.radius, mode: 0, vx: dx * k, vy: dy * k });
       }
       return;
     }
@@ -232,35 +234,9 @@ export class Brush {
     if (n === 0) this.stamp(x1, y1, mode);
   }
 
-  /** Applies one disc of the brush centred on cell (cx, cy). */
+  /** One disc of the brush centred on cell (cx, cy), as a recorded op. */
   private stamp(cx: number, cy: number, mode: number): void {
-    const world = this.world;
-    const { w, h, type } = world;
     if (mode === WIND) return;
-    const r = this.radius;
-    const r2 = r * r + r;
-    const ph = mode === ERASE ? 0 : PHASE_OF[mode];
-    const p = ph === PH_POWDER ? POWDER_FILL : ph === PH_LIQUID || ph === PH_GAS ? LIQUID_FILL : 1;
-    const y0 = Math.max(0, cy - r);
-    const y1 = Math.min(h - 1, cy + r);
-    const x0 = Math.max(0, cx - r);
-    const x1 = Math.min(w - 1, cx + r);
-    for (let y = y0; y <= y1; y++) {
-      const dy = y - cy;
-      for (let x = x0; x <= x1; x++) {
-        const dx = x - cx;
-        if (dx * dx + dy * dy > r2) continue;
-        const i = y * w + x;
-        if (mode === ERASE) {
-          if (type[i] !== EMPTY) world.place(i, EMPTY);
-        } else if (mode === HEAT || mode === COOL) {
-          const T = world.temp[i] + (mode === HEAT ? TOOL_DT : -TOOL_DT);
-          world.temp[i] = T > 3000 ? 3000 : T < -200 ? -200 : T;
-          world.wake(x, y);
-        } else if (type[i] === EMPTY && (p >= 1 || world.rng.next() < p)) {
-          world.place(i, mode);
-        }
-      }
-    }
+    this.sink({ kind: OP_STAMP, x: cx, y: cy, r: this.radius, mode, vx: 0, vy: 0 });
   }
 }
