@@ -52,6 +52,7 @@ import {
   HABITAT_OF,
   RAIN_INTO_OF,
   TOP_INTO_OF,
+  WATER_LOSS_OF,
   VOIDS_OF,
   WALL,
   NO_FLAME_OF,
@@ -586,8 +587,8 @@ function live(world: World, x: number, y: number, i: number, st: number): void {
     if (k === i - w && conc[i] > 2 && conc[k] <= 255 - 2) moveWater(world, i, k, conc[i] >> 2);
     else if (conc[i] > conc[k] + 1) moveWater(world, i, k, (conc[i] - conc[k]) >> 1);
   }
-  // Breathe out a little.
-  if (((r >>> 9) & 63) === 0 && conc[i] > 0) {
+  // Breathe out a little (a cactus far less than other plants), on a draw of its own.
+  if ((world.rng.nextU32() & 65535) < WATER_LOSS_OF[t] && conc[i] > 0) {
     conc[i]--;
     if (conc[i] === 0) solute[i] = 0;
   }
@@ -603,7 +604,9 @@ function live(world: World, x: number, y: number, i: number, st: number): void {
   const tx = x + side;
   if (tx < 0 || tx >= w) return;
   const up = (y - 1) * w + tx;
-  if (type[up] !== EMPTY) return;
+  // A stem grows into air, or up through fresh water, taking that water in.
+  const throughWater = type[up] === WATER && conc[up] === 0;
+  if (type[up] !== EMPTY && !throughWater) return;
   const T = world.temp[i];
   // The last cell of a stem may be its flower.
   const last = budget === 1 && TOP_INTO_OF[t] !== 0;
@@ -612,6 +615,10 @@ function live(world: World, x: number, y: number, i: number, st: number): void {
   world.stamp[up] = st;
   conc[i] -= GROW_COST;
   moveWater(world, i, up, conc[i] >> 1);
+  if (throughWater) {
+    conc[up] = conc[up] + CONC_UNIT > 255 ? 255 : conc[up] + CONC_UNIT;
+    solute[up] = WATER;
+  }
   life[up] = last ? 0 : budget - 1;
   life[i] = side !== 0 && budget > 6 ? budget >> 1 : 0;
   // A leaf beside the new cell, now and then; plants with leaves of their own (trees) leaf out often.
