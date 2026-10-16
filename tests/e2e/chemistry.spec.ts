@@ -61,14 +61,17 @@ test('the compiler records a reason for each reaction', async ({ page }) => {
     return {
       acid: s.pair('acid', 'iron'),
       wood: s.pair('wood', 'empty'),
-      sand: s.pair('sand', 'water'),
+      sand: s.pair('sand', 'oil'),
+      soak: s.pair('sand', 'water'),
     };
   });
   expect(r.acid?.reason).toContain('Acid eats iron');
   expect(r.wood?.reason).toContain('300 °C');
   expect(r.wood?.minT).toBe(300);
-  // Sand and water have no chemistry: sand just sinks.
+  // Sand and oil have no chemistry: sand just sinks.
   expect(r.sand).toBeNull();
+  // Sand and water: sand soaks it up (phase 7).
+  expect(r.soak?.reason).toContain('soaks up water');
 });
 
 test('hovering a cell shows its element, temperature and reaction with its reason', async ({ page }) => {

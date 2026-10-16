@@ -78,7 +78,10 @@ export function elementFacts(id: number): [string, string][] {
     out.push(['Burns', `from ${n0.format(e.ignition)} °C in air, ${num.format((e.fuel ?? 0) / 60)} s per cell${left}`]);
   }
   if ((e.oxidiser ?? 0) > 0 && id !== EMPTY) out.push(['Feeds fire', `strength ${num.format(e.oxidiser ?? 0)} (air is 0.21)`]);
-  if ((e.acidity ?? 0) >= 0.3) out.push(['Eats', `metal, rock and wood softer than ${num.format(e.acidity ?? 0)}`]);
+  if ((e.acidity ?? 0) >= 0.3) out.push(['Eats', `metal, rock and wood softer than ${num.format(e.acidity ?? 0)}, weakening as it fills`]);
+  if (e.solvent) out.push(['Dissolves', 'soluble powders (salt, sugar), up to each one’s limit; saltier is heavier']);
+  if ((e.solubility ?? 0) > 0) out.push(['Dissolves in', `water, up to ${n0.format((e.solubility ?? 0) * 100)}% of a cell; boiling leaves it as crystals`]);
+  if ((e.porosity ?? 0) > 0) out.push(['Soaks up', `water, up to ${n0.format((e.porosity ?? 0) * 100)}% of a cell; wet, it holds steeper slopes and will not burn`]);
   if (e.cls === 'metal' || e.cls === 'mineral' || e.cls === 'organic') {
     if (e.phase === 'solid' || e.phase === 'powder') out.push(['Hardness', `${num.format(e.hardness)} (acid stronger than this eats it)`]);
   }

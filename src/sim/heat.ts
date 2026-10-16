@@ -13,6 +13,8 @@ import {
   PH_POWDER,
   PH_SOLID,
   RUBBLE_OF,
+  CONC_UNIT,
+  SOLVENT_OF,
   UP_T,
 } from './elements';
 import { CHUNK_SHIFT, type World } from './world';
@@ -95,9 +97,31 @@ function settle(world: World, i: number, x: number, y: number): void {
     world.wake(x, y);
     return;
   }
+  // Wet: above the boiling point of what it has soaked up, it dries out.
+  const conc = world.conc;
+  if (conc[i] !== 0 && SOLVENT_OF[world.solute[i]] !== 0 && PHASE_OF[t] === PH_POWDER && T > UP_T[world.solute[i]]) {
+    conc[i] = conc[i] > 8 ? conc[i] - 8 : 0;
+    if (conc[i] === 0) world.solute[i] = 0;
+    temp[i] = T - 2;
+    world.wake(x, y);
+    return;
+  }
   if (T > UP_T[t]) {
+    // A liquid carrying a dissolved solid leaves it behind as crystals when it boils off.
+    const s = world.solute[i];
+    if (SOLVENT_OF[t] !== 0 && s !== 0 && conc[i] >= CONC_UNIT) {
+      type[i] = s;
+      world.solute[i] = 0;
+      conc[i] = 0;
+      temp[i] = T - UP_LATENT[t];
+      world.vy[i] = 0;
+      world.wake(x, y);
+      return;
+    }
     type[i] = UP_INTO[t];
     temp[i] = T - UP_LATENT[t];
+    world.solute[i] = 0;
+    conc[i] = 0;
     world.vy[i] = 0;
     world.wake(x, y);
   } else if (T < DOWN_T[t]) {

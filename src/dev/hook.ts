@@ -34,7 +34,7 @@ export interface SimHook {
   /** The inspect lens report for cell (x, y). */
   inspect(x: number, y: number): CellReport | null;
   /** Everything stored in cell (x, y). */
-  probe(x: number, y: number): { key: string; temp: number; life: number; solute: string };
+  probe(x: number, y: number): { key: string; temp: number; life: number; solute: string; conc: number };
   /** Height of the filled stack in each column, counted from the bottom row up to the first empty cell. */
   heights(): number[];
   /** Hash of the whole grid, 8 hex digits. */
@@ -128,6 +128,7 @@ export function installSimHook(t: HookTargets): void {
         temp: world.temp[i],
         life: world.life[i],
         solute: ELEMENTS[world.solute[i]].key,
+        conc: world.conc[i],
       };
     },
     heights() {

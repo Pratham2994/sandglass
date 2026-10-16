@@ -1,11 +1,17 @@
-import { HAS_REACTION, KEEP, P_GAS, P_MIN_T, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R_COMBUST } from './chem';
+import { HAS_REACTION, KEEP, P_GAS, P_MIN_T, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R_ABSORB, R_COMBUST, R_CORRODE, R_DISSOLVE } from './chem';
 import {
   BUOY_DIR_OF,
+  CONC_UNIT,
+  POROUS_MAX_OF,
+  SOLUBLE_MAX_OF,
+  SOLVENT_OF,
+  WATER,
   BUOY_P_OF,
   BURN_ENERGY_OF,
   BURN_INTO_OF,
   RESIDUE_OF,
   DISPERSION_OF,
+  ELEMENTS,
   DRIFT_OF,
   ELEMENT_COUNT,
   EMPTY,
@@ -47,6 +53,8 @@ const SLIDE_START = (VY_UNIT * 3) >> 2;
 /** Top speed while sinking through a liquid: drag holds it to 1/4 cell per frame. */
 const SINK_VMAX = VY_UNIT >> 2;
 const N = ELEMENT_COUNT;
+/** Elements that are acids (they do the eating in corrosion). */
+const ELEMENTS_ACIDIC = Uint8Array.from({ length: N }, (_, id) => ((ELEMENTS[id].acidity ?? 0) >= 0.3 ? 1 : 0));
 /** How far a liquid surface cell looks sideways for a drop. Bounds the cost on wide lakes. */
 const FLOW_SEARCH = 160;
 /** Speed a liquid keeps after a sideways move: half a cell per frame. */
@@ -138,10 +146,49 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
   // neighbours must heat up and meet air themselves, or they would light and
   // smother over and over.
   if (rule === R_COMBUST && type[j] === FIRE && world.solute[j] !== 0) return false;
+  // Wet things do not catch fire until they dry out.
+  if (rule === R_COMBUST && world.conc[i] !== 0 && SOLVENT_OF[world.solute[i]] !== 0) return false;
+  const { solute, conc } = world;
+  // Solutions: the host must have room (and hold nothing else), or nothing can happen.
+  let host = -1;
+  let guest = -1;
+  if (rule === R_DISSOLVE || rule === R_ABSORB) {
+    host = rule === R_DISSOLVE ? (SOLVENT_OF[a] !== 0 ? i : j) : POROUS_MAX_OF[a] !== 0 ? i : j;
+    guest = host === i ? j : i;
+    const g = type[guest];
+    const max = rule === R_DISSOLVE ? SOLUBLE_MAX_OF[g] : POROUS_MAX_OF[type[host]];
+    if ((solute[host] !== 0 && solute[host] !== g) || conc[host] + CONC_UNIT > max) return false;
+  }
   world.wake(x, y);
-  if (((r >>> 8) & 255) >= P_PROB[k]) return false;
+  // Acid that already holds dissolved metal is weaker: its chance falls as it fills.
+  const acid = ELEMENTS_ACIDIC[a] !== 0 ? i : j;
+  const p = rule === R_CORRODE ? (P_PROB[k] * (255 - conc[acid])) >> 8 : P_PROB[k];
+  if (((r >>> 8) & 255) >= p) return false;
   if (rule === R_COMBUST) {
     ignite(world, i, a);
+  } else if (host >= 0) {
+    // The guest cell moves into the host: dissolved or soaked up.
+    solute[host] = type[guest];
+    conc[host] += CONC_UNIT;
+    world.place(guest, EMPTY);
+    world.stamp[j] = st;
+  } else if (rule === R_CORRODE) {
+    // The acid takes the eaten cell into itself and weakens; full, it is spent into plain water carrying it.
+    const target = acid === i ? j : i;
+    const eaten = type[target];
+    become(world, target, EMPTY);
+    if (P_GAS[k] !== 0) become(world, target, P_GAS[k]);
+    if (conc[acid] + 85 > 255) {
+      const T = world.temp[acid];
+      world.place(acid, WATER);
+      world.temp[acid] = T;
+      solute[acid] = eaten;
+      conc[acid] = 255;
+    } else {
+      solute[acid] = eaten;
+      conc[acid] += 85;
+    }
+    world.stamp[j] = st;
   } else {
     const outA = P_OUT_A[k];
     const outB = P_OUT_B[k];
@@ -317,6 +364,9 @@ function swap(world: World, i: number, j: number): void {
   const so = solute[i];
   solute[i] = solute[j];
   solute[j] = so;
+  const cc = world.conc[i];
+  world.conc[i] = world.conc[j];
+  world.conc[j] = cc;
   const T = temp[i];
   temp[i] = temp[j];
   temp[j] = T;
@@ -444,6 +494,15 @@ function updateMover(world: World, x: number, y: number, i: number, st: number, 
     return;
   }
 
+  // Same liquid below but carrying less in solution: the saltier cell is heavier
+  // and sinks, faster the bigger the difference.
+  if (liquid && tb === t && world.conc[i] > world.conc[below] + 2) {
+    if ((world.rng.nextU32() & 255) < 24 + (world.conc[i] - world.conc[below])) moveTo(world, i, below, 0, st);
+    world.wake(x, y);
+    world.wake(x, y + 1);
+    return;
+  }
+
   // 2. Sink into a lighter liquid.
   if (ENTER_P[t * N + tb] !== 0) {
     let v = vy[i] + g;
@@ -459,9 +518,12 @@ function updateMover(world: World, x: number, y: number, i: number, st: number, 
     return;
   }
 
-  // 3. Slide down a slope.
-  const openL = x > 0 && ENTER_P[t * N + type[below - 1]] !== 0;
-  const openR = x + 1 < w && ENTER_P[t * N + type[below + 1]] !== 0;
+  // 3. Slide down a slope. A wet powder sticks: it only slides where the drop is
+  // at least two cells deep, so wet sand holds steeper slopes.
+  const wet = !liquid && world.conc[i] >= 32;
+  const deep = (j: number): boolean => !wet || (y + 2 < h && type[j + w] === EMPTY);
+  const openL = x > 0 && ENTER_P[t * N + type[below - 1]] !== 0 && deep(below - 1);
+  const openR = x + 1 < w && ENTER_P[t * N + type[below + 1]] !== 0 && deep(below + 1);
   if (openL || openR) {
     let v = vy[i];
     if (!liquid) {
@@ -519,7 +581,36 @@ function updateMover(world: World, x: number, y: number, i: number, st: number, 
     }
   }
 
+  // Liquids mix what they carry slowly; powders wick soaked-up liquid faster.
+  diffuse(world, x, y, i, liquid ? 63 : 7);
   if (vy[i] !== 0) vy[i] = 0;
+}
+
+/**
+ * Mixing: a resting cell now and then (1 frame in mask + 1) shares a quarter
+ * of the difference in what it carries with a random neighbour of the same
+ * element. Salt spreads slowly through water; water wicks quickly through
+ * sand or sawdust. Small differences are left alone so things can sleep.
+ */
+function diffuse(world: World, x: number, y: number, i: number, mask: number): void {
+  const { type, solute, conc, rng } = world;
+  if (conc[i] === 0) return;
+  const r = rng.nextU32();
+  if ((r & mask) !== 0) return;
+  const j = neighbour(world, x, y, (r >>> 6) & 3);
+  if (j < 0 || type[j] !== type[i]) return;
+  const si = solute[i];
+  const sj = solute[j];
+  if (si !== 0 && sj !== 0 && si !== sj) return;
+  const d = conc[i] - conc[j];
+  if (d < 8 && d > -8) return;
+  const m = d >> 2;
+  conc[i] -= m;
+  conc[j] += m;
+  const s = si || sj;
+  solute[i] = conc[i] ? s : 0;
+  solute[j] = conc[j] ? s : 0;
+  world.wake(x, y);
 }
 
 /**

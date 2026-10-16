@@ -93,6 +93,12 @@ export interface ElementDef {
   vents?: boolean;
   /** Light powders: chance per frame of drifting sideways while falling. */
   drift?: number;
+  /** Liquids: dissolves soluble solids into itself (water). */
+  solvent?: boolean;
+  /** Solids and powders: how much a solvent cell can hold of it, 0..1 (salt 0.4). */
+  solubility?: number;
+  /** Powders: how much liquid it soaks up, 0..1 (sand 0.3, dirt 0.5). */
+  porosity?: number;
   /** Hand-written reactions by the other element's key; they win over the compiler. */
   overrides?: Record<string, Override>;
 }
@@ -116,6 +122,13 @@ export const ACID = 14;
 export const IRON = 15;
 export const HYDROGEN = 16;
 export const OXYGEN = 17;
+export const METHANE = 18;
+export const ALCOHOL = 19;
+export const SAWDUST = 20;
+export const SALT = 21;
+export const SUGAR = 22;
+export const DIRT = 23;
+export const SNOW = 24;
 
 export const ELEMENTS: readonly ElementDef[] = [
   {
@@ -150,6 +163,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     key: 'sand',
     cls: 'mineral',
     hardness: 0.95,
+    porosity: 0.3,
     name: 'Sand',
     blurb: 'A fine, heavy powder. Falls, piles into slopes and sinks through lighter liquids. Very hard to melt or eat away.',
     category: 'powders',
@@ -165,6 +179,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     key: 'water',
     cls: 'water',
     hardness: 0,
+    solvent: true,
     name: 'Water',
     blurb: 'A runny liquid. Flows and settles flat. Boils into steam when hot, freezes into ice when cold, and cools what it touches.',
     category: 'liquids',
@@ -468,6 +483,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     phase: 'powder',
     cls: 'organic',
     hardness: 0.1,
+    porosity: 0.6,
     density: 250,
     fallAccel: 90,
     fallMax: 55,
@@ -479,6 +495,78 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 750,
     burnInto: 'ash',
     residue: 0.2,
+  },
+  {
+    key: 'salt',
+    name: 'Salt',
+    blurb: 'White crystals, a powder. Falls and piles. Dissolves into water, making it heavier; boiling the water leaves the salt behind.',
+    category: 'powders',
+    colours: ['#f2f0ea', '#e4e1d9', '#fbfaf6', '#d9d5cb', '#ebe8e0'],
+    phase: 'powder',
+    cls: 'salt',
+    hardness: 0.25,
+    solubility: 0.4,
+    density: 2160,
+    fallAccel: 230,
+    fallMax: 160,
+    heatCapacity: 0.6,
+    conductivity: 0.2,
+  },
+  {
+    key: 'sugar',
+    name: 'Sugar',
+    blurb: 'Sweet crystals, a powder. Falls and piles. Dissolves into water even more than salt does, and burns when hot.',
+    category: 'powders',
+    colours: ['#f7f3ea', '#efe8d8', '#fffcf4', '#e6ddca', '#f2ecdf'],
+    phase: 'powder',
+    cls: 'organic',
+    hardness: 0.2,
+    solubility: 0.7,
+    density: 1590,
+    fallAccel: 220,
+    fallMax: 155,
+    heatCapacity: 0.6,
+    conductivity: 0.15,
+    ignition: 350,
+    fuel: 90,
+    flameTemp: 700,
+    burnInto: 'smoke',
+    residue: 0.3,
+  },
+  {
+    key: 'dirt',
+    name: 'Dirt',
+    blurb: 'Earth, a heavy powder. Falls and piles. Soaks up a lot of water and turns into dark, sticky mud.',
+    category: 'powders',
+    colours: ['#5b4330', '#6a4f38', '#4e3928', '#765a40', '#62482f'],
+    phase: 'powder',
+    cls: 'mineral',
+    hardness: 0.3,
+    porosity: 0.5,
+    density: 1500,
+    fallAccel: 230,
+    fallMax: 160,
+    heatCapacity: 0.8,
+    conductivity: 0.12,
+  },
+  {
+    key: 'snow',
+    name: 'Snow',
+    blurb: 'Loose frozen flakes, a very light powder. Drifts down and settles in soft piles. Melts into water as it warms.',
+    category: 'powders',
+    colours: ['#f4f8fb', '#e6eef4', '#ffffff', '#dbe6ee', '#edf3f8'],
+    phase: 'powder',
+    cls: 'water',
+    hardness: 0.05,
+    density: 300,
+    fallAccel: 60,
+    fallMax: 35,
+    drift: 0.45,
+    temp: -5,
+    heatCapacity: 0.5,
+    conductivity: 0.1,
+    melt: 0,
+    meltInto: 'water',
   },
 ];
 
@@ -647,6 +735,17 @@ export const BUOY_P_OF = Uint8Array.from(ELEMENTS, (e) =>
   Math.round(Math.min(1, (Math.abs(ELEMENTS[0].density - e.density) / ELEMENTS[0].density) * 1.4) * 255),
 );
 export const BUOY_DIR_OF = Int8Array.from(ELEMENTS, (e) => (e.density < ELEMENTS[0].density ? -1 : 1));
+
+// ---- Solutions -------------------------------------------------------------
+
+/** One dissolved or absorbed cell adds this much concentration (0..255) to its host. */
+export const CONC_UNIT = 48;
+/** Liquids that dissolve soluble solids. */
+export const SOLVENT_OF = Uint8Array.from(ELEMENTS, (e) => (e.solvent ? 1 : 0));
+/** Most concentration (0..255) of an element one solvent cell can hold. */
+export const SOLUBLE_MAX_OF = Uint8Array.from(ELEMENTS, (e) => Math.round((e.solubility ?? 0) * 255));
+/** Most liquid (0..255) a porous powder soaks up. */
+export const POROUS_MAX_OF = Uint8Array.from(ELEMENTS, (e) => Math.round((e.porosity ?? 0) * 255));
 
 /** What a solid becomes instead when it freezes unsupported; 0 = itself. */
 export const RUBBLE_OF = Uint16Array.from(ELEMENTS, (e) => (e.rubble ? elementId(e.rubble) : 0));

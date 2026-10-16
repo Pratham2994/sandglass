@@ -1,4 +1,16 @@
-import { ELEMENTS, ELEMENT_COUNT, EMPTY, HYDROGEN, IGNITION_OF, OXIDISER_OF, elementId, type ElementDef } from './elements';
+import {
+  ELEMENTS,
+  ELEMENT_COUNT,
+  EMPTY,
+  HYDROGEN,
+  IGNITION_OF,
+  OXIDISER_OF,
+  POROUS_MAX_OF,
+  SOLUBLE_MAX_OF,
+  SOLVENT_OF,
+  elementId,
+  type ElementDef,
+} from './elements';
 
 /**
  * Chemistry compiler. Elements only declare physical properties (acidity,
@@ -7,7 +19,7 @@ import { ELEMENTS, ELEMENT_COUNT, EMPTY, HYDROGEN, IGNITION_OF, OXIDISER_OF, ele
  * tables. At runtime a cell looks at one random neighbour and does a single
  * table read, so the generality costs nothing per frame. Hand-written
  * overrides go in first and win. Priority: override, corrosion, combustion,
- * neutralisation (dissolution and absorption arrive with solutes).
+ * neutralisation, dissolution, absorption.
  */
 
 export const R_NONE = 0;
@@ -15,6 +27,8 @@ export const R_OVERRIDE = 1;
 export const R_CORRODE = 2;
 export const R_COMBUST = 3;
 export const R_NEUTRAL = 4;
+export const R_DISSOLVE = 5;
+export const R_ABSORB = 6;
 
 /** Output value meaning "this cell stays as it is". */
 export const KEEP = 0xffff;
@@ -102,6 +116,22 @@ function compile(): void {
       const bc = B.acidity ?? 0;
       if ((ac > 0.3 && bc < -0.3) || (ac < -0.3 && bc > 0.3)) {
         set(a, b, R_NEUTRAL, elementId('water'), elementId('water'), 0, 0.3);
+        continue;
+      }
+
+      // 5. Dissolution: a solvent liquid takes a soluble solid into itself,
+      // up to its limit (checked per cell at runtime). Seen from either side.
+      const dissolves = (s: number, x: number): boolean =>
+        SOLVENT_OF[s] !== 0 && SOLUBLE_MAX_OF[x] !== 0 && (ELEMENTS[x].phase === 'powder' || ELEMENTS[x].phase === 'solid');
+      if (dissolves(a, b) || dissolves(b, a)) {
+        set(a, b, R_DISSOLVE, KEEP, KEEP, 0, 0.12);
+        continue;
+      }
+
+      // 6. Absorption: a porous powder soaks up a solvent liquid (water), up to its porosity.
+      const soaks = (p: number, l: number): boolean => POROUS_MAX_OF[p] !== 0 && ELEMENTS[p].phase === 'powder' && SOLVENT_OF[l] !== 0;
+      if (soaks(a, b) || soaks(b, a)) {
+        set(a, b, R_ABSORB, KEEP, KEEP, 0, 0.2);
       }
     }
   }
@@ -130,6 +160,18 @@ export function explain(a: number, b: number): string | null {
       return `${A.name} burns: it catches fire at ${fmt.format(A.ignition ?? 0)} °C next to ${b === EMPTY ? 'air' : B.name.toLowerCase()} (oxidiser ${fmt.format(OXIDISER_OF[b])})`;
     case R_NEUTRAL:
       return `${A.name} and ${B.name.toLowerCase()} neutralise each other into water`;
+    case R_DISSOLVE: {
+      const solvent = SOLVENT_OF[a] !== 0 ? A : B;
+      const solid = solvent === A ? B : A;
+      const max = SOLVENT_OF[a] !== 0 ? SOLUBLE_MAX_OF[b] : SOLUBLE_MAX_OF[a];
+      return `${solid.name} dissolves into ${solvent.name.toLowerCase()}: ${solvent.name.toLowerCase()} is a solvent and each cell holds up to ${Math.round((max / 255) * 100)}% ${solid.name.toLowerCase()}`;
+    }
+    case R_ABSORB: {
+      const porous = POROUS_MAX_OF[a] !== 0 ? A : B;
+      const liquid = porous === A ? B : A;
+      const max = POROUS_MAX_OF[a] !== 0 ? POROUS_MAX_OF[a] : POROUS_MAX_OF[b];
+      return `${porous.name} soaks up ${liquid.name.toLowerCase()}: it is porous and holds up to ${Math.round((max / 255) * 100)}% ${liquid.name.toLowerCase()}`;
+    }
     default:
       return null;
   }

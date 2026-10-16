@@ -224,6 +224,12 @@ export class Canvas2DRenderer implements Renderer {
           else if (d > DEEP_CELLS) level = L_DEEP;
         }
         let c = pal[level * LEVEL_STRIDE + ((t << 8) | s)];
+        // Solutions: a liquid takes a tint of what it carries; a soaked powder darkens.
+        const cn = world.conc[i];
+        if (cn !== 0) {
+          if (tex === TEX_LIQUID) c = blend(c, pal[L_PLAIN * LEVEL_STRIDE + ((world.solute[i] << 8) | 128)], (cn * 115) >> 8);
+          else c = blend(c, 0xff000000, Math.min(154, (cn * 410) >> 8));
+        }
         // Black-body glow from the cell's real temperature.
         // The shade nudges the glow temperature a little, so hot masses have texture.
         const T = temp[i] + (shade[i] - 128) * 0.5;

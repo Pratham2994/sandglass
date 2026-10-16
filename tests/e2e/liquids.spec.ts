@@ -56,7 +56,9 @@ test('sand sinks through water', async ({ page }) => {
   await page.evaluate((n) => window.__sim!.step(n), TEN_SECONDS);
 
   const after = await page.evaluate(() => ({ sand: window.__sim!.count('sand'), water: window.__sim!.count('water') }));
-  expect(after).toEqual(before);
+  expect(after.sand).toBe(before.sand);
+  // Sand soaks up water on the way down (phase 7): at most 30% of each cell, about 1.6 water cells per sand.
+  expect(after.water).toBeGreaterThan(before.water - before.sand * 2);
   // In every column, no water is left under sand: the sand has sunk to the floor.
   for (const col of await columns(page)) {
     const firstSand = col.indexOf('sand');

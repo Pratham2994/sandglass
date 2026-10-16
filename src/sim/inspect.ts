@@ -1,6 +1,6 @@
 import { P_MIN_T, P_RULE, explain } from './chem';
 import { downChange, upChange } from './describe';
-import { ELEMENTS, ELEMENT_COUNT, EMPTY, FIRE, FUEL_OF, OXIDISER_OF, VY_UNIT } from './elements';
+import { ELEMENTS, ELEMENT_COUNT, EMPTY, FIRE, FUEL_OF, OXIDISER_OF, SOLVENT_OF, VY_UNIT } from './elements';
 import type { World } from './world';
 
 export interface Reaction {
@@ -75,6 +75,13 @@ export function inspectCell(world: World, x: number, y: number): CellReport | nu
     tempText += `, ${gapMax > 0 ? 'warming' : 'cooling'}: ${cause}`;
   }
   const facts: [string, string][] = [['Temperature', tempText]];
+  const so = world.solute[i];
+  const cn = world.conc[i];
+  if (cn !== 0 && t !== FIRE && so !== 0) {
+    const what = ELEMENTS[so].name.toLowerCase();
+    if (e.phase === 'liquid') facts.push(['Carries', `dissolved ${what}, ${n0.format((cn / 255) * 100)}% of the cell`]);
+    else facts.push(['Soaked with', `${what}, ${n0.format((cn / 255) * 100)}% of the cell${SOLVENT_OF[so] ? ': will not burn, holds steeper slopes' : ''}`]);
+  }
 
   let name = e.name;
   let state = e.phase === 'energy' ? 'Energy' : e.phase[0].toUpperCase() + e.phase.slice(1);
@@ -90,6 +97,8 @@ export function inspectCell(world: World, x: number, y: number): CellReport | nu
     }
   } else if (t === EMPTY) {
     state = 'Air';
+  } else if (cn !== 0 && so !== 0) {
+    name = e.phase === 'liquid' ? `${e.name} with ${ELEMENTS[so].name.toLowerCase()}` : `Wet ${e.name.toLowerCase()}`;
   }
   const vy = world.vy[i];
   if (vy > 0) {

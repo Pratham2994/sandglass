@@ -26,8 +26,10 @@ export class World {
   temp: Float32Array;
   /** Timer: fuel left for a burning cell, lifetime for a flame. */
   life: Uint16Array;
-  /** Element carried inside this cell: what a fire is burning (later: what is dissolved), 0 = none. */
+  /** Element carried inside this cell: what a fire is burning, what is dissolved in a liquid, what a powder has soaked up. 0 = none. */
   solute: Uint16Array;
+  /** How much of the solute, 0..255. */
+  conc: Uint8Array;
 
   /** Chunk grid size, in chunks of CHUNK × CHUNK cells. */
   cw: number;
@@ -53,6 +55,7 @@ export class World {
     this.temp = new Float32Array(this.size).fill(AMBIENT);
     this.life = new Uint16Array(this.size);
     this.solute = new Uint16Array(this.size);
+    this.conc = new Uint8Array(this.size);
     this.cw = Math.ceil(w / CHUNK);
     this.ch = Math.ceil(h / CHUNK);
     this.awake = new Uint8Array(this.cw * this.ch);
@@ -78,6 +81,7 @@ export class World {
       temp: this.temp,
       life: this.life,
       solute: this.solute,
+      conc: this.conc,
     };
     this.w = w;
     this.h = h;
@@ -89,6 +93,7 @@ export class World {
     this.temp = new Float32Array(this.size).fill(AMBIENT);
     this.life = new Uint16Array(this.size);
     this.solute = new Uint16Array(this.size);
+    this.conc = new Uint8Array(this.size);
     const dy = h - old.h;
     const cols = Math.min(w, old.w);
     for (let y = 0; y < h; y++) {
@@ -103,6 +108,7 @@ export class World {
       this.temp.set(old.temp.subarray(src, src + cols), dst);
       this.life.set(old.life.subarray(src, src + cols), dst);
       this.solute.set(old.solute.subarray(src, src + cols), dst);
+      this.conc.set(old.conc.subarray(src, src + cols), dst);
     }
     this.cw = Math.ceil(w / CHUNK);
     this.ch = Math.ceil(h / CHUNK);
@@ -117,6 +123,7 @@ export class World {
     this.temp.reverse();
     this.life.reverse();
     this.solute.reverse();
+    this.conc.reverse();
     this.stamp.fill(0);
     this.vy.fill(0);
     this.wakeAll();
@@ -131,6 +138,7 @@ export class World {
     this.temp.fill(AMBIENT);
     this.life.fill(0);
     this.solute.fill(0);
+    this.conc.fill(0);
     this.awake.fill(0);
     this.awakeNext.fill(1);
     this.seed = seed;
@@ -189,6 +197,7 @@ export class World {
     this.temp[i] = TEMP_OF[t];
     this.life[i] = LIFE_OF[t];
     this.solute[i] = 0;
+    this.conc[i] = 0;
     this.wake(i % this.w, (i / this.w) | 0);
   }
 
@@ -210,7 +219,7 @@ export class World {
 
   /** FNV-1a hash of every cell's type, shade, speed, temperature bits, life and solute, as 8 hex digits. */
   hash(): string {
-    const { type, shade, vy, life, solute } = this;
+    const { type, shade, vy, life, solute, conc } = this;
     const tbits = new Uint32Array(this.temp.buffer, this.temp.byteOffset, this.size);
     let hsh = 0x811c9dc5;
     for (let i = 0; i < this.size; i++) {
@@ -222,6 +231,7 @@ export class World {
       hsh = Math.imul(hsh ^ tbits[i], 0x01000193);
       hsh = Math.imul(hsh ^ life[i], 0x01000193);
       hsh = Math.imul(hsh ^ solute[i], 0x01000193);
+      hsh = Math.imul(hsh ^ conc[i], 0x01000193);
     }
     return (hsh >>> 0).toString(16).padStart(8, '0');
   }
