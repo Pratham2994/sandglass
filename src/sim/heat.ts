@@ -18,6 +18,13 @@ import {
   CONC_UNIT,
   SOLVENT_OF,
   UP_T,
+  BAKE_GAS_OF,
+  BAKE_INTO_OF,
+  BAKE_T_OF,
+  FIRE,
+  FLAME_T_OF,
+  FUEL_OF,
+  SELF_FED_OF,
 } from './elements';
 import { explode } from './blast';
 import { CHUNK_SHIFT, type World } from './world';
@@ -32,6 +39,8 @@ const T_MIN = -273;
 const T_MAX = 5000;
 /** Air drifts back to room temperature by this fraction per frame (heat lost to the room). */
 const AIR_RELAX = 0.005;
+/** °C a solvent's freezing point drops per unit of dissolved solid (full brine, 255: about −20 °C). */
+const FREEZE_DROP = 0.08;
 
 /**
  * Heat pass, after the cell pass, over awake chunks.
@@ -115,6 +124,29 @@ function settle(world: World, i: number, x: number, y: number): void {
     explode(world, x, y);
     return;
   }
+  // So do self-fed fuels (thermite): past ignition they start burning where they are.
+  if (SELF_FED_OF[t] !== 0 && T >= IGNITION_OF[t]) {
+    type[i] = FIRE;
+    world.solute[i] = t;
+    world.life[i] = FUEL_OF[t];
+    if (T < FLAME_T_OF[t] * 0.8) temp[i] = FLAME_T_OF[t] * 0.8;
+    world.wake(x, y);
+    return;
+  }
+  // Baking: a one-way change by heat (clay → brick), sometimes giving off a gas.
+  if (T >= BAKE_T_OF[t]) {
+    type[i] = BAKE_INTO_OF[t];
+    world.solute[i] = 0;
+    world.conc[i] = 0;
+    world.vy[i] = 0;
+    const g = BAKE_GAS_OF[t];
+    if (g !== 0 && y > 0 && type[i - world.w] === EMPTY) {
+      world.place(i - world.w, g);
+      temp[i - world.w] = T;
+    }
+    world.wake(x, y);
+    return;
+  }
   // Wet: above the boiling point of what it has soaked up, it dries out.
   const conc = world.conc;
   if (conc[i] !== 0 && SOLVENT_OF[world.solute[i]] !== 0 && PHASE_OF[t] === PH_POWDER && T > UP_T[world.solute[i]]) {
@@ -142,7 +174,8 @@ function settle(world: World, i: number, x: number, y: number): void {
     conc[i] = 0;
     world.vy[i] = 0;
     world.wake(x, y);
-  } else if (T < DOWN_T[t]) {
+  } else if (T < (SOLVENT_OF[t] !== 0 && conc[i] !== 0 ? DOWN_T[t] - conc[i] * FREEZE_DROP : DOWN_T[t])) {
+    // (A solvent carrying a dissolved solid freezes lower: brine stays liquid below 0 °C.)
     let into = DOWN_INTO[t];
     // A solid forming over nothing solid becomes its rubble instead.
     if (RUBBLE_OF[into] !== 0) {

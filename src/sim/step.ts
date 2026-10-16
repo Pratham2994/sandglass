@@ -1,4 +1,4 @@
-import { HAS_REACTION, KEEP, P_GAS, P_MIN_T, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R_ABSORB, R_COMBUST, R_CORRODE, R_DISSOLVE } from './chem';
+import { HAS_REACTION, KEEP, P_GAS, P_HEAT, P_MIN_T, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R_ABSORB, R_COMBUST, R_CORRODE, R_DISSOLVE, R_QUENCH } from './chem';
 import {
   BLAST_POWER_OF,
   BUOY_DIR_OF,
@@ -30,6 +30,9 @@ import {
   GRAVITY_OF,
   IGNITION_OF,
   FLASH_OF,
+  NO_FLAME_OF,
+  SELF_FED_OF,
+  UP_T,
   GROWS_INTO_OF,
   WITHER_INTO_OF,
   OXIDISER_OF,
@@ -408,11 +411,36 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
       conc[acid] += 85;
     }
     world.stamp[j] = st;
+  } else if (rule === R_QUENCH) {
+    // Water on fire: the flame goes out (a burning cell is left as its fuel,
+    // cooled below its ignition point) and the water may flash into steam.
+    const fireCell = type[i] === FIRE ? i : j;
+    const wet = fireCell === i ? j : i;
+    const fuel = solute[fireCell];
+    if (fuel !== 0) {
+      type[fireCell] = fuel;
+      solute[fireCell] = 0;
+      world.life[fireCell] = 0;
+      if (temp[fireCell] > IGNITION_OF[fuel] - 30) temp[fireCell] = IGNITION_OF[fuel] - 30;
+    } else world.place(fireCell, EMPTY);
+    const steam = wet === i ? P_OUT_A[k] : P_OUT_B[k];
+    if ((r >>> 16) & 1) {
+      const liquid = type[wet];
+      become(world, wet, steam);
+      temp[wet] = UP_T[liquid] + 5;
+    }
+    world.stamp[j] = st;
   } else {
     const outA = P_OUT_A[k];
     const outB = P_OUT_B[k];
     if (outA !== KEEP) become(world, i, outA);
     if (outB !== KEEP) become(world, j, outB);
+    // Heat released (neutralising, setting): both cells warm.
+    const heat = P_HEAT[k];
+    if (heat !== 0) {
+      if (type[i] !== EMPTY) temp[i] += heat;
+      if (type[j] !== EMPTY) temp[j] += heat;
+    }
     const gas = P_GAS[k];
     if (gas !== 0) {
       if (type[j] === EMPTY) become(world, j, gas);
@@ -509,7 +537,7 @@ function updateFire(world: World, x: number, y: number, i: number, st: number): 
       const j = neighbour(world, x, y, (r + d) & 3);
       if (j < 0) continue;
       const t = type[j];
-      if (IGNITION_OF[t] === Infinity || PHASE_OF[t] === PH_ENERGY) continue;
+      if (IGNITION_OF[t] === Infinity || PHASE_OF[t] === PH_ENERGY || NO_FLAME_OF[t] !== 0) continue;
       // Wet things do not catch fire until they dry out.
       if (world.conc[j] !== 0 && SOLVENT_OF[solute[j]] !== 0 && PHASE_OF[t] === PH_POWDER) continue;
       if (BLAST_POWER_OF[t] > 0) explode(world, j % w, (j / w) | 0);
@@ -557,6 +585,8 @@ function updateFire(world: World, x: number, y: number, i: number, st: number): 
       oxJ = j;
     }
   }
+  // Fuels that carry their own oxygen (thermite) burn with no air at all.
+  if (SELF_FED_OF[fuel] !== 0 && ox < 1) ox = 1;
   if (ox === 0 || temp[i] < IGNITION_OF[fuel] - 20) {
     // Smothered or cooled: the fire goes out and the fuel is left.
     if (ox === 0 && ((r >>> 8) & 255) >= 10) return;
@@ -582,7 +612,7 @@ function updateFire(world: World, x: number, y: number, i: number, st: number): 
     }
   }
   const L = life[i] - (ox >= 0.5 ? 3 : 1);
-  if (((r >>> 8) & 255) < CONSUME_P && type[oxJ] !== FIRE) {
+  if (oxJ >= 0 && ((r >>> 8) & 255) < CONSUME_P && type[oxJ] !== FIRE) {
     become(world, oxJ, SMOKE);
     world.temp[oxJ] = temp[i] * 0.5;
   }

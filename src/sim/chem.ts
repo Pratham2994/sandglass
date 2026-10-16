@@ -2,9 +2,19 @@ import {
   ELEMENTS,
   ELEMENT_COUNT,
   EMPTY,
+  ACID_GAS_OF,
+  CARBONATE_OF,
   HYDROGEN,
   IGNITION_OF,
+  NO_FLAME_OF,
   OXIDISER_OF,
+  ROTS_INTO_OF,
+  RUSTS_INTO_OF,
+  SETS_INTO_OF,
+  TOXIC_OF,
+  UP_INTO,
+  UP_T,
+  WITHER_INTO_OF,
   POROUS_MAX_OF,
   SOLUBLE_MAX_OF,
   SOLVENT_OF,
@@ -18,8 +28,9 @@ import {
  * over every ordered pair (a, b) and write one entry each into flat pair
  * tables. At runtime a cell looks at one random neighbour and does a single
  * table read, so the generality costs nothing per frame. Hand-written
- * overrides go in first and win. Priority: override, corrosion, combustion,
- * neutralisation, dissolution, absorption.
+ * overrides go in first and win. Priority: override, corrosion, quenching,
+ * combustion, neutralisation, dissolution, absorption, setting, thawing,
+ * acid gas, toxic gas, rusting, rotting.
  */
 
 export const R_NONE = 0;
@@ -29,11 +40,21 @@ export const R_COMBUST = 3;
 export const R_NEUTRAL = 4;
 export const R_DISSOLVE = 5;
 export const R_ABSORB = 6;
+export const R_QUENCH = 7;
+export const R_SET = 8;
+export const R_THAW = 9;
+export const R_ACIDIFY = 10;
+export const R_TOXIC = 11;
+export const R_RUST = 12;
+export const R_ROT = 13;
 
 /** Output value meaning "this cell stays as it is". */
 export const KEEP = 0xffff;
 
 const N = ELEMENT_COUNT;
+const FIRE = elementId('fire');
+const WATER = elementId('water');
+const CO2 = elementId('carbon_dioxide');
 /** Rule family per pair, 0 = nothing happens. Doubles as the inspector's reason code. */
 export const P_RULE = new Uint8Array(N * N);
 /** What cell a becomes, or KEEP. */
@@ -46,6 +67,8 @@ export const P_GAS = new Uint16Array(N * N);
 export const P_PROB = new Uint8Array(N * N);
 /** Fires only when cell a is at least this hot, °C. */
 export const P_MIN_T = new Float32Array(N * N).fill(-Infinity);
+/** °C added to both cells when it happens (heat released), 0 = none. */
+export const P_HEAT = new Float32Array(N * N);
 /** Elements that have at least one reaction, so the cell pass can skip the rest. */
 export const HAS_REACTION = new Uint8Array(N);
 
@@ -55,8 +78,9 @@ function prob(p: number): number {
   return Math.max(1, Math.min(255, Math.round(p * 255)));
 }
 
-function set(a: number, b: number, rule: number, outA: number, outB: number, gas: number, p: number, minT = -Infinity): void {
+function set(a: number, b: number, rule: number, outA: number, outB: number, gas: number, p: number, minT = -Infinity, heat = 0): void {
   const k = a * N + b;
+  P_HEAT[k] = heat;
   P_RULE[k] = rule;
   P_OUT_A[k] = outA;
   P_OUT_B[k] = outB;
@@ -85,7 +109,7 @@ function compile(): void {
       const o = A.overrides?.[B.key];
       if (o) {
         const out = (key: string): number => (key === 'keep' ? KEEP : elementId(key));
-        set(a, b, R_OVERRIDE, out(o.self), out(o.other), o.gas ? elementId(o.gas) : 0, o.chance, o.minTemp);
+        set(a, b, R_OVERRIDE, out(o.self), out(o.other), o.gas ? elementId(o.gas) : 0, o.chance, o.minTemp, o.heat);
         overrideReasons.set(k, o.reason);
         continue;
       }
@@ -96,7 +120,21 @@ function compile(): void {
         const acid = corrodes(A, B) ? A : B;
         const target = acid === A ? B : A;
         const p = ((acid.acidity ?? 0) - target.hardness) * 0.25;
-        set(a, b, R_CORRODE, EMPTY, EMPTY, target.cls === 'metal' ? HYDROGEN : 0, p);
+        const fizz = target.carbonate ? CO2 : target.cls === 'metal' ? HYDROGEN : 0;
+        set(a, b, R_CORRODE, EMPTY, EMPTY, fizz, p);
+        continue;
+      }
+
+      // 2b. Quenching: a liquid that boils (water) puts out flames and burning
+      // cells it touches, flashing into its vapour. Seen from either side.
+      const quenches = (l: number): boolean =>
+        ELEMENTS[l].phase === 'liquid' && IGNITION_OF[l] === Infinity && UP_T[l] !== Infinity && ELEMENTS[UP_INTO[l]].phase === 'gas';
+      if (A.phase === 'energy' && a === FIRE && quenches(b)) {
+        set(a, b, R_QUENCH, KEEP, UP_INTO[b], 0, 0.5);
+        continue;
+      }
+      if (B.phase === 'energy' && b === FIRE && quenches(a)) {
+        set(a, b, R_QUENCH, UP_INTO[a], KEEP, 0, 0.5);
         continue;
       }
 
@@ -104,7 +142,7 @@ function compile(): void {
       // flame touching it lights it directly (it still needs air to keep burning).
       // The flame test comes first: loose flames also count as an oxidiser, and
       // the oxidiser rule would make a touching flame wait for ignition heat.
-      if (IGNITION_OF[a] !== Infinity && B.phase === 'energy') {
+      if (IGNITION_OF[a] !== Infinity && B.phase === 'energy' && NO_FLAME_OF[a] === 0) {
         set(a, b, R_COMBUST, KEEP, KEEP, 0, 1);
         continue;
       }
@@ -116,8 +154,11 @@ function compile(): void {
       // 4. Neutralisation: acid meets base, both become water and heat is released.
       const ac = A.acidity ?? 0;
       const bc = B.acidity ?? 0;
-      if ((ac > 0.3 && bc < -0.3) || (ac < -0.3 && bc > 0.3)) {
-        set(a, b, R_NEUTRAL, elementId('water'), elementId('water'), 0, 0.3);
+      if ((ac > 0.2 && bc < -0.2) || (ac < -0.2 && bc > 0.2)) {
+        // A carbonate base fizzes: it goes off as carbon dioxide instead of water.
+        const outA = ac < 0 && CARBONATE_OF[a] ? CO2 : WATER;
+        const outB = bc < 0 && CARBONATE_OF[b] ? CO2 : WATER;
+        set(a, b, R_NEUTRAL, outA, outB, 0, 0.3, -Infinity, 30);
         continue;
       }
 
@@ -134,6 +175,63 @@ function compile(): void {
       const soaks = (p: number, l: number): boolean => POROUS_MAX_OF[p] !== 0 && ELEMENTS[p].phase === 'powder' && SOLVENT_OF[l] !== 0;
       if (soaks(a, b) || soaks(b, a)) {
         set(a, b, R_ABSORB, KEEP, KEEP, 0, 0.2);
+        continue;
+      }
+
+      // 7. Setting: a powder that sets takes in the water touching it and hardens.
+      if (SETS_INTO_OF[a] !== 0 && SOLVENT_OF[b] !== 0) {
+        set(a, b, R_SET, SETS_INTO_OF[a], EMPTY, 0, 0.05, -Infinity, A.setHeat ?? 0);
+        continue;
+      }
+      if (SETS_INTO_OF[b] !== 0 && SOLVENT_OF[a] !== 0) {
+        set(a, b, R_SET, EMPTY, SETS_INTO_OF[b], 0, 0.05, -Infinity, B.setHeat ?? 0);
+        continue;
+      }
+
+      // 8. Thawing: a soluble powder (salt, sugar) melts the frozen solvent it touches.
+      const frozen = (f: number): boolean => {
+        const m = ELEMENTS[f].meltInto;
+        return ELEMENTS[f].phase !== 'liquid' && m !== undefined && SOLVENT_OF[elementId(m)] !== 0;
+      };
+      const thaws = (p: number): boolean => SOLUBLE_MAX_OF[p] !== 0 && ELEMENTS[p].phase === 'powder';
+      if (thaws(a) && frozen(b)) {
+        set(a, b, R_THAW, KEEP, elementId(B.meltInto!), 0, 0.03);
+        continue;
+      }
+      if (frozen(a) && thaws(b)) {
+        set(a, b, R_THAW, elementId(A.meltInto!), KEEP, 0, 0.03);
+        continue;
+      }
+
+      // 9. Acid gas: it dissolves in water and turns the water into acid.
+      if (ACID_GAS_OF[a] !== 0 && SOLVENT_OF[b] !== 0) {
+        set(a, b, R_ACIDIFY, EMPTY, ACID_GAS_OF[a], 0, 0.1);
+        continue;
+      }
+      if (ACID_GAS_OF[b] !== 0 && SOLVENT_OF[a] !== 0) {
+        set(a, b, R_ACIDIFY, ACID_GAS_OF[b], EMPTY, 0, 0.1);
+        continue;
+      }
+
+      // 10. Toxic gas: living things it touches wither.
+      if (TOXIC_OF[a] !== 0 && WITHER_INTO_OF[b] !== 0) {
+        set(a, b, R_TOXIC, KEEP, WITHER_INTO_OF[b], 0, 0.05);
+        continue;
+      }
+      if (TOXIC_OF[b] !== 0 && WITHER_INTO_OF[a] !== 0) {
+        set(a, b, R_TOXIC, WITHER_INTO_OF[a], KEEP, 0, 0.05);
+        continue;
+      }
+
+      // 11. Rusting: a metal slowly turns to rust where water or oxygen touches it.
+      if (RUSTS_INTO_OF[a] !== 0 && (SOLVENT_OF[b] !== 0 || OXIDISER_OF[b] >= 0.5)) {
+        set(a, b, R_RUST, RUSTS_INTO_OF[a], KEEP, 0, SOLVENT_OF[b] !== 0 ? 0.004 : 0.002);
+        continue;
+      }
+
+      // 12. Rotting: dead organic matter slowly rots where water touches it.
+      if (ROTS_INTO_OF[a] !== 0 && SOLVENT_OF[b] !== 0) {
+        set(a, b, R_ROT, ROTS_INTO_OF[a], KEEP, 0, 0.003);
       }
     }
   }
@@ -154,7 +252,7 @@ export function explain(a: number, b: number): string | null {
     case R_CORRODE: {
       const acid = corrodes(A, B) ? A : B;
       const target = acid === A ? B : A;
-      const gas = target.cls === 'metal' ? ', giving off hydrogen' : '';
+      const gas = target.carbonate ? ', fizzing out carbon dioxide' : target.cls === 'metal' ? ', giving off hydrogen' : '';
       return `${acid.name} eats ${target.name.toLowerCase()}: acidity ${fmt.format(acid.acidity ?? 0)} beats hardness ${fmt.format(target.hardness)}${gas}`;
     }
     case R_COMBUST:
@@ -165,8 +263,10 @@ export function explain(a: number, b: number): string | null {
       }
       if (B.phase === 'energy') return `${A.name} catches from the flame touching it`;
       return `${A.name} burns: it catches fire at ${fmt.format(A.ignition ?? 0)} °C next to ${b === EMPTY ? 'air' : B.name.toLowerCase()} (oxidiser ${fmt.format(OXIDISER_OF[b])})`;
-    case R_NEUTRAL:
-      return `${A.name} and ${B.name.toLowerCase()} neutralise each other into water`;
+    case R_NEUTRAL: {
+      const fizz = (A.carbonate && (A.acidity ?? 0) < 0) || (B.carbonate && (B.acidity ?? 0) < 0);
+      return `${A.name} and ${B.name.toLowerCase()} neutralise each other into water${fizz ? ', fizzing out carbon dioxide' : ''}, and warm up`;
+    }
     case R_DISSOLVE: {
       const solvent = SOLVENT_OF[a] !== 0 ? A : B;
       const solid = solvent === A ? B : A;
@@ -179,6 +279,35 @@ export function explain(a: number, b: number): string | null {
       const max = POROUS_MAX_OF[a] !== 0 ? POROUS_MAX_OF[a] : POROUS_MAX_OF[b];
       return `${porous.name} soaks up ${liquid.name.toLowerCase()}: it is porous and holds up to ${Math.round((max / 255) * 100)}% ${liquid.name.toLowerCase()}`;
     }
+    case R_QUENCH: {
+      const liquid = A.phase === 'liquid' ? A : B;
+      return `${liquid.name} puts out the fire, flashing into ${ELEMENTS[UP_INTO[liquid === A ? a : b]].name.toLowerCase()}`;
+    }
+    case R_SET: {
+      const powder = SETS_INTO_OF[a] !== 0 ? A : B;
+      const into = ELEMENTS[SETS_INTO_OF[powder === A ? a : b]].name.toLowerCase();
+      const hot = (powder.setHeat ?? 0) >= 50 ? ', getting very hot' : '';
+      return `${powder.name} takes in the water and sets into ${into}${hot}`;
+    }
+    case R_THAW: {
+      const salt = SOLUBLE_MAX_OF[a] !== 0 && A.phase === 'powder' ? A : B;
+      const ice = salt === A ? B : A;
+      return `${salt.name} melts ${ice.name.toLowerCase()}: dissolved, it lowers the freezing point`;
+    }
+    case R_ACIDIFY: {
+      const gas = ACID_GAS_OF[a] !== 0 ? A : B;
+      const water = gas === A ? B : A;
+      return `${gas.name} dissolves in ${water.name.toLowerCase()} and turns it into ${ELEMENTS[ACID_GAS_OF[gas === A ? a : b]].name.toLowerCase()}`;
+    }
+    case R_TOXIC: {
+      const gas = TOXIC_OF[a] !== 0 ? A : B;
+      const life = gas === A ? B : A;
+      return `${gas.name} is toxic: ${life.name.toLowerCase()} touching it withers`;
+    }
+    case R_RUST:
+      return `${A.name} slowly rusts into ${ELEMENTS[RUSTS_INTO_OF[a]].name.toLowerCase()} where ${B.name.toLowerCase()} touches it`;
+    case R_ROT:
+      return `${A.name} slowly rots into ${ELEMENTS[ROTS_INTO_OF[a]].name.toLowerCase()} where ${B.name.toLowerCase()} touches it`;
     default:
       return null;
   }
