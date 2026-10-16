@@ -19,17 +19,19 @@ Also welcome: anything that makes the grid, motion or animation look and feel be
 
 - Single player only. Saves are local files. **No backend, no server.** Everything runs in the browser.
 - Desktop and laptop first. Phones are out of scope for now.
-- The canvas fills the whole window, edge to edge. UI floats over it in a few small panels and fades while drawing. Sandboxels' cluttered, boxed-in UI is the anti-example.
+- Layout (owner decision, 16 Oct 2026, replaces floating panels): the canvas fills the area left of a fixed right column; nothing floats over the play area. Right column pattern: important controls fixed at the top (transport, tools, search, category chips), the element library scrolls in the middle and must scale to hundreds of elements, the selected element, brush and a quiet stats line fixed at the bottom. Stats (FPS, cells) never sit in prime spots. Sandboxels' cluttered UI is the anti-example.
+- No separate landing page. On open, a short skippable intro plays on the canvas itself ("shatter and drain": the word breaks into materials, collapses, drains away) and leaves an empty world.
+- Look: references are Figma/Linear (precise, quiet), Noita (pixel-honest), Apple apps (soft). No glows, gradients-as-decoration or anything that reads as AI-generated. Do not theme the UI on sand or hourglasses; Sandglass is only the name.
 - No time limit. Quality over speed.
 - The owner does not want a learning path. Claude writes all the code. The owner wants every change explained (see Change report).
 - Being "first" to do a feature does not matter. Being better does.
 
 ## Stack
 
-- TypeScript (strict), Vite, no UI framework unless clearly needed (plain DOM for the few floating panels).
+- TypeScript (strict), Vite, no UI framework unless clearly needed (plain DOM for the panel).
 - Simulation: struct-of-arrays typed arrays, single thread, fixed 60 Hz timestep with an accumulator.
 - Rendering: Canvas2D `ImageData` for phases 0 to 4, WebGL2 from phase 5. Keep the Canvas2D renderer as a debug fallback.
-- Grid sized from the window at start: 4 screen px per cell (480 × 270 at 1080p), capped at 160,000 cells (5 px per cell on larger screens). Window resize rescales the same grid.
+- Grid sized from the canvas area: 4 screen px per cell (480 × 270 at 1080p), capped at 160,000 cells (5 px per cell on larger screens). On resize the grid grows or shrinks to fill the area, keeping content anchored to the floor.
 - Seeded PRNG (mulberry32). Same seed and inputs must give the same grid every time.
 - E2E tests: Playwright, driven through a dev-only `window.__sim` hook (reset, fill, step N frames, count cells, grid hash).
 
@@ -64,7 +66,7 @@ Also welcome: anything that makes the grid, motion or animation look and feel be
 After each change, before moving on, tell the owner:
 
 1. **Files changed**: every file created, edited or deleted, with its path.
-2. **Where it sits**: its place in the folder structure and its job (e.g. `src/sim/step.ts`, simulation core; `src/ui/dock.ts`, floating element dock). Say whether it is browser frontend, build/config, test, or docs. There is no backend; say so if asked.
+2. **Where it sits**: its place in the folder structure and its job (e.g. `src/sim/step.ts`, simulation core; `src/ui/library.ts`, element library column). Say whether it is browser frontend, build/config, test, or docs. There is no backend; say so if asked.
 3. **What changed**: the functions, classes or line ranges touched, in plain words. Example: "`step.ts` lines 40 to 72: new `updateLiquid`, moves water down, then diagonally, then sideways only towards a drop."
 4. **Why**: the reason for the change and any trade-off.
 5. **How to see it**: what to run or do in the app to see the effect.
@@ -83,4 +85,4 @@ Keep the report short and concrete. Plain English, short sentences, simple words
 
 ## Current status
 
-Nothing built yet. Start at phase 0 of the roadmap in `docs/SPEC.md`.
+Phases 0 to 3 are done and pushed (sand, wall, water, oil, chunk sleep, perf HUD), plus the library column, the canvas intro and per-element fall physics. Next: phase 4 (temperature, phase changes) and the owner's ongoing UI feedback.

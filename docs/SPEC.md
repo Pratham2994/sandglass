@@ -237,7 +237,7 @@ About 11 bytes per entry; 2.75 MB at 500 elements. Priority when several familie
 
 ## Desktop UI
 
-The simulation fills the whole window, edge to edge. Controls float in a few small panels and fade to about 20% opacity while drawing.
+Owner decision (16 Oct 2026), replacing the floating panels shown below: the canvas fills the area left of a fixed right column, and nothing floats over the play area. The column keeps transport, tools, search and category chips fixed at the top, scrolls the element library in the middle (built for hundreds of elements), and keeps the selected element, brush and a quiet stats line fixed at the bottom. There is no separate landing page: a short intro plays on the canvas itself. The sketch below is the original idea, kept for its control list.
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
@@ -280,7 +280,7 @@ The simulation fills the whole window, edge to edge. Controls float in a few sma
 - One sans-serif typeface at 13 px, tabular figures so numbers do not jitter.
 - Element swatches show a live render of the material (sand has grain, lava glows), not flat squares.
 - Panels at about 90% opacity, no `backdrop-filter` blur (blurring a canvas that changes every frame costs work each frame for little gain).
-- Window resize rescales the same grid. Grid size changes only on a new world.
+- Window resize grows or shrinks the grid to fill the canvas area, keeping content anchored to the floor.
 
 ## Roadmap
 
