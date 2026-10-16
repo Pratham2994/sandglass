@@ -27,6 +27,9 @@ const N = ELEMENT_COUNT;
 const WAKE_DT = 0.05;
 /** Differences smaller than this are not worth exchanging. */
 const MIN_DIFF = 0.01;
+/** Absolute zero, and the hottest any cell may get (°C). */
+const T_MIN = -273;
+const T_MAX = 5000;
 /** Air drifts back to room temperature by this fraction per frame (heat lost to the room). */
 const AIR_RELAX = 0.005;
 
@@ -88,7 +91,14 @@ function exchange(world: World, a: number, b: number, x: number, y: number): voi
 function settle(world: World, i: number, x: number, y: number): void {
   const { type, temp } = world;
   const t = type[i];
-  const T = temp[i];
+  let T = temp[i];
+  // Physical limits: nothing colder than absolute zero, nothing hotter than
+  // T_MAX. Burning, current and blasts all add heat; without a ceiling a
+  // runaway cell would reach Infinity, then NaN, and break every comparison.
+  if (T < T_MIN || T > T_MAX || T !== T) {
+    T = T !== T ? AMBIENT : T < T_MIN ? T_MIN : T_MAX;
+    temp[i] = T;
+  }
   if (t === EMPTY) {
     const d = AMBIENT - T;
     if (d === 0) return;

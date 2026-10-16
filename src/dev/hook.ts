@@ -41,6 +41,10 @@ export interface SimHook {
   paint(x: number, y: number, r: number, element: string): void;
   /** Uses the heat or cool tool at (x, y) for one stamp, as the brush would (recorded). */
   tool(x: number, y: number, r: number, tool: 'heat' | 'cool'): void;
+  /** The world as a save file, base64-encoded. */
+  save(): Promise<string>;
+  /** Loads a base64 save file, as Open does. */
+  load(file: string): Promise<void>;
   /** Rewinds or replays to frame f, as the scrubber does. */
   seek(f: number): void;
   /** Current frame and the range the timeline can reach. */
@@ -68,6 +72,8 @@ export interface HookTargets {
   renderer: Renderer;
   frame(): void;
   timeline: Timeline;
+  save(): Promise<Uint8Array>;
+  load(bytes: Uint8Array): Promise<void>;
 }
 
 export function installSimHook(t: HookTargets): void {
@@ -146,6 +152,18 @@ export function installSimHook(t: HookTargets): void {
     },
     tool(x, y, r, tool) {
       t.timeline.record({ kind: OP_STAMP, x, y, r, mode: tool === 'heat' ? MODE_HEAT : MODE_COOL, vx: 0, vy: 0 });
+    },
+    async save() {
+      const bytes = await t.save();
+      let s = '';
+      for (let i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
+      return btoa(s);
+    },
+    async load(file) {
+      const s = atob(file);
+      const bytes = new Uint8Array(s.length);
+      for (let i = 0; i < s.length; i++) bytes[i] = s.charCodeAt(i);
+      await t.load(bytes);
     },
     seek(f) {
       t.timeline.seek(f);

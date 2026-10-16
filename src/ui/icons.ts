@@ -12,6 +12,8 @@ const PATHS = {
   heat: '<path d="M10 3.2c.6 2.4 3.8 4 3.8 7.6a3.8 3.8 0 0 1-7.6 0c0-1.7 1-2.8 1.8-3.6.2 1.3.8 2 1.6 2.2-.2-2.3-.6-4.3.4-6.2z"/>',
   cool: '<path d="M10 3v14M4 6.5l12 7M4 13.5l12-7"/><path d="m8.2 4.4 1.8 1.4 1.8-1.4M8.2 15.6l1.8-1.4 1.8 1.4"/>',
   wind: '<path d="M3.5 8h9a2.3 2.3 0 1 0-2.3-2.3"/><path d="M3.5 12h11.5a2.3 2.3 0 1 1-2.3 2.3"/>',
+  save: '<path d="M10 3.5v9M6.5 9l3.5 3.5L13.5 9"/><path d="M4 14.5v1.5h12v-1.5"/>',
+  open: '<path d="M3.5 6V15h13V7.5H9.5L8 6z"/><path d="M3.5 9h13"/>',
 } as const;
 
 export type IconName = keyof typeof PATHS;

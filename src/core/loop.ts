@@ -1,7 +1,7 @@
 /** Fixed simulation timestep: 60 Hz. */
 export const STEP_MS = 1000 / 60;
 /** Most sim steps per animation frame; past this the loop drops time instead of spiralling. */
-const MAX_STEPS_PER_TICK = 4;
+const MAX_STEPS_PER_TICK = 8;
 /** Longest gap counted between two ticks, e.g. after the tab was hidden. */
 const MAX_DT_MS = 250;
 
@@ -21,7 +21,7 @@ export interface LoopCallbacks {
  */
 export class FixedLoop {
   paused = false;
-  /** Simulation speed: 1 normal, 0.5 or 0.25 slow motion. */
+  /** Simulation speed: 1 normal, 0.5 or 0.25 slow motion, 2 or 4 fast forward. */
   speed = 1;
   /** Sim steps in the last full second. */
   stepsPerSecond = 0;

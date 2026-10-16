@@ -2,6 +2,7 @@ import '@fontsource-variable/geist';
 import './style.css';
 import { fitCanvas, gridFor, whenSized, type GridSize } from './core/grid';
 import { FixedLoop } from './core/loop';
+import { loadWorld, saveWorld } from './core/savefile';
 import { Timeline } from './core/timeline';
 import { Brush } from './input/brush';
 import { createRenderer } from './render/renderer';
@@ -98,7 +99,7 @@ function start(): void {
 
   mountCursor(brush, world);
   const hud = mountHud(perf, world);
-  mountLibrary(
+  const lib = mountLibrary(
     document.getElementById('panel') as HTMLElement,
     brush,
     loop,
@@ -125,7 +126,46 @@ function start(): void {
         loop.invalidate();
       },
     },
+    {
+      save: async () => {
+        const bytes = await saveWorld(world);
+        const a = document.createElement('a');
+        const stamp = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, '');
+        a.href = URL.createObjectURL(new Blob([bytes as BlobPart], { type: 'application/octet-stream' }));
+        a.download = `sandglass-${stamp}.sandglass`;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+        lib.notify('Saved.');
+      },
+      open: async () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.sandglass';
+        const file = await new Promise<File | null>((resolve) => {
+          input.addEventListener('change', () => resolve(input.files?.[0] ?? null), { once: true });
+          input.click();
+        });
+        if (!file) return;
+        await openSave(new Uint8Array(await file.arrayBuffer()));
+      },
+    },
   );
+
+  /** Loads a save, fits it to the canvas area, and starts history afresh from it. */
+  const openSave = async (bytes: Uint8Array): Promise<void> => {
+    try {
+      brush.cancel();
+      await loadWorld(world, bytes);
+      // A save from a different screen keeps its content, anchored to the floor.
+      world.resize(size.w, size.h);
+      renderer.resize(size.w, size.h, size.cellPx);
+      timeline.reset();
+      loop.invalidate();
+      lib.notify('Opened.');
+    } catch (e) {
+      lib.notify(e instanceof Error ? e.message : 'Could not open that file.');
+    }
+  };
 
   // Hold R to rewind: back three frames per display frame (about 3× speed), paused.
   let rewinding = false;
@@ -163,7 +203,9 @@ function start(): void {
   });
 
   if (import.meta.env.DEV) {
-    void import('./dev/hook').then((m) => m.installSimHook({ world, loop, brush, renderer, frame, timeline }));
+    void import('./dev/hook').then((m) =>
+      m.installSimHook({ world, loop, brush, renderer, frame, timeline, save: () => saveWorld(world), load: openSave }),
+    );
   }
 
   // Opening sequence; any click or key skips it. Dev-only: ?intro=0 skips it (E2E tests).

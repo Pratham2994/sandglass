@@ -7,6 +7,7 @@ import { inspectCell } from '../sim/inspect';
 import type { View } from '../render/renderer';
 import { icon } from './icons';
 import { MiniSim } from './preview';
+import { LEVEL_STRIDE, L_PLAIN, buildPalette } from '../render/palette';
 
 const STATUS_MS = 250;
 const fmt = new Intl.NumberFormat('en-GB');
@@ -47,6 +48,11 @@ export interface ViewControl {
   set(v: View): void;
 }
 
+export interface FileActions {
+  save(): Promise<void>;
+  open(): Promise<void>;
+}
+
 export interface TimeControl {
   info(): { frame: number; oldest: number; newest: number };
   seek(frame: number): void;
@@ -60,7 +66,8 @@ export function mountLibrary(
   onClear: () => void,
   views: ViewControl,
   time: TimeControl,
-): void {
+  files: FileActions,
+): { notify(message: string): void } {
   host.classList.add('library');
 
   // Stats line at the very bottom: useful, but not a control, so out of the way.
@@ -83,6 +90,8 @@ export function mountLibrary(
   const playBtn = tool('pause', 'Pause (Space)');
   const stepBtn = tool('step', 'Step one frame (.)');
   const eraseBtn = tool('eraser', 'Eraser (E)');
+  const saveBtn = tool('save', 'Save the world to a file');
+  const openBtn = tool('open', 'Open a saved world');
   const clearBtn = tool('clear', 'Clear the world');
   clearBtn.classList.add('danger');
   const clearHint = el('span', 'clear-hint', 'Click again to clear');
@@ -90,7 +99,9 @@ export function mountLibrary(
   const pausedTag = el('span', 'paused-tag', 'Paused');
   const gap = el('span', 'tool-gap');
   // The confirm hint sits before the buttons so arming Clear never moves them.
-  bar.append(playBtn, stepBtn, pausedTag, gap, clearHint, eraseBtn, clearBtn);
+  bar.append(playBtn, stepBtn, pausedTag, gap, clearHint, saveBtn, openBtn, eraseBtn, clearBtn);
+  saveBtn.addEventListener('click', () => void files.save());
+  openBtn.addEventListener('click', () => void files.open());
 
   playBtn.addEventListener('click', () => {
     loop.paused = !loop.paused;
@@ -188,7 +199,6 @@ export function mountLibrary(
   toolGroup.append(toolGrid);
   groups.append(toolGroup);
   const tiles: { id: number; button: HTMLButtonElement; group: HTMLElement; sim: MiniSim }[] = [];
-  let hotkey = 1;
   for (const cat of CATEGORY_ORDER) {
     const ids = ELEMENTS.map((_, id) => id).filter((id) => id !== EMPTY && ELEMENTS[id].category === cat);
     if (!ids.length) continue;
@@ -207,7 +217,8 @@ export function mountLibrary(
       b.setAttribute('aria-label', e.name);
       const label = el('span', 'tile-name', e.name);
       b.append(sim.canvas, label);
-      b.dataset.tip = hotkey <= 9 ? `${e.name}  ${hotkey}` : e.name;
+      // Keys 1 to 9 now pick recent elements, so library tiles show just the name.
+      b.dataset.tip = e.name;
       b.addEventListener('pointerdown', (ev) => ev.preventDefault());
       b.addEventListener('click', () => brush.setElement(id));
       b.addEventListener('pointerenter', () => {
@@ -224,7 +235,6 @@ export function mountLibrary(
       });
       grid.append(b);
       tiles.push({ id, button: b, group, sim });
-      hotkey++;
     }
     group.append(grid);
     groups.append(group);
@@ -369,14 +379,16 @@ export function mountLibrary(
   const speedBtn = el('button', 'speed num');
   speedBtn.type = 'button';
   speedBtn.title = 'Simulation speed';
-  const speeds = [1, 0.5, 0.25];
-  const speedLabel = (): string => (loop.speed === 1 ? '1×' : loop.speed === 0.5 ? '½×' : '¼×');
+  // Slow motion and fast forward: the sim keeps its fixed step, it just runs more or fewer per second.
+  const speeds = [1, 2, 4, 0.25, 0.5];
+  const speedLabel = (): string => (loop.speed === 0.5 ? '½×' : loop.speed === 0.25 ? '¼×' : `${loop.speed}×`);
   speedBtn.textContent = speedLabel();
   speedBtn.addEventListener('pointerdown', (e) => e.preventDefault());
   speedBtn.addEventListener('click', () => {
     loop.speed = speeds[(speeds.indexOf(loop.speed) + 1) % speeds.length];
     speedBtn.textContent = speedLabel();
-    speedBtn.classList.toggle('slow', loop.speed !== 1);
+    speedBtn.classList.toggle('slow', loop.speed < 1);
+    speedBtn.classList.toggle('fast', loop.speed > 1);
   });
   const scrub = el('input', 'scrub');
   scrub.type = 'range';
@@ -403,8 +415,58 @@ export function mountLibrary(
   };
   setInterval(refreshTime, 100);
 
+  // Recent: the last nine elements used, on keys 1 to 9.
+  const recentRow = el('div', 'recent');
+  recentRow.setAttribute('aria-label', 'Recent elements');
+  const recent: number[] = [];
+  const recentLut = buildPalette();
+  // Picking from the hotbar itself must not reorder it, or every key would shift after use.
+  let fromHotbar = false;
+  const pickRecent = (id: number): void => {
+    fromHotbar = true;
+    brush.setElement(id);
+    fromHotbar = false;
+  };
+  const drawRecent = (): void => {
+    recentRow.replaceChildren(
+      ...recent.map((id, k) => {
+        const b = el('button', 'chip-el');
+        b.type = 'button';
+        b.setAttribute('aria-label', `${ELEMENTS[id].name} (${k + 1})`);
+        b.dataset.tip = `${ELEMENTS[id].name}  ${k + 1}`;
+        b.classList.toggle('on', id === brush.element && !brush.erasing && !brush.tool);
+        const sw = el('span', 'chip-swatch');
+        const c = recentLut[L_PLAIN * LEVEL_STRIDE + ((id << 8) | 128)];
+        sw.style.background = `rgb(${c & 255} ${(c >> 8) & 255} ${(c >> 16) & 255})`;
+        b.append(sw, el('span', 'num', String(k + 1)));
+        b.addEventListener('pointerdown', (e) => e.preventDefault());
+        b.addEventListener('click', () => pickRecent(id));
+        b.addEventListener('pointerenter', () => showTip(b));
+        b.addEventListener('pointerleave', () => (tip.hidden = true));
+        return b;
+      }),
+    );
+    recentRow.hidden = recent.length === 0;
+  };
+  const noteRecent = (): void => {
+    if (brush.tool || brush.erasing) return;
+    if (fromHotbar) {
+      drawRecent();
+      return;
+    }
+    const id = brush.element;
+    if (recent[0] === id) return;
+    const at = recent.indexOf(id);
+    if (at >= 0) recent.splice(at, 1);
+    recent.unshift(id);
+    recent.length = Math.min(recent.length, 9);
+    drawRecent();
+  };
+  brush.subscribe(noteRecent);
+  noteRecent();
+
   const top = el('div', 'lib-top');
-  top.append(bar, timeRow, viewBar, search, chips);
+  top.append(bar, timeRow, viewBar, search, chips, recentRow);
   const foot = el('div', 'lib-foot');
   foot.append(detail, lens, sizeRow, stats);
   host.append(top, groups, foot);
@@ -451,6 +513,7 @@ export function mountLibrary(
 
   const refreshStatus = (): void => {
     host.classList.toggle('paused', loop.paused);
+    if (stats.classList.contains('note')) return;
     const fps = loop.paused ? 'paused' : `${loop.stepsPerSecond} FPS`;
     statsText.textContent = `${fps} · ${fmt.format(world.countFilled())} cells · ${world.w} × ${world.h}`;
     playBtn.replaceChildren(icon(loop.paused ? 'play' : 'pause'));
@@ -469,13 +532,25 @@ export function mountLibrary(
     } else if (e.key === 'e' || e.key === 'E') {
       brush.setErasing(!brush.erasing);
     } else if (e.key >= '1' && e.key <= '9') {
-      const t = tiles[Number(e.key) - 1];
-      if (t) brush.setElement(t.id);
+      const id = recent[Number(e.key) - 1];
+      if (id !== undefined) pickRecent(id);
     } else if (e.code === 'Space') {
       // The main loop toggles pause; mirror it at once.
       queueMicrotask(refreshStatus);
     }
   });
+
+  // Short messages (save errors and the like) take over the stats line for a few seconds.
+  let noteTimer = 0;
+  const notify = (message: string): void => {
+    clearTimeout(noteTimer);
+    stats.classList.add('note');
+    statsText.textContent = message;
+    noteTimer = window.setTimeout(() => {
+      stats.classList.remove('note');
+      refreshStatus();
+    }, 4000);
+  };
 
   // Previews: the detail card always plays; a hovered tile plays its demo.
   let last = 0;
@@ -488,4 +563,5 @@ export function mountLibrary(
     hovered?.sim.tick();
   };
   requestAnimationFrame(animate);
+  return { notify };
 }
