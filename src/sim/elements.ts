@@ -10,11 +10,17 @@ export interface ElementDef {
   key: string;
   name: string;
   category: Category;
-  /** Base colours; each cell picks one through its `shade`. */
+  /** Base colours; each cell picks one through its `shade`. For stone, dark to light. */
   colours: string[];
+  /** Render only. grain (default): colour per cell. stone: smooth texture fixed to the grid, bevelled edges. */
+  texture?: 'grain' | 'stone';
   phase: Phase;
   /** kg/m³ */
   density: number;
+  /** Movers only: fall acceleration in cells/s². Light powders accelerate slowly. */
+  fallAccel?: number;
+  /** Movers only: top fall speed in cells/s (air drag). At most 238. */
+  fallMax?: number;
 }
 
 // Ids are indexes into ELEMENTS. Id 0 is empty space (air).
@@ -28,7 +34,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     key: 'wall',
     name: 'Wall',
     category: 'solids',
-    colours: ['#4b4e54', '#46494f', '#515459', '#42454b'],
+    colours: ['#34373d', '#43464c', '#4f5258', '#5b5e63'],
+    texture: 'stone',
     phase: 'solid',
     density: 2500,
   },
@@ -39,6 +46,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#dcc38a', '#d3b77b', '#e4cd97', '#c9ac6f', '#d8bd84', '#bfa166'],
     phase: 'powder',
     density: 1600,
+    fallAccel: 230,
+    fallMax: 165,
   },
 ];
 
@@ -61,6 +70,20 @@ const PHASE_CODE: Record<Phase, number> = {
 
 /** Phase code per element id. Empty is 0 so the cell pass can skip it. */
 export const PHASE_OF = Uint8Array.from(ELEMENTS, (e, id) => (id === EMPTY ? 0 : PHASE_CODE[e.phase]));
+
+/** Units of `vy`: 1/32 cell per frame. Int8 holds up to 127, so ~4 cells per frame (238 cells/s). */
+export const VY_UNIT = 32;
+const FPS = 60;
+
+/** Fall speed gained per frame, in vy units. At least 1 for anything that falls. */
+export const GRAVITY_OF = Uint8Array.from(ELEMENTS, (e) =>
+  e.fallAccel ? Math.max(1, Math.round((e.fallAccel / (FPS * FPS)) * VY_UNIT)) : 0,
+);
+
+/** Top fall speed, in vy units. */
+export const VMAX_OF = Uint8Array.from(ELEMENTS, (e) =>
+  e.fallMax ? Math.min(127, Math.round((e.fallMax / FPS) * VY_UNIT)) : 0,
+);
 
 /** Element id for a key. Throws on an unknown key. */
 export function elementId(key: string): number {

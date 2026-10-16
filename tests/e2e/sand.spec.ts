@@ -4,6 +4,8 @@ import type {} from '../../src/dev/hook';
 const SEED = 42;
 const BLOCK = 100; // 100 × 100 = 10,000 sand cells
 const FRAMES = 600;
+/** Frames allowed for a 10,000-cell block to slump into its final pile. */
+const SETTLE_FRAMES = 1200;
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -57,7 +59,7 @@ test('poured sand settles into a sloped pile', async ({ page }) => {
     const hash = s.hash();
     s.step(120);
     return { heights, settled: s.hash() === hash };
-  }, FRAMES);
+  }, SETTLE_FRAMES);
 
   // At rest: nothing moves any more.
   expect(r.settled).toBe(true);

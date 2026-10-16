@@ -1,5 +1,5 @@
 import type { Brush } from '../input/brush';
-import { buildPalette } from '../render/palette';
+import { LEVEL_STRIDE, L_PLAIN, L_TOP, buildPalette } from '../render/palette';
 import { ELEMENTS, EMPTY } from '../sim/elements';
 import { Rng } from '../sim/rng';
 
@@ -16,7 +16,11 @@ function swatch(id: number, lut: Uint32Array, rng: Rng): HTMLCanvasElement {
   if (ctx) {
     const img = ctx.createImageData(SWATCH, SWATCH);
     const px = new Uint32Array(img.data.buffer);
-    for (let i = 0; i < px.length; i++) px[i] = lut[(id << 8) | (rng.nextU32() & 255)];
+    for (let i = 0; i < px.length; i++) {
+      // Light from above on the top row, like the grains on screen.
+      const level = i < SWATCH ? L_TOP : L_PLAIN;
+      px[i] = lut[level * LEVEL_STRIDE + ((id << 8) | (rng.nextU32() & 255))];
+    }
     ctx.putImageData(img, 0, 0);
   }
   return c;

@@ -1,11 +1,47 @@
 import { EMPTY } from '../sim/elements';
 import type { World } from '../sim/world';
-import { buildBackground, buildPalette } from './palette';
+import {
+  LEVEL_STRIDE,
+  L_DEEP,
+  L_GLINT,
+  L_PLAIN,
+  L_SHADE,
+  L_SIDE,
+  L_TOP,
+  L_UNDER,
+  TEXTURE_OF,
+  TEX_STONE,
+  buildBackground,
+  buildPalette,
+  buildStoneShade,
+} from './palette';
+
+/** Grains more than this many cells under the surface are drawn darker. */
+const DEEP_CELLS = 6;
+
+/** 75% of a packed colour, alpha kept. */
+function dark75(c: number): number {
+  const rgb = c & 0xffffff;
+  return (0xff000000 | (rgb - ((rgb >> 2) & 0x3f3f3f))) >>> 0;
+}
+
+/** 87.5% of a packed colour, alpha kept. */
+function dark87(c: number): number {
+  const rgb = c & 0xffffff;
+  return (0xff000000 | (rgb - ((rgb >> 3) & 0x1f1f1f))) >>> 0;
+}
 
 /**
  * Canvas2D renderer: one canvas pixel per cell, written through a Uint32Array
  * view of an ImageData and blitted with putImageData. CSS scales the canvas up
  * with nearest-neighbour sampling so cells stay crisp.
+ *
+ * Each cell is lit from its neighbours, light from above:
+ * - grains with open space above get a lit top, and grains deep under the
+ *   surface are darker, so piles read as solid mounds; a few grains that
+ *   moved this frame glint, so moving sand sparkles;
+ * - stone (wall) is bevelled: light top and left edges, dark bottom and right;
+ * - empty cells under or beside matter get a contact shadow.
  *
  * Pixels are packed as 0xAABBGGRR, which is the byte order of RGBA on
  * little-endian machines (every desktop browser target).
@@ -16,6 +52,11 @@ export class Canvas2DRenderer {
   private readonly image: ImageData;
   private readonly palette = buildPalette();
   private readonly background: Uint32Array;
+  private readonly bgShadow: Uint32Array;
+  private readonly bgShadowSoft: Uint32Array;
+  private readonly stoneShade: Uint8Array;
+  /** Per column: filled cells since the last empty cell above, while scanning down. */
+  private readonly depth: Uint16Array;
 
   constructor(canvas: HTMLCanvasElement, w: number, h: number) {
     canvas.width = w;
@@ -26,17 +67,56 @@ export class Canvas2DRenderer {
     this.image = ctx.createImageData(w, h);
     this.pixels = new Uint32Array(this.image.data.buffer);
     this.background = buildBackground(w, h);
+    this.bgShadow = this.background.map(dark75);
+    this.bgShadowSoft = this.background.map(dark87);
+    this.stoneShade = buildStoneShade(w, h);
+    this.depth = new Uint16Array(w);
   }
 
   /** Draws every cell of the world and blits it. */
   draw(world: World): void {
-    const { type, shade, size } = world;
+    const { w, h, type, shade, stamp } = world;
     const px = this.pixels;
     const pal = this.palette;
     const bg = this.background;
-    for (let i = 0; i < size; i++) {
-      const t = type[i];
-      px[i] = t === EMPTY ? bg[i] : pal[(t << 8) | shade[i]];
+    const bgShadow = this.bgShadow;
+    const bgSoft = this.bgShadowSoft;
+    const stone = this.stoneShade;
+    const depth = this.depth;
+    depth.fill(0);
+    // Stamp written during the last step (see World.currentStamp).
+    const moved = world.frame === 0 ? -1 : 1 + ((world.frame - 1) % 255);
+
+    for (let y = 0; y < h; y++) {
+      const row = y * w;
+      for (let x = 0; x < w; x++) {
+        const i = row + x;
+        const t = type[i];
+        const upEmpty = y === 0 || type[i - w] === EMPTY;
+        if (t === EMPTY) {
+          depth[x] = 0;
+          if (!upEmpty) px[i] = bgShadow[i];
+          else if ((x > 0 && type[i - 1] !== EMPTY) || (x + 1 < w && type[i + 1] !== EMPTY)) px[i] = bgSoft[i];
+          else px[i] = bg[i];
+          continue;
+        }
+        const d = ++depth[x];
+        let level = L_PLAIN;
+        let s: number;
+        if (TEXTURE_OF[t] === TEX_STONE) {
+          s = stone[i];
+          if (y + 1 < h && type[i + w] === EMPTY) level = L_UNDER;
+          else if (upEmpty) level = L_TOP;
+          else if (x > 0 && type[i - 1] === EMPTY) level = L_SIDE;
+          else if (x + 1 < w && type[i + 1] === EMPTY) level = L_SHADE;
+        } else {
+          s = shade[i];
+          if (stamp[i] === moved && (s & 15) === 0) level = L_GLINT;
+          else if (upEmpty) level = L_TOP;
+          else if (d > DEEP_CELLS) level = L_DEEP;
+        }
+        px[i] = pal[level * LEVEL_STRIDE + ((t << 8) | s)];
+      }
     }
     this.present();
   }

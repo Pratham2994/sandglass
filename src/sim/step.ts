@@ -1,10 +1,21 @@
-import { EMPTY, PHASE_OF, PH_POWDER } from './elements';
+import { EMPTY, GRAVITY_OF, PHASE_OF, PH_POWDER, VMAX_OF, VY_UNIT } from './elements';
 import type { World } from './world';
 
-/** Fall speed gained per frame, in quarter cells per frame. */
-const GRAVITY = 1;
-/** Top fall speed: 20 quarter cells = 5 cells per frame. */
-const MAX_VY = 20;
+/**
+ * Sub-cell offsets 0..31 in bit-reversed order. Speeds are in 1/32 cell per
+ * frame; adding DITHER[(frame + shade) & 31] before dividing by 32 moves a
+ * cell the right average distance, spread evenly over frames (a cell at half
+ * a cell per frame moves every other frame, not 16 frames on, 16 off), with
+ * no RNG and no extra per-cell field.
+ */
+const DITHER = Uint8Array.from({ length: 32 }, (_, n) => {
+  let r = 0;
+  for (let b = 0; b < 5; b++) r |= ((n >> b) & 1) << (4 - b);
+  return r;
+});
+const SHIFT = Math.log2(VY_UNIT);
+/** A grain that finds a slope open starts sliding at 3/4 cell per frame, so avalanches flow, not crawl. */
+const SLIDE_START = (VY_UNIT * 3) >> 2;
 
 /**
  * Cell pass: one simulation frame.
@@ -49,26 +60,35 @@ function swap(world: World, i: number, j: number): void {
   shade[j] = c;
 }
 
+
 /**
- * Powder: fall straight down, speeding up while the path is clear.
- * If blocked, slide one cell down-left or down-right (random order if both
- * are open). Otherwise rest. Grid edges act as walls.
+ * Powder: fall straight down, speeding up by the element's gravity up to its
+ * top speed. On landing, half the speed carries into sliding. If blocked,
+ * slide one cell down-left or down-right (random order if both are open);
+ * sliding starts at 3/4 cell per frame and builds to one cell per frame, so
+ * grains ease onto a slope instead of snapping. Otherwise rest.
+ * Grid edges act as walls.
  */
 function updatePowder(world: World, x: number, y: number, i: number, st: number): void {
   const { w, h, type, vy, stamp } = world;
   if (y + 1 >= h) {
-    vy[i] = 0;
+    if (vy[i] !== 0) vy[i] = 0;
     return;
   }
+  const t = type[i];
+  const g = GRAVITY_OF[t];
+  const sub = DITHER[(world.frame + world.shade[i]) & 31];
 
   const below = i + w;
   if (type[below] === EMPTY) {
-    let v = vy[i] + GRAVITY;
-    if (v > MAX_VY) v = MAX_VY;
-    // Whole cells this frame. Speed is in quarter cells; a per-cell, per-frame
-    // offset spreads the remainder over frames without using the RNG.
-    let dist = (v + ((world.frame + world.shade[i]) & 3)) >> 2;
-    if (dist < 1) dist = 1;
+    let v = vy[i] + g;
+    if (v > VMAX_OF[t]) v = VMAX_OF[t];
+    const dist = (v + sub) >> SHIFT;
+    if (dist === 0) {
+      // Still gathering speed; moves on a later frame.
+      vy[i] = v;
+      return;
+    }
 
     let j = below;
     let ny = y + 1;
@@ -80,12 +100,13 @@ function updatePowder(world: World, x: number, y: number, i: number, st: number)
     }
     if (moved < dist) {
       // Stopped short. Behind a cell that is also falling this frame, match
-      // its speed so streams stay together; on anything at rest, land.
+      // its speed so streams stay together; on anything at rest, land and
+      // keep half the speed for sliding.
       const next = j + w;
       if (ny + 1 < h && stamp[next] === st && vy[next] > 0) {
         if (vy[next] < v) v = vy[next];
       } else {
-        v = 0;
+        v >>= 1;
       }
     }
     swap(world, i, j);
@@ -94,17 +115,30 @@ function updatePowder(world: World, x: number, y: number, i: number, st: number)
     return;
   }
 
+  // The cell below is in free fall but has not moved yet this frame (still
+  // gathering speed): fall with it rather than treat it as ground.
+  if (vy[below] > 0 && y + 2 < h && type[below + w] === EMPTY && PHASE_OF[type[below]] === PH_POWDER) {
+    let v = vy[i] + g;
+    if (v > vy[below]) v = vy[below];
+    vy[i] = v;
+    return;
+  }
+
   const openL = x > 0 && type[below - 1] === EMPTY;
   const openR = x + 1 < w && type[below + 1] === EMPTY;
-  let j: number;
-  if (openL && openR) j = world.rng.nextU32() & 1 ? below + 1 : below - 1;
-  else if (openL) j = below - 1;
-  else if (openR) j = below + 1;
-  else {
+  if (!openL && !openR) {
     if (vy[i] !== 0) vy[i] = 0;
     return;
   }
-  const v = vy[i] >> 1;
+  let v = (vy[i] < SLIDE_START ? SLIDE_START : vy[i]) + g;
+  if (v > VY_UNIT) v = VY_UNIT;
+  if ((v + sub) >> SHIFT === 0) {
+    vy[i] = v;
+    return;
+  }
+  let j: number;
+  if (openL && openR) j = world.rng.nextU32() & 1 ? below + 1 : below - 1;
+  else j = openL ? below - 1 : below + 1;
   swap(world, i, j);
   vy[j] = v;
   stamp[j] = st;
