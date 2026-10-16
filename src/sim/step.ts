@@ -621,6 +621,16 @@ function live(world: World, x: number, y: number, i: number, st: number): void {
   }
   life[up] = last ? 0 : budget - 1;
   life[i] = side !== 0 && budget > 6 ? budget >> 1 : 0;
+  // Trees (plants with leaves of their own) grow a thick trunk low down, while lots of growth is still to come.
+  if (LEAF_INTO_OF[t] !== 0 && side === 0 && budget > 40 && tx + 1 < w) {
+    const beside = up + 1;
+    if (type[beside] === EMPTY && conc[up] >= 4) {
+      world.place(beside, t);
+      world.temp[beside] = T;
+      world.stamp[beside] = st;
+      moveWater(world, up, beside, conc[up] >> 1);
+    }
+  }
   // A leaf beside the new cell, now and then; plants with leaves of their own (trees) leaf out often.
   if ((LEAF_INTO_OF[t] !== 0 ? ((r >>> 26) & 1) === 0 : ((r >>> 26) & 3) === 0) && conc[up] >= 4) {
     const lx = tx + ((r >>> 28) & 1 ? 1 : -1);
