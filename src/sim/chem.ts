@@ -102,12 +102,14 @@ function compile(): void {
 
       // 3. Combustion: hot enough next to an oxidiser, it catches fire. A
       // flame touching it lights it directly (it still needs air to keep burning).
-      if (IGNITION_OF[a] !== Infinity && OXIDISER_OF[b] > 0) {
-        set(a, b, R_COMBUST, KEEP, KEEP, 0, Math.min(1, 0.25 + OXIDISER_OF[b]), IGNITION_OF[a]);
-        continue;
-      }
+      // The flame test comes first: loose flames also count as an oxidiser, and
+      // the oxidiser rule would make a touching flame wait for ignition heat.
       if (IGNITION_OF[a] !== Infinity && B.phase === 'energy') {
         set(a, b, R_COMBUST, KEEP, KEEP, 0, 1);
+        continue;
+      }
+      if (IGNITION_OF[a] !== Infinity && OXIDISER_OF[b] > 0) {
+        set(a, b, R_COMBUST, KEEP, KEEP, 0, Math.min(1, 0.25 + OXIDISER_OF[b]), IGNITION_OF[a]);
         continue;
       }
 

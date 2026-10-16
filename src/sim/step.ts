@@ -2,14 +2,11 @@ import { HAS_REACTION, KEEP, P_GAS, P_MIN_T, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R
 import {
   BLAST_POWER_OF,
   BUOY_DIR_OF,
-  DIRT,
   ELECTRIC_OF,
   HYDROGEN,
   OXYGEN,
-  PLANT,
   POWER_EVERY_OF,
   SALT,
-  SEED,
   SPARK,
   CONC_UNIT,
   IMPACT_VY_OF,
@@ -32,6 +29,9 @@ import {
   FUEL_OF,
   GRAVITY_OF,
   IGNITION_OF,
+  FLASH_OF,
+  GROWS_INTO_OF,
+  WITHER_INTO_OF,
   OXIDISER_OF,
   PHASE_OF,
   PH_ENERGY,
@@ -116,8 +116,8 @@ function updateCell(world: World, x: number, y: number, st: number): void {
   }
   if (POWER_EVERY_OF[t] !== 0) powerSource(world, x, y, t);
   if (world.charge[i] !== 0) updateCharge(world, x, y, i, st);
-  if (t === PLANT && world.life[i] !== 0) grow(world, x, y, i);
-  else if (t === SEED && world.vy[i] === 0) sprout(world, x, y, i);
+  if (WITHER_INTO_OF[t] !== 0) live(world, x, y, i, st);
+  else if (GROWS_INTO_OF[t] !== 0 && world.vy[i] === 0) sprout(world, x, y, i);
   if (world.type[i] !== t) return;
   // One pair-table lookup with a random neighbour; a cell that reacted does not also move.
   if (HAS_REACTION[t] !== 0 && react(world, x, y, i, st)) return;
@@ -203,48 +203,121 @@ function powerSource(world: World, x: number, y: number, t: number): void {
 
 // ---- Life -------------------------------------------------------------------------
 
-/** Frames a seed needs on wet dirt, on average, before it sprouts. */
+/** Frames a seed needs on damp soil, on average, before it sprouts. */
 const SPROUT_EVERY = 45;
-/** Cells above a growing tip that must be open sky for it to grow. */
-const SKY = 24;
+/** Water (concentration units) a root takes from damp soil in one drink. */
+const DRINK = 16;
+/** Water a growing tip needs before it builds a new cell, and what the cell costs. */
+const GROW_NEED = 8;
+const GROW_COST = 4;
 
-/** True if the column above (x, y) is open to the sky (only air, gas or plant for SKY cells). */
-function openSky(world: World, x: number, y: number): boolean {
-  for (let k = 1; k <= SKY && y - k >= 0; k++) {
-    const t = world.type[(y - k) * world.w + x];
-    if (t !== EMPTY && t !== PLANT && PHASE_OF[t] !== PH_GAS) return false;
-  }
-  return true;
-}
-
-/** A seed on wet dirt with sky above sprouts: it becomes a plant with a growth budget, drinking from the dirt. */
+/** A seed on damp soil with room above sprouts into its plant, taking water from the soil. */
 function sprout(world: World, x: number, y: number, i: number): void {
-  if (y + 1 >= world.h) return;
+  if (y === 0 || y + 1 >= world.h) return;
+  const { type, conc, solute } = world;
   const below = i + world.w;
-  if (world.type[below] !== DIRT || world.conc[below] === 0 || world.solute[below] !== WATER) return;
+  if (POROUS_MAX_OF[type[below]] === 0 || solute[below] !== WATER || conc[below] < DRINK) return;
   world.wake(x, y);
-  if (world.rng.nextU32() % SPROUT_EVERY !== 0 || !openSky(world, x, y)) return;
-  world.conc[below] = world.conc[below] > 24 ? world.conc[below] - 24 : 0;
-  if (world.conc[below] === 0) world.solute[below] = 0;
-  world.type[i] = PLANT;
-  world.life[i] = 18 + (world.rng.nextU32() % 24);
+  // Room above: air, or a puddle of fresh water the young plant will drink.
+  const above = i - world.w;
+  if (type[above] !== EMPTY && (type[above] !== WATER || conc[above] !== 0)) return;
+  const r = world.rng.nextU32();
+  if (r % SPROUT_EVERY !== 0) return;
+  const take = conc[below] < CONC_UNIT ? conc[below] : CONC_UNIT;
+  conc[below] -= take;
+  if (conc[below] === 0) solute[below] = 0;
+  become(world, i, GROWS_INTO_OF[type[i]]);
+  solute[i] = WATER;
+  conc[i] = take;
+  world.life[i] = 24 + ((r >>> 8) % 32);
 }
 
-/** A growing tip adds a cell above (sometimes a side shoot) while it has budget and sky. */
-function grow(world: World, x: number, y: number, i: number): void {
+/** Moves `n` water units from cell `from` to cell `to`. */
+function moveWater(world: World, from: number, to: number, n: number): void {
+  const { conc, solute } = world;
+  conc[from] -= n;
+  if (conc[from] === 0) solute[from] = 0;
+  conc[to] += n;
+  solute[to] = WATER;
+}
+
+/**
+ * A living cell (plant). It drinks from damp soil or fresh water beside it,
+ * passes water on to drier cells of its own plant, loses a little to the
+ * air, and withers when it has none left. A growing tip (life > 0) builds a
+ * new cell above while it has water, now and then with a leaf beside it.
+ * Runs on one frame in four, so even a jungle costs little.
+ */
+function live(world: World, x: number, y: number, i: number, st: number): void {
   world.wake(x, y);
   const r = world.rng.nextU32();
-  if ((r & 15) !== 0 || y === 0) return;
-  const budget = world.life[i];
-  if (!openSky(world, x, y)) return;
-  const up = i - world.w;
-  // Usually straight up; now and then a slanted shoot to one side.
-  const side = (r >>> 4) % 5 === 0 ? ((r >>> 8) & 1 ? 1 : -1) : 0;
-  const j = side !== 0 && x + side >= 0 && x + side < world.w ? up + side : up;
-  if (world.type[j] !== EMPTY) return;
-  world.place(j, PLANT);
-  world.life[j] = budget - 1;
-  world.life[i] = side !== 0 && budget > 6 ? budget >> 1 : 0;
+  if ((r & 3) !== 0) return;
+  const { w, type, conc, solute, life } = world;
+  const t = type[i];
+
+  // Drink: damp soil gives a little at a time; a cell of fresh water is taken whole.
+  let j = neighbour(world, x, y, (r >>> 2) & 3);
+  // Roots: a cell standing on soil also draws from the soil around and below it.
+  if (y + 1 < world.h && POROUS_MAX_OF[type[i + w]] !== 0 && ((r >>> 29) & 1) === 0) {
+    const rx = x + (((r >>> 10) % 5) - 2);
+    const ry = y + 1 + ((r >>> 13) % 3);
+    if (rx >= 0 && rx < w && ry < world.h) j = ry * w + rx;
+  }
+  if (j >= 0) {
+    const tj = type[j];
+    if (POROUS_MAX_OF[tj] !== 0 && solute[j] === WATER && conc[j] > 0 && conc[i] <= 255 - DRINK) {
+      moveWater(world, j, i, conc[j] < DRINK ? conc[j] : DRINK);
+    } else if (tj === WATER && conc[j] === 0 && conc[i] <= 255 - CONC_UNIT && ((r >>> 4) & 7) === 0) {
+      world.place(j, EMPTY);
+      conc[i] += CONC_UNIT;
+      solute[i] = WATER;
+    }
+  }
+  // Share: water moves on to a drier cell of the same plant. Sap rises: half
+  // the time it goes to the cell above, whatever that one holds, so the
+  // growing tips are fed first.
+  const k = ((r >>> 7) & 1) === 0 ? neighbour(world, x, y, 0) : neighbour(world, x, y, (r >>> 8) & 3);
+  if (k >= 0 && type[k] === t) {
+    if (k === i - w && conc[i] > 2 && conc[k] <= 255 - 2) moveWater(world, i, k, conc[i] >> 2);
+    else if (conc[i] > conc[k] + 1) moveWater(world, i, k, (conc[i] - conc[k]) >> 1);
+  }
+  // Breathe out a little.
+  if (((r >>> 9) & 63) === 0 && conc[i] > 0) {
+    conc[i]--;
+    if (conc[i] === 0) solute[i] = 0;
+  }
+  // Wither when dry for a while (about 2 s on average).
+  if (conc[i] === 0) {
+    if (((r >>> 14) & 31) === 0) become(world, i, WITHER_INTO_OF[t]);
+    return;
+  }
+  // Grow: usually straight up, now and then a slanted shoot that branches.
+  if (life[i] === 0 || y === 0 || conc[i] < GROW_NEED || ((r >>> 19) & 1) !== 0) return;
+  const budget = life[i];
+  const side = (r >>> 21) % 5 === 0 ? ((r >>> 24) & 1 ? 1 : -1) : 0;
+  const tx = x + side;
+  if (tx < 0 || tx >= w) return;
+  const up = (y - 1) * w + tx;
+  if (type[up] !== EMPTY) return;
+  const T = world.temp[i];
+  world.place(up, t);
+  world.temp[up] = T;
+  world.stamp[up] = st;
+  conc[i] -= GROW_COST;
+  moveWater(world, i, up, conc[i] >> 1);
+  life[up] = budget - 1;
+  life[i] = side !== 0 && budget > 6 ? budget >> 1 : 0;
+  // A leaf beside the new cell, now and then.
+  if (((r >>> 26) & 3) === 0 && conc[up] >= 4) {
+    const lx = tx + ((r >>> 28) & 1 ? 1 : -1);
+    const leaf = (y - 1) * w + lx;
+    if (lx >= 0 && lx < w && type[leaf] === EMPTY) {
+      world.place(leaf, t);
+      world.temp[leaf] = T;
+      world.stamp[leaf] = st;
+      moveWater(world, up, leaf, conc[up] >> 1);
+    }
+  }
 }
 
 /** Index of the neighbour of (x, y) in direction d (0 up, 1 right, 2 down, 3 left), or -1 off the grid. */
@@ -291,7 +364,7 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
   // smother over and over.
   if (rule === R_COMBUST && type[j] === FIRE && world.solute[j] !== 0) return false;
   // Wet things do not catch fire until they dry out.
-  if (rule === R_COMBUST && world.conc[i] !== 0 && SOLVENT_OF[world.solute[i]] !== 0) return false;
+  if (rule === R_COMBUST && world.conc[i] !== 0 && SOLVENT_OF[world.solute[i]] !== 0 && PHASE_OF[a] === PH_POWDER) return false;
   const { solute, conc } = world;
   // Solutions: the host must have room (and hold nothing else), or nothing can happen.
   let host = -1;
@@ -430,6 +503,20 @@ function updateFire(world: World, x: number, y: number, i: number, st: number): 
       return;
     }
     life[i] = L;
+    // A flame touches fuel for only a frame or two as it rises past, so it
+    // looks for fuel itself instead of waiting for the fuel's own random check.
+    for (let d = 0; d < 4; d++) {
+      const j = neighbour(world, x, y, (r + d) & 3);
+      if (j < 0) continue;
+      const t = type[j];
+      if (IGNITION_OF[t] === Infinity || PHASE_OF[t] === PH_ENERGY) continue;
+      // Wet things do not catch fire until they dry out.
+      if (world.conc[j] !== 0 && SOLVENT_OF[solute[j]] !== 0 && PHASE_OF[t] === PH_POWDER) continue;
+      if (BLAST_POWER_OF[t] > 0) explode(world, j % w, (j / w) | 0);
+      else ignite(world, j, t);
+      world.stamp[j] = st;
+      break;
+    }
     if (y > 0) {
       // Rise, often slanting, so flames lick across the surface next to them.
       const up = i - w;
@@ -445,6 +532,15 @@ function updateFire(world: World, x: number, y: number, i: number, st: number): 
         world.wake(x, y - 1);
       }
     }
+    return;
+  }
+
+  // A burning liquid or powder still falls: burning oil pours, and flames
+  // stay on a pool's surface instead of hanging where it used to be.
+  const fph = PHASE_OF[fuel];
+  if ((fph === PH_LIQUID || fph === PH_POWDER) && y + 1 < world.h && type[i + w] === EMPTY) {
+    moveTo(world, i, i + w, 0, st);
+    world.wake(x, y + 1);
     return;
   }
 
@@ -476,6 +572,15 @@ function updateFire(world: World, x: number, y: number, i: number, st: number): 
     const j = neighbour(world, x, y, d);
     if (j >= 0 && type[j] !== FIRE) temp[j] += push;
   }
+  // Fuel past its flash point catches from this flame wherever air reaches it.
+  const sj = neighbour(world, x, y, (r >>> 4) & 3);
+  if (sj >= 0) {
+    const t = type[sj];
+    if (FLASH_OF[t] !== Infinity && temp[sj] >= FLASH_OF[t] && world.conc[sj] === 0 && breathes(world, sj)) {
+      ignite(world, sj, t);
+      world.stamp[sj] = st;
+    }
+  }
   const L = life[i] - (ox >= 0.5 ? 3 : 1);
   if (((r >>> 8) & 255) < CONSUME_P && type[oxJ] !== FIRE) {
     become(world, oxJ, SMOKE);
@@ -496,6 +601,18 @@ function updateFire(world: World, x: number, y: number, i: number, st: number): 
     return;
   }
   life[i] = L;
+}
+
+/** Does cell j touch an oxidiser (air, oxygen, a loose flame)? */
+function breathes(world: World, j: number): boolean {
+  const { w, type } = world;
+  const x = j % w;
+  const y = (j / w) | 0;
+  for (let d = 0; d < 4; d++) {
+    const k = neighbour(world, x, y, d);
+    if (k >= 0 && (OXIDISER_OF[type[k]] > 0 || (type[k] === FIRE && world.solute[k] === 0))) return true;
+  }
+  return false;
 }
 
 /** Swaps every field of cells i and j. */
