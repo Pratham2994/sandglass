@@ -164,7 +164,9 @@ export function mountLibrary(
     tip.textContent = b.dataset.tip ?? '';
     tip.hidden = false;
     const r = b.getBoundingClientRect();
-    tip.style.left = `${r.left + r.width / 2}px`;
+    // Centred on the button, but kept inside the window.
+    const half = tip.offsetWidth / 2;
+    tip.style.left = `${Math.min(window.innerWidth - half - 8, Math.max(half + 8, r.left + r.width / 2))}px`;
     tip.style.top = `${r.top - 6}px`;
   };
 
@@ -339,16 +341,19 @@ export function mountLibrary(
   const viewBar = el('div', 'views');
   viewBar.setAttribute('role', 'tablist');
   viewBar.setAttribute('aria-label', 'View');
-  const viewNames: [View, string][] = [
-    ['normal', 'Normal'],
-    ['heat', 'Heat'],
-    ['pressure', 'Pressure'],
-    ['flow', 'Flow'],
+  const viewNames: [View, string, string][] = [
+    ['normal', 'Normal', 'The scene as it looks'],
+    ['heat', 'Heat', 'Temperature of every cell  H\nBlue is below freezing, grey is room temperature,\norange to white is hot'],
+    ['pressure', 'Pressure', 'Air pressure  P\nRed is air pushed together (a blast, a hot fire),\nblue is air pulled thin behind it'],
+    ['flow', 'Flow', 'Air movement  F\nColour is the direction the air moves,\nbrightness is how fast'],
   ];
-  const viewButtons = viewNames.map(([v, name]) => {
+  const viewButtons = viewNames.map(([v, name, hint]) => {
     const b = el('button', 'view', name);
     b.type = 'button';
     b.setAttribute('role', 'tab');
+    b.dataset.tip = hint;
+    b.addEventListener('pointerenter', () => showTip(b));
+    b.addEventListener('pointerleave', () => (tip.hidden = true));
     b.addEventListener('pointerdown', (e) => e.preventDefault());
     b.addEventListener('click', () => {
       views.set(v);
