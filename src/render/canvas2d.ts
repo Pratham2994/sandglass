@@ -62,25 +62,30 @@ function dark87(c: number): number {
  * little-endian machines (every desktop browser target).
  */
 export class Canvas2DRenderer {
-  readonly pixels: Uint32Array;
+  pixels: Uint32Array;
   /** Debug: outline chunks, green if they ran last frame, faint grey if asleep. */
   showChunks = false;
   private readonly ctx: CanvasRenderingContext2D;
-  private readonly image: ImageData;
+  private image: ImageData;
   private readonly palette = buildPalette();
-  private readonly background: Uint32Array;
-  private readonly bgShadow: Uint32Array;
-  private readonly bgShadowSoft: Uint32Array;
-  private readonly stoneShade: Uint8Array;
+  private background: Uint32Array;
+  private bgShadow: Uint32Array;
+  private bgShadowSoft: Uint32Array;
+  private stoneShade: Uint8Array;
   /** Per column: filled cells since the last empty cell above, while scanning down. */
-  private readonly depth: Uint16Array;
+  private depth: Uint16Array;
+  /** Per column: row where the current filled run started (its surface). */
+  private top: Int32Array;
+
+  private readonly canvas: HTMLCanvasElement;
 
   constructor(canvas: HTMLCanvasElement, w: number, h: number) {
-    canvas.width = w;
-    canvas.height = h;
+    this.canvas = canvas;
     const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) throw new Error('Canvas2D is not available');
     this.ctx = ctx;
+    canvas.width = w;
+    canvas.height = h;
     this.image = ctx.createImageData(w, h);
     this.pixels = new Uint32Array(this.image.data.buffer);
     this.background = buildBackground(w, h);
@@ -88,6 +93,22 @@ export class Canvas2DRenderer {
     this.bgShadowSoft = this.background.map(dark87);
     this.stoneShade = buildStoneShade(w, h);
     this.depth = new Uint16Array(w);
+    this.top = new Int32Array(w);
+  }
+
+  /** Rebuilds the canvas and per-position tables for a new grid size. */
+  resize(w: number, h: number): void {
+    if (w === this.canvas.width && h === this.canvas.height) return;
+    this.canvas.width = w;
+    this.canvas.height = h;
+    this.image = this.ctx.createImageData(w, h);
+    this.pixels = new Uint32Array(this.image.data.buffer);
+    this.background = buildBackground(w, h);
+    this.bgShadow = this.background.map(dark75);
+    this.bgShadowSoft = this.background.map(dark87);
+    this.stoneShade = buildStoneShade(w, h);
+    this.depth = new Uint16Array(w);
+    this.top = new Int32Array(w);
   }
 
   /** Draws every cell of the world and blits it. */
@@ -100,6 +121,7 @@ export class Canvas2DRenderer {
     const bgSoft = this.bgShadowSoft;
     const stone = this.stoneShade;
     const depth = this.depth;
+    const top = this.top;
     depth.fill(0);
     // Stamp written during the last step (see World.currentStamp).
     const moved = world.frame === 0 ? -1 : 1 + ((world.frame - 1) % 255);
@@ -118,11 +140,24 @@ export class Canvas2DRenderer {
           continue;
         }
         const d = ++depth[x];
+        if (d === 1) top[x] = y;
         let level = L_PLAIN;
         let s: number;
         const tex = TEXTURE_OF[t];
         if (tex === TEX_LIQUID) {
-          const v = (d - 1) * LIQUID_DEPTH_STEP + (shade[i] & 7);
+          // Depth below the surface averaged over 5 columns, so a surface that is
+          // flat within 1 cell does not show as vertical stripes.
+          let sum = 0;
+          let n = 0;
+          for (let k = x - 2; k <= x + 2; k++) {
+            if (k < 0 || k >= w || depth[k] === 0) continue;
+            const tk = top[k];
+            if (tk > y || tk < top[x] - 2 || tk > top[x] + 2) continue;
+            sum += tk;
+            n++;
+          }
+          const surface = n > 0 ? sum / n : top[x];
+          const v = Math.round((y - surface) * LIQUID_DEPTH_STEP) + (shade[i] & 3);
           s = v > 255 ? 255 : v;
           if (upEmpty) {
             // A lone cell standing on a flat surface (left and right open):
@@ -135,6 +170,8 @@ export class Canvas2DRenderer {
               type[i + w] === t
             ) {
               px[i] = mix(mix(pal[L_TOP * LEVEL_STRIDE + ((t << 8) | s)], bg[i]), bg[i]);
+              // Not counted as depth, or its whole column would draw a shade darker.
+              depth[x] = 0;
               continue;
             }
             level = ((x * 13 + (world.frame >> 2) + (shade[i] >> 4)) & 63) === 0 ? L_GLINT : L_TOP;

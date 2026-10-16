@@ -9,6 +9,8 @@ export type Phase = 'powder' | 'liquid' | 'gas' | 'solid' | 'energy';
 export interface ElementDef {
   key: string;
   name: string;
+  /** One line for the library's detail card: how it behaves. */
+  blurb: string;
   category: Category;
   /** Base colours; each cell picks one through its `shade`. For stone, dark to light. */
   colours: string[];
@@ -37,10 +39,11 @@ export const WATER = 3;
 export const OIL = 4;
 
 export const ELEMENTS: readonly ElementDef[] = [
-  { key: 'empty', name: 'Air', category: 'tools', colours: ['#0c0d10'], phase: 'gas', density: 1.2 },
+  { key: 'empty', name: 'Air', blurb: 'Empty space.', category: 'tools', colours: ['#0c0d10'], phase: 'gas', density: 1.2 },
   {
     key: 'wall',
     name: 'Wall',
+    blurb: 'Fixed stone. Holds back anything that moves.',
     category: 'solids',
     colours: ['#34373d', '#43464c', '#4f5258', '#5b5e63'],
     texture: 'stone',
@@ -50,6 +53,7 @@ export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'sand',
     name: 'Sand',
+    blurb: 'Falls, speeds up, piles into slopes and sinks through liquids.',
     category: 'powders',
     colours: ['#dcc38a', '#d3b77b', '#e4cd97', '#c9ac6f', '#d8bd84', '#bfa166'],
     phase: 'powder',
@@ -60,6 +64,7 @@ export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'water',
     name: 'Water',
+    blurb: 'Pours, runs along surfaces and settles flat.',
     category: 'liquids',
     colours: ['#6cc0ec', '#3d8fd0', '#2a6aae', '#1d4c86', '#163a68'],
     texture: 'liquid',
@@ -72,6 +77,7 @@ export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'oil',
     name: 'Oil',
+    blurb: 'Thick and slow. Lighter than water, so it floats as a film.',
     category: 'liquids',
     colours: ['#c79a45', '#93692a', '#6b4a1d', '#4b3314', '#36240e'],
     texture: 'liquid',

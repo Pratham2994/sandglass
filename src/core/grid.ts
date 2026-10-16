@@ -6,36 +6,36 @@ export const MAX_CELLS = 160_000;
 export interface GridSize {
   w: number;
   h: number;
-  /** Device pixels per cell when the grid was sized. */
+  /** Device pixels per cell. */
   cellPx: number;
 }
 
 /**
- * Resolves once the window has a non-zero size. A page opened in a hidden or
+ * Resolves once the element has a non-zero size. A page opened in a hidden or
  * background view can start at 0 × 0, which would give an empty grid.
  */
-export function whenWindowSized(): Promise<void> {
+export function whenSized(el: HTMLElement): Promise<void> {
   return new Promise((resolve) => {
-    const check = (): void => {
-      if (window.innerWidth > 0 && window.innerHeight > 0) {
-        window.removeEventListener('resize', check);
+    if (el.clientWidth > 0 && el.clientHeight > 0) return resolve();
+    const ro = new ResizeObserver(() => {
+      if (el.clientWidth > 0 && el.clientHeight > 0) {
+        ro.disconnect();
         resolve();
       }
-    };
-    window.addEventListener('resize', check);
-    check();
+    });
+    ro.observe(el);
   });
 }
 
 /**
- * Picks the grid size from the window at start. Cells are a whole number of
- * device pixels so they stay crisp. The grid covers the window; at most one
- * partial cell hangs off the right and bottom edges.
+ * Picks the grid size for an area of the page. Cells are a whole number of
+ * device pixels so they stay crisp. The grid covers the area; at most one
+ * partial cell hangs off the top and right edges.
  */
-export function gridFromWindow(): GridSize {
+export function gridFor(el: HTMLElement): GridSize {
   const dpr = window.devicePixelRatio || 1;
-  const pw = Math.round(window.innerWidth * dpr);
-  const ph = Math.round(window.innerHeight * dpr);
+  const pw = Math.round(el.clientWidth * dpr);
+  const ph = Math.round(el.clientHeight * dpr);
   let cellPx = BASE_CELL_PX;
   let w = Math.ceil(pw / cellPx);
   let h = Math.ceil(ph / cellPx);
@@ -44,27 +44,17 @@ export function gridFromWindow(): GridSize {
     w = Math.ceil(pw / cellPx);
     h = Math.ceil(ph / cellPx);
   }
-  return { w, h, cellPx };
+  return { w: Math.max(1, w), h: Math.max(1, h), cellPx };
 }
 
 /**
- * Scales the canvas so square cells cover the whole window, centred.
- * Uses a whole number of device pixels per cell when that overflows the
- * window by 2 cells or less, so cells stay crisp at the start size.
- * After a resize the same grid is stretched to cover the new window.
+ * Sizes the canvas at exactly cellPx device pixels per cell and pins it to the
+ * bottom-left of its area, so the floor sits on the area's bottom edge and
+ * cells stay crisp.
  */
-export function fitCanvas(canvas: HTMLCanvasElement, w: number, h: number): void {
+export function fitCanvas(canvas: HTMLCanvasElement, size: GridSize): void {
   const dpr = window.devicePixelRatio || 1;
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  let dev = Math.max((vw * dpr) / w, (vh * dpr) / h);
-  const whole = Math.ceil(dev - 1e-9);
-  if ((whole - dev) * Math.max(w, h) <= whole * 2) dev = whole;
-  const cw = (w * dev) / dpr;
-  const ch = (h * dev) / dpr;
   const s = canvas.style;
-  s.width = `${cw}px`;
-  s.height = `${ch}px`;
-  s.left = `${Math.round(((vw - cw) / 2) * dpr) / dpr}px`;
-  s.top = `${Math.round(((vh - ch) / 2) * dpr) / dpr}px`;
+  s.width = `${(size.w * size.cellPx) / dpr}px`;
+  s.height = `${(size.h * size.cellPx) / dpr}px`;
 }

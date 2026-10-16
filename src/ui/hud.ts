@@ -41,7 +41,6 @@ export function mountHud(perf: PerfStats, world: World): { toggle(): boolean } {
   const draw = line('draw');
   const chunks = line('chunks');
   const grid = line('grid');
-  grid.textContent = `${world.w} × ${world.h}`;
   document.body.append(hud);
 
   const update = (): void => {
@@ -49,6 +48,7 @@ export function mountHud(perf: PerfStats, world: World): { toggle(): boolean } {
     sim.textContent = `${perf.simMs.toFixed(2)} ms`;
     draw.textContent = `${perf.drawMs.toFixed(2)} ms`;
     chunks.textContent = `${world.awakeCount()} / ${world.awake.length}`;
+    grid.textContent = `${world.w} × ${world.h}`;
   };
   setInterval(update, REFRESH_MS);
 

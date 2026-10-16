@@ -1,25 +1,28 @@
+import '@fontsource-variable/geist';
 import './style.css';
-import { fitCanvas, gridFromWindow, whenWindowSized } from './core/grid';
+import { fitCanvas, gridFor, whenSized, type GridSize } from './core/grid';
 import { FixedLoop } from './core/loop';
 import { Brush } from './input/brush';
 import { Canvas2DRenderer } from './render/canvas2d';
 import { step } from './sim/step';
 import { World } from './sim/world';
 import { mountCursor } from './ui/cursor';
-import { mountDock } from './ui/dock';
 import { PerfStats, mountHud } from './ui/hud';
-import { mountPill } from './ui/pill';
+import { Intro } from './ui/intro';
+import { mountLibrary } from './ui/library';
 
 const DEFAULT_SEED = 1;
+/** Wait after the last resize event before rebuilding the grid. */
+const RESIZE_DEBOUNCE_MS = 120;
 
 function start(): void {
+  const stage = document.getElementById('stage') as HTMLElement;
   const canvas = document.getElementById('sim') as HTMLCanvasElement;
-  const { w, h } = gridFromWindow();
-  const world = new World(w, h, DEFAULT_SEED);
-  const renderer = new Canvas2DRenderer(canvas, w, h);
+  let size: GridSize = gridFor(stage);
+  const world = new World(size.w, size.h, DEFAULT_SEED);
+  const renderer = new Canvas2DRenderer(canvas, size.w, size.h);
   const brush = new Brush(canvas, world);
-  fitCanvas(canvas, w, h);
-  window.addEventListener('resize', () => fitCanvas(canvas, w, h));
+  fitCanvas(canvas, size);
 
   /** One full frame: queued input first, then the cell pass. */
   const frame = (): void => {
@@ -28,8 +31,10 @@ function start(): void {
   };
 
   const perf = new PerfStats();
+  const intro = new Intro(world);
   const loop = new FixedLoop({
-    input: () => brush.apply(),
+    // While the intro plays it drives the world; drawing waits until it ends.
+    input: () => (intro.active ? intro.frame() : brush.apply()),
     step: () => {
       const t0 = performance.now();
       step(world);
@@ -42,12 +47,31 @@ function start(): void {
     },
   });
 
+  // The grid follows the stage: on resize it grows or shrinks, keeping its content
+  // anchored to the floor, so the canvas always fills its area.
+  let resizeTimer = 0;
+  new ResizeObserver(() => {
+    clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(() => {
+      if (stage.clientWidth === 0 || stage.clientHeight === 0) return;
+      size = gridFor(stage);
+      world.resize(size.w, size.h);
+      renderer.resize(size.w, size.h);
+      fitCanvas(canvas, size);
+      loop.invalidate();
+    }, RESIZE_DEBOUNCE_MS);
+  }).observe(stage);
+
   mountCursor(brush);
-  mountDock(brush);
-  mountPill(loop, world);
   const hud = mountHud(perf, world);
+  mountLibrary(document.getElementById('panel') as HTMLElement, brush, loop, world, () => {
+    brush.cancel();
+    world.reset(world.seed);
+    loop.invalidate();
+  });
 
   window.addEventListener('keydown', (e) => {
+    if (e.target instanceof HTMLInputElement && e.target.type !== 'range') return;
     if (e.code === 'Space') {
       e.preventDefault();
       loop.paused = !loop.paused;
@@ -64,7 +88,26 @@ function start(): void {
     void import('./dev/hook').then((m) => m.installSimHook({ world, loop, brush, renderer, frame }));
   }
 
+  // Opening sequence; any click or key skips it. Dev-only: ?intro=0 skips it (E2E tests).
+  const skipIntro = import.meta.env.DEV && new URLSearchParams(location.search).get('intro') === '0';
+  if (!skipIntro) {
+    document.body.classList.add('intro');
+    const end = (): void => {
+      document.body.classList.remove('intro');
+      brush.cancel();
+      loop.invalidate();
+    };
+    const skip = (e: Event): void => {
+      if (!intro.active) return;
+      e.preventDefault();
+      intro.skip();
+    };
+    stage.addEventListener('pointerdown', skip, { capture: true });
+    window.addEventListener('keydown', skip, { capture: true });
+    void intro.start(end);
+  }
+
   loop.start();
 }
 
-void whenWindowSized().then(start);
+void whenSized(document.getElementById('stage') as HTMLElement).then(start);

@@ -10,7 +10,7 @@ const IN_X1 = 254;
 const FLOOR = 164;
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/?intro=0');
   await page.waitForFunction(() => window.__sim !== undefined);
 });
 

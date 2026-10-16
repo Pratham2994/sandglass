@@ -10,26 +10,26 @@ export const CHUNK = 1 << CHUNK_SHIFT;
  * Fields are added only in the phase that needs them (see docs/SPEC.md).
  */
 export class World {
-  readonly w: number;
-  readonly h: number;
-  readonly size: number;
+  w: number;
+  h: number;
+  size: number;
 
   /** Element id. */
-  readonly type: Uint16Array;
+  type: Uint16Array;
   /** Fall speed in 1/32 cell per frame (see VY_UNIT), so falling accelerates. */
-  readonly vy: Int8Array;
+  vy: Int8Array;
   /** Stamp of the frame in which the cell last moved; stops a cell moving twice in one frame. */
-  readonly stamp: Uint8Array;
+  stamp: Uint8Array;
   /** Fixed colour noise, set at creation, moves with the cell. */
-  readonly shade: Uint8Array;
+  shade: Uint8Array;
 
   /** Chunk grid size, in chunks of CHUNK × CHUNK cells. */
-  readonly cw: number;
-  readonly ch: number;
+  cw: number;
+  ch: number;
   /** Chunks the cell pass runs this frame. */
-  readonly awake: Uint8Array;
+  awake: Uint8Array;
   /** Chunks woken during this frame, for the next one. */
-  readonly awakeNext: Uint8Array;
+  awakeNext: Uint8Array;
 
   readonly rng: Rng;
   seed: number;
@@ -50,6 +50,48 @@ export class World {
     this.awakeNext = new Uint8Array(this.cw * this.ch).fill(1);
     this.seed = seed;
     this.rng = new Rng(seed);
+  }
+
+  /**
+   * Changes the grid size, keeping what fits. Content stays anchored to the
+   * bottom-left corner, so the floor stays the floor. Cells that fall outside
+   * the new size are lost.
+   */
+  resize(w: number, h: number): void {
+    if (w === this.w && h === this.h) return;
+    const old = { w: this.w, h: this.h, type: this.type, vy: this.vy, stamp: this.stamp, shade: this.shade };
+    this.w = w;
+    this.h = h;
+    this.size = w * h;
+    this.type = new Uint16Array(this.size);
+    this.vy = new Int8Array(this.size);
+    this.stamp = new Uint8Array(this.size);
+    this.shade = new Uint8Array(this.size);
+    const dy = h - old.h;
+    const cols = Math.min(w, old.w);
+    for (let y = 0; y < h; y++) {
+      const oy = y - dy;
+      if (oy < 0 || oy >= old.h) continue;
+      const src = oy * old.w;
+      const dst = y * w;
+      this.type.set(old.type.subarray(src, src + cols), dst);
+      this.vy.set(old.vy.subarray(src, src + cols), dst);
+      this.stamp.set(old.stamp.subarray(src, src + cols), dst);
+      this.shade.set(old.shade.subarray(src, src + cols), dst);
+    }
+    this.cw = Math.ceil(w / CHUNK);
+    this.ch = Math.ceil(h / CHUNK);
+    this.awake = new Uint8Array(this.cw * this.ch);
+    this.awakeNext = new Uint8Array(this.cw * this.ch).fill(1);
+  }
+
+  /** Turns the whole grid upside down (180°), as when an hourglass is flipped. */
+  rotate180(): void {
+    this.type.reverse();
+    this.shade.reverse();
+    this.stamp.fill(0);
+    this.vy.fill(0);
+    this.wakeAll();
   }
 
   /** Clears the grid and restarts the RNG from `seed`. */

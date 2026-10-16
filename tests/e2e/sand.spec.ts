@@ -8,7 +8,7 @@ const FRAMES = 600;
 const SETTLE_FRAMES = 1200;
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/?intro=0');
   await page.waitForFunction(() => window.__sim !== undefined);
 });
 

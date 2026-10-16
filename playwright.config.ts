@@ -9,8 +9,9 @@ export default defineConfig({
   use: {
     baseURL: `http://localhost:${PORT}`,
     ...devices['Desktop Chrome'],
-    // Fixed window and pixel ratio, so the grid is always 320 × 180 cells.
-    viewport: { width: 1280, height: 720 },
+    // Fixed window and pixel ratio: the canvas area (window minus the 312 px
+    // library panel) is 1280 × 720, so the grid is always 320 × 180 cells.
+    viewport: { width: 1592, height: 720 },
     deviceScaleFactor: 1,
   },
   webServer: {

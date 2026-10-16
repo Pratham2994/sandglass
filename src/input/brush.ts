@@ -15,12 +15,15 @@ const WHEEL_STEP = 40;
  * Brush input. Pointer events only queue points; the grid changes in
  * `apply()`, called at the start of each frame, so input lands at a fixed
  * place in the frame order (needed for deterministic replay later).
- * Left drag draws the selected element into empty cells, right drag erases,
+ * Left drag draws the selected element into empty cells (or erases with the
+ * eraser tool), right drag erases,
  * holding still keeps pouring, the wheel changes the radius.
  */
 export class Brush {
   radius = 4;
   element = SAND;
+  /** Eraser tool: left drag erases too. */
+  erasing = false;
   /** True while a mouse button is down on the canvas. */
   held = false;
   /** Last pointer position in client px, and whether it is over the canvas. */
@@ -66,6 +69,12 @@ export class Brush {
 
   setElement(id: number): void {
     this.element = id;
+    this.erasing = false;
+    this.emit();
+  }
+
+  setErasing(on: boolean): void {
+    this.erasing = on;
     this.emit();
   }
 
@@ -116,7 +125,7 @@ export class Brush {
     e.preventDefault();
     this.canvas.setPointerCapture(e.pointerId);
     this.button = e.button;
-    this.mode = e.button === 2 ? ERASE : this.element;
+    this.mode = e.button === 2 || this.erasing ? ERASE : this.element;
     this.queue.push(NaN, NaN, this.mode);
     this.track(e);
     this.queuePoint(e);
