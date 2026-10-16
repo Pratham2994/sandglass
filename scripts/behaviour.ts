@@ -966,6 +966,82 @@ check('ember', 'drifts down', () => {
   return { ok: s.meanY('ember') > 13, detail: `ember row ${fmt(s.meanY('ember'))}` };
 });
 
+// ---- Batch 6 ----------------------------------------------------------------------
+
+check('saltpeter', 'mixed with charcoal, it burns with no air', () => {
+  // Charcoal sealed in a box smothers; mixed grain by grain with saltpeter, it keeps burning.
+  const box = (withSalt: boolean): Scene => {
+    const s = new Scene().fill(10, 30, 44, 34, 'wall').fill(14, 44, 36, 16, 'charcoal');
+    if (withSalt) for (let y = 44; y < 60; y++) for (let x = 14 + (y & 1); x < 50; x += 2) s.fill(x, y, 1, 1, 'saltpeter');
+    s.heat(14, 44, 36, 16, 20).fill(30, 50, 2, 2, 'fire');
+    return s.run(900);
+  };
+  const plain = box(false);
+  const salt = box(true);
+  const burntMixed = 1 - salt.count('charcoal') / 288;
+  const burntAlone = 1 - plain.count('charcoal') / 576;
+  return { ok: burntMixed > burntAlone + 0.1, detail: `burnt: mixed with saltpeter ${fmt(burntMixed * 100)}%, alone ${fmt(burntAlone * 100)}%` };
+});
+check('tin', 'melts at a low heat and sets back', () => {
+  const s = new Scene().fill(20, 58, 24, 6, 'tin', 260);
+  const melted = until(s, 60, () => s.count('molten_tin') > 0) > 0;
+  const f = until(s, 9000, () => s.count('tin') === 144);
+  return { ok: melted && f > 0, detail: `melted ${melted}, all tin again ${f > 0 ? `after ${f} frames` : 'no'}` };
+});
+check('steel', 'rusts in water, slower to be eaten by acid than iron', () => {
+  const s = new Scene().fill(10, 58, 44, 6, 'steel').fill(10, 50, 44, 8, 'water');
+  const rusted = until(s, 4000, () => s.count('rust') > 0) > 0;
+  const a = new Scene().fill(10, 56, 44, 8, 'steel').fill(10, 48, 44, 6, 'acid').run(600);
+  const b = new Scene().fill(10, 56, 44, 8, 'iron').fill(10, 48, 44, 6, 'acid').run(600);
+  return { ok: rusted && a.count('steel') > b.count('iron'), detail: `rusted ${rusted}, under acid: steel ${a.count('steel')}, iron ${b.count('iron')}` };
+});
+check('zinc', 'acid fizzes it, giving off hydrogen', () => {
+  const s = new Scene().fill(10, 56, 44, 8, 'zinc').fill(10, 48, 44, 6, 'acid');
+  let hydrogen = 0;
+  until(s, 900, () => ((hydrogen = Math.max(hydrogen, s.count('hydrogen'))), false));
+  return { ok: hydrogen > 0, detail: `hydrogen seen ${hydrogen}` };
+});
+check('kerosene', 'a warm pool catches from a flame', () => {
+  const s = new Scene().fill(0, 56, W, 8, 'kerosene', 45).heat(0, 56, W, 8, 45).fill(30, 54, 2, 2, 'fire');
+  const f = until(s, 300, () => s.count('kerosene') < 480);
+  return { ok: f > 0, detail: f > 0 ? `burning after ${f} frames` : 'did not catch' };
+});
+check('acetone', 'dissolves plastic', () => {
+  const s = new Scene().fill(10, 58, 44, 6, 'plastic').fill(10, 50, 44, 6, 'acetone').run(900);
+  return { ok: s.count('plastic') < 264, detail: `plastic left ${s.count('plastic')} of 264` };
+});
+check('hail', 'falls fast and melts into water', () => {
+  const s = new Scene().fill(30, 0, 4, 4, 'hail');
+  const landed = until(s, 60, () => s.topY('hail') > 55) > 0;
+  s.heat(0, 0, W, H, 30);
+  const f = until(s, 3000, () => s.count('water') > 0);
+  return { ok: landed && f > 0, detail: `landed within 1 s ${landed}, water ${f > 0 ? `after ${f} frames` : 'never'}` };
+});
+check('uranium', 'stays hot and boils water', () => {
+  const s = new Scene().fill(20, 60, 24, 4, 'uranium').fill(0, 48, W, 12, 'water');
+  const f = until(s, 1800, () => s.count('steam') > 0);
+  return { ok: f > 0, detail: f > 0 ? `steam after ${f} frames` : 'no steam' };
+});
+check('bee', 'turns flowers into seeds', () => {
+  // Bees start beside the flowers: cut flowers with no water wither within seconds.
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(0, 59, W, 1, 'flower').fill(10, 58, 44, 1, 'bee');
+  let seeds = 0;
+  until(s, 300, () => ((seeds = Math.max(seeds, s.count('seed'))), false));
+  return { ok: seeds > 0, detail: `seeds seen ${seeds}, flowers left ${s.count('flower')}` };
+});
+check('spider', 'catches ants', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(0, 59, W, 1, 'ant').fill(30, 58, 2, 1, 'spider');
+  const before = s.count('ant');
+  s.run(1800);
+  return { ok: s.count('ant') < before, detail: `ants ${before} to ${s.count('ant')}, spiders ${s.count('spider')}` };
+});
+check('termite', 'chews wood into sawdust and breeds', () => {
+  const s = new Scene().fill(0, 50, W, 14, 'wood').fill(30, 49, 2, 1, 'termite');
+  const before = s.count('wood');
+  s.run(3000);
+  return { ok: s.count('wood') < before && s.count('termite') > 2, detail: `wood ${before} to ${s.count('wood')}, termites ${s.count('termite')}` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {

@@ -144,7 +144,7 @@ const findings: Finding[] = [];
 // The reverse of a change belongs to the first element that melts or boils
 // into a target. Any other source comes back as that owner, not as itself:
 // smoke once condensed into mercury this way. Listed exceptions are intended.
-const REVERSE_OK = new Set(['gravel', 'snow', 'obsidian']);
+const REVERSE_OK = new Set(['gravel', 'snow', 'obsidian', 'steel', 'hail']);
 for (let e = 1; e < N; e++) {
   if (UP_T[e] === Infinity) continue;
   const into = UP_INTO[e];

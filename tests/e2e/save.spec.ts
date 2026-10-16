@@ -39,9 +39,9 @@ test('a saved file reloads the identical scene, frame for frame', async ({ page 
 });
 
 test('keys 1 to 9 pick the most recently used elements', async ({ page }) => {
-  await page.getByRole('button', { name: 'Water' }).click();
-  await page.getByRole('button', { name: 'Lava' }).click();
-  await page.getByRole('button', { name: 'Salt' }).click();
+  await page.getByRole('button', { name: 'Water', exact: true }).click();
+  await page.getByRole('button', { name: 'Lava', exact: true }).click();
+  await page.getByRole('button', { name: 'Salt', exact: true }).click();
   // Recent is now Salt, Lava, Water, Sand: key 3 picks Water.
   await page.keyboard.press('3');
   await expect(page.locator('.detail .detail-name')).toHaveText('Water');
