@@ -35,6 +35,7 @@ import {
   TOP_INTO_OF,
   DIES_INTO_OF,
   BOLT_OF,
+  CURES_INTO_OF,
   BURSTS_INTO_OF,
   LAUNCHES_AS_OF,
   LIGHTNING,
@@ -100,6 +101,7 @@ function allowed(start: number[]): Set<number> {
       if (RAIN_COLD_OF[e]) grew = add(RAIN_COLD_OF[e]) || grew;
       if (DIES_INTO_OF[e]) grew = add(DIES_INTO_OF[e]) || grew;
       if (BOLT_OF[e]) grew = add(BOLT_OF[e]) || grew;
+      if (CURES_INTO_OF[e]) grew = add(CURES_INTO_OF[e]) || grew;
       if (LAUNCHES_AS_OF[e]) grew = add(LAUNCHES_AS_OF[e]) || grew;
       if (BURSTS_INTO_OF[e]) grew = add(BURSTS_INTO_OF[e]) || grew;
       if (LIGHTNING_FROM_OF[e]) grew = add(LIGHTNING) || grew;

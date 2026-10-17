@@ -1282,6 +1282,42 @@ check('snake', 'losing a part kills the whole body', () => {
   return { ok: s.count('snake') === 0 && s.count('meat') === 4, detail: `snake cells ${s.count('snake')}, meat ${s.count('meat')}` };
 });
 
+// ---- New reaction types ------------------------------------------------------------
+
+check('magnet', 'pulls iron filings in', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(30, 56, 2, 4, 'magnet').fill(20, 56, 6, 4, 'iron_filings');
+  const before = s.meanY('iron_filings');
+  const dist = (): number => {
+    let sum = 0;
+    let n = 0;
+    for (let k = 0; k < s.world.size; k++) if (s.world.type[k] === s.id('iron_filings')) { sum += Math.abs((k % W) - 30); n++; }
+    return sum / n;
+  };
+  const d0 = dist();
+  s.run(600);
+  return { ok: dist() < d0 - 2 && before > 0, detail: `mean distance from the magnet ${fmt(d0)} to ${fmt(dist())} cells` };
+});
+check('glue', 'sets hard after a few seconds', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(20, 56, 24, 4, 'glue');
+  const f = until(s, 600, () => s.count('dried_glue') > 0);
+  return { ok: f > 120, detail: f > 0 ? `set after ${(f / 60).toFixed(1)} s` : 'still liquid' };
+});
+check('ammonium_nitrate', 'dissolving it makes the water cold', () => {
+  const s = new Scene().fill(0, 50, W, 14, 'water').fill(16, 44, 32, 4, 'ammonium_nitrate');
+  let coldest = 20;
+  until(s, 900, () => {
+    for (let k = 0; k < s.world.size; k++) if (s.world.type[k] === s.id('water') && s.world.temp[k] < coldest) coldest = s.world.temp[k];
+    return false;
+  });
+  return { ok: coldest < 5, detail: `coldest water ${fmt(coldest)} °C` };
+});
+check('yeast', 'ferments sugary water into alcohol and carbon dioxide', () => {
+  const s = new Scene().fill(0, 50, W, 14, 'water').fill(16, 44, 32, 4, 'sugar').run(900).fill(16, 44, 32, 2, 'yeast');
+  let gas = 0;
+  until(s, 1800, () => ((gas = Math.max(gas, s.count('carbon_dioxide'))), false));
+  return { ok: s.count('alcohol') > 0 && gas > 0, detail: `alcohol ${s.count('alcohol')}, carbon dioxide seen ${gas}` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {
