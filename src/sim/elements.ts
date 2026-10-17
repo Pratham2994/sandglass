@@ -746,7 +746,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.7,
     conductivity: 0.1,
     ignition: 250,
-    explosive: { power: 3, radius: 2 },
+    explosive: { power: 1, radius: 2 },
   },
   {
     key: 'nitro',
@@ -886,6 +886,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 700,
     burnInto: 'ash',
     growsInto: 'plant',
+    burnEnergy: 10,
   },
   {
     key: 'plant',
@@ -1697,6 +1698,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     burnInto: 'ash',
     growsInto: 'grass',
     growBudget: 6,
+    burnEnergy: 10,
   },
   {
     key: 'grass',
@@ -1738,6 +1740,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     burnInto: 'ash',
     growsInto: 'tree',
     growBudget: 90,
+    burnEnergy: 10,
   },
   {
     key: 'tree',
@@ -2179,6 +2182,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 700,
     burnInto: 'ash',
     residue: 0.2,
+    burnEnergy: 10,
   },
   {
     key: 'tar',
@@ -2297,6 +2301,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     fuel: 300,
     flameTemp: 1200,
     burnInto: 'carbon_dioxide',
+    noFlame: true,
   },
   {
     key: 'napalm',
@@ -3167,6 +3172,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     burnInto: 'ash',
     growsInto: 'cactus',
     growBudget: 16,
+    burnEnergy: 10,
   },
   {
     key: 'cactus',
@@ -3208,7 +3214,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     ignition: 200,
     fuel: 400,
     flameTemp: 320,
-    burnEnergy: 2,
+    burnEnergy: 6,
     burnInto: 'smoke',
   },
   {
@@ -3297,6 +3303,26 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 1,
     conductivity: 0.3,
     bake: { at: 35, into: 'water', gas: 'carbon_dioxide' },
+  },
+  {
+    key: 'fuse',
+    name: 'Fuse',
+    blurb: 'A slow-burning cord. Stays put. Lit at one end, it burns steadily along its whole length like a rope, and sets off any explosive at the far end, even C4.',
+    category: 'explosives',
+    colours: ['#8a6a3a', '#7a5c30', '#9a7844', '#6a4e28'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 900,
+    heatCapacity: 0.6,
+    conductivity: 0.05,
+    ignition: 150,
+    fuel: 24,
+    flameTemp: 1100,
+    burnEnergy: 60,
+    burnInto: 'ash',
+    residue: 0.5,
   },
 ];
 
