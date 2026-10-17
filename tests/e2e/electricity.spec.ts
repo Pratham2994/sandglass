@@ -10,37 +10,42 @@ test('salt water conducts, pure water does not', async ({ page }) => {
   const r = await page.evaluate(() => {
     const s = window.__sim!;
     s.reset(7);
-    // Two identical circuits: battery → wire → pool → probe wire. The second pool gets salt.
+    // Two identical loops: battery (+ end right) → wire → pool → wire → round and back to the battery's - end.
+    // The wires end in plates down the pool walls, low down where salty water sinks. The second pool gets salt.
     const circuit = (y: number): void => {
-      s.fill(40, y, 3, 3, 'battery');
-      s.fill(43, y + 1, 20, 1, 'wire');
+      const e = y + 2;
+      s.fill(40, e, 1, 1, 'battery');
+      s.fill(41, e, 21, 1, 'wire');
       s.fill(62, y - 6, 2, 9, 'wall');
       s.fill(90, y - 6, 2, 9, 'wall');
       s.fill(62, y + 3, 30, 2, 'wall');
       s.fill(64, y - 4, 26, 7, 'water');
-      s.fill(62, y + 1, 2, 1, 'wire'); // through the pool's left wall
-      s.fill(90, y + 1, 21, 1, 'wire'); // out through the right wall: the probe
+      s.fill(62, e, 2, 1, 'wire'); // through the pool's left wall,
+      s.fill(63, y - 2, 1, 5, 'wire'); // ending in a plate down the inside of the wall
+      s.fill(90, y - 2, 1, 5, 'wire'); // a plate on the right wall,
+      s.fill(90, e, 21, 1, 'wire'); // and out
+      s.fill(110, e, 1, 9, 'wire'); // down, back along the bottom, and up into the battery's left side
+      s.fill(39, y + 10, 72, 1, 'wire');
+      s.fill(39, e, 1, 9, 'wire');
     };
     circuit(60);
     circuit(120);
-    s.fill(64, 108, 26, 2, 'salt');
+    s.fill(64, 106, 26, 4, 'salt');
     s.step(400); // let the salt dissolve
-    let pureProbe = 0;
-    let saltProbe = 0;
-    for (let k = 0; k < 120; k++) {
+    let pure = 0;
+    let salty = 0;
+    for (let k = 0; k < 60; k++) {
       s.step(2);
-      for (let x = 95; x < 110; x++) {
-        pureProbe = Math.max(pureProbe, s.probe(x, 61).charge);
-        saltProbe = Math.max(saltProbe, s.probe(x, 121).charge);
-      }
+      pure = Math.max(pure, s.probe(100, 70).amps);
+      salty = Math.max(salty, s.probe(100, 130).amps);
     }
-    return { pureProbe, saltProbe, salt: s.count('salt') };
+    return { pure, salty, salt: s.count('salt') };
   });
   // All the salt went into the water.
   expect(r.salt).toBe(0);
-  // Current crossed the salty pool to the probe, and never crossed the pure one.
-  expect(r.saltProbe).toBeGreaterThan(0);
-  expect(r.pureProbe).toBe(0);
+  // Current runs round the loop through the salty pool, never through the pure one.
+  expect(r.salty).toBeGreaterThan(0.001);
+  expect(r.pure).toBe(0);
 });
 
 test('a spark sets off TNT', async ({ page }) => {

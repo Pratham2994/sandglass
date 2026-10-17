@@ -12,7 +12,8 @@ import type { World } from '../sim/world';
  */
 
 const MAGIC = 'SGLS';
-const VERSION = 1;
+/** 2 added `volt` (circuit potentials). Version 1 saves load with every potential at 0. */
+const VERSION = 2;
 
 interface Header {
   version: number;
@@ -25,8 +26,9 @@ interface Header {
   keys: string[];
 }
 
-/** The world's fields in file order, as byte views. */
-function fields(world: World): ArrayBufferView[] {
+/** The world's fields in file order, as byte views, for a save of this version. */
+function fields(world: World, version = VERSION): ArrayBufferView[] {
+  const fromV2 = version >= 2 ? [world.volt] : [];
   return [
     world.type,
     world.vy,
@@ -37,6 +39,7 @@ function fields(world: World): ArrayBufferView[] {
     world.solute,
     world.conc,
     world.charge,
+    ...fromV2,
     world.awake,
     world.awakeNext,
     world.air.p,
@@ -97,7 +100,8 @@ export async function loadWorld(world: World, file: Uint8Array): Promise<void> {
 
   world.resize(header.w, header.h);
   let at = 8 + headLen;
-  for (const p of fields(world)) {
+  world.volt.fill(0);
+  for (const p of fields(world, header.version)) {
     const bytes = new Uint8Array(p.buffer, p.byteOffset, p.byteLength);
     bytes.set(raw.subarray(at, at + p.byteLength));
     at += p.byteLength;

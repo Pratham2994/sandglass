@@ -18,6 +18,7 @@ interface Snap {
   solute: Uint16Array;
   conc: Uint8Array;
   charge: Uint8Array;
+  volt: Float32Array;
   rng: number;
   airP: Float32Array;
   airVx: Float32Array;
@@ -139,6 +140,7 @@ export class Timeline {
       s.solute.set(w.solute);
       s.conc.set(w.conc);
       s.charge.set(w.charge);
+      s.volt.set(w.volt);
       s.rng = w.rng.getState();
       s.airP.set(w.air.p);
       s.airVx.set(w.air.vx);
@@ -160,6 +162,7 @@ export class Timeline {
       solute: w.solute.slice(),
       conc: w.conc.slice(),
       charge: w.charge.slice(),
+      volt: w.volt.slice(),
       rng: w.rng.getState(),
       airP: w.air.p.slice(),
       airVx: w.air.vx.slice(),
@@ -183,6 +186,7 @@ export class Timeline {
     w.solute.set(s.solute);
     w.conc.set(s.conc);
     w.charge.set(s.charge);
+    w.volt.set(s.volt);
     w.rng.seed(s.rng);
     w.air.p.set(s.airP);
     w.air.vx.set(s.airVx);

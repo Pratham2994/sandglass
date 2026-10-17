@@ -51,7 +51,9 @@ import {
   PH_ENERGY,
   PH_GAS,
   PH_LIQUID,
-  POWER_EVERY_OF,
+  EMF_OF,
+  CAPACITOR_OF,
+  BURNS_OUT_INTO_OF,
   RUBBLE_OF,
   SMOKE,
   SOLVENT_OF,
@@ -105,6 +107,9 @@ function allowed(start: number[]): Set<number> {
       if (LAUNCHES_AS_OF[e]) grew = add(LAUNCHES_AS_OF[e]) || grew;
       if (BURSTS_INTO_OF[e]) grew = add(BURSTS_INTO_OF[e]) || grew;
       if (LIGHTNING_FROM_OF[e]) grew = add(LIGHTNING) || grew;
+      // Circuit parts: an LED burns out, an overcharged capacitor pops into smoke.
+      if (BURNS_OUT_INTO_OF[e]) grew = add(BURNS_OUT_INTO_OF[e]) || grew;
+      if (CAPACITOR_OF[e]) grew = add(SMOKE) || grew;
       for (const o of now) if (EATS[e * N + o] > 1) grew = add(EATS[e * N + o] - 1) || grew;
       if (IGNITION_OF[e] !== Infinity || BLAST_POWER_OF[e] > 0 || PHASE_OF[e] === PH_ENERGY) {
         grew = add(FIRE) || grew;
@@ -124,7 +129,7 @@ function allowed(start: number[]): Set<number> {
       }
     }
     // Electrolysis: current (a conductor plus a power source or spark) through water.
-    const current = [...set].some((e) => POWER_EVERY_OF[e] || PHASE_OF[e] === PH_ENERGY) && [...set].some((e) => ELECTRIC_OF[e]);
+    const current = [...set].some((e) => EMF_OF[e] || CAPACITOR_OF[e] || PHASE_OF[e] === PH_ENERGY) && [...set].some((e) => ELECTRIC_OF[e]);
     if (current && [...set].some((e) => SOLVENT_OF[e])) {
       grew = add(HYDROGEN) || grew;
       grew = add(OXYGEN) || grew;
@@ -207,7 +212,8 @@ const active = (e: number): boolean =>
   BLAST_POWER_OF[e] > 0 ||
   LIFE_OF[e] > 0 ||
   VENTS_OF[e] > 0 ||
-  POWER_EVERY_OF[e] > 0 ||
+  EMF_OF[e] > 0 ||
+  CAPACITOR_OF[e] > 0 ||
   GROWS_INTO_OF[e] > 0 ||
   DEVICE_OF[e] > 0 ||
   RAIN_INTO_OF[e] > 0 ||

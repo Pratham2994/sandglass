@@ -1,4 +1,5 @@
-import { ELEMENTS, ELEMENT_COUNT } from '../sim/elements';
+import { ELEMENTS, ELEMENT_COUNT, LIT_RGB_OF } from '../sim/elements';
+import { litLevels } from '../sim/circuit';
 import { CHUNK, type World } from '../sim/world';
 import { GLOW_MAX, GLOW_MIN, LEVEL_STRIDE, L_PLAIN, TEXTURE_OF, buildGlow, buildPalette, buildStoneShade } from './palette';
 import type { Renderer, View } from './renderer';
@@ -29,6 +30,8 @@ uniform usampler2D uTex;
 uniform usampler2D uSolute;
 uniform usampler2D uConc;
 uniform usampler2D uCharge;
+uniform usampler2D uLit;
+uniform sampler2D uLitCol;
 uniform sampler2D uTemp;
 uniform sampler2D uPal;
 uniform sampler2D uGlow;
@@ -89,7 +92,16 @@ void main() {
   uint tex = texOf(t);
   uint shade = texelFetch(uShade, p, 0).r;
   if (tex == TEX_GAS) {
-    oColor = vec4(mix(pal(t, shade), bg, 0.5), 1.0);
+    vec3 gc = mix(pal(t, shade), bg, 0.5);
+    // A gas in a live circuit (neon) glows its own colour.
+    uint glv = texelFetch(uLit, p, 0).r;
+    if (glv > 0u) {
+      float k = float(glv) / 255.0;
+      vec3 lc = texelFetch(uLitCol, ivec2(int(t), 0), 0).rgb;
+      gc = mix(gc, lc, 0.35 + 0.6 * k);
+      oEmit = vec4(lc * (0.3 + 0.9 * k), 1.0);
+    }
+    oColor = vec4(gc, 1.0);
     return;
   }
   if (tex == TEX_GLASS) {
@@ -161,6 +173,14 @@ void main() {
     float k = float(ch) / 5.0;
     c = mix(c, vec3(0.78, 0.88, 1.0), 0.5 + 0.4 * k);
     oEmit = vec4(vec3(0.45, 0.6, 1.0) * k, 1.0);
+  }
+  // Lights in a live circuit (LED, neon): their own colour, lighting their surroundings.
+  uint lv = texelFetch(uLit, p, 0).r;
+  if (lv > 0u) {
+    float k = float(lv) / 255.0;
+    vec3 lc = texelFetch(uLitCol, ivec2(int(t), 0), 0).rgb;
+    c = mix(c, lc, 0.35 + 0.6 * k);
+    oEmit = vec4(lc * (0.3 + 0.9 * k), 1.0);
   }
   // Black-body glow from the real temperature; the shade adds a little texture.
   float T = texelFetch(uTemp, p, 0).r + (float(shade) - 128.0) * 0.5;
@@ -298,7 +318,10 @@ export class WebGLRenderer implements Renderer {
   private readonly comp: WebGLProgram;
   private readonly vao: WebGLVertexArrayObject;
   private readonly floatTargets: boolean;
-  private readonly dataTex: Record<'type' | 'shade' | 'stamp' | 'stone' | 'temp' | 'awake' | 'solute' | 'conc' | 'charge', WebGLTexture>;
+  private readonly dataTex: Record<'type' | 'shade' | 'stamp' | 'stone' | 'temp' | 'awake' | 'solute' | 'conc' | 'charge' | 'lit', WebGLTexture>;
+  private readonly litColTex: WebGLTexture;
+  /** Light levels to upload when no circuit has run yet. */
+  private noLit = new Uint8Array(0);
   private readonly palTex: WebGLTexture;
   private readonly glowTex: WebGLTexture;
   private readonly texTex: WebGLTexture;
@@ -337,6 +360,7 @@ export class WebGLRenderer implements Renderer {
       solute: this.texture(),
       conc: this.texture(),
       charge: this.texture(),
+      lit: this.texture(),
     };
 
     // Palette: one row per element, 256 shades, plain light level.
@@ -356,6 +380,18 @@ export class WebGLRenderer implements Renderer {
     }
     this.glowTex = this.texture(gl.LINEAR);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, 256, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, glowBytes);
+
+    // Light colours by element (LED red, neon orange), for lit cells.
+    const litBytes = new Uint8Array(ELEMENT_COUNT * 4);
+    for (let id = 0; id < ELEMENT_COUNT; id++) {
+      const c = LIT_RGB_OF[id];
+      litBytes[id * 4] = (c >> 16) & 255;
+      litBytes[id * 4 + 1] = (c >> 8) & 255;
+      litBytes[id * 4 + 2] = c & 255;
+      litBytes[id * 4 + 3] = 255;
+    }
+    this.litColTex = this.texture();
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, ELEMENT_COUNT, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, litBytes);
 
     this.texTex = this.texture();
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, ELEMENT_COUNT, 1, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, TEXTURE_OF);
@@ -393,6 +429,9 @@ export class WebGLRenderer implements Renderer {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
     gl.bindTexture(gl.TEXTURE_2D, this.dataTex.charge);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.lit);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
+    this.noLit = new Uint8Array(w * h);
 
     // Scene targets at cell resolution: colour and emission.
     this.sceneTex = this.target(w, h, gl.RGBA8, gl.NEAREST);
@@ -433,6 +472,8 @@ export class WebGLRenderer implements Renderer {
     gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.conc);
     gl.bindTexture(gl.TEXTURE_2D, this.dataTex.charge);
     gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.charge);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.lit);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, litLevels(world) ?? this.noLit);
     if (this.showChunks) {
       gl.bindTexture(gl.TEXTURE_2D, this.dataTex.awake);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, world.cw, world.ch, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.awake);
@@ -454,6 +495,8 @@ export class WebGLRenderer implements Renderer {
     this.bind(this.scene, 'uSolute', this.dataTex.solute, 8);
     this.bind(this.scene, 'uConc', this.dataTex.conc, 9);
     this.bind(this.scene, 'uCharge', this.dataTex.charge, 10);
+    this.bind(this.scene, 'uLit', this.dataTex.lit, 11);
+    this.bind(this.scene, 'uLitCol', this.litColTex, 12);
     gl.uniform2i(gl.getUniformLocation(this.scene, 'uSize'), w, h);
     gl.uniform1i(gl.getUniformLocation(this.scene, 'uMoved'), world.frame === 0 ? -1 : 1 + ((world.frame - 1) % 255));
     gl.uniform1i(gl.getUniformLocation(this.scene, 'uFrame'), world.frame);

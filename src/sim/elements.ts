@@ -141,8 +141,27 @@ export interface ElementDef {
   breaksInto?: string;
   /** 0..1: carries electric charge (metals 1). Water conducts only when it carries salt. */
   electric?: number;
-  /** Power sources: send a charge into touching conductors every this many frames. */
-  powerEvery?: number;
+  /** Conductors: resistance of one cell in ohms (copper wire 0.002). Default 0.01 for anything electric. */
+  ohms?: number;
+  /** Batteries: volts one cell pushes from its left (-) side to its right (+) side; cells in a row add up. */
+  emf?: number;
+  /** Diodes: current passes through it only from left to right. */
+  diode?: boolean;
+  /** Capacitors: stores charge between its left and right sides (kept in `life`, CAP_ZERO = empty). */
+  capacitor?: boolean;
+  /** Motors: powered, it turns and carries what rests on top along, the way the current runs. */
+  motor?: boolean;
+  /** Gates: 'switch' (click it to open or close), 'plate' (closed while something rests on it), 'thermostat' (opens when hot). */
+  gate?: 'switch' | 'plate' | 'thermostat';
+  /** Filaments: current heats it towards a glow, as hot as the power through it allows (a bulb). */
+  filament?: boolean;
+  /** Lights: glows this colour while current flows (LED, neon). */
+  litColour?: string;
+  /** Burns out above this many amps, becoming `burnsOutInto`. */
+  maxAmps?: number;
+  burnsOutInto?: string;
+  /** Electromagnets: while powered, pulls iron within this many cells. */
+  coil?: number;
   /** Energy: frames a placed cell lasts (fire 45, spark 10). */
   lifetime?: number;
   /** Seeds: grow into this element on damp soil with room above. */
@@ -558,6 +577,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.55,
     electric: 1,
+    ohms: 0.00275,
     density: 7870,
     heatCapacity: 0.45,
     conductivity: 0.8,
@@ -844,7 +864,7 @@ export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'wire',
     name: 'Wire',
-    blurb: 'Thin copper. Stays put and carries charge from end to end, warming as current runs through it.',
+    blurb: 'Thin copper. Stays put and carries current with almost no resistance. A normal load barely warms it, but a short circuit heats it fast: with two or more cells behind it, red-hot and then molten.',
     category: 'electronics',
     colours: ['#b8733a', '#c98447', '#a5652f', '#d99555'],
     texture: 'stone',
@@ -852,6 +872,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.45,
     electric: 1,
+    ohms: 0.0005,
     density: 8960,
     heatCapacity: 0.4,
     conductivity: 0.9,
@@ -861,17 +882,25 @@ export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'battery',
     name: 'Battery',
-    blurb: 'A power source. Stays put and sends a pulse of charge into any conductor touching it, about four times a second.',
+    blurb: 'A 1.5 volt cell. Stays put. Its - end is on the left and its + end on the right, and current flows only around a closed loop of conductors from + back to -. Cells side by side add up their voltage. It runs flat with use, and a short circuit makes it hot enough to burst into flame.',
     category: 'electronics',
     colours: ['#3d4a3a', '#465543', '#354232', '#506048'],
     texture: 'stone',
     phase: 'solid',
     cls: 'metal',
     hardness: 0.6,
+    electric: 1,
+    ohms: 0.01,
+    emf: 1.5,
+    lifetime: 60000,
     density: 2500,
     heatCapacity: 0.8,
     conductivity: 0.2,
-    powerEvery: 15,
+    ignition: 200,
+    fuel: 160,
+    flameTemp: 1100,
+    burnInto: 'ash',
+    residue: 0.5,
   },
   {
     key: 'mercury',
@@ -884,6 +913,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.9,
     electric: 1,
+    ohms: 0.0275,
     density: 13534,
     fallAccel: 240,
     fallMax: 170,
@@ -944,6 +974,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.5,
     electric: 1,
+    ohms: 0.0015,
     density: 8020,
     fallAccel: 200,
     fallMax: 140,
@@ -1101,6 +1132,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.95,
     electric: 1,
+    ohms: 0.0007,
     density: 19300,
     heatCapacity: 0.13,
     conductivity: 1,
@@ -1118,6 +1150,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.95,
     electric: 1,
+    ohms: 0.002,
     density: 17300,
     fallAccel: 240,
     fallMax: 170,
@@ -1137,6 +1170,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.4,
     electric: 1,
+    ohms: 0.000825,
     density: 2700,
     heatCapacity: 0.9,
     conductivity: 0.9,
@@ -1154,6 +1188,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.4,
     electric: 1,
+    ohms: 0.00225,
     density: 2375,
     fallAccel: 230,
     fallMax: 160,
@@ -1173,6 +1208,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.6,
     electric: 1,
+    ohms: 0.0065,
     density: 11340,
     heatCapacity: 0.13,
     conductivity: 0.35,
@@ -1190,6 +1226,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.6,
     electric: 1,
+    ohms: 0.015,
     density: 10660,
     fallAccel: 240,
     fallMax: 170,
@@ -1224,6 +1261,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.1,
     electric: 1,
+    ohms: 0.001425,
     density: 968,
     heatCapacity: 1.2,
     conductivity: 0.6,
@@ -1923,7 +1961,7 @@ export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'bulb',
     name: 'Bulb',
-    blurb: 'A light bulb filament. Stays put and carries charge; current heats it until it glows, and it fades when the power stops.',
+    blurb: 'A light bulb filament. Stays put and carries current, which heats it until it glows: one cell on one battery is white-hot, a longer filament or bulbs in series glow dimmer. It fades when the power stops.',
     category: 'electronics',
     colours: ['#4a4436', '#554e3e', '#403a2e', '#5e5746'],
     texture: 'stone',
@@ -1931,11 +1969,216 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'mineral',
     hardness: 1,
     electric: 1,
+    ohms: 3,
     density: 3000,
     heatCapacity: 0.2,
     conductivity: 0.05,
     chargeHeat: 400,
     coolRate: 0.04,
+    filament: true,
+  },
+  {
+    key: 'switch',
+    name: 'Switch',
+    blurb: 'A knife switch. Stays put. Click it to open or close the circuit: closed (bright), current passes as through wire; open (dark red), nothing passes.',
+    category: 'electronics',
+    colours: ['#c9cdd3', '#7a3a36'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.6,
+    electric: 1,
+    ohms: 0.0005,
+    gate: 'switch',
+    density: 7000,
+    heatCapacity: 0.45,
+    conductivity: 0.5,
+    bake: { at: 1085, into: 'molten_copper' },
+  },
+  {
+    key: 'pressure_plate',
+    name: 'Pressure plate',
+    blurb: 'A sprung contact plate. Stays put. It closes the circuit while anything heavier than a gas rests on top of it, so falling sand, water or an animal can switch a light on.',
+    category: 'electronics',
+    colours: ['#8a8f96', '#979ca3', '#7d8289', '#a3a8ae'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.7,
+    electric: 1,
+    ohms: 0.001,
+    gate: 'plate',
+    density: 7000,
+    heatCapacity: 0.45,
+    conductivity: 0.5,
+    bake: { at: 1400, into: 'molten_iron' },
+  },
+  {
+    key: 'thermostat',
+    name: 'Thermostat',
+    blurb: 'A bimetal strip. Stays put and lets current through while cool; above 60 °C it bends open, and below 45 °C it closes again, so it can hold a heater at a steady warmth.',
+    category: 'electronics',
+    colours: ['#b58a52', '#8c9096', '#a67c47', '#9a9ea4'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.6,
+    electric: 1,
+    ohms: 0.001,
+    gate: 'thermostat',
+    density: 8000,
+    heatCapacity: 0.4,
+    conductivity: 0.6,
+    bake: { at: 1000, into: 'molten_copper' },
+  },
+  {
+    key: 'resistor',
+    name: 'Resistor',
+    blurb: 'Carbon film that resists current, turning it into heat. Stays put. One cell keeps an LED from burning out; a long run makes a heating element that glows.',
+    category: 'electronics',
+    colours: ['#c8b48a', '#8a5a2b', '#c8b48a', '#2b2b2b', '#c8b48a', '#b02a20'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 0.7,
+    electric: 1,
+    ohms: 100,
+    density: 2000,
+    heatCapacity: 0.6,
+    conductivity: 0.3,
+    ignition: 900,
+    fuel: 200,
+    flameTemp: 1000,
+    burnInto: 'ash',
+  },
+  {
+    key: 'diode',
+    name: 'Diode',
+    blurb: 'A one-way valve for current. Stays put and lets current through only from left to right; turned the other way round in a circuit, everything stays dark.',
+    category: 'electronics',
+    colours: ['#2a2a2e', '#34343a', '#2a2a2e', '#c9cdd3'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 0.8,
+    electric: 1,
+    ohms: 0.05,
+    diode: true,
+    density: 2330,
+    heatCapacity: 0.7,
+    conductivity: 0.5,
+    bake: { at: 1414, into: 'molten_glass' },
+  },
+  {
+    key: 'led',
+    name: 'LED',
+    blurb: 'A red light-emitting diode. Lets current through only from left to right and glows bright red without getting hot. More than 0.6 amps burns it out, so put a resistor in line.',
+    category: 'electronics',
+    colours: ['#5a1f1c', '#6a2420', '#4e1a18', '#e8dcd0'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 0.8,
+    electric: 1,
+    ohms: 1,
+    diode: true,
+    litColour: '#ff3b2f',
+    maxAmps: 0.6,
+    burnsOutInto: 'shards',
+    density: 2000,
+    heatCapacity: 0.7,
+    conductivity: 0.3,
+  },
+  {
+    key: 'capacitor',
+    name: 'Capacitor',
+    blurb: 'Stores charge between its left and right sides. Stays put. It charges while current flows through it and gives the charge back when the power is gone, lighting a bulb for a moment. Overcharged past 12 volts, as lightning does, it pops.',
+    category: 'electronics',
+    colours: ['#2d4f7a', '#355a87', '#28466d', '#b9c0c8'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.6,
+    electric: 1,
+    ohms: 0.05,
+    capacitor: true,
+    lifetime: 32768,
+    density: 2000,
+    heatCapacity: 0.6,
+    conductivity: 0.3,
+  },
+  {
+    key: 'motor',
+    name: 'Motor',
+    blurb: 'An electric motor. Stays put. While current runs through it, it turns and carries whatever rests on top of it along like a conveyor; reverse the current and it runs the other way.',
+    category: 'electronics',
+    colours: ['#4a4f57', '#565c65', '#3f444b', '#b8733a'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.7,
+    electric: 1,
+    ohms: 0.5,
+    motor: true,
+    density: 6000,
+    heatCapacity: 0.45,
+    conductivity: 0.5,
+    bake: { at: 1400, into: 'molten_iron' },
+  },
+  {
+    key: 'electromagnet',
+    name: 'Electromagnet',
+    blurb: 'Copper wire coiled round an iron core. Stays put. While current runs through it, it pulls iron filings like a magnet, harder the more current; cut the power and it lets them go.',
+    category: 'electronics',
+    colours: ['#b8733a', '#5a5e64', '#c98447', '#686c72'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.7,
+    electric: 1,
+    ohms: 1,
+    coil: 14,
+    density: 7800,
+    heatCapacity: 0.45,
+    conductivity: 0.6,
+    bake: { at: 1085, into: 'molten_copper' },
+  },
+  {
+    key: 'graphite',
+    name: 'Graphite',
+    blurb: 'Soft grey carbon, a powder. Falls and piles, and carries current where its grains touch, with some resistance, so a pile warms under load. In great heat it burns slowly into carbon dioxide.',
+    category: 'powders',
+    colours: ['#3a3c40', '#45474c', '#303236', '#52555a'],
+    phase: 'powder',
+    cls: 'mineral',
+    hardness: 0.3,
+    electric: 1,
+    ohms: 0.5,
+    density: 2200,
+    heatCapacity: 0.7,
+    conductivity: 0.6,
+    ignition: 750,
+    fuel: 400,
+    flameTemp: 1100,
+    burnInto: 'carbon_dioxide',
+    noFlame: true,
+  },
+  {
+    key: 'neon',
+    name: 'Neon',
+    blurb: 'A rare inert gas, a little lighter than air. Rises slowly. Current through it makes it glow orange-red, as in a neon sign; seal it in glass with wire at each end.',
+    category: 'gases',
+    colours: ['#2a2224', '#2e2527', '#26201f'],
+    texture: 'gas',
+    phase: 'gas',
+    cls: 'gas',
+    hardness: 0,
+    electric: 1,
+    ohms: 25,
+    litColour: '#ff5a2e',
+    density: 0.9,
+    heatCapacity: 1,
+    conductivity: 0.05,
   },
   // ---- More metals and minerals ----------------------------------------------------
   {
@@ -1949,6 +2192,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.35,
     electric: 1,
+    ohms: 0.00125,
     density: 1740,
     heatCapacity: 1,
     conductivity: 0.8,
@@ -1970,6 +2214,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.05,
     electric: 1,
+    ohms: 0.002125,
     density: 862,
     heatCapacity: 0.8,
     conductivity: 0.5,
@@ -2071,6 +2316,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.55,
     electric: 1,
+    ohms: 0.0075,
     density: 6980,
     fallAccel: 230,
     fallMax: 160,
@@ -2108,6 +2354,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.9,
     electric: 1,
+    ohms: 0.000475,
     density: 10490,
     heatCapacity: 0.24,
     conductivity: 1,
@@ -2125,6 +2372,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.9,
     electric: 1,
+    ohms: 0.00125,
     density: 9320,
     fallAccel: 240,
     fallMax: 170,
@@ -2563,6 +2811,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.3,
     electric: 1,
+    ohms: 0.00325,
     density: 7300,
     heatCapacity: 0.23,
     conductivity: 0.6,
@@ -2580,6 +2829,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.3,
     electric: 1,
+    ohms: 0.0075,
     density: 6990,
     fallAccel: 230,
     fallMax: 160,
@@ -2599,6 +2849,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.75,
     electric: 1,
+    ohms: 0.004,
     density: 7850,
     heatCapacity: 0.45,
     conductivity: 0.5,
@@ -2617,6 +2868,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.3,
     electric: 1,
+    ohms: 0.00175,
     density: 7140,
     heatCapacity: 0.39,
     conductivity: 0.6,
@@ -2698,6 +2950,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.6,
     electric: 1,
+    ohms: 0.00825,
     density: 19050,
     heatCapacity: 0.12,
     conductivity: 0.3,
@@ -2982,6 +3235,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.1,
     electric: 1,
+    ohms: 0.00275,
     density: 534,
     heatCapacity: 1.4,
     conductivity: 0.6,
@@ -3071,6 +3325,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.95,
     electric: 1,
+    ohms: 0.0125,
     density: 4500,
     heatCapacity: 0.52,
     conductivity: 0.2,
@@ -3086,6 +3341,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 1,
     electric: 1,
+    ohms: 0.003,
     density: 21450,
     heatCapacity: 0.13,
     conductivity: 0.7,
@@ -3151,6 +3407,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.3,
     electric: 1,
+    ohms: 0.004,
     density: 5910,
     heatCapacity: 0.37,
     conductivity: 0.4,
@@ -3168,6 +3425,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.3,
     electric: 1,
+    ohms: 0.0075,
     density: 6095,
     fallAccel: 230,
     fallMax: 160,
@@ -3360,6 +3618,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     cls: 'metal',
     hardness: 0.9,
     electric: 1,
+    ohms: 0.005,
     density: 7500,
     heatCapacity: 0.45,
     conductivity: 0.5,
@@ -3419,6 +3678,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 800,
     burnInto: 'ash',
     residue: 0.2,
+    burnEnergy: 6,
   },
   {
     key: 'ammonium_nitrate',
@@ -3656,8 +3916,27 @@ export const BREAKS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.breaksInto ? 
 
 /** Conducts charge (0 = never; water is handled by its salt). */
 export const ELECTRIC_OF = Uint8Array.from(ELEMENTS, (e) => ((e.electric ?? 0) > 0 ? 1 : 0));
-/** Power sources: pulse period in frames, 0 = not a source. */
-export const POWER_EVERY_OF = Uint8Array.from(ELEMENTS, (e) => e.powerEvery ?? 0);
+/** Resistance of one cell, ohms; 0 = does not conduct (salty water is worked out from its salt). */
+export const OHMS_OF = Float32Array.from(ELEMENTS, (e) => e.ohms ?? (e.electric ? 0.01 : 0));
+/** Volts a battery cell pushes left to right. */
+export const EMF_OF = Float32Array.from(ELEMENTS, (e) => e.emf ?? 0);
+export const DIODE_OF = Uint8Array.from(ELEMENTS, (e) => (e.diode ? 1 : 0));
+export const CAPACITOR_OF = Uint8Array.from(ELEMENTS, (e) => (e.capacitor ? 1 : 0));
+/** Parts with a left and a right side: they connect up and down only to their own kind. */
+export const ORIENTED_OF = Uint8Array.from(ELEMENTS, (e) => (e.emf || e.diode || e.capacitor ? 1 : 0));
+export const MOTOR_OF = Uint8Array.from(ELEMENTS, (e) => (e.motor ? 1 : 0));
+export const GATE_SWITCH = 1;
+export const GATE_PLATE = 2;
+export const GATE_THERMOSTAT = 3;
+export const GATE_OF = Uint8Array.from(ELEMENTS, (e) => (e.gate === 'switch' ? GATE_SWITCH : e.gate === 'plate' ? GATE_PLATE : e.gate === 'thermostat' ? GATE_THERMOSTAT : 0));
+export const FILAMENT_OF = Uint8Array.from(ELEMENTS, (e) => (e.filament ? 1 : 0));
+/** Lights: packed 0xRRGGBB glow colour, 0 = none. */
+export const LIT_RGB_OF = Uint32Array.from(ELEMENTS, (e) => (e.litColour ? parseInt(e.litColour.slice(1), 16) : 0));
+export const MAX_AMPS_OF = Float32Array.from(ELEMENTS, (e) => e.maxAmps ?? Infinity);
+export const BURNS_OUT_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.burnsOutInto ? elementId(e.burnsOutInto) : 0));
+export const COIL_OF = Uint8Array.from(ELEMENTS, (e) => e.coil ?? 0);
+/** Capacitor charge is kept in `life`: this value means empty, and each unit is a millivolt. */
+export const CAP_ZERO = 32768;
 /** Seeds: what they grow into, 0 = not a seed. */
 export const GROWS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.growsInto ? elementId(e.growsInto) : 0));
 // A cell takes a solute in units of CONC_UNIT (48 of 255), so a solubility
@@ -3747,7 +4026,7 @@ ELEMENTS.forEach((e, a) => {
   for (const [food, left] of Object.entries(e.creature?.eats ?? {})) EATS[a * ELEMENT_COUNT + elementId(food)] = (left === 'empty' ? 0 : elementId(left)) + 1;
 });
 /** Any device behaviour, so the cell pass checks one table. */
-export const DEVICE_OF = Uint8Array.from(ELEMENTS, (e) => (e.holdTemp !== undefined || e.clones || e.voids || e.blows || e.coolRate || e.magnet ? 1 : 0));
+export const DEVICE_OF = Uint8Array.from(ELEMENTS, (e) => (e.holdTemp !== undefined || e.clones || e.voids || e.blows || e.coolRate || e.magnet || e.gate === 'thermostat' ? 1 : 0));
 
 /** What a solid becomes instead when it freezes unsupported; 0 = itself. */
 export const RUBBLE_OF = Uint16Array.from(ELEMENTS, (e) => (e.rubble ? elementId(e.rubble) : 0));

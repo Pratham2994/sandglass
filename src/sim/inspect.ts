@@ -1,6 +1,34 @@
 import { P_MIN_T, P_RULE, explain } from './chem';
 import { downChange, upChange } from './describe';
-import { ELEMENTS, ELEMENT_COUNT, EMPTY, FIRE, FUEL_OF, GROWS_INTO_OF, OXIDISER_OF, POROUS_MAX_OF, SOLVENT_OF, VY_UNIT, WATER, WITHER_INTO_OF } from './elements';
+import { ampsAt, inLiveCircuit } from './circuit';
+import {
+  CAPACITOR_OF,
+  CAP_ZERO,
+  DIODE_OF,
+  ELEMENTS,
+  ELEMENT_COUNT,
+  EMF_OF,
+  EMPTY,
+  FIRE,
+  FUEL_OF,
+  GATE_OF,
+  GATE_PLATE,
+  GATE_SWITCH,
+  GATE_THERMOSTAT,
+  GROWS_INTO_OF,
+  LIFE_OF,
+  MOTOR_OF,
+  OHMS_OF,
+  OXIDISER_OF,
+  PHASE_OF,
+  PH_ENERGY,
+  PH_GAS,
+  POROUS_MAX_OF,
+  SOLVENT_OF,
+  VY_UNIT,
+  WATER,
+  WITHER_INTO_OF,
+} from './elements';
 import type { World } from './world';
 
 export interface Reaction {
@@ -34,6 +62,55 @@ const DIRS = [
 
 function label(id: number): string {
   return id === EMPTY ? 'air' : ELEMENTS[id].name.toLowerCase();
+}
+
+/** Amps or watts, with enough digits to read a small current. */
+function electric(v: number): string {
+  return v >= 0.1 ? v.toFixed(2) : v.toFixed(3);
+}
+
+/**
+ * Circuit lines: current and power, a battery's charge, what a capacitor
+ * holds, whether a switch, plate, thermostat or diode lets current through,
+ * and, when a part is dark, why. Returns a state word when current flows.
+ */
+function circuitFacts(world: World, i: number, t: number, facts: [string, string][]): string | null {
+  const e = ELEMENTS[t];
+  const amps = ampsAt(world, i);
+  const live = inLiveCircuit(world, i);
+  if (EMF_OF[t] !== 0) {
+    const left = world.life[i] / LIFE_OF[t];
+    facts.push(['Battery', world.life[i] === 0 ? 'flat: it has no charge left' : `${n0.format(left * 100)}% charge left, ${n1.format(EMF_OF[t])} V from - (left side) to + (right side)`]);
+  }
+  if (CAPACITOR_OF[t] !== 0) facts.push(['Holds', `${(Math.abs(world.life[i] - CAP_ZERO) / 1000).toFixed(2)} V of charge; pops past 12 V`]);
+  const gate = GATE_OF[t];
+  if (gate === GATE_SWITCH) facts.push(['Switch', world.conc[i] !== 0 ? 'open: click it to close the circuit' : 'closed: click it to open the circuit']);
+  if (gate === GATE_THERMOSTAT) facts.push(['Contact', world.conc[i] !== 0 ? 'open: too hot, it closes again below 45 °C' : 'closed: it opens above 60 °C']);
+  if (gate === GATE_PLATE) {
+    const ph = i >= world.w ? PHASE_OF[world.type[i - world.w]] : 0;
+    facts.push(['Plate', ph !== 0 && ph !== PH_GAS && ph !== PH_ENERGY ? 'pressed: something rests on it, so it is closed' : 'up: nothing rests on it, so it is open']);
+  }
+  if (amps >= 1e-4) {
+    const ohms = OHMS_OF[t];
+    const watts = amps * amps * ohms;
+    facts.push(['Current', watts >= 0.01 ? `${electric(amps)} A, turning ${electric(watts)} W into heat` : `${electric(amps)} A`]);
+    if (MOTOR_OF[t] !== 0) return 'Turning';
+    return 'Powered';
+  }
+  const electronic = e.category === 'electronics' && EMF_OF[t] === 0;
+  if (!electronic) return null;
+  if (DIODE_OF[t] !== 0 && live) {
+    const x = i % world.w;
+    const vl = x > 0 ? world.volt[i - 1] : 0;
+    const vr = x + 1 < world.w ? world.volt[i + 1] : 0;
+    if (vl < vr - 0.01) {
+      facts.push(['Current', 'none: blocked, because the current is trying to go from right to left; draw it the other way round']);
+      return 'Blocking';
+    }
+  }
+  if (live) facts.push(['Current', "none: it is joined to a battery, but there is no closed loop from the battery's + end (right side) back to its - end (left side)"]);
+  else if (gate === 0 || world.conc[i] === 0) facts.push(['Current', 'none: it is not joined to a battery with charge']);
+  return null;
 }
 
 /**
@@ -102,6 +179,8 @@ export function inspectCell(world: World, x: number, y: number): CellReport | nu
     name = e.phase === 'liquid' ? `${e.name} with ${ELEMENTS[so].name.toLowerCase()}` : `Wet ${e.name.toLowerCase()}`;
   }
   if (world.charge[i] !== 0) facts.push(['Charge', 'a pulse of current is passing through it']);
+  const powered = circuitFacts(world, i, t, facts);
+  if (powered) state = powered;
   if (living) {
     const into = ELEMENTS[WITHER_INTO_OF[t]].name.toLowerCase();
     facts.push(['Water', cn === 0 ? `none left: it withers into ${into} soon` : `${n0.format((cn / 255) * 100)}% of the cell, drawn from damp soil or water it touches`]);

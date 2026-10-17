@@ -1,4 +1,4 @@
-import { AMBIENT, EMPTY, LIFE_OF, TEMP_OF } from './elements';
+import { AMBIENT, EMPTY, GATE_OF, GATE_SWITCH, LIFE_OF, TEMP_OF } from './elements';
 import { Air } from './air';
 import { Rng } from './rng';
 
@@ -33,6 +33,8 @@ export class World {
   conc: Uint8Array;
   /** Electric charge: a pulse counts down from CHARGE_PEAK; while above 0 the cell cannot be recharged. */
   charge: Uint8Array;
+  /** Electric potential, volts, of a cell in a live circuit (the circuit solver starts from it each frame). */
+  volt: Float32Array;
 
   /** Chunk grid size, in chunks of CHUNK × CHUNK cells. */
   cw: number;
@@ -62,6 +64,7 @@ export class World {
     this.solute = new Uint16Array(this.size);
     this.conc = new Uint8Array(this.size);
     this.charge = new Uint8Array(this.size);
+    this.volt = new Float32Array(this.size);
     this.cw = Math.ceil(w / CHUNK);
     this.ch = Math.ceil(h / CHUNK);
     this.awake = new Uint8Array(this.cw * this.ch);
@@ -90,6 +93,7 @@ export class World {
       solute: this.solute,
       conc: this.conc,
       charge: this.charge,
+      volt: this.volt,
     };
     this.w = w;
     this.h = h;
@@ -103,6 +107,7 @@ export class World {
     this.solute = new Uint16Array(this.size);
     this.conc = new Uint8Array(this.size);
     this.charge = new Uint8Array(this.size);
+    this.volt = new Float32Array(this.size);
     const dy = h - old.h;
     const cols = Math.min(w, old.w);
     for (let y = 0; y < h; y++) {
@@ -119,6 +124,7 @@ export class World {
       this.solute.set(old.solute.subarray(src, src + cols), dst);
       this.conc.set(old.conc.subarray(src, src + cols), dst);
       this.charge.set(old.charge.subarray(src, src + cols), dst);
+      this.volt.set(old.volt.subarray(src, src + cols), dst);
     }
     this.cw = Math.ceil(w / CHUNK);
     this.ch = Math.ceil(h / CHUNK);
@@ -136,6 +142,7 @@ export class World {
     this.solute.reverse();
     this.conc.reverse();
     this.charge.reverse();
+    this.volt.reverse();
     this.stamp.fill(0);
     this.vy.fill(0);
     this.air.clear();
@@ -153,6 +160,7 @@ export class World {
     this.solute.fill(0);
     this.conc.fill(0);
     this.charge.fill(0);
+    this.volt.fill(0);
     this.air.clear();
     this.wakeAll();
   }
@@ -168,6 +176,7 @@ export class World {
     this.solute.fill(0);
     this.conc.fill(0);
     this.charge.fill(0);
+    this.volt.fill(0);
     this.awake.fill(0);
     this.awakeNext.fill(1);
     this.air.clear();
@@ -220,7 +229,7 @@ export class World {
 
   /** Swaps every field of cells i and j (movement never creates or destroys). */
   swapCells(i: number, j: number): void {
-    const { type, vy, stamp, shade, temp, life, solute, conc, charge } = this;
+    const { type, vy, stamp, shade, temp, life, solute, conc, charge, volt } = this;
     let v: number = type[i];
     type[i] = type[j];
     type[j] = v;
@@ -248,6 +257,9 @@ export class World {
     v = charge[i];
     charge[i] = charge[j];
     charge[j] = v;
+    v = volt[i];
+    volt[i] = volt[j];
+    volt[j] = v;
   }
 
   /** Places a new cell of element `t` at index i, replacing what was there, and wakes it. */
@@ -256,11 +268,14 @@ export class World {
     this.vy[i] = 0;
     this.stamp[i] = 0;
     this.shade[i] = t === EMPTY ? 0 : this.rng.nextU32() & 255;
+    // A switch is placed closed: its shade picks the closed colour.
+    if (GATE_OF[t] === GATE_SWITCH) this.shade[i] &= 127;
     this.temp[i] = TEMP_OF[t];
     this.life[i] = LIFE_OF[t];
     this.solute[i] = 0;
     this.conc[i] = 0;
     this.charge[i] = 0;
+    this.volt[i] = 0;
     this.wake(i % this.w, (i / this.w) | 0);
   }
 
@@ -284,6 +299,7 @@ export class World {
   hash(): string {
     const { type, shade, vy, life, solute, conc, charge } = this;
     const tbits = new Uint32Array(this.temp.buffer, this.temp.byteOffset, this.size);
+    const vbits = new Uint32Array(this.volt.buffer, this.volt.byteOffset, this.size);
     let hsh = 0x811c9dc5;
     for (let i = 0; i < this.size; i++) {
       const t = type[i];
@@ -296,6 +312,7 @@ export class World {
       hsh = Math.imul(hsh ^ solute[i], 0x01000193);
       hsh = Math.imul(hsh ^ conc[i], 0x01000193);
       hsh = Math.imul(hsh ^ charge[i], 0x01000193);
+      hsh = Math.imul(hsh ^ vbits[i], 0x01000193);
     }
     return (hsh >>> 0).toString(16).padStart(8, '0');
   }

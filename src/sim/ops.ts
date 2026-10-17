@@ -1,4 +1,4 @@
-import { BODY_OF, EMPTY, HABITAT_OF, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER } from './elements';
+import { BODY_OF, EMPTY, GATE_OF, GATE_SWITCH, HABITAT_OF, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER } from './elements';
 import { placeBody } from './step';
 import type { World } from './world';
 
@@ -13,6 +13,8 @@ import type { World } from './world';
 export const OP_STAMP = 0;
 export const OP_WIND = 1;
 export const OP_CLEAR = 2;
+/** Click on a switch: it and every switch cell joined to it flip between closed and open. */
+export const OP_TOGGLE = 3;
 
 /** Stamp modes that are not elements. */
 export const MODE_ERASE = -1;
@@ -49,12 +51,49 @@ export function applyOp(world: World, op: Op): void {
     world.clearCells();
     return;
   }
+  if (op.kind === OP_TOGGLE) {
+    toggleSwitch(world, op.x, op.y);
+    return;
+  }
   if (op.kind === OP_WIND) {
     world.air.addVelocity(op.x, op.y, op.vx, op.vy, op.r);
     world.wake(Math.max(0, Math.min(world.w - 1, op.x)), Math.max(0, Math.min(world.h - 1, op.y)));
     return;
   }
   stamp(world, op.x, op.y, op.r, op.mode);
+}
+
+/** Is there a switch at cell (x, y)? */
+export function isSwitchAt(world: World, x: number, y: number): boolean {
+  return x >= 0 && y >= 0 && x < world.w && y < world.h && GATE_OF[world.type[y * world.w + x]] === GATE_SWITCH;
+}
+
+/**
+ * Flips the switch at (x, y) and every switch cell joined to it, so a
+ * switch drawn several cells thick works as one. Open is kept in `conc`
+ * (1) and shown by the shade, which picks the switch's open colour.
+ */
+function toggleSwitch(world: World, x: number, y: number): void {
+  if (!isSwitchAt(world, x, y)) return;
+  const { w, h, type, conc, shade } = world;
+  const t = type[y * w + x];
+  const open = conc[y * w + x] === 0 ? 1 : 0;
+  const stack = [y * w + x];
+  const seen = new Set<number>(stack);
+  while (stack.length) {
+    const i = stack.pop()!;
+    conc[i] = open;
+    shade[i] = open ? shade[i] | 128 : shade[i] & 127;
+    const cx = i % w;
+    const cy = (i / w) | 0;
+    world.wake(cx, cy);
+    for (const j of [cx > 0 ? i - 1 : -1, cx + 1 < w ? i + 1 : -1, cy > 0 ? i - w : -1, cy + 1 < h ? i + w : -1]) {
+      if (j >= 0 && type[j] === t && !seen.has(j)) {
+        seen.add(j);
+        stack.push(j);
+      }
+    }
+  }
 }
 
 /** One disc of the brush centred on (cx, cy): place, erase, heat or cool. */

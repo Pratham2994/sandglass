@@ -1,5 +1,5 @@
 import { EMPTY, SAND } from '../sim/elements';
-import { MODE_COOL, MODE_ERASE, MODE_HEAT, OP_STAMP, OP_WIND, applyOp, type Op } from '../sim/ops';
+import { MODE_COOL, MODE_ERASE, MODE_HEAT, OP_STAMP, OP_TOGGLE, OP_WIND, applyOp, isSwitchAt, type Op } from '../sim/ops';
 import type { World } from '../sim/world';
 
 export const MAX_RADIUS = 64;
@@ -19,6 +19,7 @@ const WHEEL_STEP = 40;
  * place in the frame order (needed for deterministic replay later).
  * Left drag draws the selected element into empty cells (or erases with the
  * eraser tool), right drag erases, a middle click picks the element under it,
+ * a left click on a switch flips it instead of drawing,
  * holding still keeps pouring, the wheel changes the radius.
  */
 export class Brush {
@@ -41,6 +42,8 @@ export class Brush {
   private readonly world: World;
   /** Queued points as (x, y, mode) triples in cell units. x = NaN starts a new stroke. */
   private readonly queue: number[] = [];
+  /** Switch clicks waiting for the next frame, as (x, y) pairs. */
+  private readonly toggles: number[] = [];
   private lastX = NaN;
   private lastY = NaN;
   private mode = 0;
@@ -126,7 +129,10 @@ export class Brush {
   /** Applies queued input to the grid. Returns true if anything was queued or poured. */
   apply(): boolean {
     const q = this.queue;
-    if (q.length === 0 && !this.held) return false;
+    for (let k = 0; k < this.toggles.length; k += 2) this.sink({ kind: OP_TOGGLE, x: this.toggles[k], y: this.toggles[k + 1], r: 0, mode: 0, vx: 0, vy: 0 });
+    const toggled = this.toggles.length > 0;
+    this.toggles.length = 0;
+    if (q.length === 0 && !this.held) return toggled;
     for (let k = 0; k < q.length; k += 3) {
       const x = q[k];
       const y = q[k + 1];
@@ -155,6 +161,15 @@ export class Brush {
     }
     if (this.held || (e.button !== 0 && e.button !== 2)) return;
     e.preventDefault();
+    if (e.button === 0 && !this.erasing) {
+      // A click on a switch flips it, at the start of the next frame like any other input.
+      this.track(e);
+      const cell = this.cellUnderPointer();
+      if (cell && isSwitchAt(this.world, cell[0], cell[1])) {
+        this.toggles.push(cell[0], cell[1]);
+        return;
+      }
+    }
     this.canvas.setPointerCapture(e.pointerId);
     this.button = e.button;
     this.mode =

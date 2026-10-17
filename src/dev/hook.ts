@@ -1,6 +1,7 @@
 import type { FixedLoop } from '../core/loop';
 import type { Timeline } from '../core/timeline';
-import { MODE_COOL, MODE_HEAT, OP_STAMP } from '../sim/ops';
+import { MODE_COOL, MODE_HEAT, OP_STAMP, OP_TOGGLE } from '../sim/ops';
+import { ampsAt } from '../sim/circuit';
 import type { Brush } from '../input/brush';
 import type { Renderer } from '../render/renderer';
 import { P_MIN_T, P_PROB, P_RULE, explain } from '../sim/chem';
@@ -50,7 +51,9 @@ export interface SimHook {
   /** Current frame and the range the timeline can reach. */
   time(): { frame: number; oldest: number; newest: number };
   /** Everything stored in cell (x, y). */
-  probe(x: number, y: number): { key: string; temp: number; life: number; solute: string; conc: number; charge: number };
+  probe(x: number, y: number): { key: string; temp: number; life: number; solute: string; conc: number; charge: number; amps: number };
+  /** Clicks the switch at (x, y), as the brush would (recorded). */
+  toggle(x: number, y: number): void;
   /** Height of the filled stack in each column, counted from the bottom row up to the first empty cell. */
   heights(): number[];
   /** Hash of the whole grid, 8 hex digits. */
@@ -153,6 +156,9 @@ export function installSimHook(t: HookTargets): void {
     tool(x, y, r, tool) {
       t.timeline.record({ kind: OP_STAMP, x, y, r, mode: tool === 'heat' ? MODE_HEAT : MODE_COOL, vx: 0, vy: 0 });
     },
+    toggle(x, y) {
+      t.timeline.record({ kind: OP_TOGGLE, x, y, r: 0, mode: 0, vx: 0, vy: 0 });
+    },
     async save() {
       const bytes = await t.save();
       let s = '';
@@ -181,6 +187,7 @@ export function installSimHook(t: HookTargets): void {
         solute: ELEMENTS[world.solute[i]].key,
         conc: world.conc[i],
         charge: world.charge[i],
+        amps: ampsAt(world, i),
       };
     },
     heights() {

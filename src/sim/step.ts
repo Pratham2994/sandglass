@@ -5,7 +5,11 @@ import {
   ELECTRIC_OF,
   HYDROGEN,
   OXYGEN,
-  POWER_EVERY_OF,
+  EMF_OF,
+  CAPACITOR_OF,
+  CAP_ZERO,
+  GATE_OF,
+  GATE_THERMOSTAT,
   SALT,
   SPARK,
   CONC_UNIT,
@@ -55,7 +59,6 @@ import {
   CURES_INTO_OF,
   FERMENT_FROM_OF,
   MAGNET_OF,
-  MAGNETIC_OF,
   RAIN_INTO_OF,
   TOP_INTO_OF,
   WATER_LOSS_OF,
@@ -80,6 +83,7 @@ import {
   VY_UNIT,
 } from './elements';
 import { airPass, explode } from './blast';
+import { circuitStep, pullIron } from './circuit';
 import { heatStep } from './heat';
 import { CHUNK_SHIFT, type World } from './world';
 
@@ -135,6 +139,7 @@ export function step(world: World): void {
       else for (let x = x1 - 1; x >= x0; x--) updateCell(world, x, y, st);
     }
   }
+  circuitStep(world);
   heatStep(world);
   airPass(world, st);
   world.frame++;
@@ -158,7 +163,8 @@ function updateCell(world: World, x: number, y: number, st: number): void {
     rocket(world, x, y, i, t, st);
     return;
   }
-  if (POWER_EVERY_OF[t] !== 0) powerSource(world, x, y, t);
+  // Power sources keep their chunk awake, so the circuit pass always finds them.
+  if (EMF_OF[t] !== 0 || (CAPACITOR_OF[t] !== 0 && world.life[i] !== CAP_ZERO)) world.wake(x, y);
   if (DEVICE_OF[t] !== 0) device(world, x, y, i, t);
   // Curing: glue counts its frames, then sets hard.
   if (CURE_FRAMES_OF[t] !== 0) {
@@ -228,6 +234,8 @@ function updateCharge(world: World, x: number, y: number, i: number, st: number)
   if (c === CHARGE_PEAK) {
     zap(world, x, y, st);
     world.temp[i] += CHARGE_HEAT_OF[world.type[i]];
+    // A surge (a spark, lightning) charges a capacitor by 1.5 V; enough of them pop it.
+    if (CAPACITOR_OF[world.type[i]] !== 0) world.life[i] = Math.min(65535, world.life[i] + 1500);
     // Electrolysis: current through salty water splits it into hydrogen or oxygen.
     if (SOLVENT_OF[world.type[i]] !== 0 && (world.rng.nextU32() & 7) === 0) {
       const T = world.temp[i];
@@ -251,12 +259,6 @@ function updateSpark(world: World, x: number, y: number, i: number, st: number):
     }
   }
   if (--world.life[i] === 0) world.place(i, EMPTY);
-}
-
-/** A power source pulses its touching conductors every few frames. */
-function powerSource(world: World, x: number, y: number, t: number): void {
-  world.wake(x, y);
-  if (world.frame % POWER_EVERY_OF[t] === 0) zap(world, x, y, world.currentStamp());
 }
 
 // ---- Devices and weather ----------------------------------------------------------
@@ -296,26 +298,12 @@ function device(world: World, x: number, y: number, i: number, t: number): void 
       if (tj !== EMPTY && tj !== WALL && DEVICE_OF[tj] === 0) world.place(j, EMPTY);
     }
   }
-  // A magnet pulls one magnetic grain within reach a step towards itself.
-  const reach = MAGNET_OF[t];
-  for (let tries = 0; reach !== 0 && tries < 6; tries++) {
-    const q0 = world.rng.nextU32();
-    const mx = x + (q0 % (2 * reach + 1)) - reach;
-    const my = y + ((q0 >>> 12) % (2 * reach + 1)) - reach;
-    if (mx < 0 || my < 0 || mx >= world.w || my >= world.h) continue;
-    const k = my * world.w + mx;
-    if (MAGNETIC_OF[world.type[k]] === 0) continue;
-    // A step towards the magnet: diagonally if it can, else straight across or up.
-    const sx = Math.sign(x - mx);
-    const sy = Math.sign(y - my);
-    let q = (my + sy) * world.w + mx + sx;
-    if (world.type[q] !== EMPTY) q = my * world.w + mx + sx;
-    if (world.type[q] !== EMPTY) q = (my + sy) * world.w + mx;
-    if (q !== k && world.type[q] === EMPTY) {
-      swap(world, k, q);
-      world.vy[q] = 0;
-      world.wake(mx, my);
-    }
+  // A magnet pulls magnetic grains within reach a step towards itself.
+  if (MAGNET_OF[t] !== 0) pullIron(world, x, y, MAGNET_OF[t], 6);
+  // A thermostat's bimetal strip bends open when hot and closes again when cool (conc 1 = open).
+  if (GATE_OF[t] === GATE_THERMOSTAT) {
+    if (world.temp[i] > 60) world.conc[i] = 1;
+    else if (world.temp[i] < 45) world.conc[i] = 0;
   }
   if (BLOW_X_OF[t] !== 0 || BLOW_Y_OF[t] !== 0) {
     world.air.addVelocity(x + Math.sign(BLOW_X_OF[t]) * 2, y + Math.sign(BLOW_Y_OF[t]) * 2, BLOW_X_OF[t] * 0.05, BLOW_Y_OF[t] * 0.05, 2);

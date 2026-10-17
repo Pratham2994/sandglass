@@ -138,6 +138,7 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['White phosphorus bursts into flame by itself in warm air, but is safe under water.', ['phosphorus', 'water']],
       ['Sulfur burns into choking sulfur dioxide; a diamond burns away into carbon dioxide.', ['sulfur', 'sulfur_dioxide', 'diamond', 'carbon_dioxide']],
       ['Napalm floats on water and keeps burning there.', ['napalm', 'water']],
+      ['Smoke thins out and clears as it spreads, yet dense smoke still chokes a fire sealed in a box.', ['smoke', 'fire']],
     ],
   },
   {
@@ -171,6 +172,9 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['Iron and steel slowly rust where water or oxygen touches them.', ['iron', 'steel', 'rust']],
       ['Salt, sugar and baking soda dissolve in water; boiling the water leaves the crystals behind.', ['salt', 'sugar', 'baking_soda', 'water']],
       ['Cement sets into concrete with water; quicklime and water seethe into slaked lime, hot enough to boil.', ['cement', 'concrete', 'quicklime', 'slaked_lime']],
+      ['Yeast ferments sugar water into alcohol, bubbling out carbon dioxide.', ['yeast', 'sugar', 'alcohol', 'carbon_dioxide']],
+      ['Ammonium nitrate dissolving in water makes it ice cold, like a cold pack; great heat makes it explode.', ['ammonium_nitrate', 'water']],
+      ['Glue oozes, then sets hard in place after a few seconds.', ['glue', 'dried_glue']],
     ],
   },
   {
@@ -184,6 +188,7 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['Ants eat sweets and meat; termites chew wood into sawdust; snails graze plants. All breed as they eat.', ['ant', 'termite', 'snail', 'sugar', 'wood']],
       ['Spiders and frogs catch insects; birds eat seeds and insects; mice eat seeds and food; snakes eat mice, frogs and eggs; fish eat sinking seeds.', ['spider', 'frog', 'bird', 'mouse', 'snake', 'fish']],
       ['Creatures die of heat or cold, or out of their home; fish, birds and mice become meat, which cooks at 70 °C.', ['fish', 'meat', 'cooked_meat']],
+      ['Fish, birds, mice, snakes, frogs, worms and snails have bodies several cells big that move, eat and die as one.', ['fish', 'bird', 'mouse', 'snake', 'frog', 'worm', 'snail']],
       ['Eggs cook, popcorn pops at 180 °C, sugar turns into caramel and chocolate melts at 35 °C.', ['egg', 'popcorn_kernel', 'popcorn', 'caramel', 'chocolate']],
     ],
   },
@@ -194,8 +199,14 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['Fireworks launch rockets that burst high up into falling coloured embers.', ['firework', 'rocket', 'ember']],
       ['TNT and gunpowder go off from heat or flame; nitro also when dropped hard; C4 only from a spark or great heat.', ['tnt', 'gunpowder', 'nitro', 'c4', 'spark']],
       ['Blasts shatter glass, brick, concrete, obsidian and sandstone.', ['glass', 'brick', 'concrete', 'obsidian', 'sandstone']],
-      ['A battery pulses current through wire and metals; salt water carries it and splits into hydrogen and oxygen.', ['battery', 'wire', 'mercury', 'water']],
-      ['A bulb glows while current heats it; heaters, coolers, clones, voids and fans do just what they say.', ['bulb', 'heater', 'cooler', 'clone', 'void', 'fan']],
+      ['A fuse burns along like a rope and sets off any explosive at its end, even C4; a long charge goes off as a fast wave from where it was lit.', ['fuse', 'c4', 'gunpowder', 'tnt']],
+      ['A magnet pulls iron filings in from a distance.', ['magnet', 'iron_filings']],
+      ['Real circuits: current flows only round a closed loop from the + end of a battery (right) back to its - end (left); cells side by side add their voltage.', ['battery', 'wire', 'mercury', 'graphite']],
+      ['A short circuit heats wire red and sets the battery alight; bulbs in series glow dimmer; an LED without a resistor burns out.', ['wire', 'battery', 'bulb', 'led', 'resistor']],
+      ['Switches click open and shut, pressure plates close under sand or water, a thermostat holds a heater steady, a diode lets current one way only.', ['switch', 'pressure_plate', 'thermostat', 'diode']],
+      ['A capacitor charges and lights a bulb after the battery is gone; motors carry what rests on them; an electromagnet pulls iron only while powered; neon glows in a tube.', ['capacitor', 'motor', 'electromagnet', 'neon']],
+      ['Salt water carries current and splits into hydrogen and oxygen.', ['water', 'salt', 'hydrogen', 'oxygen']],
+      ['Heaters, coolers, clones, voids and fans do just what they say.', ['heater', 'cooler', 'clone', 'void', 'fan']],
     ],
   },
 ];
@@ -438,7 +449,7 @@ code { font: 12.5px ui-monospace, "Cascadia Code", Consolas, monospace; color: v
 <ul class="rules">
 <li><b>Room temperature is ${AMBIENT} °C.</b> Empty cells are air. Air slowly drifts back to room temperature, which is how hot things cool and steam condenses.</li>
 <li><b>Air feeds fire</b> with oxygen strength ${OXIDISER_OF[EMPTY]}. Burning turns touching air into smoke, which feeds nothing, so a sealed space runs out of air.</li>
-<li><b>Edges:</b> the bottom and sides are walls. Smoke leaves through the top edge; other gases stay.</li>
+<li><b>Edges:</b> the bottom and sides are walls. Smoke leaves through the top edge and thins out as it spreads; other gases stay.</li>
 <li><b>Gravity is per element:</b> each falling element has its own acceleration and top speed.</li>
 <li><b>Heat flows by touch.</b> Each element has a conductivity and a heat capacity. Burning cells also push heat into their neighbours.</li>
 <li><b>Nothing appears from nothing.</b> Movement only swaps cells. Only reactions, burning and phase changes turn one element into another.</li>

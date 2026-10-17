@@ -83,9 +83,22 @@ export function elementFacts(id: number): [string, string][] {
     out.push(['Burns', `from ${n0.format(e.ignition)} °C in air, ${num.format((e.fuel ?? 0) / 60)} s per cell${left}`]);
     if (e.flash !== undefined) out.push(['Flash point', `${n0.format(e.flash)} °C: above it, flames spread across it`]);
   }
-  if (e.electric) out.push(['Conducts', 'electric charge, warming as pulses pass']);
+  if (e.emf) out.push(['Powers', `${num.format(e.emf)} V from its - end (left) to its + end (right), round a closed loop; runs flat after about 4 minutes at one bulb`]);
+  else if (e.electric) {
+    const r = e.ohms ?? 0.01;
+    out.push(['Conducts', r >= 1 ? `current, resisting it (${num.format(r)} Ω a cell) and heating as it passes` : 'current with almost no resistance']);
+  }
   if (e.solvent) out.push(['Conducts', 'only when it carries salt; current then splits it into hydrogen and oxygen']);
-  if (e.powerEvery) out.push(['Powers', `touching conductors with a pulse every ${num.format(e.powerEvery / 60)} s`]);
+  if (e.diode) out.push(['One way', 'current passes only from its left side to its right side']);
+  if (e.capacitor) out.push(['Stores', 'charge between its left and right sides, and gives it back; pops past 12 V']);
+  if (e.motor) out.push(['Turns', 'while powered, carrying what rests on top along the way the current runs']);
+  if (e.coil) out.push(['Pulls', `iron filings within ${e.coil} cells while current runs through it`]);
+  if (e.filament) out.push(['Glows', 'as hot as the power through it allows: brighter with more current']);
+  if (e.litColour) out.push(['Lights', 'up while current flows through it']);
+  if (e.maxAmps) out.push(['Burns out', `above ${num.format(e.maxAmps)} A`]);
+  if (e.gate === 'switch') out.push(['Switch', 'click it to open or close the circuit']);
+  if (e.gate === 'plate') out.push(['Closes', 'while anything heavier than a gas rests on it']);
+  if (e.gate === 'thermostat') out.push(['Opens', 'above 60 °C and closes again below 45 °C']);
   if (e.growsInto) out.push(['Grows', `into ${ELEMENTS.find((x) => x.key === e.growsInto)!.name.toLowerCase()} on damp soil (wet dirt or sand), even under a puddle`]);
   const nameOf = (key: string | undefined): string => (key ? ELEMENTS.find((x) => x.key === key)!.name.toLowerCase() : '');
   if (e.topInto && e.topInto !== e.leafInto) out.push(['Flowers', `each stem ends in ${nameOf(e.topInto)}`]);

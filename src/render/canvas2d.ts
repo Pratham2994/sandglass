@@ -1,4 +1,5 @@
-import { EMPTY } from '../sim/elements';
+import { EMPTY, LIT_RGB_OF } from '../sim/elements';
+import { litLevels } from '../sim/circuit';
 import { CHUNK, type World } from '../sim/world';
 import type { Renderer, View } from './renderer';
 import {
@@ -26,6 +27,8 @@ import {
 
 /** Grains more than this many cells under the surface are drawn darker. */
 const DEEP_CELLS = 6;
+/** Light colours by element, packed as the pixel buffer wants them (ABGR). */
+const LIT_ABGR = Uint32Array.from(LIT_RGB_OF, (c) => (0xff000000 | ((c & 255) << 16) | (c & 0xff00) | ((c >> 16) & 255)) >>> 0);
 /** Liquid colour steps per cell of depth: the darkest colour is about 32 cells down. */
 const LIQUID_DEPTH_STEP = 8;
 
@@ -141,6 +144,7 @@ export class Canvas2DRenderer implements Renderer {
     const glowColour = this.glow.colour;
     const glowAlpha = this.glow.alpha;
     const glowScale = 255 / (GLOW_MAX - GLOW_MIN);
+    const lit = litLevels(world);
     const px = this.pixels;
     const pal = this.palette;
     const bg = this.background;
@@ -182,6 +186,8 @@ export class Canvas2DRenderer implements Renderer {
           // Gas: see-through, not part of any surface or depth.
           depth[x] = 0;
           px[i] = mix(pal[L_PLAIN * LEVEL_STRIDE + ((t << 8) | shade[i])], bg[i]);
+          // A gas in a live circuit (neon) glows its own colour.
+          if (lit !== null && lit[i] !== 0) px[i] = blend(px[i], LIT_ABGR[t], 90 + ((lit[i] * 150) >> 8));
           continue;
         }
         const d = ++depth[x];
@@ -242,6 +248,8 @@ export class Canvas2DRenderer implements Renderer {
         // Black-body glow from the cell's real temperature.
         // Electric charge flashes blue-white.
         if (world.charge[i] !== 0) c = blend(c, 0xffffe0c8, 150 + world.charge[i] * 20);
+        // Lights in a live circuit (LED, neon) take their own colour.
+        if (lit !== null && lit[i] !== 0) c = blend(c, LIT_ABGR[t], 90 + ((lit[i] * 150) >> 8));
         // The shade nudges the glow temperature a little, so hot masses have texture.
         const T = temp[i] + (shade[i] - 128) * 0.5;
         if (T > GLOW_MIN) {

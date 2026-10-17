@@ -10,6 +10,8 @@
 import { writeFileSync } from 'node:fs';
 import { ELEMENTS, EMPTY, elementId } from '../src/sim/elements';
 import { placeBody, step } from '../src/sim/step';
+import { ampsAt } from '../src/sim/circuit';
+import { OP_TOGGLE, applyOp } from '../src/sim/ops';
 import { World } from '../src/sim/world';
 
 const W = 64;
@@ -371,17 +373,135 @@ check('wire', 'carries a spark from end to end', () => {
   const m = maxCharge(s, 50, 40, 200);
   return { ok: m > 0, detail: `charge at far end ${m}` };
 });
-check('battery', 'powers a wire', () => {
-  const s = new Scene().fill(2, 38, 3, 3, 'battery').fill(5, 39, 40, 1, 'wire');
-  const m = maxCharge(s, 42, 39, 300);
-  return { ok: m > 0, detail: `charge at far end ${m}` };
+
+// ---- Circuits -----------------------------------------------------------------------
+
+/**
+ * A closed loop of wire round a box from (x0, y0) to (x1, y1), with `cells`
+ * battery cells on the top run near the left (- end left, + end right). So
+ * current runs left to right along the top run and right to left along the
+ * bottom run.
+ */
+function circuit(s: Scene, cells = 1, x0 = 8, y0 = 20, x1 = 50, y1 = 40): Scene {
+  s.fill(x0, y0, x1 - x0 + 1, 1, 'wire').fill(x0, y1, x1 - x0 + 1, 1, 'wire').fill(x0, y0, 1, y1 - y0 + 1, 'wire').fill(x1, y0, 1, y1 - y0 + 1, 'wire');
+  return s.fill(x0 + 2, y0, cells, 1, 'battery');
+}
+/** Hottest a cell gets over some frames. */
+function peakTemp(s: Scene, x: number, y: number, frames: number): number {
+  let hot = -Infinity;
+  until(s, frames, () => ((hot = Math.max(hot, s.tempAt(x, y))), false));
+  return hot;
+}
+const amps = (s: Scene, x: number, y: number): number => ampsAt(s.world, y * W + x);
+
+check('battery', 'lights a bulb round a closed loop, not through a broken one', () => {
+  const closed = peakTemp(circuit(new Scene()).fill(30, 20, 1, 1, 'bulb'), 30, 20, 300);
+  const open = peakTemp(circuit(new Scene()).fill(30, 20, 1, 1, 'bulb').fill(8, 30, 1, 1, 'empty'), 30, 20, 300);
+  return { ok: closed > 900 && open < 100, detail: `bulb ${fmt(closed)} °C closed, ${fmt(open)} °C with a gap in the loop` };
 });
-check('mercury', 'carries charge like a wire', () => {
-  // A one-cell line of mercury from the battery to the right edge, on a floor, so it cannot flow away.
-  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(11, 59, W - 11, 1, 'mercury').fill(8, 57, 3, 3, 'battery');
-  s.run(30);
-  const m = maxCharge(s, 50, 59, 300);
-  return { ok: m > 0, detail: `charge at far end ${m}` };
+check('battery', 'cells side by side add up their voltage', () => {
+  const s1 = circuit(new Scene(), 1).fill(30, 20, 1, 1, 'bulb').run(60);
+  const s2 = circuit(new Scene(), 2).fill(30, 20, 1, 1, 'bulb').run(60);
+  return { ok: amps(s2, 30, 20) > amps(s1, 30, 20) * 1.8, detail: `bulb current ${fmt(amps(s1, 30, 20) * 1000)} mA on one cell, ${fmt(amps(s2, 30, 20) * 1000)} mA on two` };
+});
+check('battery', 'a short circuit sets it alight', () => {
+  const s = circuit(new Scene());
+  const f = until(s, 1800, () => s.count('battery') === 0 || s.count('fire') > 0);
+  return { ok: f > 0, detail: f > 0 ? `alight after ${f} frames` : 'never caught' };
+});
+check('bulb', 'glows while powered; two in series glow dimmer', () => {
+  const one = peakTemp(circuit(new Scene()).fill(30, 20, 1, 1, 'bulb'), 30, 20, 300);
+  const two = peakTemp(circuit(new Scene()).fill(30, 20, 1, 1, 'bulb').fill(34, 20, 1, 1, 'bulb'), 30, 20, 300);
+  return { ok: one > 1200 && two < one - 150 && two > 450, detail: `one bulb ${fmt(one)} °C, each of two in series ${fmt(two)} °C` };
+});
+check('wire', 'a short circuit on three cells heats it red', () => {
+  const hot = peakTemp(circuit(new Scene(), 3), 30, 20, 600);
+  return { ok: hot > 500, detail: `wire peak ${fmt(hot)} °C` };
+});
+check('mercury', 'carries current like a wire', () => {
+  // The bottom run of the loop is a channel of mercury between wire ends, on a wall floor.
+  const s = circuit(new Scene()).fill(20, 40, 10, 1, 'mercury').fill(8, 41, 43, 2, 'wall').fill(30, 20, 1, 1, 'bulb');
+  const hot = peakTemp(s, 30, 20, 300);
+  return { ok: hot > 900, detail: `bulb ${fmt(hot)} °C` };
+});
+check('graphite', 'carries current where its grains touch', () => {
+  const s = circuit(new Scene()).fill(20, 40, 10, 1, 'graphite').fill(8, 41, 43, 2, 'wall').fill(30, 20, 1, 1, 'bulb').run(30);
+  return { ok: amps(s, 30, 20) > 0.05, detail: `bulb current ${fmt(amps(s, 30, 20) * 1000)} mA` };
+});
+check('switch', 'opens and closes the circuit when clicked', () => {
+  const s = circuit(new Scene()).fill(20, 20, 1, 1, 'switch').fill(30, 20, 1, 1, 'bulb');
+  const on = peakTemp(s, 30, 20, 200);
+  applyOp(s.world, { kind: OP_TOGGLE, x: 20, y: 20, r: 0, mode: 0, vx: 0, vy: 0 });
+  s.run(300);
+  const off = s.tempAt(30, 20);
+  applyOp(s.world, { kind: OP_TOGGLE, x: 20, y: 20, r: 0, mode: 0, vx: 0, vy: 0 });
+  const again = peakTemp(s, 30, 20, 200);
+  return { ok: on > 900 && off < 300 && again > 900, detail: `bulb ${fmt(on)} °C closed, ${fmt(off)} °C opened, ${fmt(again)} °C closed again` };
+});
+check('pressure_plate', 'closes the circuit when sand lands on it', () => {
+  const s = circuit(new Scene()).fill(20, 20, 1, 1, 'pressure_plate').fill(30, 20, 1, 1, 'bulb');
+  const before = peakTemp(s, 30, 20, 120);
+  s.fill(18, 8, 5, 6, 'sand');
+  const after = peakTemp(s, 30, 20, 400);
+  return { ok: before < 100 && after > 900, detail: `bulb ${fmt(before)} °C before, ${fmt(after)} °C with sand on the plate` };
+});
+check('thermostat', 'opens when the heater beside it gets hot, and closes again', () => {
+  // Ten cells drive a resistor heater; the thermostat in the same loop touches it.
+  const s = circuit(new Scene(), 10).fill(30, 20, 1, 1, 'resistor').fill(31, 20, 1, 1, 'thermostat');
+  let opened = -1;
+  let closedAgain = -1;
+  until(s, 3600, () => {
+    const open = s.world.conc[20 * W + 31] !== 0;
+    if (open && opened < 0) opened = s.world.frame;
+    if (!open && opened >= 0 && closedAgain < 0) closedAgain = s.world.frame;
+    return closedAgain >= 0;
+  });
+  return { ok: opened > 0 && closedAgain > opened, detail: opened > 0 ? `opened at frame ${opened}, closed again at ${closedAgain}` : 'never opened' };
+});
+check('resistor', 'turns current into heat', () => {
+  const s = circuit(new Scene(), 10).fill(30, 20, 1, 1, 'resistor');
+  const hot = peakTemp(s, 30, 20, 600);
+  return { ok: hot > 80 && s.tempAt(40, 40) < 40, detail: `resistor ${fmt(hot)} °C, wire ${fmt(s.tempAt(40, 40))} °C` };
+});
+check('diode', 'passes current left to right, blocks it right to left', () => {
+  const forward = peakTemp(circuit(new Scene()).fill(25, 20, 1, 1, 'diode').fill(30, 20, 1, 1, 'bulb'), 30, 20, 300);
+  const reverse = peakTemp(circuit(new Scene()).fill(25, 40, 1, 1, 'diode').fill(30, 20, 1, 1, 'bulb'), 30, 20, 300);
+  return { ok: forward > 900 && reverse < 100, detail: `bulb ${fmt(forward)} °C with the diode forwards, ${fmt(reverse)} °C turned round` };
+});
+check('led', 'lights with a resistor in line, burns out without one', () => {
+  const s = circuit(new Scene(), 2).fill(25, 20, 1, 1, 'led').fill(30, 20, 1, 1, 'resistor').run(60);
+  const bare = circuit(new Scene(), 2).fill(25, 20, 1, 1, 'led').run(60);
+  return {
+    ok: s.count('led') === 1 && amps(s, 25, 20) >= 0.02 && bare.count('led') === 0,
+    detail: `${fmt(amps(s, 25, 20) * 1000)} mA through it with a resistor; ${bare.count('led') === 0 ? 'burnt out' : 'still there'} without`,
+  };
+});
+check('capacitor', 'charges, then lights a bulb after the battery is gone', () => {
+  const s = circuit(new Scene()).fill(20, 20, 1, 1, 'capacitor').fill(30, 20, 1, 1, 'bulb').run(900);
+  // Swap the battery for wire: only the capacitor drives the loop now.
+  s.fill(10, 20, 1, 1, 'wire');
+  s.run(20);
+  return { ok: s.tempAt(30, 20) > 600 && amps(s, 30, 20) > 0.05, detail: `bulb ${fmt(s.tempAt(30, 20))} °C, ${fmt(amps(s, 30, 20) * 1000)} mA, a moment after the battery went` };
+});
+check('motor', 'carries sand along while powered', () => {
+  const s = circuit(new Scene()).fill(18, 20, 16, 1, 'motor').fill(19, 19, 1, 1, 'sand').run(120);
+  let x = -1;
+  for (let k = 0; k < W; k++) if (s.at(k, 19) === 'sand') x = k;
+  return { ok: x >= 30, detail: `sand moved from column 19 to ${x}` };
+});
+check('electromagnet', 'pulls iron filings only while powered', () => {
+  const build = (cells: number): Scene => {
+    const s = cells > 0 ? circuit(new Scene(), cells) : circuit(new Scene(), 1).fill(10, 20, 1, 1, 'wire');
+    return s.fill(22, 40, 12, 1, 'electromagnet').fill(0, 47, W, 17, 'wall').fill(24, 45, 8, 2, 'iron_filings').run(600);
+  };
+  const on = build(2);
+  const off = build(0);
+  return { ok: on.meanY('iron_filings') < off.meanY('iron_filings') - 2, detail: `filings row ${fmt(on.meanY('iron_filings'))} powered, ${fmt(off.meanY('iron_filings'))} unpowered` };
+});
+check('neon', 'glows when current runs through it', () => {
+  // A glass tube of neon with wire at each end, in the loop; neon needs several cells.
+  const s = circuit(new Scene(), 12).fill(20, 19, 12, 3, 'glass').fill(21, 20, 10, 1, 'neon').fill(20, 20, 1, 1, 'wire').fill(31, 20, 1, 1, 'wire').run(30);
+  return { ok: amps(s, 25, 20) > 0.02, detail: `${fmt(amps(s, 25, 20) * 1000)} mA through the tube` };
 });
 
 // ---- Life -------------------------------------------------------------------------
@@ -742,12 +862,6 @@ check('fan', 'lifts light powder', () => {
   const s = new Scene().fill(20, 62, 24, 2, 'fan').fill(20, 50, 24, 4, 'sawdust').run(300);
   const still = new Scene().fill(20, 62, 24, 2, 'wall').fill(20, 50, 24, 4, 'sawdust').run(300);
   return { ok: s.topY('sawdust') < still.topY('sawdust'), detail: `top of sawdust: over fan row ${s.topY('sawdust')}, over wall row ${still.topY('sawdust')}` };
-});
-check('bulb', 'glows while powered', () => {
-  const s = new Scene().fill(2, 38, 3, 3, 'battery').fill(5, 39, 10, 1, 'wire').fill(15, 39, 6, 1, 'bulb');
-  let hottest = 0;
-  until(s, 600, () => ((hottest = Math.max(hottest, s.tempAt(18, 39))), false));
-  return { ok: hottest > 450, detail: `filament peak ${fmt(hottest)} °C (glow starts near 450 °C)` };
 });
 check('magnesium', 'burns hot enough to set off thermite', () => {
   const s = new Scene().fill(20, 56, 24, 8, 'thermite').fill(20, 54, 24, 2, 'magnesium', 700);
