@@ -417,7 +417,7 @@ export function mountLibrary(
   // Inspect lens, beside the element card: the cell under the pointer, and it
   // keeps the last cell looked at, so it is never blank.
   const lens = el('section', 'lens');
-  const lensHint = el('p', 'lens-hint', 'Point at the canvas to see what is there, how hot it is, and what it reacts with. Press I to pin it.');
+  const lensHint = el('p', 'lens-hint', 'Point at the canvas to see what is there, how hot it is, and what it reacts with. Press I to pin it, middle click to pick it.');
   const lensTitle = el('div', 'detail-title');
   const lensName = el('h2', 'detail-name');
   const lensState = el('span', 'detail-tag');

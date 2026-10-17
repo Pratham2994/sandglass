@@ -1,4 +1,4 @@
-import { SAND } from '../sim/elements';
+import { EMPTY, SAND } from '../sim/elements';
 import { MODE_COOL, MODE_ERASE, MODE_HEAT, OP_STAMP, OP_WIND, applyOp, type Op } from '../sim/ops';
 import type { World } from '../sim/world';
 
@@ -18,7 +18,7 @@ const WHEEL_STEP = 40;
  * `apply()`, called at the start of each frame, so input lands at a fixed
  * place in the frame order (needed for deterministic replay later).
  * Left drag draws the selected element into empty cells (or erases with the
- * eraser tool), right drag erases,
+ * eraser tool), right drag erases, a middle click picks the element under it,
  * holding still keeps pouring, the wheel changes the radius.
  */
 export class Brush {
@@ -55,6 +55,8 @@ export class Brush {
 
     canvas.addEventListener('contextmenu', (e) => e.preventDefault());
     canvas.addEventListener('pointerdown', (e) => this.onDown(e));
+    // A middle press must not start the browser's autoscroll.
+    canvas.addEventListener('mousedown', (e) => e.button === 1 && e.preventDefault());
     canvas.addEventListener('pointermove', (e) => this.onMove(e));
     canvas.addEventListener('pointerup', (e) => this.onUp(e));
     canvas.addEventListener('pointercancel', (e) => this.onUp(e));
@@ -146,6 +148,11 @@ export class Brush {
   }
 
   private onDown(e: PointerEvent): void {
+    if (e.button === 1) {
+      e.preventDefault();
+      this.pick(e);
+      return;
+    }
     if (this.held || (e.button !== 0 && e.button !== 2)) return;
     e.preventDefault();
     this.canvas.setPointerCapture(e.pointerId);
@@ -164,6 +171,15 @@ export class Brush {
     this.track(e);
     this.queuePoint(e);
     this.setHeld(true);
+  }
+
+  /** Eyedropper: selects the element in the cell under the pointer (air picks nothing). */
+  private pick(e: PointerEvent): void {
+    this.track(e);
+    const cell = this.cellUnderPointer();
+    if (!cell) return;
+    const t = this.world.type[cell[1] * this.world.w + cell[0]];
+    if (t !== EMPTY) this.setElement(t);
   }
 
   private onMove(e: PointerEvent): void {
