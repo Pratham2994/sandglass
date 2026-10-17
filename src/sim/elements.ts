@@ -117,6 +117,8 @@ export interface ElementDef {
   acidity?: number;
   /** Gases: leaves the world at the top edge (smoke drifting off). */
   vents?: boolean;
+  /** Gases: clears into air by itself, fast where it is thin, slowly where it is dense (smoke). */
+  fades?: boolean;
   /** Light powders: chance per frame of drifting sideways while falling. */
   drift?: number;
   /** Liquids: dissolves soluble solids into itself (water). */
@@ -473,7 +475,7 @@ export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'smoke',
     name: 'Smoke',
-    blurb: 'What burning leaves behind, a warm gas. Rises and drifts off the top. Does not feed fire, so it smothers flames in a closed space.',
+    blurb: 'What burning leaves behind, a warm gas. Rises, and thins out and clears as it spreads. Does not feed fire, so dense smoke smothers flames in a closed space.',
     category: 'gases',
     colours: ['#4a4b4e', '#3d3e41', '#56575a', '#36373a'],
     texture: 'gas',
@@ -485,6 +487,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.4,
     conductivity: 0.03,
     vents: true,
+    fades: true,
   },
   {
     key: 'wood',
@@ -3612,6 +3615,8 @@ export const BURN_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.burnInto ? elem
 export const OXIDISER_OF = Float32Array.from(ELEMENTS, (e) => e.oxidiser ?? 0);
 /** Gases that leave the world at the top edge. */
 export const VENTS_OF = Uint8Array.from(ELEMENTS, (e) => (e.vents ? 1 : 0));
+/** Gases that clear into air by themselves (smoke). */
+export const FADES_OF = Uint8Array.from(ELEMENTS, (e) => (e.fades ? 1 : 0));
 /** Light powders: chance (0..255) per frame of drifting sideways while falling. */
 export const DRIFT_OF = Uint8Array.from(ELEMENTS, (e) => Math.round((e.drift ?? 0) * 255));
 /**

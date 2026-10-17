@@ -75,6 +75,7 @@ import {
   PH_SOLID,
   SMOKE,
   VENTS_OF,
+  FADES_OF,
   VMAX_OF,
   VY_UNIT,
 } from './elements';
@@ -1027,7 +1028,10 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
  * ones (oxygen) sink, by chance per frame so plumes look loose. Blocked,
  * they slip diagonally, else drift sideways. Into another gas they swap
  * when that makes the heavier one lower. Venting gases (smoke) leave the
- * world at the top edge. A gas never fully rests, so its chunk stays awake.
+ * world at the top edge. Fading gases (smoke) clear into air by themselves:
+ * a thin wisp in about a second, the middle of a dense cloud in about twenty,
+ * so smoke never piles up under a ceiling, yet a sealed fire still chokes.
+ * A gas never fully rests, so its chunk stays awake.
  */
 function updateGas(world: World, x: number, y: number, i: number, st: number): void {
   const { w, h, type, rng } = world;
@@ -1038,6 +1042,17 @@ function updateGas(world: World, x: number, y: number, i: number, st: number): v
     return;
   }
   const r = rng.nextU32();
+  if (FADES_OF[t] !== 0) {
+    let same = 0;
+    for (let d = 0; d < 4; d++) {
+      const j = neighbour(world, x, y, d);
+      if (j >= 0 && type[j] === t) same++;
+    }
+    if (r >>> 20 < FADE_P[same]) {
+      world.place(i, EMPTY);
+      return;
+    }
+  }
   const dir = BUOY_DIR_OF[t];
   const ny = y + dir;
   if (ny >= 0 && ny < h && (r & 255) < BUOY_P_OF[t]) {
@@ -1063,6 +1078,9 @@ function updateGas(world: World, x: number, y: number, i: number, st: number): v
     world.wake(x + sx, y);
   }
 }
+
+/** Chance (of 4096) per frame that a fading gas clears, by how many of its 4 neighbours are the same gas. */
+const FADE_P = Uint16Array.of(64, 24, 10, 5, 3);
 
 /** True if element a is denser than element b (both gases). */
 function densityOver(a: number, b: number): boolean {
@@ -1096,7 +1114,8 @@ function updateFire(world: World, x: number, y: number, i: number, st: number): 
     // Loose flame: short-lived, rising, heats what it touches by conduction.
     const L = life[i] - 1;
     if (L <= 0) {
-      world.place(i, (r & 255) < 40 ? SMOKE : EMPTY);
+      // Most dying flames leave nothing; a few leave a wisp of smoke.
+      world.place(i, (r & 255) < 16 ? SMOKE : EMPTY);
       return;
     }
     life[i] = L;

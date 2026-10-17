@@ -1005,7 +1005,7 @@ No direct interaction with: Air, Wall, Steam, Stone, Smoke, Iron, Oxygen, Glass,
 
 ### Smoke
 
-What burning leaves behind, a warm gas. Rises and drifts off the top. Does not feed fire, so it smothers flames in a closed space.
+What burning leaves behind, a warm gas. Rises, and thins out and clears as it spreads. Does not feed fire, so dense smoke smothers flames in a closed space.
 
 - **State:** Gas, 0.7 kg/m³
 - **Starts at:** 150 °C
