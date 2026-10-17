@@ -209,7 +209,7 @@ export function mountLibrary(
   const toolGroup = el('section', 'group');
   toolGroup.append(el('h3', 'group-name', 'Tools'));
   const toolGrid = el('div', 'tiles');
-  const toolButtons: { tool: Tool; b: HTMLButtonElement }[] = [];
+  const toolButtons: { tool: Tool; b: HTMLButtonElement; name: string; hint: string }[] = [];
   const toolInfo: [Tool, string, string][] = [
     ['heat', 'Heat', 'Warms whatever is under the brush'],
     ['cool', 'Cool', 'Chills whatever is under the brush'],
@@ -228,7 +228,7 @@ export function mountLibrary(
     b.addEventListener('pointerenter', () => showTip(b));
     b.addEventListener('pointerleave', () => (tip.hidden = true));
     toolGrid.append(b);
-    toolButtons.push({ tool, b });
+    toolButtons.push({ tool, b, name, hint });
   }
   toolGroup.append(toolGrid);
   groups.append(toolGroup);
@@ -289,33 +289,40 @@ export function mountLibrary(
   resultGroup.hidden = true;
   groups.prepend(resultGroup);
 
-  /** How well an element matches the query: 0 is best, -1 is no match. */
-  const rank = (id: number, q: string): number => {
-    const e = ELEMENTS[id];
-    const name = e.name.toLowerCase();
+  /** How well a tile matches the query: 0 is best, -1 is no match. */
+  const rankText = (rawName: string, kinds: string, about: string, q: string): number => {
+    const name = rawName.toLowerCase();
     if (name === q) return 0;
     if (name.startsWith(q)) return 1;
     if (name.split(' ').some((word) => word.startsWith(q))) return 2;
     if (name.includes(q)) return 3;
-    if (e.category.includes(q) || e.phase.includes(q)) return 4;
-    if (e.blurb.toLowerCase().includes(q)) return 5;
+    if (kinds.includes(q)) return 4;
+    if (about.toLowerCase().includes(q)) return 5;
     return -1;
+  };
+  const rank = (id: number, q: string): number => {
+    const e = ELEMENTS[id];
+    return rankText(e.name, `${e.category} ${e.phase}`, e.blurb, q);
   };
 
   const applyFilter = (): void => {
     const q = input.value.trim().toLowerCase();
     // Every tile goes back to its own section first, in library order.
     for (const t of tiles) t.home.append(t.button);
+    for (const t of toolButtons) toolGrid.append(t.b);
     for (const g of groups.querySelectorAll<HTMLElement>('.group')) g.hidden = g === resultGroup ? !q : !!q;
     if (!q) {
       empty.hidden = true;
       return;
     }
-    const hits = tiles
-      .map((t) => ({ t, r: rank(t.id, q) }))
+    // Tools (heat, cool, wind) are searched too, ranked the same way as elements.
+    const hits = [
+      ...toolButtons.map((t) => ({ b: t.b, name: t.name, r: rankText(t.name, 'tools tool', t.hint, q) })),
+      ...tiles.map((t) => ({ b: t.button, name: ELEMENTS[t.id].name, r: rank(t.id, q) })),
+    ]
       .filter((h) => h.r >= 0)
-      .sort((a, b) => a.r - b.r || ELEMENTS[a.t.id].name.localeCompare(ELEMENTS[b.t.id].name));
-    for (const h of hits) resultGrid.append(h.t.button);
+      .sort((a, b) => a.r - b.r || a.name.localeCompare(b.name));
+    for (const h of hits) resultGrid.append(h.b);
     resultCount.textContent = String(hits.length);
     resultGroup.hidden = hits.length === 0;
     empty.hidden = hits.length > 0;
