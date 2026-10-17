@@ -24,7 +24,7 @@ import {
 } from '../sim/elements';
 import type { World } from '../sim/world';
 
-const LIGHTNING_ID = elementId('lightning');
+const PLASMA_ID = elementId('plasma');
 const ROCKET_ID = elementId('rocket');
 
 const WORD = 'SANDGLASS';
@@ -215,7 +215,7 @@ export class Intro {
       this.blast(this.cx, this.cy, 80, 70, 220, true);
       for (const dx of [-0.22, 0.22]) this.blast(Math.round(this.cx + w * dx), this.cy, 30, 30, 60, true);
       // Real lightning: three bolts strike down into the debris.
-      for (const share of [0.2, 0.52, 0.81]) world.place(Math.round(w * share), LIGHTNING_ID);
+      for (const share of [0.2, 0.52, 0.81]) this.bolt(Math.round(w * share));
     }
     // Real fireworks: rockets launch from the debris, climb and burst into falling coloured embers.
     if (f >= FIREWORKS && (f - FIREWORKS) % 4 === 0 && (f - FIREWORKS) / 4 < FIREWORK_COUNT) {
@@ -327,6 +327,36 @@ export class Intro {
       }
     }
     this.world.wakeAll();
+  }
+
+  /**
+   * A choreographed lightning bolt: a jagged line of plasma from the top
+   * that strikes into the flying debris near the middle (the game's own
+   * lightning passes through falling debris to reach the ground).
+   */
+  private bolt(x: number): void {
+    const world = this.world;
+    const { w, h } = world;
+    const end = Math.min(h - 2, this.cy + ((world.rng.nextU32() % 13) - 6));
+    let cx = x;
+    for (let y = 0; y < end; y++) {
+      const r = world.rng.nextU32();
+      cx = Math.max(1, Math.min(w - 2, cx + ((r & 3) === 0 ? -1 : (r & 3) === 1 ? 1 : 0)));
+      const k = y * w + cx;
+      if (world.type[k] === EMPTY) world.place(k, PLASMA_ID);
+    }
+    // The strike: a flash of fire, great heat and a shock where it lands.
+    world.air.addPressure(cx, end, 14, 6);
+    for (let dy = -2; dy <= 2; dy++)
+      for (let dx = -2; dx <= 2; dx++) {
+        const k = (end + dy) * w + cx + dx;
+        if (k < 0 || k >= world.size) continue;
+        if (world.type[k] === EMPTY) {
+          world.place(k, FIRE);
+          world.life[k] = 10 + (world.rng.nextU32() & 15);
+        } else world.temp[k] += 900;
+      }
+    world.wakeAll();
   }
 
   /** Ends at once with an empty world. */

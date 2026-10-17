@@ -410,7 +410,7 @@ export function mountLibrary(
   // Inspect lens, beside the element card: the cell under the pointer, and it
   // keeps the last cell looked at, so it is never blank.
   const lens = el('section', 'lens');
-  const lensHint = el('p', 'lens-hint', 'Point at the canvas to see what is there, how hot it is, and what it reacts with.');
+  const lensHint = el('p', 'lens-hint', 'Point at the canvas to see what is there, how hot it is, and what it reacts with. Press I to pin it.');
   const lensTitle = el('div', 'detail-title');
   const lensName = el('h2', 'detail-name');
   const lensState = el('span', 'detail-tag');
@@ -418,13 +418,22 @@ export function mountLibrary(
   const lensFacts = el('dl', 'facts');
   const lensReactions = el('ul', 'reactions');
   lens.append(lensHint, lensTitle, lensFacts, lensReactions);
+  // Press I to pin the lens to the cell under the pointer: it stops following
+  // the mouse (so you can move down and scroll it) but keeps updating live.
+  let pinned: [number, number] | null = null;
+  window.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() !== 'i' || e.target instanceof HTMLInputElement || e.repeat) return;
+    pinned = pinned ? null : brush.cellUnderPointer();
+    lens.classList.toggle('pinned', pinned !== null);
+    refreshLens();
+  });
   const refreshLens = (): void => {
-    const cell = brush.held ? null : brush.cellUnderPointer();
+    const cell = pinned ?? (brush.held ? null : brush.cellUnderPointer());
     const rep = cell ? inspectCell(world, cell[0], cell[1]) : null;
     if (!rep) return;
     lensHint.hidden = true;
     lensName.textContent = rep.name;
-    lensState.textContent = rep.state;
+    lensState.textContent = pinned ? `${rep.state} · pinned (I to release)` : `${rep.state} · I to pin`;
     lensFacts.replaceChildren(...rep.facts.flatMap(([k, v]) => [el('dt', '', k), el('dd', 'num', v)]));
     lensReactions.replaceChildren(
       ...(rep.reactions.length
