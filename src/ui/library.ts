@@ -157,10 +157,15 @@ export function mountLibrary(
     b.type = 'button';
     b.setAttribute('role', 'tab');
     b.addEventListener('pointerdown', (e) => e.preventDefault());
+    // Chips jump to their section (the library is one long list); 'All' goes back to the top.
     b.addEventListener('click', () => {
-      activeCat = c;
-      applyFilter();
-      b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      if (input.value) {
+        input.value = '';
+        applyFilter();
+      }
+      const target = c === 'all' ? null : groups.querySelector<HTMLElement>(`.group[data-cat="${c}"]`);
+      if (target) target.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      else groups.scrollTo({ top: 0, behavior: 'smooth' });
     });
     chips.append(b);
     return { c, b };
@@ -227,7 +232,7 @@ export function mountLibrary(
   }
   toolGroup.append(toolGrid);
   groups.append(toolGroup);
-  const tiles: { id: number; button: HTMLButtonElement; group: HTMLElement; sim: MiniSim }[] = [];
+  const tiles: { id: number; button: HTMLButtonElement; group: HTMLElement; home: HTMLElement; sim: MiniSim }[] = [];
   for (const cat of CATEGORY_ORDER) {
     const ids = ELEMENTS.map((_, id) => id).filter((id) => id !== EMPTY && ELEMENTS[id].category === cat);
     if (!ids.length) continue;
@@ -265,7 +270,7 @@ export function mountLibrary(
         tip.hidden = true;
       });
       grid.append(b);
-      tiles.push({ id, button: b, group, sim });
+      tiles.push({ id, button: b, group, home: grid, sim });
     }
     group.append(grid);
     groups.append(group);
@@ -274,31 +279,72 @@ export function mountLibrary(
   empty.hidden = true;
   groups.append(empty);
 
+  // Search results: one list at the top, best match first.
+  const resultGroup = el('section', 'group results');
+  const resultCount = el('span', 'group-count num');
+  const resultHead = el('h3', 'group-name', 'Results');
+  resultHead.append(resultCount);
+  const resultGrid = el('div', 'tiles');
+  resultGroup.append(resultHead, resultGrid);
+  resultGroup.hidden = true;
+  groups.prepend(resultGroup);
+
+  /** How well an element matches the query: 0 is best, -1 is no match. */
+  const rank = (id: number, q: string): number => {
+    const e = ELEMENTS[id];
+    const name = e.name.toLowerCase();
+    if (name === q) return 0;
+    if (name.startsWith(q)) return 1;
+    if (name.split(' ').some((word) => word.startsWith(q))) return 2;
+    if (name.includes(q)) return 3;
+    if (e.category.includes(q) || e.phase.includes(q)) return 4;
+    if (e.blurb.toLowerCase().includes(q)) return 5;
+    return -1;
+  };
+
   const applyFilter = (): void => {
     const q = input.value.trim().toLowerCase();
-    let shown = 0;
-    for (const t of tiles) {
-      const e = ELEMENTS[t.id];
-      const hit =
-        (activeCat === 'all' || e.category === activeCat) &&
-        (!q || `${e.name} ${e.category} ${e.phase} ${e.blurb}`.toLowerCase().includes(q));
-      t.button.hidden = !hit;
-      if (hit) shown++;
+    // Every tile goes back to its own section first, in library order.
+    for (const t of tiles) t.home.append(t.button);
+    for (const g of groups.querySelectorAll<HTMLElement>('.group')) g.hidden = g === resultGroup ? !q : !!q;
+    if (!q) {
+      empty.hidden = true;
+      return;
     }
-    for (const g of groups.querySelectorAll<HTMLElement>('.group'))
-      g.hidden = ![...g.querySelectorAll<HTMLElement>('.tile')].some((b) => !b.hidden);
-    empty.hidden = shown > 0;
+    const hits = tiles
+      .map((t) => ({ t, r: rank(t.id, q) }))
+      .filter((h) => h.r >= 0)
+      .sort((a, b) => a.r - b.r || ELEMENTS[a.t.id].name.localeCompare(ELEMENTS[b.t.id].name));
+    for (const h of hits) resultGrid.append(h.t.button);
+    resultCount.textContent = String(hits.length);
+    resultGroup.hidden = hits.length === 0;
+    empty.hidden = hits.length > 0;
+    groups.scrollTop = 0;
+  };
+
+  // The chip of the section in view lights up as the library scrolls, so the chips work as a map.
+  const spy = (): void => {
+    if (input.value) return;
+    const top = groups.getBoundingClientRect().top;
+    let current: Category | 'all' = 'all';
+    for (const g of groups.querySelectorAll<HTMLElement>('.group[data-cat]')) if (g.getBoundingClientRect().top - top <= 24) current = g.dataset.cat as Category;
+    if (current === activeCat) return;
+    activeCat = current;
     for (const { c, b } of chipButtons) {
       b.classList.toggle('on', c === activeCat);
       b.setAttribute('aria-selected', String(c === activeCat));
+      if (c === activeCat) b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     }
   };
+  groups.addEventListener('scroll', spy, { passive: true });
+  chipButtons[0].b.classList.add('on');
+  chipButtons[0].b.setAttribute('aria-selected', 'true');
   input.addEventListener('input', applyFilter);
   input.addEventListener('keydown', (e) => {
     e.stopPropagation();
     if (e.key === 'Enter') {
-      const first = tiles.find((t) => !t.button.hidden);
-      if (first) brush.setElement(first.id);
+      const first = resultGrid.firstElementChild as HTMLElement | null;
+      if (first) brush.setElement(Number(first.dataset.id));
       input.blur();
     } else if (e.key === 'Escape') {
       input.value = '';
