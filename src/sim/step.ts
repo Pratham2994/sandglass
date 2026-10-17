@@ -66,6 +66,7 @@ import {
   PH_GAS,
   PH_LIQUID,
   PH_POWDER,
+  PH_SOLID,
   SMOKE,
   VENTS_OF,
   VMAX_OF,
@@ -328,7 +329,11 @@ function strike(world: World, x: number, y: number, i: number, t: number): void 
     if (ny >= h) break;
     const j = ny * w + nx;
     const tj = type[j];
-    if (tj !== EMPTY && PHASE_OF[tj] !== PH_GAS && PHASE_OF[tj] !== PH_ENERGY) {
+    // Rain, snow or dust still falling through the air is not the ground: the bolt passes it.
+    const pt = PHASE_OF[tj];
+    const below = ny + 1 < h ? PHASE_OF[type[j + w]] : PH_SOLID;
+    const airborne = (pt === PH_LIQUID || pt === PH_POWDER) && (world.vy[j] > 0 || below === 0 || below === PH_GAS || below === PH_ENERGY);
+    if (tj !== EMPTY && pt !== PH_GAS && pt !== PH_ENERGY && !airborne) {
       // Impact.
       temp[j] += STRIKE_HEAT;
       world.wake(nx, ny);
@@ -343,7 +348,8 @@ function strike(world: World, x: number, y: number, i: number, t: number): void 
       }
       break;
     }
-    world.place(j, trail);
+    // Plasma only fills open air: the bolt never deletes the cloud, gas or rain it passes.
+    if (tj === EMPTY) world.place(j, trail);
     cx = nx;
     cy = ny;
   }
