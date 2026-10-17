@@ -41,6 +41,38 @@ export function downChange(id: number): { verb: string; at: number; into: string
   return { verb: ELEMENTS[id].phase === 'gas' ? 'Condenses' : 'Freezes', at, into: f.name };
 }
 
+/** Where each kind of creature lives, for its hint. */
+const HOME: Record<string, string> = { water: 'into water', ground: 'onto the ground', soil: 'into damp dirt', air: 'into open air' };
+
+/**
+ * A short how-to for the element card: its own tip if it has one, else one
+ * made from what it does (explosives, creatures, seeds, fuels, acids, what
+ * melts or boils), so every card says how to see it act.
+ */
+export function tipFor(id: number): string | null {
+  const e = ELEMENTS[id];
+  if (e.tip) return e.tip;
+  if (e.explosive) return e.noFlame ? 'A flame will not do: use a fuse, a spark down a wire, or great heat.' : 'Light it with fire, or run a fuse or a spark to it.';
+  if (e.creature) return `Paint a few ${HOME[e.creature.lives]}, with something to eat nearby.`;
+  if (e.growsInto) return 'Drop it on damp dirt (pour water on dirt and let it soak in).';
+  if ((e.acidity ?? 0) >= 0.3) return 'Pour it on metal, stone or wood.';
+  if ((e.acidity ?? 0) <= -0.3) return 'Mix it with an acid.';
+  if (e.ignition !== undefined && !e.noFlame) return `Light it with fire${e.ignition > 400 ? ', or heat it hard first' : ''}.`;
+  // The heat tool reaches 1,500 °C; hotter needs lava, thermite or lightning.
+  const up = upChange(id);
+  if (up) {
+    const how = up.at > 1450 ? ' (thermite or lightning)' : up.at > 200 ? ' (the heat tool or lava)' : ' (the heat tool)';
+    return `Heat it past ${n0.format(up.at)} °C${how}: it ${up.verb.toLowerCase()} into ${up.into.toLowerCase()}.`;
+  }
+  const down = downChange(id);
+  if (down) {
+    const how = down.at > AMBIENT ? 'Leave it to cool' : 'Cool it with the cool tool or liquid nitrogen';
+    return `${how} below ${n0.format(down.at)} °C: it ${down.verb.toLowerCase()} into ${down.into.toLowerCase()}.`;
+  }
+  if (e.ignition !== undefined) return `Heat it past ${n0.format(e.ignition)} °C.`;
+  return null;
+}
+
 /** Facts for the library card and master list, one short line each. */
 export function elementFacts(id: number): [string, string][] {
   const e: ElementDef = ELEMENTS[id];
@@ -83,14 +115,14 @@ export function elementFacts(id: number): [string, string][] {
     out.push(['Burns', `from ${n0.format(e.ignition)} °C in air, ${num.format((e.fuel ?? 0) / 60)} s per cell${left}`]);
     if (e.flash !== undefined) out.push(['Flash point', `${n0.format(e.flash)} °C: above it, flames spread across it`]);
   }
-  if (e.emf) out.push(['Powers', `${num.format(e.emf)} V from its - end (left) to its + end (right), round a closed loop; runs flat after about 4 minutes at one bulb`]);
+  if (e.emf) out.push(['Powers', `${num.format(e.emf)} V for each cell along the wire, round a closed loop; turns itself round to help other batteries; runs flat with use`]);
   else if (e.electric) {
     const r = e.ohms ?? 0.01;
     out.push(['Conducts', r >= 1 ? `current, resisting it (${num.format(r)} Ω a cell) and heating as it passes` : 'current with almost no resistance']);
   }
   if (e.solvent) out.push(['Conducts', 'only when it carries salt; current then splits it into hydrogen and oxygen']);
-  if (e.diode) out.push(['One way', 'current passes only from its left side to its right side']);
-  if (e.capacitor) out.push(['Stores', 'charge between its left and right sides, and gives it back; pops past 12 V']);
+  if (e.diode) out.push(['One way', 'current passes only rightwards or upwards through it']);
+  if (e.capacitor) out.push(['Stores', 'charge while current flows through it, and gives it back; pops past 12 V']);
   if (e.motor) out.push(['Turns', 'while powered, carrying what rests on top along the way the current runs']);
   if (e.coil) out.push(['Pulls', `iron filings within ${e.coil} cells while current runs through it`]);
   if (e.filament) out.push(['Glows', 'as hot as the power through it allows: brighter with more current']);

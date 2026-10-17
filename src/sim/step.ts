@@ -1016,10 +1016,10 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
  * ones (oxygen) sink, by chance per frame so plumes look loose. Blocked,
  * they slip diagonally, else drift sideways. Into another gas they swap
  * when that makes the heavier one lower. Venting gases (smoke) leave the
- * world at the top edge. Fading gases (smoke) clear into air by themselves:
- * a thin wisp in about a second, the middle of a dense cloud in about twenty,
- * so smoke never piles up under a ceiling, yet a sealed fire still chokes.
- * A gas never fully rests, so its chunk stays awake.
+ * world at the top edge. Fading gases (smoke) thin to a faint haze over a
+ * few seconds, so old smoke does not hide the scene; it is still spent air,
+ * so a sealed fire still chokes. A gas never fully rests, so its chunk stays
+ * awake.
  */
 function updateGas(world: World, x: number, y: number, i: number, st: number): void {
   const { w, h, type, rng } = world;
@@ -1030,13 +1030,16 @@ function updateGas(world: World, x: number, y: number, i: number, st: number): v
     return;
   }
   const r = rng.nextU32();
+  // Fading gases (smoke) thin to a faint haze as they age: the shade walks
+  // from the dense colours to the faint ones. It is spent air, so it stays and
+  // chokes a sealed fire; but ten seconds after it has fully faded (`life` counts
+  // the frames), it starts to clear, so smoke trapped under a roof or in a box
+  // does not linger for ever. A choked fire is out long before then.
   if (FADES_OF[t] !== 0) {
-    let same = 0;
-    for (let d = 0; d < 4; d++) {
-      const j = neighbour(world, x, y, d);
-      if (j >= 0 && type[j] === t) same++;
-    }
-    if (r >>> 20 < FADE_P[same]) {
+    if (world.shade[i] < 254) {
+      if (((r >>> 20) & 3) === 0) world.shade[i] += 2;
+    } else if (world.life[i] < SMOKE_LINGER) world.life[i]++;
+    else if (r >>> 25 === 0) {
       world.place(i, EMPTY);
       return;
     }
@@ -1067,15 +1070,15 @@ function updateGas(world: World, x: number, y: number, i: number, st: number): v
   }
 }
 
-/** Chance (of 4096) per frame that a fading gas clears, by how many of its 4 neighbours are the same gas. */
-const FADE_P = Uint16Array.of(64, 24, 10, 5, 3);
+/** Frames fully faded smoke lingers before it starts to clear (ten seconds). */
+const SMOKE_LINGER = 600;
 
 /** True if element a is denser than element b (both gases). */
 function densityOver(a: number, b: number): boolean {
   return BUOY_DIR_OF[a] > BUOY_DIR_OF[b] || (BUOY_DIR_OF[a] === BUOY_DIR_OF[b] && BUOY_P_OF[a] * BUOY_DIR_OF[a] > BUOY_P_OF[b] * BUOY_DIR_OF[b]);
 }
 
-/** Chance (of 256) per frame that a burning cell turns a touching oxidiser into smoke. */
+/** Chance (of 256) per frame that a burning cell turns touching air into smoke (richer oxidisers last longer). */
 const CONSUME_P = 12;
 /** Oxidiser strength of air. */
 const AIR_OXIDISER = OXIDISER_OF[EMPTY];
@@ -1198,7 +1201,9 @@ function updateFire(world: World, x: number, y: number, i: number, st: number): 
     }
   }
   const L = life[i] - (ox >= 0.5 ? 3 : 1);
-  if (oxJ >= 0 && ((r >>> 8) & 255) < CONSUME_P && type[oxJ] !== FIRE) {
+  // An oxidiser is used up in proportion to how little oxygen it holds: air at
+  // CONSUME_P, saltpeter or pure oxygen (four or five times richer) that much slower.
+  if (oxJ >= 0 && ((r >>> 8) & 255) < (CONSUME_P * AIR_OXIDISER) / Math.max(AIR_OXIDISER, OXIDISER_OF[type[oxJ]]) && type[oxJ] !== FIRE) {
     become(world, oxJ, SMOKE);
     world.temp[oxJ] = temp[i] * 0.5;
   }

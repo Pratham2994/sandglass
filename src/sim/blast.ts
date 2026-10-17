@@ -50,16 +50,20 @@ function goUp(world: World, k: number): void {
  * explosives, which may then go off too), and pushes the air. `pressure` is
  * the blast strength, or -1 to scale it by the cells set off here.
  */
+/** Blast power from which a powder detonates as a wave (ammonium nitrate) rather than burning along like a fuse (gunpowder). */
+const STRONG_POWDER = 5;
+
 function burst(world: World, x: number, y: number, id: number, r: number, pressure: number): void {
   const { w, h, type, temp } = world;
   let n = 0;
   const r2 = r * r;
   // Heat reaches a little past the blast. The detonation wave arms the same
-  // explosive as far as the air shock can push it (a powder only a little
-  // further, so a trail still burns like a fuse), so nothing it scatters is left behind.
+  // explosive as far as the air shock can push it, so nothing it scatters is
+  // left behind; a weak powder (gunpowder) only a little further, so a trail
+  // still burns like a fuse.
   const R = r + 2;
   const R2 = R * R;
-  const A = PHASE_OF[id] === PH_POWDER ? R : r * 3;
+  const A = PHASE_OF[id] === PH_POWDER && BLAST_POWER_OF[id] < STRONG_POWDER ? R : r * 3;
   const A2 = A * A;
   for (let j = Math.max(0, y - A); j <= Math.min(h - 1, y + A); j++) {
     for (let i = Math.max(0, x - A); i <= Math.min(w - 1, x + A); i++) {

@@ -8,7 +8,7 @@ Generated from the game code by `npm run master-list`. Do not edit by hand: chan
 
 - Room temperature is 20 °C. Empty cells are air; air slowly drifts back to room temperature, which is how hot things cool and steam condenses.
 - Air feeds fire with oxygen strength 0.21. Burning turns touching air into smoke, which feeds nothing, so a sealed space runs out of air.
-- The bottom and side edges are walls. Gases that vent (smoke) leave through the top edge, and smoke thins out and clears as it spreads; others stay.
+- The bottom and side edges are walls. Gases that vent (smoke) leave through the top edge, and smoke fades to a faint haze as it ages; others stay.
 - Gravity is per element: each falling element has its own acceleration and top speed.
 - Heat flows between touching cells by conduction (each element has a conductivity and heat capacity). Burning cells also push radiant heat into their neighbours.
 - Movement only swaps cells, so nothing is created or lost by moving. Reactions and burning change cells into other elements.
@@ -1030,7 +1030,7 @@ No direct interaction with: Air, Wall, Steam, Stone, Smoke, Iron, Oxygen, Glass,
 
 ### Smoke
 
-What burning leaves behind, a warm gas. Rises, and thins out and clears as it spreads. Does not feed fire, so dense smoke smothers flames in a closed space.
+What burning leaves behind, a warm gas. Rises and fades to a faint haze as it ages. It is spent air that feeds no fire, so it smothers flames in a closed space.
 
 - **State:** Gas, 0.7 kg/m³
 - **Starts at:** 150 °C
@@ -2578,11 +2578,11 @@ No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Grav
 
 ### Battery
 
-A 1.5 volt cell. Stays put. Its - end is on the left and its + end on the right, and current flows only around a closed loop of conductors from + back to -. Cells side by side add up their voltage. It runs flat with use, and a short circuit makes it hot enough to burst into flame.
+A power cell. Stays put. Painted into a loop of wire, it drives current round the loop, whichever way it fits; with no closed loop, nothing flows. Each cell along the wire adds 1.5 volts, and a thicker battery gives more current. It runs flat with use, and a long short circuit can make it burst into flame.
 
 - **State:** Solid, 2,500 kg/m³
 - **Burns:** from 200 °C in air, 2.67 s per cell, leaves ash
-- **Powers:** 1.5 V from its - end (left) to its + end (right), round a closed loop; runs flat after about 4 minutes at one bulb
+- **Powers:** 1.5 V for each cell along the wire, round a closed loop; turns itself round to help other batteries; runs flat with use
 - **Hardness:** 0.6 (acid stronger than this eats it)
 
 With other elements (24 interact):
@@ -6221,11 +6221,11 @@ No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, S
 
 ### Diode
 
-A one-way valve for current. Stays put and lets current through only from left to right; turned the other way round in a circuit, everything stays dark.
+A one-way valve for current. Stays put and lets current through only rightwards or upwards; with the current flowing the other way round the loop, everything stays dark.
 
 - **State:** Solid, 2,330 kg/m³
 - **Conducts:** current with almost no resistance
-- **One way:** current passes only from its left side to its right side
+- **One way:** current passes only rightwards or upwards through it
 - **Bakes:** at 1,414 °C into molten glass; there is no way back
 - **Hardness:** 0.8 (acid stronger than this eats it)
 
@@ -6236,11 +6236,11 @@ No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone
 
 ### LED
 
-A red light-emitting diode. Lets current through only from left to right and glows bright red without getting hot. More than 0.6 amps burns it out, so put a resistor in line.
+A red light-emitting diode. Lets current through only rightwards or upwards and glows bright red without getting hot. More than 0.6 amps burns it out, so put a resistor in line.
 
 - **State:** Solid, 2,000 kg/m³
 - **Conducts:** current, resisting it (1 Ω a cell) and heating as it passes
-- **One way:** current passes only from its left side to its right side
+- **One way:** current passes only rightwards or upwards through it
 - **Lights:** up while current flows through it
 - **Burns out:** above 0.6 A
 - **Hardness:** 0.8 (acid stronger than this eats it)
@@ -6252,11 +6252,11 @@ No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone
 
 ### Capacitor
 
-Stores charge between its left and right sides. Stays put. It charges while current flows through it and gives the charge back when the power is gone, lighting a bulb for a moment. Overcharged past 12 volts, as lightning does, it pops.
+Stores charge. Stays put. It charges while current flows through it and gives the charge back when the power is gone, lighting a bulb for a moment. Overcharged past 12 volts, as lightning does, it pops.
 
 - **State:** Solid, 2,000 kg/m³
 - **Conducts:** current with almost no resistance
-- **Stores:** charge between its left and right sides, and gives it back; pops past 12 V
+- **Stores:** charge while current flows through it, and gives it back; pops past 12 V
 - **Hardness:** 0.6 (acid stronger than this eats it)
 
 With other elements (1 interact):

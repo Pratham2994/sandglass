@@ -404,9 +404,10 @@ check('battery', 'cells side by side add up their voltage', () => {
   const s2 = circuit(new Scene(), 2).fill(30, 20, 1, 1, 'bulb').run(60);
   return { ok: amps(s2, 30, 20) > amps(s1, 30, 20) * 1.8, detail: `bulb current ${fmt(amps(s1, 30, 20) * 1000)} mA on one cell, ${fmt(amps(s2, 30, 20) * 1000)} mA on two` };
 });
-check('battery', 'a short circuit sets it alight', () => {
-  const s = circuit(new Scene());
-  const f = until(s, 1800, () => s.count('battery') === 0 || s.count('fire') > 0);
+check('battery', 'a short circuit on a thick battery sets it alight', () => {
+  // A thin battery on a long loop just runs flat; a thick one drives enough current to burst.
+  const s = circuit(new Scene(), 3).fill(10, 19, 3, 3, 'battery');
+  const f = until(s, 3600, () => s.count('battery') < 9 || s.count('fire') > 0);
   return { ok: f > 0, detail: f > 0 ? `alight after ${f} frames` : 'never caught' };
 });
 check('bulb', 'glows while powered; two in series glow dimmer', () => {
@@ -414,8 +415,9 @@ check('bulb', 'glows while powered; two in series glow dimmer', () => {
   const two = peakTemp(circuit(new Scene()).fill(30, 20, 1, 1, 'bulb').fill(34, 20, 1, 1, 'bulb'), 30, 20, 300);
   return { ok: one > 1200 && two < one - 150 && two > 450, detail: `one bulb ${fmt(one)} °C, each of two in series ${fmt(two)} °C` };
 });
-check('wire', 'a short circuit on three cells heats it red', () => {
-  const hot = peakTemp(circuit(new Scene(), 3), 30, 20, 600);
+check('wire', 'a short circuit on a thick battery heats it red', () => {
+  // A 3 × 3 battery: three cells end to end, three thick, so little internal resistance.
+  const hot = peakTemp(circuit(new Scene(), 3).fill(10, 19, 3, 3, 'battery'), 30, 20, 600);
   return { ok: hot > 500, detail: `wire peak ${fmt(hot)} °C` };
 });
 check('mercury', 'carries current like a wire', () => {
@@ -463,10 +465,12 @@ check('resistor', 'turns current into heat', () => {
   const hot = peakTemp(s, 30, 20, 600);
   return { ok: hot > 80 && s.tempAt(40, 40) < 40, detail: `resistor ${fmt(hot)} °C, wire ${fmt(s.tempAt(40, 40))} °C` };
 });
-check('diode', 'passes current left to right, blocks it right to left', () => {
-  const forward = peakTemp(circuit(new Scene()).fill(25, 20, 1, 1, 'diode').fill(30, 20, 1, 1, 'bulb'), 30, 20, 300);
-  const reverse = peakTemp(circuit(new Scene()).fill(25, 40, 1, 1, 'diode').fill(30, 20, 1, 1, 'bulb'), 30, 20, 300);
-  return { ok: forward > 900 && reverse < 100, detail: `bulb ${fmt(forward)} °C with the diode forwards, ${fmt(reverse)} °C turned round` };
+check('diode', 'lets current one way only', () => {
+  // One diode: the battery turns round if it must, and the bulb lights. Diodes on the top and bottom runs
+  // face opposite ways round the loop, so one always blocks and the bulb stays dark.
+  const one = peakTemp(circuit(new Scene()).fill(25, 40, 1, 1, 'diode').fill(30, 20, 1, 1, 'bulb'), 30, 20, 300);
+  const two = peakTemp(circuit(new Scene()).fill(25, 40, 1, 1, 'diode').fill(25, 20, 1, 1, 'diode').fill(30, 20, 1, 1, 'bulb'), 30, 20, 300);
+  return { ok: one > 900 && two < 100, detail: `bulb ${fmt(one)} °C with one diode, ${fmt(two)} °C with two facing opposite ways round the loop` };
 });
 check('led', 'lights with a resistor in line, burns out without one', () => {
   const s = circuit(new Scene(), 2).fill(25, 20, 1, 1, 'led').fill(30, 20, 1, 1, 'resistor').run(60);

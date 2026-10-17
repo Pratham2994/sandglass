@@ -26,7 +26,7 @@ out.push('## World rules');
 out.push('');
 out.push(`- Room temperature is ${AMBIENT} °C. Empty cells are air; air slowly drifts back to room temperature, which is how hot things cool and steam condenses.`);
 out.push(`- Air feeds fire with oxygen strength ${num.format(OXIDISER_OF[EMPTY])}. Burning turns touching air into smoke, which feeds nothing, so a sealed space runs out of air.`);
-out.push('- The bottom and side edges are walls. Gases that vent (smoke) leave through the top edge, and smoke thins out and clears as it spreads; others stay.');
+out.push('- The bottom and side edges are walls. Gases that vent (smoke) leave through the top edge, and smoke fades to a faint haze as it ages; others stay.');
 out.push('- Gravity is per element: each falling element has its own acceleration and top speed.');
 out.push('- Heat flows between touching cells by conduction (each element has a conductivity and heat capacity). Burning cells also push radiant heat into their neighbours.');
 out.push('- Movement only swaps cells, so nothing is created or lost by moving. Reactions and burning change cells into other elements.');

@@ -1,4 +1,4 @@
-import { BODY_OF, EMPTY, GATE_OF, GATE_SWITCH, HABITAT_OF, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER } from './elements';
+import { BODY_OF, EMPTY, GATE_OF, GATE_SWITCH, HABITAT_OF, PART_OF, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER, WIRE } from './elements';
 import { placeBody } from './step';
 import type { World } from './world';
 
@@ -96,9 +96,14 @@ function toggleSwitch(world: World, x: number, y: number): void {
   }
 }
 
-/** One disc of the brush centred on (cx, cy): place, erase, heat or cool. */
+/**
+ * One disc of the brush centred on (cx, cy): place, erase, heat or cool.
+ * A circuit part painted onto wire replaces the wire under it, so it sits
+ * in the circuit.
+ */
 function stamp(world: World, cx: number, cy: number, r: number, mode: number): void {
   const { w, h, type } = world;
+  const intoWire = mode >= 0 && PART_OF[mode] !== 0;
   const r2 = r * r + r;
   const ph = mode < 0 ? 0 : PHASE_OF[mode];
   const p = mode >= 0 && HABITAT_OF[mode] !== 0 ? CREATURE_FILL : ph === PH_POWDER ? POWDER_FILL : ph === PH_LIQUID || ph === PH_GAS ? LIQUID_FILL : 1;
@@ -124,8 +129,51 @@ function stamp(world: World, cx: number, cy: number, r: number, mode: number): v
       } else if (mode >= 0 && BODY_OF[mode] !== null) {
         // Animals with a body are placed whole, wherever there is room for them (fish into water too).
         if (world.rng.next() < p) placeBody(world, x, y, mode);
-      } else if (type[i] === EMPTY && (p >= 1 || world.rng.next() < p)) {
+      } else if ((type[i] === EMPTY || (intoWire && type[i] === WIRE)) && (p >= 1 || world.rng.next() < p)) {
         world.place(i, mode);
+      }
+    }
+  }
+  if (intoWire) sever(world, cx, cy, r, mode);
+}
+
+/**
+ * A part painted onto a wire cuts right through it: across the width of
+ * the brush, wire left on either side of it across the wire's run becomes
+ * the part too, out to the wire's edge (at most three brush radii), so no
+ * strip of wire is left to carry the current round the part. Which way the
+ * wire runs is read from the spread of the wire cells around the brush.
+ */
+function sever(world: World, cx: number, cy: number, r: number, mode: number): void {
+  const { w, h, type } = world;
+  const reach = Math.max(2, 3 * r);
+  let n = 0;
+  let sx = 0;
+  let sy = 0;
+  let sxx = 0;
+  let syy = 0;
+  for (let y = Math.max(0, cy - reach); y <= Math.min(h - 1, cy + reach); y++) {
+    for (let x = Math.max(0, cx - reach); x <= Math.min(w - 1, cx + reach); x++) {
+      if (type[y * w + x] !== WIRE) continue;
+      n++;
+      sx += x;
+      sy += y;
+      sxx += x * x;
+      syy += y * y;
+    }
+  }
+  if (n === 0) return;
+  // A wire spread out left to right runs across: cut it up and down (each column), and the other way round.
+  const rows = sxx / n - (sx / n) ** 2 >= syy / n - (sy / n) ** 2;
+  for (let k = -r; k <= r; k++) {
+    for (const dir of [-1, 1]) {
+      for (let s = 0; s <= reach; s++) {
+        const x = rows ? cx + k : cx + dir * s;
+        const y = rows ? cy + dir * s : cy + k;
+        if (x < 0 || y < 0 || x >= w || y >= h) break;
+        const i = y * w + x;
+        if (type[i] === WIRE) world.place(i, mode);
+        else if (type[i] !== mode) break;
       }
     }
   }

@@ -2,7 +2,7 @@ import type { FixedLoop } from '../core/loop';
 import { MAX_RADIUS, type Brush, type Tool } from '../input/brush';
 import { ELEMENTS, EMPTY, PHASE_OF, PH_LIQUID, PH_POWDER, type Category } from '../sim/elements';
 import type { World } from '../sim/world';
-import { elementFacts } from '../sim/describe';
+import { elementFacts, tipFor } from '../sim/describe';
 import { inspectCell } from '../sim/inspect';
 import type { View } from '../render/renderer';
 import { icon } from './icons';
@@ -368,6 +368,8 @@ export function mountLibrary(
   const tag = el('span', 'detail-tag');
   titleRow.append(title, tag);
   const blurb = el('p', 'detail-blurb');
+  // How to see it act: "Try: ...".
+  const tryLine = el('p', 'detail-tip');
   const dl = el('dl', 'facts');
   // Two key facts always; the rest behind a toggle, so the card stays small
   // and the library keeps most of the column. The choice is remembered.
@@ -397,7 +399,7 @@ export function mountLibrary(
   moreBtn.addEventListener('pointerdown', (e) => e.preventDefault());
   moreBtn.addEventListener('click', () => setFactsOpen(!factsOpen));
   setFactsOpen(factsOpen);
-  detail.append(stage, titleRow, blurb, keyFacts, moreBtn, dl);
+  detail.append(stage, titleRow, blurb, tryLine, keyFacts, moreBtn, dl);
   let detailSim: MiniSim | null = null;
   let detailId = -1;
   let hovered: (typeof tiles)[number] | null = null;
@@ -610,6 +612,9 @@ export function mountLibrary(
     title.textContent = e.name;
     tag.textContent = CATEGORY_NAMES[e.category];
     blurb.textContent = e.blurb;
+    const how = tipFor(id);
+    tryLine.hidden = how === null;
+    tryLine.replaceChildren(el('span', 'detail-tip-label', 'Try'), document.createTextNode(how ?? ''));
     const facts = elementFacts(id);
     const row = ([k, v]: [string, string]): HTMLElement[] => [el('dt', '', k), el('dd', 'num', v)];
     // The key facts: what changes it (heating, burning) and its state, in that order of interest.

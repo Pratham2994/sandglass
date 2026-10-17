@@ -138,7 +138,7 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['White phosphorus bursts into flame by itself in warm air, but is safe under water.', ['phosphorus', 'water']],
       ['Sulfur burns into choking sulfur dioxide; a diamond burns away into carbon dioxide.', ['sulfur', 'sulfur_dioxide', 'diamond', 'carbon_dioxide']],
       ['Napalm floats on water and keeps burning there.', ['napalm', 'water']],
-      ['Smoke thins out and clears as it spreads, yet dense smoke still chokes a fire sealed in a box.', ['smoke', 'fire']],
+      ['Smoke fades to a faint haze as it ages, so it never hides the scene, yet it is spent air: a fire sealed in a box still chokes.', ['smoke', 'fire']],
     ],
   },
   {
@@ -201,8 +201,8 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['Blasts shatter glass, brick, concrete, obsidian and sandstone.', ['glass', 'brick', 'concrete', 'obsidian', 'sandstone']],
       ['A fuse burns along like a rope and sets off any explosive at its end, even C4; a long charge goes off as a fast wave from where it was lit.', ['fuse', 'c4', 'gunpowder', 'tnt']],
       ['A magnet pulls iron filings in from a distance.', ['magnet', 'iron_filings']],
-      ['Real circuits: current flows only round a closed loop from the + end of a battery (right) back to its - end (left); cells side by side add their voltage.', ['battery', 'wire', 'mercury', 'graphite']],
-      ['A short circuit heats wire red and sets the battery alight; bulbs in series glow dimmer; an LED without a resistor burns out.', ['wire', 'battery', 'bulb', 'led', 'resistor']],
+      ['Real circuits: paint a battery onto a wire loop and current flows round it; a longer battery gives more volts, a thicker one more current, and batteries in one loop turn round to help each other.', ['battery', 'wire', 'mercury', 'graphite']],
+      ['Parts painted onto wire cut into it; a short circuit heats wire red and can set a thick battery alight; bulbs in series glow dimmer; an LED without a resistor burns out.', ['wire', 'battery', 'bulb', 'led', 'resistor']],
       ['Switches click open and shut, pressure plates close under sand or water, a thermostat holds a heater steady, a diode lets current one way only.', ['switch', 'pressure_plate', 'thermostat', 'diode']],
       ['A capacitor charges and lights a bulb after the battery is gone; motors carry what rests on them; an electromagnet pulls iron only while powered; neon glows in a tube.', ['capacitor', 'motor', 'electromagnet', 'neon']],
       ['Salt water carries current and splits into hydrogen and oxygen.', ['water', 'salt', 'hydrogen', 'oxygen']],
@@ -449,7 +449,7 @@ code { font: 12.5px ui-monospace, "Cascadia Code", Consolas, monospace; color: v
 <ul class="rules">
 <li><b>Room temperature is ${AMBIENT} °C.</b> Empty cells are air. Air slowly drifts back to room temperature, which is how hot things cool and steam condenses.</li>
 <li><b>Air feeds fire</b> with oxygen strength ${OXIDISER_OF[EMPTY]}. Burning turns touching air into smoke, which feeds nothing, so a sealed space runs out of air.</li>
-<li><b>Edges:</b> the bottom and sides are walls. Smoke leaves through the top edge and thins out as it spreads; other gases stay.</li>
+<li><b>Edges:</b> the bottom and sides are walls. Smoke leaves through the top edge and fades to a faint haze as it ages; other gases stay.</li>
 <li><b>Gravity is per element:</b> each falling element has its own acceleration and top speed.</li>
 <li><b>Heat flows by touch.</b> Each element has a conductivity and a heat capacity. Burning cells also push heat into their neighbours.</li>
 <li><b>Nothing appears from nothing.</b> Movement only swaps cells. Only reactions, burning and phase changes turn one element into another.</li>

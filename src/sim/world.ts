@@ -1,4 +1,4 @@
-import { AMBIENT, EMPTY, GATE_OF, GATE_SWITCH, LIFE_OF, TEMP_OF } from './elements';
+import { AMBIENT, EMPTY, FADES_OF, GATE_OF, GATE_SWITCH, LIFE_OF, TEMP_OF } from './elements';
 import { Air } from './air';
 import { Rng } from './rng';
 
@@ -268,8 +268,8 @@ export class World {
     this.vy[i] = 0;
     this.stamp[i] = 0;
     this.shade[i] = t === EMPTY ? 0 : this.rng.nextU32() & 255;
-    // A switch is placed closed: its shade picks the closed colour.
-    if (GATE_OF[t] === GATE_SWITCH) this.shade[i] &= 127;
+    // A switch is placed closed, and smoke starts dense: their shade picks the first colours.
+    if (GATE_OF[t] === GATE_SWITCH || FADES_OF[t] !== 0) this.shade[i] &= 127;
     this.temp[i] = TEMP_OF[t];
     this.life[i] = LIFE_OF[t];
     this.solute[i] = 0;

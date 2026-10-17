@@ -1,6 +1,6 @@
 import { P_MIN_T, P_RULE, explain } from './chem';
 import { downChange, upChange } from './describe';
-import { ampsAt, inLiveCircuit } from './circuit';
+import { ampsAt, inLiveCircuit, partInfo } from './circuit';
 import {
   CAPACITOR_OF,
   CAP_ZERO,
@@ -78,11 +78,20 @@ function circuitFacts(world: World, i: number, t: number, facts: [string, string
   const e = ELEMENTS[t];
   const amps = ampsAt(world, i);
   const live = inLiveCircuit(world, i);
+  const part = partInfo(world, i);
   if (EMF_OF[t] !== 0) {
     const left = world.life[i] / LIFE_OF[t];
-    facts.push(['Battery', world.life[i] === 0 ? 'flat: it has no charge left' : `${n0.format(left * 100)}% charge left, ${n1.format(EMF_OF[t])} V from - (left side) to + (right side)`]);
+    if (world.life[i] === 0) facts.push(['Battery', 'flat: it has no charge left']);
+    else if (part) facts.push(['Battery', `${n1.format(part.emf)} V (${part.length} ${part.length === 1 ? 'cell' : 'cells'} end to end), ${n0.format(left * 100)}% charge left`]);
+    else facts.push(['Battery', `${n1.format(EMF_OF[t])} V a cell end to end, ${n0.format(left * 100)}% charge left`]);
   }
-  if (CAPACITOR_OF[t] !== 0) facts.push(['Holds', `${(Math.abs(world.life[i] - CAP_ZERO) / 1000).toFixed(2)} V of charge; pops past 12 V`]);
+  if (CAPACITOR_OF[t] !== 0) {
+    const pops = part ? `; pops past ${n0.format(4 * part.length)} V` : '';
+    facts.push(['Holds', `${(Math.abs(world.life[i] - CAP_ZERO) / 1000).toFixed(2)} V of charge${pops}`]);
+  }
+  if (part?.shorted) facts.push(['Short circuit', 'nothing in the loop slows the current, so it and the wire heat up: put a bulb, motor or resistor in the loop']);
+  else if (part && EMF_OF[t] !== 0 && world.life[i] > 0 && !part.connected)
+    facts.push(['Loop', 'open: wire must run from one side of the battery, round through the parts, and back to its other side']);
   const gate = GATE_OF[t];
   if (gate === GATE_SWITCH) facts.push(['Switch', world.conc[i] !== 0 ? 'open: click it to close the circuit' : 'closed: click it to open the circuit']);
   if (gate === GATE_THERMOSTAT) facts.push(['Contact', world.conc[i] !== 0 ? 'open: too hot, it closes again below 45 °C' : 'closed: it opens above 60 °C']);
@@ -101,14 +110,15 @@ function circuitFacts(world: World, i: number, t: number, facts: [string, string
   if (!electronic) return null;
   if (DIODE_OF[t] !== 0 && live) {
     const x = i % world.w;
-    const vl = x > 0 ? world.volt[i - 1] : 0;
-    const vr = x + 1 < world.w ? world.volt[i + 1] : 0;
-    if (vl < vr - 0.01) {
-      facts.push(['Current', 'none: blocked, because the current is trying to go from right to left; draw it the other way round']);
+    const y = (i / world.w) | 0;
+    const v = (j: number): number => (inLiveCircuit(world, j) ? world.volt[j] : 0);
+    const bias = (x > 0 ? v(i - 1) : 0) - (x + 1 < world.w ? v(i + 1) : 0) + (y + 1 < world.h ? v(i + world.w) : 0) - (y > 0 ? v(i - world.w) : 0);
+    if (bias < -0.01) {
+      facts.push(['Current', 'none: blocked, because the current is trying to go leftwards or downwards through it; it passes only rightwards or upwards']);
       return 'Blocking';
     }
   }
-  if (live) facts.push(['Current', "none: it is joined to a battery, but there is no closed loop from the battery's + end (right side) back to its - end (left side)"]);
+  if (live) facts.push(['Current', 'none: it is joined to a battery, but the loop is not closed: current must run from the battery round to its other side']);
   else if (gate === 0 || world.conc[i] === 0) facts.push(['Current', 'none: it is not joined to a battery with charge']);
   return null;
 }
