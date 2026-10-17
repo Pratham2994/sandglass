@@ -55,7 +55,21 @@ import {
   CAPACITOR_OF,
   BURNS_OUT_INTO_OF,
   RUPTURE_INTO_OF,
+  CRUMBLES_INTO_OF,
+  LIGHT_INTO_OF,
+  FADES_OF,
+  COLONY_OF,
+  DECAYS_INTO_OF,
+  DECAY_P_OF,
+  PARTICLE_OF,
+  FISSILE_OF,
+  CRYSTAL_OF,
+  INDICATOR_ACID_OF,
+  INDICATOR_BASE_OF,
+  NEUTRON,
+  PLASMA,
   RUPTURE_T_OF,
+  BAKE_T_OF,
   RUBBLE_OF,
   SMOKE,
   SOLVENT_OF,
@@ -114,6 +128,19 @@ function allowed(start: number[]): Set<number> {
       if (CAPACITOR_OF[e]) grew = add(SMOKE) || grew;
       // A tank ruptures into what it holds.
       if (RUPTURE_INTO_OF[e]) grew = add(RUPTURE_INTO_OF[e]) || grew;
+      // A structural block that falls far cracks into rubble.
+      if (CRUMBLES_INTO_OF[e]) grew = add(CRUMBLES_INTO_OF[e]) || grew;
+      // Light turns silver chloride dark; foam pops; indicators change colour.
+      if (LIGHT_INTO_OF[e]) grew = add(LIGHT_INTO_OF[e]) || grew;
+      if (DECAYS_INTO_OF[e]) grew = add(DECAYS_INTO_OF[e]) || grew;
+      if (INDICATOR_ACID_OF[e]) grew = add(INDICATOR_ACID_OF[e]) || grew;
+      if (INDICATOR_BASE_OF[e]) grew = add(INDICATOR_BASE_OF[e]) || grew;
+      // A chain reaction flings neutrons, and a runaway one leaves plasma and flame.
+      if (FISSILE_OF[e]) {
+        grew = add(NEUTRON) || grew;
+        grew = add(PLASMA) || grew;
+        grew = add(FIRE) || grew;
+      }
       for (const o of now) if (EATS[e * N + o] > 1) grew = add(EATS[e * N + o] - 1) || grew;
       if (IGNITION_OF[e] !== Infinity || BLAST_POWER_OF[e] > 0 || PHASE_OF[e] === PH_ENERGY) {
         grew = add(FIRE) || grew;
@@ -219,6 +246,15 @@ const active = (e: number): boolean =>
   EMF_OF[e] > 0 ||
   CAPACITOR_OF[e] > 0 ||
   RUPTURE_T_OF[e] !== Infinity ||
+  BAKE_T_OF[e] !== Infinity ||
+  FADES_OF[e] > 0 ||
+  COLONY_OF[e] > 0 ||
+  LIGHT_INTO_OF[e] > 0 ||
+  DECAY_P_OF[e] > 0 ||
+  PARTICLE_OF[e] > 0 ||
+  FISSILE_OF[e] > 0 ||
+  CRYSTAL_OF[e] > 0 ||
+  INDICATOR_ACID_OF[e] > 0 ||
   GROWS_INTO_OF[e] > 0 ||
   DEVICE_OF[e] > 0 ||
   RAIN_INTO_OF[e] > 0 ||

@@ -30,7 +30,9 @@ import {
   SALT,
   SMOKE,
   SOLVENT_OF,
+  SOLAR_OF,
 } from './elements';
+import { lightAt } from './light';
 import { CHUNK_SHIFT, type World } from './world';
 
 /*
@@ -299,7 +301,7 @@ function side(world: World, x: number, y: number, d: number): number {
 /** Is cell i a source that could drive current now (a battery with charge, a charged capacitor)? */
 function isSource(world: World, i: number): boolean {
   const t = world.type[i];
-  return (EMF_OF[t] !== 0 && world.life[i] > 0) || (CAPACITOR_OF[t] !== 0 && world.life[i] !== CAP_ZERO);
+  return (EMF_OF[t] !== 0 && (world.life[i] > 0 || SOLAR_OF[t] !== 0)) || (CAPACITOR_OF[t] !== 0 && world.life[i] !== CAP_ZERO);
 }
 
 /** Which terminal of blob b a cell at (x, y) touches: +1 the + side, -1 the - side. */
@@ -401,7 +403,17 @@ function labelBlob(world: World, s: Scratch, i: number): void {
   s.bLen[b] = len;
   let emf: number;
   let ohms: number;
-  if (EMF_OF[t] !== 0) {
+  if (SOLAR_OF[t] !== 0) {
+    // A solar panel's voltage follows the light on it: sample a few of its cells.
+    let light = 0;
+    const samples = Math.min(4, count);
+    for (let q = 0; q < samples; q++) {
+      const c = blobCells[first + ((q * count) / samples) | 0];
+      light += lightAt(world, c % w, (c / w) | 0);
+    }
+    emf = EMF_OF[t] * len * (light / samples) * (conc[firstCell] !== 0 ? -1 : 1);
+    ohms = (OHMS_OF[t] * len) / thick;
+  } else if (EMF_OF[t] !== 0) {
     emf = charge > 0 ? EMF_OF[t] * len * (conc[firstCell] !== 0 ? -1 : 1) : 0;
     ohms = (BATTERY_R * len) / thick;
   } else {
@@ -805,7 +817,8 @@ function act(world: World, s: Scratch, c: number, st: number): void {
     if (mag < 1e-4) continue;
     const loss = (mag * mag * s.bOhms[b]) / count;
     if (EMF_OF[t] !== 0) {
-      const used = (mag * DRAIN * s.bLen[b]) / count;
+      // Solar panels never run flat; they only warm.
+      const used = SOLAR_OF[t] !== 0 ? 0 : (mag * DRAIN * s.bLen[b]) / count;
       for (let k = f; k < f + count; k++) {
         const cell = s.blobCells[k];
         if (type[cell] !== t) continue;
@@ -1034,6 +1047,11 @@ export function ampsAt(world: World, i: number): number {
 export function inLiveCircuit(world: World, i: number): boolean {
   const s = scratches.get(world);
   return !!s && s.size === world.size && s.nodeOf[i] >= 0;
+}
+
+/** Sets the light level (0..255) of cell i for the renderer (glow paint). */
+export function setLit(world: World, i: number, level: number): void {
+  scratchFor(world).lit[i] = level;
 }
 
 /** Light level (0..255) of every cell from last frame, for the renderer; null before any circuit has run. */

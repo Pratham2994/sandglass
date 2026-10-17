@@ -1,6 +1,8 @@
 import { P_MIN_T, P_RULE, explain } from './chem';
 import { downChange, upChange } from './describe';
 import { ampsAt, inLiveCircuit, partInfo } from './circuit';
+import { supportAt } from './structure';
+import { lightAt } from './light';
 import {
   CAPACITOR_OF,
   CAP_ZERO,
@@ -25,6 +27,14 @@ import {
   PH_GAS,
   POROUS_MAX_OF,
   SOLVENT_OF,
+  SPAN_OF,
+  FISSILE_OF,
+  ABSORBS_N_OF,
+  HABITAT_OF,
+  PLAGUE,
+  SOLAR_OF,
+  GLOW_PAINT_OF,
+  LIGHT_INTO_OF,
   VY_UNIT,
   WATER,
   WITHER_INTO_OF,
@@ -165,7 +175,8 @@ export function inspectCell(world: World, x: number, y: number): CellReport | nu
   const so = world.solute[i];
   const cn = world.conc[i];
   const living = WITHER_INTO_OF[t] !== 0;
-  if (cn !== 0 && t !== FIRE && so !== 0 && !living) {
+  const creature = HABITAT_OF[t] !== 0;
+  if (cn !== 0 && t !== FIRE && so !== 0 && !living && !creature) {
     const what = ELEMENTS[so].name.toLowerCase();
     if (e.phase === 'liquid') facts.push(['Carries', `dissolved ${what}, ${n0.format((cn / 255) * 100)}% of the cell`]);
     else facts.push(['Soaked with', `${what}, ${n0.format((cn / 255) * 100)}% of the cell${SOLVENT_OF[so] ? ': will not burn, holds steeper slopes' : ''}`]);
@@ -185,7 +196,7 @@ export function inspectCell(world: World, x: number, y: number): CellReport | nu
     }
   } else if (t === EMPTY) {
     state = 'Air';
-  } else if (cn !== 0 && so !== 0 && !living) {
+  } else if (cn !== 0 && so !== 0 && !living && !creature) {
     name = e.phase === 'liquid' ? `${e.name} with ${ELEMENTS[so].name.toLowerCase()}` : `Wet ${e.name.toLowerCase()}`;
   }
   if (world.charge[i] !== 0) facts.push(['Charge', 'a pulse of current is passing through it']);
@@ -193,6 +204,32 @@ export function inspectCell(world: World, x: number, y: number): CellReport | nu
   const air = world.air;
   const press = air.p[(y >> 2) * air.aw + (x >> 2)];
   if (Math.abs(press) >= 0.2) facts.push(['Pressure', `${press.toFixed(1)}${press > 0 ? ' above' : ' below'} calm air; glass cracks past 3`]);
+  if (creature && so === PLAGUE) facts.push(['Sick', 'it has the plague: a fever that will kill it, and it passes the sickness on; medicine cures it']);
+  // Light, where it matters: living plants, solar panels, glow paint, light-sensitive powders.
+  if (WITHER_INTO_OF[t] !== 0 || SOLAR_OF[t] !== 0 || GLOW_PAINT_OF[t] !== 0 || LIGHT_INTO_OF[t] !== 0) {
+    const L = lightAt(world, x, y);
+    const need = WITHER_INTO_OF[t] !== 0 ? (L < 0.15 ? ': too dark to grow' : ': enough to grow') : '';
+    facts.push(['Light', `${n0.format(L * 100)}% of full daylight${need}`]);
+  }
+  // Nuclear fuel: how close it is to a chain reaction.
+  if (FISSILE_OF[t] !== 0) {
+    let fuel = 0;
+    let soak = 0;
+    for (let yy = Math.max(0, y - 5); yy <= Math.min(h - 1, y + 5); yy++)
+      for (let xx = Math.max(0, x - 5); xx <= Math.min(w - 1, x + 5); xx++) {
+        fuel += FISSILE_OF[world.type[yy * w + xx]];
+        soak += ABSORBS_N_OF[world.type[yy * w + xx]];
+      }
+    const k = (fuel - 3 * soak) / 45;
+    facts.push(['Chain reaction', `${fuel} fuel cells close by${soak > 0 ? `, slowed by absorbers` : ''}: ${k > 1 ? `past critical (${n1.format(k)}), heating up` : `below critical (${n1.format(Math.max(0, k))}), only warm`}`]);
+  }
+  // Structure: how it is held up.
+  if (SPAN_OF[t] >= 0) {
+    const reach = SPAN_OF[t];
+    const d = supportAt(world, i);
+    if (world.vy[i] !== 0) facts.push(['Support', 'none: it has broken off and is falling']);
+    else if (d >= 0) facts.push(['Support', d === 0 ? `held directly; it reaches ${reach} cells past a support` : `${d} of ${reach} cells out from its support`]);
+  }
   const powered = circuitFacts(world, i, t, facts);
   if (powered) state = powered;
   if (living) {

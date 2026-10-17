@@ -1063,3 +1063,78 @@ body.intro #infobar {
   justify-content: space-between;
   gap: 16px;
 }
+
+/* ---- Motion: small, quick, and none for people who ask for less ---------------------- */
+
+/* The element card settles in when a new element is picked: name, then description, hint and facts. */
+@keyframes settle-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.detail.enter .detail-title,
+.detail.enter .detail-blurb,
+.detail.enter .detail-tip,
+.detail.enter .facts {
+  animation: settle-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.detail.enter .detail-blurb {
+  animation-delay: 0.03s;
+}
+
+.detail.enter .detail-tip {
+  animation-delay: 0.06s;
+}
+
+.detail.enter .facts {
+  animation-delay: 0.09s;
+}
+
+/* The lens: lines fade in when a different kind of cell comes under the pointer. */
+@keyframes fade-in {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.lens.swap .facts,
+.lens.swap .reactions {
+  animation: fade-in 0.16s ease-out both;
+}
+
+/* New elements: a small quiet dot on the tile until it has been looked at. */
+.tile.is-new {
+  position: relative;
+}
+
+.tile.is-new::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--run);
+  box-shadow: 0 0 0 2px var(--panel);
+  animation: settle-in 0.3s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001s !important;
+    transition-duration: 0.001s !important;
+  }
+}

@@ -249,7 +249,7 @@ export class Canvas2DRenderer implements Renderer {
         // Electric charge flashes blue-white.
         if (world.charge[i] !== 0) c = blend(c, 0xffffe0c8, 150 + world.charge[i] * 20);
         // Lights in a live circuit (LED, neon) take their own colour.
-        if (lit !== null && lit[i] !== 0) c = blend(c, LIT_ABGR[t], 90 + ((lit[i] * 150) >> 8));
+        if (lit !== null && lit[i] !== 0 && LIT_ABGR[t] !== 0xff000000) c = blend(c, LIT_ABGR[t], 90 + ((lit[i] * 150) >> 8));
         // The shade nudges the glow temperature a little, so hot masses have texture.
         const T = temp[i] + (shade[i] - 128) * 0.5;
         if (T > GLOW_MIN) {

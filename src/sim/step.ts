@@ -11,6 +11,13 @@ import {
   GATE_OF,
   GATE_THERMOSTAT,
   VALVE_OF,
+  GLOW_PAINT_OF,
+  LIGHT_INTO_OF,
+  INFECTS_OF,
+  CURES_OF,
+  COLONY_OF,
+  COLONY_ON,
+  DARK_GROWER_OF,
   SALT,
   SPARK,
   CONC_UNIT,
@@ -53,6 +60,18 @@ import {
   LIGHTNING_FROM_OF,
   SINKS_OF,
   LIGHTNING,
+  PLAGUE,
+  NEUTRON,
+  PLASMA,
+  FISSILE_OF,
+  ABSORBS_N_OF,
+  PARTICLE_OF,
+  DECAYS_INTO_OF,
+  DECAY_P_OF,
+  CRYSTAL_OF,
+  INDICATOR_ACID_OF,
+  INDICATOR_BASE_OF,
+  ACIDITY_OF,
   EATS,
   HABITAT_OF,
   BODY_OF,
@@ -85,6 +104,9 @@ import {
 } from './elements';
 import { airPass, explode } from './blast';
 import { circuitStep, pullIron } from './circuit';
+import { structureStep } from './structure';
+import { lightAt } from './light';
+import { setLit } from './circuit';
 import { GAS_SWELL, SWELL_RADIUS, heatStep } from './heat';
 import { CHUNK_SHIFT, type World } from './world';
 
@@ -140,6 +162,7 @@ export function step(world: World): void {
       else for (let x = x1 - 1; x >= x0; x--) updateCell(world, x, y, st);
     }
   }
+  structureStep(world);
   circuitStep(world);
   heatStep(world);
   airPass(world, st);
@@ -160,6 +183,21 @@ function updateCell(world: World, x: number, y: number, st: number): void {
     strike(world, x, y, i, t);
     return;
   }
+  if (PARTICLE_OF[t] !== 0) {
+    particle(world, x, y, i);
+    return;
+  }
+  if (FISSILE_OF[t] !== 0 && fission(world, x, y, i)) return;
+  // Things that change by themselves now and then (foam pops).
+  if (DECAY_P_OF[t] !== 0) {
+    world.wake(x, y);
+    if (world.rng.next() < DECAY_P_OF[t]) {
+      become(world, i, DECAYS_INTO_OF[t]);
+      return;
+    }
+  }
+  if (CRYSTAL_OF[t] !== 0) crystal(world, x, y, t);
+  if (INDICATOR_ACID_OF[t] !== 0 && indicator(world, x, y, i, t)) return;
   if (BURSTS_INTO_OF[t] !== 0) {
     rocket(world, x, y, i, t, st);
     return;
@@ -182,6 +220,15 @@ function updateCell(world: World, x: number, y: number, st: number): void {
     return;
   }
   if (RAIN_INTO_OF[t] !== 0) rain(world, x, y, i, t);
+  if (COLONY_OF[t] !== 0) colony(world, x, y, t);
+  // Light-sensitive powders slowly change in strong light (they stay awake to keep checking).
+  if (LIGHT_INTO_OF[t] !== 0) {
+    world.wake(x, y);
+    if ((world.rng.nextU32() & 63) === 0 && lightAt(world, x, y) > 0.6) {
+      become(world, i, LIGHT_INTO_OF[t]);
+      return;
+    }
+  }
   if (world.charge[i] !== 0) updateCharge(world, x, y, i, st);
   if (WITHER_INTO_OF[t] !== 0) live(world, x, y, i, st);
   else if (GROWS_INTO_OF[t] !== 0 && world.vy[i] === 0) sprout(world, x, y, i);
@@ -317,6 +364,12 @@ function device(world: World, x: number, y: number, i: number, t: number): void 
     const open = world.conc[i] !== 0 ? press > setting * 0.5 : press > setting;
     world.conc[i] = open ? 1 : 0;
     world.shade[i] = open ? world.shade[i] | 128 : world.shade[i] & 127;
+  }
+  // Glow paint soaks up light (kept in `life`, 0..GLOW_FULL) and shines while it lasts.
+  if (GLOW_PAINT_OF[t] !== 0) {
+    if ((r & 7) === 0 && lightAt(world, x, y) > 0.5) world.life[i] = Math.min(GLOW_FULL, world.life[i] + 120);
+    else if (world.life[i] > 0) world.life[i]--;
+    setLit(world, i, (world.life[i] * 255) / GLOW_FULL);
   }
   // A thermostat's bimetal strip bends open when hot and closes again when cool (conc 1 = open).
   if (GATE_OF[t] === GATE_THERMOSTAT) {
@@ -493,6 +546,7 @@ function creature(world: World, x: number, y: number, i: number, t: number, st: 
   world.wake(x, y);
   const { w, h, type, temp, life, vy } = world;
   const habitat = HABITAT_OF[t];
+  sickness(world, i, x, y);
   const T = temp[i];
   if (T > CREATURE_HOT || T < CREATURE_COLD) {
     become(world, i, DIES_INTO_OF[t]);
@@ -662,6 +716,15 @@ function bodyTurn(world: World, x: number, y: number, i: number, t: number, st: 
     }
   }
   const habitat = HABITAT_OF[t];
+  // Sickness: the body is sick if any part caught it; a random part meets germs, medicine or others.
+  let sick = false;
+  for (let p = 0; p < n && !sick; p++) sick = world.solute[(y + b.dy[p]) * w + x + b.dx[p]] === PLAGUE;
+  if (sick) world.solute[i] = PLAGUE;
+  {
+    const p = world.rng.nextU32() % n;
+    sickness(world, i, x + b.dx[p], y + b.dy[p]);
+    if (world.solute[i] === 0 && sick) for (let q = 0; q < n; q++) world.solute[(y + b.dy[q]) * w + x + b.dx[q]] = 0;
+  }
   if (temp[i] > CREATURE_HOT || temp[i] < CREATURE_COLD) {
     killBody(world, x, y, t);
     return;
@@ -818,6 +881,9 @@ function live(world: World, x: number, y: number, i: number, st: number): void {
   // A stem grows into air, or up through fresh water, taking that water in.
   const throughWater = type[up] === WATER && conc[up] === 0;
   if (type[up] !== EMPTY && !throughWater) return;
+  // Plants grow only where light reaches them (daylight, or a fire or lamp nearby); mushrooms only in the dark.
+  const L = lightAt(world, x, y);
+  if (DARK_GROWER_OF[t] !== 0 ? L > DARK_LIGHT : L < PLANT_LIGHT) return;
   const T = world.temp[i];
   // The last cell of a stem may be its flower.
   const last = budget === 1 && TOP_INTO_OF[t] !== 0;
@@ -869,6 +935,196 @@ function become(world: World, i: number, t: number): void {
   const T = world.temp[i];
   world.place(i, t);
   if (t !== EMPTY) world.temp[i] = T;
+}
+
+/**
+ * Sickness for the creature whose state lives in cell i, met at (x, y):
+ * germs or a sick animal beside it infect it (kept as its solute); medicine
+ * beside it cures it. A sick creature runs a fever (its temperature climbs
+ * until it dies) and passes the sickness to animals it touches.
+ */
+function sickness(world: World, i: number, x: number, y: number): void {
+  const { type, solute, temp } = world;
+  const r = world.rng.nextU32();
+  const j = neighbour(world, x, y, r & 3);
+  const tj = j >= 0 ? type[j] : 0;
+  if (j >= 0) {
+    if (CURES_OF[tj] !== 0 && solute[i] === PLAGUE) {
+      solute[i] = 0;
+      if (temp[i] > AMBIENT + 5) temp[i] = AMBIENT + 5;
+    } else if (INFECTS_OF[tj] !== 0 && ((r >>> 2) & 7) === 0) solute[i] = PLAGUE;
+    else if (HABITAT_OF[tj] !== 0 && solute[j] === PLAGUE && ((r >>> 5) & 255) < CONTAGION) solute[i] = PLAGUE;
+    else if (HABITAT_OF[tj] !== 0 && solute[i] === PLAGUE && ((r >>> 13) & 255) < CONTAGION) solute[j] = PLAGUE;
+  }
+  if (solute[i] === PLAGUE) {
+    if (temp[i] < FEVER_MAX) temp[i] += FEVER;
+    // Dying of it: pushed past the heat a creature can stand.
+    if (((r >>> 16) & 65535) < SICK_DEATH) temp[i] = CREATURE_HOT + 1;
+  }
+}
+
+// ---- Nuclear -------------------------------------------------------------------------
+
+/** Chain reactions: fuel counted within this many cells; this much fuel (less absorbers) is critical. */
+const FISSION_REACH = 5;
+const CRITICAL = 45;
+/** °C a lone piece of fuel warms itself towards (decay heat), and °C per check a supercritical one gains for each unit past critical. */
+const DECAY_HEAT_T = 450;
+const FISSION_HEAT = 300;
+/** Past this far over critical and this hot, a pile blows apart. */
+const RUNAWAY_K = 2.2;
+const RUNAWAY_T = 2500;
+const NEUTRON_DX = Int8Array.of(1, 1, 0, -1, -1, -1, 0, 1);
+const NEUTRON_DY = Int8Array.of(0, 1, 1, 1, 0, -1, -1, -1);
+
+/**
+ * Nuclear fuel. Decay keeps a lone piece warm. Now and then it counts the
+ * fuel and the neutron absorbers around it: packed tightly enough (past
+ * critical) the chain reaction runs and it heats fast, flinging out
+ * neutrons; far past critical and white-hot, the pile blows apart.
+ * Returns true if the cell is gone.
+ */
+function fission(world: World, x: number, y: number, i: number): boolean {
+  world.wake(x, y);
+  const { w, h, type, temp } = world;
+  if (temp[i] < DECAY_HEAT_T) temp[i] += (DECAY_HEAT_T - temp[i]) * 0.01;
+  const r = world.rng.nextU32();
+  if ((r & 15) !== 0) return false;
+  let fuel = 0;
+  let absorbed = 0;
+  for (let yy = Math.max(0, y - FISSION_REACH); yy <= Math.min(h - 1, y + FISSION_REACH); yy++)
+    for (let xx = Math.max(0, x - FISSION_REACH); xx <= Math.min(w - 1, x + FISSION_REACH); xx++) {
+      const t = type[yy * w + xx];
+      fuel += FISSILE_OF[t];
+      absorbed += ABSORBS_N_OF[t];
+    }
+  const k = (fuel - 3 * absorbed) / CRITICAL;
+  if (k <= 1) return false;
+  temp[i] += FISSION_HEAT * (k - 1);
+  // Fling a neutron into open space now and then.
+  if (((r >>> 4) & 3) === 0) {
+    const d = (r >>> 6) & 7;
+    const nx = x + NEUTRON_DX[d];
+    const ny = y + NEUTRON_DY[d];
+    if (nx >= 0 && ny >= 0 && nx < w && ny < h && type[ny * w + nx] === EMPTY) {
+      const j = ny * w + nx;
+      world.place(j, NEUTRON);
+      world.conc[j] = d;
+    }
+  }
+  if (k > RUNAWAY_K && temp[i] > RUNAWAY_T) {
+    meltdownBlast(world, x, y);
+    return true;
+  }
+  return false;
+}
+
+/** A runaway pile blows apart: a huge shock, searing heat, and flame and glowing plasma all around. */
+function meltdownBlast(world: World, x: number, y: number): void {
+  const { w, h, type, temp } = world;
+  const R = 12;
+  for (let yy = Math.max(0, y - R); yy <= Math.min(h - 1, y + R); yy++)
+    for (let xx = Math.max(0, x - R); xx <= Math.min(w - 1, x + R); xx++) {
+      const d = Math.hypot(xx - x, yy - y) / R;
+      if (d > 1) continue;
+      const j = yy * w + xx;
+      if (type[j] === WALL) continue;
+      if (d < 0.35 && FISSILE_OF[type[j]] !== 0) world.place(j, PLASMA);
+      else if (type[j] === EMPTY && world.rng.next() < 0.5 * (1 - d)) world.place(j, FIRE);
+      temp[j] += 3000 * (1 - d);
+    }
+  world.air.addPressure(x, y, 60, 24);
+  world.wakeAll();
+}
+
+/**
+ * A particle (a neutron) flies straight in its direction (kept in conc),
+ * two cells a frame, through air and gas. Striking fuel it adds heat to the
+ * chain reaction; anything else soaks it up. It fades after its lifetime.
+ */
+function particle(world: World, x: number, y: number, i: number): void {
+  world.wake(x, y);
+  const { w, h, type, temp, life } = world;
+  if (life[i] <= 1) {
+    world.place(i, EMPTY);
+    return;
+  }
+  life[i]--;
+  const d = world.conc[i] & 7;
+  let cx = x;
+  let cy = y;
+  let at = i;
+  for (let s = 0; s < 2; s++) {
+    const nx = cx + NEUTRON_DX[d];
+    const ny = cy + NEUTRON_DY[d];
+    if (nx < 0 || ny < 0 || nx >= w || ny >= h) {
+      world.place(at, EMPTY);
+      return;
+    }
+    const j = ny * w + nx;
+    const tj = type[j];
+    if (tj === EMPTY || PHASE_OF[tj] === PH_GAS) {
+      world.swapCells(at, j);
+      world.stamp[j] = world.currentStamp();
+      at = j;
+      cx = nx;
+      cy = ny;
+      continue;
+    }
+    if (FISSILE_OF[tj] !== 0) temp[j] += 60;
+    world.place(at, EMPTY);
+    return;
+  }
+  world.wake(cx, cy);
+}
+
+// ---- Crystals and indicators ------------------------------------------------------------
+
+/** A crystal grows into touching water that carries its dissolved element, taking it out. */
+function crystal(world: World, x: number, y: number, t: number): void {
+  world.wake(x, y);
+  const r = world.rng.nextU32();
+  if ((r & 15) !== 0) return;
+  const j = neighbour(world, x, y, (r >>> 4) & 3);
+  if (j < 0 || SOLVENT_OF[world.type[j]] === 0 || world.solute[j] !== CRYSTAL_OF[t] || world.conc[j] < CONC_UNIT) return;
+  const T = world.temp[j];
+  world.place(j, t);
+  world.temp[j] = T;
+}
+
+/** A pH indicator changes colour on touching an acid or a base. Returns true if it changed. */
+function indicator(world: World, x: number, y: number, i: number, t: number): boolean {
+  world.wake(x, y);
+  const r = world.rng.nextU32();
+  if ((r & 3) !== 0) return false;
+  const j = neighbour(world, x, y, (r >>> 2) & 3);
+  if (j < 0) return false;
+  const a = ACIDITY_OF[world.type[j]];
+  const into = a >= 0.2 ? INDICATOR_ACID_OF[t] : a <= -0.2 ? INDICATOR_BASE_OF[t] : 0;
+  if (into === 0 || into === t) return false;
+  become(world, i, into);
+  return true;
+}
+
+/** Mould and other colonies: now and then spread into a touching cell they feed on, if there is water beside. */
+function colony(world: World, x: number, y: number, t: number): void {
+  world.wake(x, y);
+  const r = world.rng.nextU32();
+  if ((r & 31) !== 0) return;
+  const j = neighbour(world, x, y, (r >>> 5) & 3);
+  if (j < 0 || COLONY_ON[t * ELEMENT_COUNT + world.type[j]] === 0) return;
+  // Damp: water (or something soaked with it) within two cells of the food.
+  const { w, h, type, solute, conc } = world;
+  const fx = j % w;
+  const fy = (j / w) | 0;
+  for (let yy = Math.max(0, fy - 2); yy <= Math.min(h - 1, fy + 2); yy++)
+    for (let xx = Math.max(0, fx - 2); xx <= Math.min(w - 1, fx + 2); xx++) {
+      const k = yy * w + xx;
+      if (type[k] === WATER || (solute[k] === WATER && conc[k] !== 0)) {
+        become(world, j, t);
+        return;
+      }
+    }
 }
 
 /** A reaction gave off gas at cell k: it pushes on the air around it (see GAS_SWELL). */
@@ -1114,6 +1370,18 @@ function updateGas(world: World, x: number, y: number, i: number, st: number): v
     world.wake(x + sx, y);
   }
 }
+
+/** Least light (0..1) a plant needs to grow. */
+const PLANT_LIGHT = 0.15;
+/** Most light a mushroom grows in. */
+const DARK_LIGHT = 0.3;
+/** A sick creature's fever (°C a frame, up to FEVER_MAX), its chance (of 65536) per frame of dying of it (about 10 s on average), and its chance (of 256) per frame of passing it on. */
+const FEVER = 0.05;
+const FEVER_MAX = 40;
+const SICK_DEATH = 109;
+const CONTAGION = 12;
+/** Glow paint: stored light when full (about 16 s of glow). */
+const GLOW_FULL = 1000;
 
 /** Frames fully faded smoke lingers before it starts to clear (ten seconds). */
 const SMOKE_LINGER = 600;

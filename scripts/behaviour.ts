@@ -1473,6 +1473,180 @@ check('air_tank', 'bursts with a shock that shatters glass', () => {
   return { ok: s.count('air_tank') < 16 && s.count('shards') > 0, detail: `tank cells ${s.count('air_tank')}, shards ${s.count('shards')}` };
 });
 
+// ---- Structure -----------------------------------------------------------------------
+
+check('stone', 'a shelf longer than its span breaks off and falls', () => {
+  // A wall post with a stone shelf 20 cells long: stone reaches 6.
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(10, 30, 3, 30, 'wall').fill(13, 30, 20, 2, 'stone').run(120);
+  let held = 0;
+  for (let x = 13; x < 33; x++) if (s.at(x, 30) === 'stone') held++;
+  return { ok: held >= 4 && held <= 8 && s.count('stone') + s.count('gravel') === 40, detail: `${held} of 20 shelf cells still held` };
+});
+check('wood', 'burning the post under a slab drops the slab', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(30, 40, 3, 20, 'wood').fill(20, 38, 24, 2, 'stone').run(30);
+  const before = s.meanY('stone');
+  s.fill(29, 58, 5, 2, 'fire').heat(28, 40, 7, 20, 600);
+  s.run(1200);
+  return { ok: s.meanY('stone') > before + 10 || s.count('gravel') > 0, detail: `slab row ${fmt(before)} before, ${fmt(s.meanY('stone'))} after; ${s.count('wood')} wood left` };
+});
+check('rope', 'holds a hanging block until it burns', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(20, 4, 24, 3, 'wall').fill(31, 7, 1, 20, 'rope').fill(28, 27, 7, 4, 'stone').run(60);
+  const hung = s.meanY('stone');
+  s.fill(30, 15, 3, 2, 'fire').heat(30, 12, 3, 8, 400).run(900);
+  return { ok: hung < 31 && s.meanY('stone') > 50, detail: `block row ${fmt(hung)} on the rope, ${fmt(s.meanY('stone'))} after it burned` };
+});
+check('steel_beam', 'bridges a wide gap that stone cannot', () => {
+  const build = (key: string): Scene => new Scene().fill(0, 60, W, 4, 'wall').fill(4, 40, 4, 20, 'brick').fill(56, 40, 4, 20, 'brick').fill(4, 38, 56, 2, key).run(240);
+  const steel = build('steel_beam');
+  const stone = build('stone');
+  return { ok: steel.meanY('steel_beam') < 40 && stone.meanY('stone') > 41, detail: `steel row ${fmt(steel.meanY('steel_beam'))}, stone row ${fmt(stone.meanY('stone'))}` };
+});
+check('stone', 'a block dropped from high up cracks into gravel', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(24, 4, 12, 6, 'stone').run(240);
+  return { ok: s.count('gravel') > 3 && s.meanY('stone') > 50, detail: `gravel ${s.count('gravel')}, stone row ${fmt(s.meanY('stone'))}` };
+});
+
+// ---- Light -----------------------------------------------------------------------------
+
+check('plant', 'grows only in light: not under a roof', () => {
+  const garden = (roof: boolean): Scene => {
+    const s = new Scene().fill(0, 50, W, 14, 'dirt').fill(0, 46, W, 3, 'water').run(600).fill(20, 40, 1, 1, 'seed').fill(40, 40, 1, 1, 'seed');
+    if (roof) s.fill(0, 20, W, 3, 'wall');
+    return s.run(1800);
+  };
+  const open = garden(false).count('plant');
+  const dark = garden(true).count('plant');
+  return { ok: open > 10 && dark < open / 3, detail: `plant cells: ${open} in the open, ${dark} under a roof` };
+});
+check('solar_panel', 'lights a bulb in daylight, not under a roof', () => {
+  const rig = (roof: boolean): Scene => {
+    const s = circuit(new Scene(), 1).fill(10, 20, 6, 1, 'solar_panel').fill(30, 20, 1, 1, 'bulb');
+    if (roof) s.fill(0, 4, W, 3, 'wall');
+    return s;
+  };
+  const sun = peakTemp(rig(false), 30, 20, 300);
+  const shade = peakTemp(rig(true), 30, 20, 300);
+  return { ok: sun > 450 && shade < 100, detail: `bulb ${fmt(sun)} °C in daylight, ${fmt(shade)} °C under a roof` };
+});
+check('glow_paint', 'keeps glowing after it is covered', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(20, 56, 24, 4, 'glow_paint').run(300);
+  // The top surface catches the light.
+  const charged = s.world.life[56 * W + 30];
+  s.fill(0, 50, W, 6, 'wall').run(120);
+  const after = s.world.life[56 * W + 30];
+  return { ok: charged > 500 && after > 0 && after < charged, detail: `stored light ${charged} in the open, ${after} two seconds after covering` };
+});
+check('silver_chloride', 'darkens in light, stays white in shade', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(4, 58, 56, 2, 'silver_chloride').fill(30, 30, 30, 2, 'wall').run(1800);
+  let litDark = 0;
+  let shadeDark = 0;
+  for (let x = 4; x < 28; x++) if (s.at(x, 59) === 'exposed_silver' || s.at(x, 58) === 'exposed_silver') litDark++;
+  for (let x = 32; x < 58; x++) if (s.at(x, 59) === 'exposed_silver' || s.at(x, 58) === 'exposed_silver') shadeDark++;
+  return { ok: litDark > 5 && shadeDark === 0, detail: `darkened columns: ${litDark} in light, ${shadeDark} in shade` };
+});
+
+// ---- Sickness, mould, mushrooms ---------------------------------------------------------------
+
+/** A walled pen on a floor with ants in it. */
+function antPen(): Scene {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(10, 40, 2, 20, 'wall').fill(52, 40, 2, 20, 'wall');
+  for (let x = 14; x < 50; x += 3) s.fill(x, 59, 1, 1, 'ant');
+  return s;
+}
+check('plague', 'spreads among animals and kills them', () => {
+  const s = antPen().fill(14, 50, 6, 6, 'plague');
+  const before = s.count('ant');
+  s.run(1800);
+  return { ok: s.count('ant') < before / 2, detail: `ants ${before} before, ${s.count('ant')} after 30 s` };
+});
+check('medicine', 'cures sick animals', () => {
+  const sickPen = (dose: boolean): Scene => {
+    const s = antPen();
+    for (let k = 0; k < s.world.size; k++) if (s.world.type[k] === s.id('ant')) s.world.solute[k] = s.id('plague');
+    if (dose) s.fill(12, 56, 40, 2, 'medicine');
+    return s.run(1200);
+  };
+  const treated = sickPen(true).count('ant');
+  const untreated = sickPen(false).count('ant');
+  return { ok: treated > untreated + 3, detail: `ants alive after 20 s: ${treated} with medicine, ${untreated} without` };
+});
+check('mould', 'spreads over damp meat, not dry meat', () => {
+  // Left: meat beside a walled pool of water, mould at its wet edge. Right: the same meat, dry.
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(3, 50, 1, 10, 'wall').fill(4, 54, 6, 6, 'water').fill(10, 52, 12, 8, 'meat').fill(10, 55, 1, 1, 'mould');
+  s.fill(40, 52, 12, 8, 'meat').fill(40, 55, 1, 1, 'mould').run(3600);
+  let wet = 0;
+  let dry = 0;
+  for (let y = 52; y < 60; y++)
+    for (let x = 0; x < W; x++) if (s.at(x, y) === 'mould') (x < 30 ? wet++ : dry++);
+  return { ok: wet > 3 && dry <= 1, detail: `mould cells on wet meat ${wet}, on dry meat ${dry} (the seed)` };
+});
+check('mushroom', 'grows from spores in the dark, not in daylight', () => {
+  const bed = (roof: boolean): Scene => {
+    const s = new Scene().fill(0, 50, W, 14, 'dirt').fill(0, 46, W, 3, 'water').run(600).fill(20, 49, 1, 1, 'spores').fill(40, 49, 1, 1, 'spores');
+    if (roof) s.fill(0, 20, W, 3, 'wall');
+    return s.run(1800);
+  };
+  const dark = bed(true).count('mushroom');
+  const light = bed(false).count('mushroom');
+  return { ok: dark > 2 && light < dark / 2, detail: `mushroom cells: ${dark} under a roof, ${light} in daylight` };
+});
+
+// ---- Nuclear, baking, catalysts, two-part glue, crystals, indicators --------------------------
+
+check('uranium', 'a small piece stays warm; a big pile goes critical and melts down', () => {
+  const small = new Scene().fill(0, 60, W, 4, 'wall').fill(30, 56, 4, 4, 'uranium').run(900);
+  const pile = new Scene().fill(0, 60, W, 4, 'wall').fill(20, 46, 14, 14, 'uranium');
+  let hottest = 0;
+  until(pile, 900, () => ((hottest = Math.max(hottest, pile.tempAt(27, 53))), false));
+  return { ok: small.tempAt(31, 58) < 700 && (hottest > 1100 || pile.count('corium') > 0), detail: `small piece ${fmt(small.tempAt(31, 58))} °C; big pile peak ${fmt(hottest)} °C, corium ${pile.count('corium')}` };
+});
+check('control_rod', 'rods through a pile keep it from running away', () => {
+  // Hottest any fuel gets over 15 s.
+  const pile = (rods: boolean): number => {
+    const s = new Scene().fill(0, 60, W, 4, 'wall').fill(20, 46, 14, 14, 'uranium');
+    if (rods) s.fill(23, 46, 2, 14, 'control_rod').fill(29, 46, 2, 14, 'control_rod');
+    let hot = 0;
+    until(s, 900, () => {
+      for (let k = 0; k < s.world.size; k++) if (s.world.type[k] === s.id('uranium') || s.world.type[k] === s.id('corium')) hot = Math.max(hot, s.world.temp[k]);
+      return false;
+    });
+    return hot;
+  };
+  const bare = pile(false);
+  const rodded = pile(true);
+  return { ok: rodded < bare - 200 && rodded < 800, detail: `hottest fuel over 15 s: ${fmt(bare)} °C bare, ${fmt(rodded)} °C with rods` };
+});
+check('flour', 'kneads with water into dough, which bakes into bread', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(20, 50, 20, 6, 'flour').fill(20, 44, 20, 4, 'water').run(600);
+  const dough = s.count('dough');
+  const oven = new Scene().fill(16, 60, 32, 4, 'heater').fill(24, 54, 16, 6, 'dough').run(900);
+  return { ok: dough > 10 && oven.count('bread') + oven.count('toast') > 10, detail: `dough ${dough}; on the heater: bread ${oven.count('bread')}, toast ${oven.count('toast')}` };
+});
+check('manganese_dioxide', 'tears hydrogen peroxide into oxygen without being used up', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(20, 58, 24, 2, 'manganese_dioxide').fill(20, 40, 24, 8, 'hydrogen_peroxide').run(600);
+  return { ok: s.count('manganese_dioxide') === 48 && s.count('oxygen') > 20, detail: `catalyst ${s.count('manganese_dioxide')} of 48, oxygen ${s.count('oxygen')}` };
+});
+check('soap', 'whipped into foam by gas, and the foam slowly pops', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(16, 50, 32, 10, 'soap').fill(16, 46, 32, 2, 'carbon_dioxide');
+  let most = 0;
+  until(s, 600, () => ((most = Math.max(most, s.count('foam'))), false));
+  s.run(2400);
+  return { ok: most > 10 && s.count('foam') < most, detail: `foam peak ${most}, after 40 s ${s.count('foam')}` };
+});
+check('epoxy_resin', 'sets hard with hardener', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(16, 56, 16, 4, 'epoxy_resin').fill(32, 56, 16, 4, 'epoxy_hardener').run(900);
+  return { ok: s.count('epoxy') > 10, detail: `epoxy ${s.count('epoxy')}` };
+});
+check('copper_sulfate_crystal', 'grows in copper sulfate solution', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(10, 30, 2, 30, 'wall').fill(52, 30, 2, 30, 'wall').fill(12, 40, 40, 20, 'water').fill(12, 34, 40, 4, 'copper_sulfate').run(900);
+  s.fill(30, 58, 2, 2, 'copper_sulfate_crystal').run(1800);
+  return { ok: s.count('copper_sulfate_crystal') > 8, detail: `crystal cells ${s.count('copper_sulfate_crystal')} from 4` };
+});
+check('cabbage_juice', 'turns pink with vinegar and green with lye', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(4, 56, 56, 4, 'cabbage_juice').fill(4, 52, 6, 3, 'vinegar').fill(54, 52, 6, 3, 'lye').run(300);
+  return { ok: s.count('pink_juice') > 0 && s.count('green_juice') > 0, detail: `pink ${s.count('pink_juice')}, green ${s.count('green_juice')}` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {

@@ -176,9 +176,9 @@ void main() {
   }
   // Lights in a live circuit (LED, neon): their own colour, lighting their surroundings.
   uint lv = texelFetch(uLit, p, 0).r;
-  if (lv > 0u) {
+  vec3 lc = texelFetch(uLitCol, ivec2(int(t), 0), 0).rgb;
+  if (lv > 0u && lc != vec3(0.0)) {
     float k = float(lv) / 255.0;
-    vec3 lc = texelFetch(uLitCol, ivec2(int(t), 0), 0).rgb;
     c = mix(c, lc, 0.35 + 0.6 * k);
     oEmit = vec4(lc * (0.3 + 0.9 * k), 1.0);
   }

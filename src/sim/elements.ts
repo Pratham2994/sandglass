@@ -164,6 +164,45 @@ export interface ElementDef {
   burnsOutInto?: string;
   /** Electromagnets: while powered, pulls iron within this many cells. */
   coil?: number;
+  /**
+   * Structure: how many cells it reaches past its nearest support (sideways,
+   * or hanging below). Cells beyond it, or with nothing holding them up,
+   * break off and fall as a block. Unset: it never needs support (wall, metal).
+   */
+  span?: number;
+  /** What part of a block becomes when it lands hard (stone into gravel). */
+  crumblesInto?: string;
+  /** Rope and chain: carries a load hanging below it, but holds nothing up and nothing sideways. */
+  tension?: boolean;
+  /** Light: share of daylight it lets through (default: air and gases nearly all, glass and water most, the rest none). */
+  transmits?: number;
+  /** Solar panels: a battery whose voltage follows the light falling on it. */
+  solar?: boolean;
+  /** Glow paint: soaks up light and glows its `litColour` in the dark. */
+  glowPaint?: boolean;
+  /** Light-sensitive: in strong light it slowly turns into this (silver chloride darkens). */
+  lightInto?: string;
+  /** Germs: a creature it touches catches it (fever, spreads to others, dies unless cured). */
+  infects?: boolean;
+  /** Medicine: cures a sick creature it touches. */
+  cures?: boolean;
+  /** Colonies (mould): spreads into touching cells of these elements while there is water beside it. */
+  colonyOn?: string[];
+  /** Living things that grow only in the dark (mushrooms), not in light. */
+  darkGrower?: boolean;
+  /** Nuclear fuel: warms itself, and packed closely enough with more of it (counted within a few cells) runs a chain reaction. */
+  fissile?: boolean;
+  /** Soaks up neutrons: counts against a chain reaction nearby (control rods, lead, concrete, water). */
+  absorbsNeutrons?: number;
+  /** Particles: flies straight in one direction until it hits something or its lifetime runs out (neutrons). */
+  particle?: boolean;
+  /** Slowly turns into this by itself (foam pops), with this chance per frame. */
+  decaysInto?: string;
+  decayChance?: number;
+  /** Crystals: grows into touching water that carries this dissolved element, taking it out of the water. */
+  crystalOf?: string;
+  /** pH indicators: touching an acid it turns into `acid`, touching a base into `base`. */
+  indicator?: { acid: string; base: string };
   /** Valves: opens to let gas through while the air pressure on it is above this, and closes again below half of it. */
   valve?: number;
   /**
@@ -366,6 +405,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#6cc0ec', '#3d8fd0', '#2a6aae', '#1d4c86', '#163a68'],
     texture: 'liquid',
     phase: 'liquid',
+    absorbsNeutrons: 0.3,
     density: 1000,
     fallAccel: 230,
     fallMax: 165,
@@ -411,6 +451,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#9fc6dc', '#b5d6e8', '#c9e4f2', '#e2f2fb'],
     texture: 'stone',
     phase: 'solid',
+    transmits: 0.9,
+    span: 5,
+    crumblesInto: 'snow',
     density: 917,
     temp: -20,
     heatCapacity: 0.5,
@@ -428,6 +471,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#c9d3dc', '#d8e0e7', '#b9c4cf', '#e4eaef'],
     texture: 'gas',
     phase: 'gas',
+    transmits: 0.9,
     density: 0.6,
     temp: 150,
     heatCapacity: 0.5,
@@ -465,6 +509,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#2f2d2b', '#3a3734', '#46423e', '#524d48'],
     texture: 'stone',
     phase: 'solid',
+    span: 6,
+    crumblesInto: 'gravel',
     density: 2600,
     heatCapacity: 0.8,
     conductivity: 0.3,
@@ -514,6 +560,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#4a4b4e', '#3d3e41', '#56575a', '#36373a', '#26272a', '#1f2023', '#191a1d', '#141518'],
     texture: 'gas',
     phase: 'gas',
+    transmits: 0.8,
     cls: 'gas',
     hardness: 0,
     density: 0.7,
@@ -532,6 +579,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#4a2f1a', '#5a3a20', '#6b4627', '#7a5230'],
     texture: 'stone',
     phase: 'solid',
+    span: 16,
     cls: 'organic',
     hardness: 0.3,
     density: 700,
@@ -842,6 +890,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#a9d6e5', '#bfe2ee', '#93c6d8', '#d2ecf4'],
     texture: 'glass',
     phase: 'solid',
+    span: 8,
+    crumblesInto: 'shards',
     cls: 'mineral',
     hardness: 0.9,
     density: 2500,
@@ -978,6 +1028,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#3f8f3a', '#4ea446', '#357a31', '#5cb553'],
     texture: 'stone',
     phase: 'solid',
+    transmits: 0.5,
     cls: 'organic',
     hardness: 0.15,
     density: 900,
@@ -1059,6 +1110,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#8e3b2a', '#a0442f', '#7d3324', '#b04e36'],
     texture: 'stone',
     phase: 'solid',
+    span: 10,
+    crumblesInto: 'gravel',
     cls: 'mineral',
     hardness: 0.85,
     density: 1900,
@@ -1094,6 +1147,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#7b7b77', '#878783', '#6f6f6b', '#93938e'],
     texture: 'stone',
     phase: 'solid',
+    absorbsNeutrons: 0.6,
+    span: 16,
+    crumblesInto: 'gravel',
     cls: 'mineral',
     hardness: 0.6,
     density: 2400,
@@ -1111,6 +1167,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#cfc7b0', '#c4bba2', '#d9d2bd', '#b8af96'],
     texture: 'stone',
     phase: 'solid',
+    span: 5,
+    crumblesInto: 'chalk',
     cls: 'mineral',
     hardness: 0.4,
     density: 2700,
@@ -1239,6 +1297,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#5d6168', '#676b72', '#53575d', '#71757c'],
     texture: 'stone',
     phase: 'solid',
+    absorbsNeutrons: 1.5,
     cls: 'metal',
     hardness: 0.6,
     electric: 1,
@@ -1487,6 +1546,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     category: 'food',
     colours: ['#f3ecdc', '#ebe2cf', '#f8f3e7', '#e2d8c2'],
     phase: 'powder',
+    overrides: {
+      water: { self: 'dough', other: 'empty', chance: 0.08, reason: 'Flour and water knead into dough' },
+    },
     cls: 'organic',
     hardness: 0.1,
     density: 600,
@@ -1818,6 +1880,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#5aa83f', '#6bbd4a', '#4e9636', '#79c957'],
     texture: 'stone',
     phase: 'solid',
+    transmits: 0.6,
     cls: 'organic',
     hardness: 0.1,
     density: 600,
@@ -1883,6 +1946,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     category: 'life',
     colours: ['#2f7a34', '#3a8c3e', '#27682c', '#46a04a'],
     phase: 'solid',
+    transmits: 0.35,
     cls: 'organic',
     hardness: 0.1,
     density: 500,
@@ -1923,6 +1987,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#d9dde2', '#cdd2d8', '#e6e9ec'],
     texture: 'gas',
     phase: 'gas',
+    transmits: 0.5,
     cls: 'water',
     hardness: 0,
     density: 1.1,
@@ -2329,6 +2394,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#e4e2dc', '#d8d5ce', '#eeece7', '#cbc7bf'],
     texture: 'stone',
     phase: 'solid',
+    span: 6,
+    crumblesInto: 'chalk',
     cls: 'mineral',
     hardness: 0.5,
     density: 2700,
@@ -2559,6 +2626,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     category: 'solids',
     colours: ['#d84a4a', '#3f7fd9', '#e6c63a', '#4caf50'],
     phase: 'solid',
+    span: 10,
     cls: 'organic',
     hardness: 0.9,
     density: 950,
@@ -2620,6 +2688,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#15141a', '#1c1b22', '#101015', '#24232b'],
     texture: 'glass',
     phase: 'solid',
+    span: 5,
+    crumblesInto: 'shards',
     cls: 'mineral',
     hardness: 0.9,
     density: 2400,
@@ -2693,6 +2763,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     oxidiser: 0.8,
     bake: { at: 150, into: 'water', gas: 'oxygen' },
     overrides: {
+      manganese_dioxide: { self: 'oxygen', other: 'keep', chance: 0.6, heat: 15, reason: 'Manganese dioxide is a catalyst: peroxide tears apart on it into water and oxygen, and the powder is not used up' },
       rust: { self: 'oxygen', other: 'keep', chance: 0.2, reason: 'Rust speeds up peroxide breaking down: it fizzes into oxygen' },
     },
   },
@@ -3025,8 +3096,8 @@ export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'uranium',
     name: 'Uranium',
-    blurb: 'A dense, radioactive metal. Stays put and keeps itself hot from its own decay, glowing dull red. It poisons living things it touches.',
-    tip: 'Put it near water or plants and point at it: it stays hot by itself.',
+    blurb: 'A dense, radioactive metal. Stays put and keeps itself warm from its own decay, and poisons living things it touches. Packed together in a big enough pile it goes critical: a chain reaction heats it until it melts down, and can blow it apart.',
+    tip: 'Paint a block about 14 cells across and point at it as it heats; then try one with control rods through it.',
     category: 'metals',
     colours: ['#5c6b4a', '#667656', '#525f42', '#71815f'],
     texture: 'stone',
@@ -3038,8 +3109,10 @@ export const ELEMENTS: readonly ElementDef[] = [
     density: 19050,
     heatCapacity: 0.12,
     conductivity: 0.3,
-    holdTemp: 450,
+    fissile: true,
     toxic: true,
+    melt: 1132,
+    meltInto: 'corium',
   },
   {
     key: 'bee',
@@ -3109,7 +3182,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     density: 1100,
     heatCapacity: 1,
     conductivity: 0.1,
-    creature: { lives: 'ground', eats: { plant: 'empty', leaves: 'empty', grass: 'empty', flower: 'empty' }, diesInto: 'dirt', body: ['.00', '333'] },
+    creature: { lives: 'ground', eats: { plant: 'empty', leaves: 'empty', grass: 'empty', flower: 'empty', mushroom: 'empty' }, diesInto: 'dirt', body: ['.00', '333'] },
   },
   {
     key: 'frog',
@@ -3147,7 +3220,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     burnInto: 'ash',
     creature: {
       lives: 'ground',
-      eats: { seed: 'empty', grass_seed: 'empty', acorn: 'empty', flour: 'empty', popcorn: 'empty', popcorn_kernel: 'empty', chocolate: 'empty', cooked_meat: 'empty' },
+      eats: { seed: 'empty', grass_seed: 'empty', acorn: 'empty', flour: 'empty', popcorn: 'empty', popcorn_kernel: 'empty', chocolate: 'empty', cooked_meat: 'empty' , mushroom: 'empty'},
       diesInto: 'meat', body: ['..00', '3000'],
     },
   },
@@ -3625,6 +3698,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#2e3033', '#383a3e', '#25272a', '#424448'],
     texture: 'stone',
     phase: 'solid',
+    span: 6,
+    crumblesInto: 'gravel',
     cls: 'mineral',
     hardness: 0.9,
     density: 3000,
@@ -3640,6 +3715,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     category: 'solids',
     colours: ['#9a8a84', '#b29c94', '#6e6460', '#c8b8b0'],
     phase: 'solid',
+    span: 7,
+    crumblesInto: 'gravel',
     cls: 'mineral',
     hardness: 0.95,
     density: 2750,
@@ -3657,6 +3734,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#c9a86a', '#d4b478', '#bb9a5c', '#ddc088'],
     texture: 'stone',
     phase: 'solid',
+    span: 4,
+    crumblesInto: 'sand',
     cls: 'mineral',
     hardness: 0.6,
     density: 2300,
@@ -3723,6 +3802,521 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.45,
     conductivity: 0.5,
     magnet: 10,
+  },
+  {
+    key: 'plague',
+    name: 'Plague',
+    blurb: 'A drifting green mist of germs. Sinks slowly and fades. Any animal it touches falls sick: it runs a fever, passes the sickness to animals it touches, and dies of it unless medicine reaches it. Heat kills the germs.',
+    tip: 'Release a little near a crowd of mice or ants and watch it spread; then pour medicine on the survivors.',
+    category: 'life',
+    colours: ['#5f8a3a', '#6b9842', '#557d33', '#76a34b', '#3e5a28', '#334a22', '#2a3c1c', '#223016'],
+    texture: 'gas',
+    phase: 'gas',
+    cls: 'gas',
+    hardness: 0,
+    density: 1.3,
+    heatCapacity: 0.5,
+    conductivity: 0.03,
+    fades: true,
+    infects: true,
+    bake: { at: 80, into: 'empty' },
+  },
+  {
+    key: 'medicine',
+    name: 'Medicine',
+    blurb: 'Crushed pink tablets, a light powder. Falls and piles. A sick animal it touches is cured, its fever falls, and it stops spreading the sickness.',
+    tip: 'Sprinkle it over animals that caught the plague.',
+    category: 'life',
+    colours: ['#e58fb1', '#ec9dbc', '#dc80a5', '#f2abc7'],
+    phase: 'powder',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 800,
+    heatCapacity: 1,
+    conductivity: 0.2,
+    cures: true,
+    solubility: 0.3,
+  },
+  {
+    key: 'mould',
+    name: 'Mould',
+    blurb: 'A fuzzy grey-green mould. Stays put and spreads slowly over damp food (meat, eggs, flour paste, honey) wherever there is water beside it, turning it into more mould. Dry, it stops; heat kills it.',
+    tip: 'Put a little next to meat beside some water, and wait.',
+    category: 'life',
+    colours: ['#7f8f6a', '#8c9b77', '#6f7d5c', '#9aa886'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 900,
+    heatCapacity: 1.5,
+    conductivity: 0.2,
+    colonyOn: ['meat', 'cooked_meat', 'egg', 'cooked_egg', 'flour', 'honey', 'popcorn', 'chocolate', 'dry_plant'],
+    bake: { at: 70, into: 'ash' },
+  },
+  {
+    key: 'spores',
+    name: 'Spores',
+    blurb: 'Fine brown fungus spores, a very light powder. Drifts down and settles. On damp soil, out of the light, they sprout into mushrooms. A cloud of the dust flashes into flame from a spark.',
+    tip: 'Scatter them on damp dirt under a roof or in a cave; in the open they will not grow.',
+    category: 'life',
+    colours: ['#7a5a3a', '#86664a', '#6d4f33', '#937356'],
+    phase: 'powder',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 400,
+    fallAccel: 60,
+    fallMax: 40,
+    heatCapacity: 1,
+    conductivity: 0.1,
+    drift: 0.3,
+    growsInto: 'mushroom',
+    growBudget: 6,
+    ignition: 300,
+    flash: 120,
+    burnEnergy: 8,
+    fuel: 20,
+    flameTemp: 700,
+    burnInto: 'ash',
+    residue: 0.3,
+  },
+  {
+    key: 'mushroom',
+    name: 'Mushroom',
+    blurb: 'A pale living mushroom. Grows a short stalk from damp soil, but only in the dark: light stops it. It drinks from the soil, withers when dry, and snails and mice eat it.',
+    tip: 'Grow it in a cave or under a roof on damp dirt, from spores.',
+    category: 'life',
+    colours: ['#d8cbb3', '#e2d6c0', '#c9bca3', '#b39e7c'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 600,
+    heatCapacity: 1.5,
+    conductivity: 0.2,
+    witherInto: 'dry_plant',
+    darkGrower: true,
+    waterLoss: 0.5,
+    ignition: 300,
+    fuel: 40,
+    flameTemp: 700,
+    burnInto: 'ash',
+    residue: 0.4,
+  },
+  {
+    key: 'corium',
+    name: 'Corium',
+    blurb: 'Molten nuclear fuel from a meltdown, white-hot and very heavy. Oozes slowly and sinks through almost everything. It keeps heating itself while enough of it is together, and sets back into uranium only if it cools.',
+    tip: 'Make a big pile of uranium with nothing to slow it, and watch it melt down.',
+    category: 'metals',
+    colours: ['#e8a24a', '#f2b866', '#d98f3a', '#ffd38a'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'metal',
+    hardness: 0.6,
+    density: 17000,
+    temp: 1400,
+    dispersion: 1,
+    heatCapacity: 0.15,
+    conductivity: 0.3,
+    fissile: true,
+    toxic: true,
+  },
+  {
+    key: 'neutron',
+    name: 'Neutron',
+    blurb: 'A fast neutron, flung out when uranium splits. Flies straight until it hits something; striking uranium, it adds to the chain reaction. Lead, concrete, water and control rods soak neutrons up.',
+    category: 'energy',
+    colours: ['#9fd4ff', '#c6e6ff', '#7cc2ff'],
+    texture: 'fire',
+    phase: 'energy',
+    cls: 'energy',
+    hardness: 0,
+    density: 0.1,
+    heatCapacity: 0.2,
+    conductivity: 0.1,
+    lifetime: 40,
+    particle: true,
+  },
+  {
+    key: 'control_rod',
+    name: 'Control rod',
+    blurb: 'A boron carbide rod that soaks up neutrons. Stays put. Set among uranium, it slows or stops the chain reaction; pull it out and the pile heats up.',
+    tip: 'Pack uranium tight until it starts to heat, then push a control rod into the middle.',
+    category: 'devices',
+    colours: ['#2f3236', '#3a3d42', '#26292c', '#484b50'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 0.95,
+    density: 2520,
+    heatCapacity: 0.9,
+    conductivity: 0.3,
+    absorbsNeutrons: 6,
+  },
+  {
+    key: 'dough',
+    name: 'Dough',
+    blurb: 'Flour mixed with water, a soft sticky lump. Falls and slumps. Baked past 180 °C it rises into bread.',
+    tip: 'Mix flour and water, then put the dough on a heater.',
+    category: 'food',
+    colours: ['#e9dcc0', '#f0e4cb', '#e0d2b4', '#f5ebd6'],
+    phase: 'powder',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 1100,
+    heatCapacity: 2,
+    conductivity: 0.3,
+    bake: { at: 180, into: 'bread', gas: 'steam' },
+  },
+  {
+    key: 'bread',
+    name: 'Bread',
+    blurb: 'A golden loaf. Stays put. Heated past 260 °C it toasts dark; mould loves it when damp, and mice eat it.',
+    tip: 'Keep heating it to make toast, or leave it damp for mould.',
+    category: 'food',
+    colours: ['#c98f4a', '#d69c56', '#b8803f', '#e2b273'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 300,
+    heatCapacity: 1.5,
+    conductivity: 0.15,
+    bake: { at: 260, into: 'toast' },
+  },
+  {
+    key: 'toast',
+    name: 'Toast',
+    blurb: 'Bread browned by heat, crisp and dark. Stays put. A little more heat and it catches fire.',
+    category: 'food',
+    colours: ['#7a4a22', '#8a5628', '#6b3f1c', '#9a6432'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.25,
+    density: 280,
+    heatCapacity: 1.3,
+    conductivity: 0.15,
+    ignition: 330,
+    fuel: 120,
+    flameTemp: 800,
+    burnInto: 'charcoal',
+    residue: 0.6,
+  },
+  {
+    key: 'manganese_dioxide',
+    name: 'Manganese dioxide',
+    blurb: 'A black powder and a catalyst. Falls and piles. Hydrogen peroxide touching it tears apart into water and a rush of oxygen, and the powder itself is never used up.',
+    tip: 'Pour hydrogen peroxide and soap onto it: elephant toothpaste.',
+    category: 'powders',
+    colours: ['#2a2826', '#33302d', '#22201e', '#3c3936'],
+    phase: 'powder',
+    cls: 'mineral',
+    hardness: 0.5,
+    density: 5030,
+    heatCapacity: 0.6,
+    conductivity: 0.3,
+  },
+  {
+    key: 'soap',
+    name: 'Soap',
+    blurb: 'Liquid soap. Flows like water and floats on it. Gas bubbling through it (oxygen, carbon dioxide, hydrogen) whips it into foam.',
+    tip: 'Add it to hydrogen peroxide on manganese dioxide, or to vinegar and baking soda.',
+    category: 'liquids',
+    colours: ['#b8e0d2', '#c6e8dc', '#a9d6c6', '#d4efe6'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 980,
+    heatCapacity: 3.8,
+    conductivity: 0.5,
+    bake: { at: 105, into: 'steam' },
+    overrides: {
+      oxygen: { self: 'foam', other: 'empty', chance: 0.4, reason: 'Gas bubbling through soap whips it into foam' },
+      carbon_dioxide: { self: 'foam', other: 'empty', chance: 0.4, reason: 'Gas bubbling through soap whips it into foam' },
+      hydrogen: { self: 'foam', other: 'empty', chance: 0.4, reason: 'Gas bubbling through soap whips it into foam' },
+    },
+  },
+  {
+    key: 'foam',
+    name: 'Foam',
+    blurb: 'A pile of soap bubbles, very light. Heaps up, floats on everything and slowly pops away.',
+    category: 'liquids',
+    colours: ['#f4faf8', '#e9f4f0', '#fbfdfc', '#dfeee9'],
+    phase: 'powder',
+    cls: 'organic',
+    hardness: 0,
+    density: 30,
+    fallAccel: 30,
+    fallMax: 20,
+    heatCapacity: 1,
+    conductivity: 0.05,
+    drift: 0.2,
+    decaysInto: 'empty',
+    decayChance: 0.002,
+  },
+  {
+    key: 'epoxy_resin',
+    name: 'Epoxy resin',
+    blurb: 'Part one of a two-part glue: a clear syrup. Oozes slowly. On its own it stays runny; touching hardener, both set together into hard epoxy, getting warm.',
+    tip: 'Pour resin and hardener side by side where you want a strong joint.',
+    category: 'building',
+    colours: ['#e8dcae', '#efe4ba', '#e0d2a0', '#f4ebc8'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 1150,
+    dispersion: 2,
+    heatCapacity: 1.5,
+    conductivity: 0.2,
+    overrides: {
+      epoxy_hardener: { self: 'epoxy', other: 'epoxy', chance: 0.25, heat: 40, reason: 'Resin and hardener react together and set hard, giving off heat' },
+    },
+  },
+  {
+    key: 'epoxy_hardener',
+    name: 'Epoxy hardener',
+    blurb: 'Part two of a two-part glue: an amber syrup. Oozes slowly. Touching resin, both set together into hard epoxy.',
+    category: 'building',
+    colours: ['#c98a3a', '#d69a4a', '#b87a2e', '#e2aa5a'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 1100,
+    dispersion: 2,
+    heatCapacity: 1.5,
+    conductivity: 0.2,
+  },
+  {
+    key: 'epoxy',
+    name: 'Epoxy',
+    blurb: 'Set two-part epoxy, a tough clear amber solid. Stays put and reaches far past its support. It burns only in strong heat.',
+    category: 'building',
+    colours: ['#d9b46a', '#e3c27e', '#cfa65a', '#ecd096'],
+    texture: 'glass',
+    phase: 'solid',
+    span: 14,
+    cls: 'organic',
+    hardness: 0.6,
+    density: 1200,
+    heatCapacity: 1.2,
+    conductivity: 0.2,
+    ignition: 450,
+    noFlame: true,
+    fuel: 200,
+    flameTemp: 900,
+    burnInto: 'ash',
+    residue: 0.2,
+  },
+  {
+    key: 'copper_sulfate',
+    name: 'Copper sulfate',
+    blurb: 'Bright blue crystals, a powder. Falls and piles, and dissolves into water, turning it blue. Blue crystals grow from that water onto a copper sulfate crystal.',
+    tip: 'Dissolve plenty in water, then drop a copper sulfate crystal in and wait.',
+    category: 'powders',
+    colours: ['#2f7fd0', '#3a8de0', '#2670bd', '#4a9cec'],
+    phase: 'powder',
+    cls: 'salt',
+    hardness: 0.3,
+    density: 2280,
+    heatCapacity: 0.6,
+    conductivity: 0.2,
+    solubility: 0.6,
+    toxic: true,
+  },
+  {
+    key: 'copper_sulfate_crystal',
+    name: 'Blue crystal',
+    blurb: 'A clear blue crystal of copper sulfate. Stays put, and grows into touching water that carries dissolved copper sulfate, taking the blue out of it.',
+    tip: 'Put one in water with a lot of copper sulfate dissolved in it.',
+    category: 'solids',
+    colours: ['#1f6fc4', '#3388dd', '#5aa8f0', '#1858a0'],
+    texture: 'glass',
+    phase: 'solid',
+    span: 4,
+    crumblesInto: 'copper_sulfate',
+    cls: 'salt',
+    hardness: 0.4,
+    density: 2280,
+    heatCapacity: 0.6,
+    conductivity: 0.2,
+    crystalOf: 'copper_sulfate',
+  },
+  {
+    key: 'cabbage_juice',
+    name: 'Cabbage juice',
+    blurb: 'Red cabbage juice, a purple pH indicator. Flows like water. Touching an acid (vinegar, acid) it turns pink; touching a base (lye, baking soda, ammonia) it turns green.',
+    tip: 'Pour a pool of it, then add a drop of vinegar at one end and lye at the other.',
+    category: 'liquids',
+    colours: ['#6a3a8a', '#74429a', '#5e3280', '#7f4ca6'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 1010,
+    heatCapacity: 4,
+    conductivity: 0.55,
+    bake: { at: 101, into: 'steam' },
+    indicator: { acid: 'pink_juice', base: 'green_juice' },
+  },
+  {
+    key: 'pink_juice',
+    name: 'Pink juice',
+    blurb: 'Cabbage juice turned pink by an acid. Flows like water; a base turns it green.',
+    category: 'liquids',
+    colours: ['#e0508a', '#e8609a', '#d4407a', '#ee74a8'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 1010,
+    heatCapacity: 4,
+    conductivity: 0.55,
+    bake: { at: 101, into: 'steam' },
+    indicator: { acid: 'pink_juice', base: 'green_juice' },
+  },
+  {
+    key: 'green_juice',
+    name: 'Green juice',
+    blurb: 'Cabbage juice turned green by a base. Flows like water; an acid turns it pink.',
+    category: 'liquids',
+    colours: ['#3aa86a', '#46b878', '#2f985c', '#58c88a'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 1010,
+    heatCapacity: 4,
+    conductivity: 0.55,
+    bake: { at: 101, into: 'steam' },
+    indicator: { acid: 'pink_juice', base: 'green_juice' },
+  },
+  {
+    key: 'solar_panel',
+    name: 'Solar panel',
+    blurb: 'A photovoltaic cell. Stays put and works like a battery that never runs flat, but its voltage follows the light on it: full in open daylight, weak in shade, nothing in the dark. A longer panel gives more volts.',
+    tip: 'Paint it into a wire loop with a small bulb, out under the open sky; then put a roof over it.',
+    category: 'electronics',
+    colours: ['#1c2a44', '#23345a', '#18243b', '#3a4f7a'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 0.7,
+    electric: 1,
+    ohms: 0.5,
+    emf: 0.6,
+    solar: true,
+    density: 2400,
+    heatCapacity: 0.7,
+    conductivity: 0.4,
+  },
+  {
+    key: 'glow_paint',
+    name: 'Glow paint',
+    blurb: 'Paint full of glow-in-the-dark crystals. Stays put. It soaks up light while lit, then shines soft green in the dark for a while, fading as its stored light runs out.',
+    tip: 'Paint some in the open, then build a roof over it or cover it with dirt: it keeps glowing.',
+    category: 'building',
+    colours: ['#c9d8c0', '#d4e2cb', '#bfcdb5', '#dde9d5'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 0.5,
+    litColour: '#7dff9a',
+    glowPaint: true,
+    density: 1800,
+    heatCapacity: 0.8,
+    conductivity: 0.2,
+  },
+  {
+    key: 'silver_chloride',
+    name: 'Silver chloride',
+    blurb: 'A white light-sensitive powder, the stuff of old photographs. Falls and piles. In strong light it slowly darkens into grey-black silver, so anything shading it leaves a pale print.',
+    tip: 'Pour a layer in the open, lay a wall stencil over part of it, and wait: the shaded part stays white.',
+    category: 'powders',
+    colours: ['#f2f0ea', '#e8e6e0', '#faf8f3', '#e2e0da'],
+    phase: 'powder',
+    cls: 'salt',
+    hardness: 0.3,
+    density: 5560,
+    heatCapacity: 0.4,
+    conductivity: 0.1,
+    lightInto: 'exposed_silver',
+  },
+  {
+    key: 'exposed_silver',
+    name: 'Exposed silver',
+    blurb: 'Silver chloride darkened by light: fine grains of silver, grey-black. Falls and piles. There is no way back.',
+    category: 'powders',
+    colours: ['#3a3a3c', '#454547', '#303032', '#505052'],
+    phase: 'powder',
+    cls: 'metal',
+    hardness: 0.3,
+    density: 5560,
+    heatCapacity: 0.4,
+    conductivity: 0.4,
+  },
+  {
+    key: 'steel_beam',
+    name: 'Steel beam',
+    blurb: 'A rolled steel girder. Stays put and holds itself out a very long way from its support, so it can bridge wide gaps that stone or brick never could. Great heat softens it into molten iron.',
+    tip: 'Build a bridge: two brick piers, and a steel beam across the gap between them.',
+    category: 'building',
+    colours: ['#5d6670', '#6a737d', '#525a63', '#767f89'],
+    texture: 'stone',
+    phase: 'solid',
+    span: 60,
+    cls: 'metal',
+    hardness: 0.95,
+    electric: 1,
+    ohms: 0.004,
+    density: 7850,
+    heatCapacity: 0.45,
+    conductivity: 0.5,
+    bake: { at: 1500, into: 'molten_iron' },
+  },
+  {
+    key: 'rope',
+    name: 'Rope',
+    blurb: 'Twisted hemp rope. Hangs from whatever it is tied to and holds up what hangs below it, but it pushes nothing up and holds nothing sideways. It burns, and whatever it held falls.',
+    tip: 'Hang a stone block from a wall on a rope, then set the rope alight.',
+    category: 'building',
+    colours: ['#a8875a', '#b8976a', '#98784e', '#c4a478'],
+    texture: 'grain',
+    phase: 'solid',
+    tension: true,
+    cls: 'organic',
+    hardness: 0.3,
+    density: 600,
+    heatCapacity: 1.2,
+    conductivity: 0.1,
+    ignition: 250,
+    fuel: 90,
+    flameTemp: 800,
+    burnInto: 'ash',
+    residue: 0.3,
+  },
+  {
+    key: 'chain',
+    name: 'Chain',
+    blurb: 'Iron chain. Hangs from whatever it is fixed to and holds up what hangs below it, but nothing sideways. It will not burn, though great heat melts it.',
+    tip: 'Hang a heavy block from a wall on a chain: fire will not drop it, but lava will.',
+    category: 'building',
+    colours: ['#6e7378', '#5c6166', '#80858a', '#4f5459'],
+    texture: 'grain',
+    phase: 'solid',
+    tension: true,
+    cls: 'metal',
+    hardness: 0.85,
+    electric: 1,
+    ohms: 0.006,
+    density: 7800,
+    heatCapacity: 0.45,
+    conductivity: 0.5,
+    bake: { at: 1500, into: 'molten_iron' },
   },
   {
     key: 'valve',
@@ -3898,14 +4492,20 @@ export const VY_UNIT = 32;
 const FPS = 60;
 
 /** Fall speed gained per frame, in vy units. At least 1 for anything that falls. */
-export const GRAVITY_OF = Uint8Array.from(ELEMENTS, (e) =>
-  e.fallAccel ? Math.max(1, Math.round((e.fallAccel / (FPS * FPS)) * VY_UNIT)) : 0,
-);
+/** Powders and liquids that do not set their own fall fall like salt or water (cells/s², cells/s). */
+const DEFAULT_FALL_ACCEL = 230;
+const DEFAULT_FALL_MAX = 160;
+const falls = (e: ElementDef): boolean => e.phase === 'powder' || e.phase === 'liquid';
+export const GRAVITY_OF = Uint8Array.from(ELEMENTS, (e) => {
+  const a = e.fallAccel ?? (falls(e) ? DEFAULT_FALL_ACCEL : 0);
+  return a ? Math.max(1, Math.round((a / (FPS * FPS)) * VY_UNIT)) : 0;
+});
 
 /** Top fall speed, in vy units. */
-export const VMAX_OF = Uint8Array.from(ELEMENTS, (e) =>
-  e.fallMax ? Math.min(127, Math.round((e.fallMax / FPS) * VY_UNIT)) : 0,
-);
+export const VMAX_OF = Uint8Array.from(ELEMENTS, (e) => {
+  const m = e.fallMax ?? (falls(e) ? DEFAULT_FALL_MAX : 0);
+  return m ? Math.min(127, Math.round((m / FPS) * VY_UNIT)) : 0;
+});
 
 /** Sideways reach per frame for liquids. */
 export const DISPERSION_OF = Uint8Array.from(ELEMENTS, (e) => e.dispersion ?? 0);
@@ -4087,6 +4687,31 @@ export const LIT_RGB_OF = Uint32Array.from(ELEMENTS, (e) => (e.litColour ? parse
 export const MAX_AMPS_OF = Float32Array.from(ELEMENTS, (e) => e.maxAmps ?? Infinity);
 export const BURNS_OUT_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.burnsOutInto ? elementId(e.burnsOutInto) : 0));
 export const COIL_OF = Uint8Array.from(ELEMENTS, (e) => e.coil ?? 0);
+export const SOLAR_OF = Uint8Array.from(ELEMENTS, (e) => (e.solar ? 1 : 0));
+export const FISSILE_OF = Uint8Array.from(ELEMENTS, (e) => (e.fissile ? 1 : 0));
+export const ABSORBS_N_OF = Float32Array.from(ELEMENTS, (e) => e.absorbsNeutrons ?? 0);
+export const PARTICLE_OF = Uint8Array.from(ELEMENTS, (e) => (e.particle ? 1 : 0));
+export const DECAYS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.decaysInto ? elementId(e.decaysInto) : 0));
+export const DECAY_P_OF = Float32Array.from(ELEMENTS, (e) => e.decayChance ?? 0);
+export const CRYSTAL_OF = Uint16Array.from(ELEMENTS, (e) => (e.crystalOf ? elementId(e.crystalOf) : 0));
+export const INDICATOR_ACID_OF = Uint16Array.from(ELEMENTS, (e) => (e.indicator ? elementId(e.indicator.acid) : 0));
+export const INDICATOR_BASE_OF = Uint16Array.from(ELEMENTS, (e) => (e.indicator ? elementId(e.indicator.base) : 0));
+export const ACIDITY_OF = Float32Array.from(ELEMENTS, (e) => e.acidity ?? 0);
+export const INFECTS_OF = Uint8Array.from(ELEMENTS, (e) => (e.infects ? 1 : 0));
+export const CURES_OF = Uint8Array.from(ELEMENTS, (e) => (e.cures ? 1 : 0));
+export const DARK_GROWER_OF = Uint8Array.from(ELEMENTS, (e) => (e.darkGrower ? 1 : 0));
+/** Colonies: COLONY_ON[colony * N + food] = 1 where the colony spreads into that element. */
+export const COLONY_OF = Uint8Array.from(ELEMENTS, (e) => (e.colonyOn ? 1 : 0));
+export const COLONY_ON = new Uint8Array(ELEMENTS.length * ELEMENTS.length);
+ELEMENTS.forEach((e, a) => {
+  for (const key of e.colonyOn ?? []) COLONY_ON[a * ELEMENTS.length + elementId(key)] = 1;
+});
+export const GLOW_PAINT_OF = Uint8Array.from(ELEMENTS, (e) => (e.glowPaint ? 1 : 0));
+export const LIGHT_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.lightInto ? elementId(e.lightInto) : 0));
+/** Structure: reach past the nearest support in cells, -1 = needs no support; what it crumbles into; rope and chain. */
+export const SPAN_OF = Int16Array.from(ELEMENTS, (e) => (e.span !== undefined ? e.span : e.tension ? 0 : -1));
+export const CRUMBLES_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.crumblesInto ? elementId(e.crumblesInto) : 0));
+export const TENSION_OF = Uint8Array.from(ELEMENTS, (e) => (e.tension ? 1 : 0));
 /** Valves: the air pressure that opens it, 0 = not a valve. */
 export const VALVE_OF = Float32Array.from(ELEMENTS, (e) => e.valve ?? 0);
 /** Tanks: rupture temperature and pressure (Infinity = never), what they release, and the burst. */
@@ -4185,7 +4810,7 @@ ELEMENTS.forEach((e, a) => {
   for (const [food, left] of Object.entries(e.creature?.eats ?? {})) EATS[a * ELEMENT_COUNT + elementId(food)] = (left === 'empty' ? 0 : elementId(left)) + 1;
 });
 /** Any device behaviour, so the cell pass checks one table. */
-export const DEVICE_OF = Uint8Array.from(ELEMENTS, (e) => (e.holdTemp !== undefined || e.clones || e.voids || e.blows || e.coolRate || e.magnet || e.gate === 'thermostat' || e.valve ? 1 : 0));
+export const DEVICE_OF = Uint8Array.from(ELEMENTS, (e) => (e.holdTemp !== undefined || e.clones || e.voids || e.blows || e.coolRate || e.magnet || e.gate === 'thermostat' || e.valve || e.glowPaint ? 1 : 0));
 
 /** What a solid becomes instead when it freezes unsupported; 0 = itself. */
 export const RUBBLE_OF = Uint16Array.from(ELEMENTS, (e) => (e.rubble ? elementId(e.rubble) : 0));
@@ -4199,5 +4824,10 @@ export function elementId(key: string): number {
 
 /** Lightning, which storm clouds let go now and then. */
 export const LIGHTNING = elementId('lightning');
+/** Germs: the marker a sick creature carries as its solute. */
+export const PLAGUE = elementId('plague');
+/** Neutrons, flung out by a chain reaction. */
+export const NEUTRON = elementId('neutron');
+export const PLASMA = elementId('plasma');
 /** Circuit parts (everything in Electronics but wire itself): painted onto wire, they replace it, so they sit in the circuit. */
 export const PART_OF = Uint8Array.from(ELEMENTS, (e) => (e.category === 'electronics' && e.key !== 'wire' ? 1 : 0));

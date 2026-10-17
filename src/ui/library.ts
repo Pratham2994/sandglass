@@ -30,6 +30,25 @@ const CATEGORY_NAMES: Record<Category, string> = {
 };
 const CATEGORY_ORDER: Category[] = ['powders', 'liquids', 'gases', 'solids', 'building', 'metals', 'fuels', 'energy', 'explosives', 'electronics', 'devices', 'food', 'life'];
 
+/**
+ * Elements added in the latest batches: their tiles carry a small dot until
+ * hovered or picked once (remembered in this browser).
+ */
+const RECENT_KEYS = [
+  'switch', 'pressure_plate', 'thermostat', 'resistor', 'diode', 'led', 'capacitor', 'motor', 'electromagnet', 'graphite', 'neon',
+  'valve', 'propane_tank', 'air_tank', 'steel_beam', 'rope', 'chain', 'solar_panel', 'glow_paint', 'silver_chloride',
+  'plague', 'medicine', 'mould', 'spores', 'mushroom', 'corium', 'control_rod', 'dough', 'bread', 'toast',
+  'manganese_dioxide', 'soap', 'foam', 'epoxy_resin', 'epoxy_hardener', 'epoxy', 'copper_sulfate', 'copper_sulfate_crystal', 'cabbage_juice',
+];
+const SEEN_KEY = 'sandglass.seen';
+
+/** Restarts a CSS entrance animation on el by toggling its class. */
+function replay(el: HTMLElement, cls: string): void {
+  el.classList.remove(cls);
+  void el.offsetWidth;
+  el.classList.add(cls);
+}
+
 /** Tile still: cells across and down. */
 const TILE_CELLS = 14;
 /** Detail preview: cells across and down. */
@@ -232,6 +251,13 @@ export function mountLibrary(
   }
   toolGroup.append(toolGrid);
   groups.append(toolGroup);
+  // Recent elements not yet looked at in this browser get a small dot.
+  const unseen = new Set<string>(RECENT_KEYS);
+  try {
+    for (const k of JSON.parse(localStorage.getItem(SEEN_KEY) ?? '[]') as string[]) unseen.delete(k);
+  } catch {
+    /* storage blocked: show the dots */
+  }
   const tiles: { id: number; button: HTMLButtonElement; group: HTMLElement; home: HTMLElement; sim: MiniSim }[] = [];
   for (const cat of CATEGORY_ORDER) {
     const ids = ELEMENTS.map((_, id) => id).filter((id) => id !== EMPTY && ELEMENTS[id].category === cat);
@@ -253,6 +279,23 @@ export function mountLibrary(
       b.setAttribute('aria-label', e.name);
       const label = el('span', 'tile-name', e.name);
       b.append(sim.canvas, label);
+      if (unseen.has(e.key)) {
+        b.classList.add('is-new');
+        const markSeen = (): void => {
+          if (!b.classList.contains('is-new')) return;
+          b.classList.remove('is-new');
+          unseen.delete(e.key);
+          try {
+            const seen = new Set<string>(JSON.parse(localStorage.getItem(SEEN_KEY) ?? '[]') as string[]);
+            seen.add(e.key);
+            localStorage.setItem(SEEN_KEY, JSON.stringify([...seen]));
+          } catch {
+            /* not remembered */
+          }
+        };
+        b.addEventListener('pointerenter', markSeen);
+        b.addEventListener('click', markSeen);
+      }
       // Keys 1 to 9 now pick recent elements, so library tiles show just the name.
       b.dataset.tip = e.name;
       b.addEventListener('pointerdown', (ev) => ev.preventDefault());
@@ -441,6 +484,8 @@ export function mountLibrary(
     const rep = cell ? inspectCell(world, cell[0], cell[1]) : null;
     if (!rep) return;
     lensHint.hidden = true;
+    // A new kind of cell under the lens: its lines settle in softly.
+    if (lensName.textContent !== rep.name) replay(lens, 'swap');
     lensName.textContent = rep.name;
     lensState.textContent = pinned ? `${rep.state} · pinned (I to release)` : `${rep.state} · I to pin`;
     lensFacts.replaceChildren(...rep.facts.flatMap(([k, v]) => [el('dt', '', k), el('dd', 'num', v)]));
@@ -615,6 +660,7 @@ export function mountLibrary(
     const how = tipFor(id);
     tryLine.hidden = how === null;
     tryLine.replaceChildren(el('span', 'detail-tip-label', 'Try'), document.createTextNode(how ?? ''));
+    replay(detail, 'enter');
     const facts = elementFacts(id);
     const row = ([k, v]: [string, string]): HTMLElement[] => [el('dt', '', k), el('dd', 'num', v)];
     // The key facts: what changes it (heating, burning) and its state, in that order of interest.

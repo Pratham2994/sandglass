@@ -173,6 +173,8 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['Salt, sugar and baking soda dissolve in water; boiling the water leaves the crystals behind.', ['salt', 'sugar', 'baking_soda', 'water']],
       ['Cement sets into concrete with water; quicklime and water seethe into slaked lime, hot enough to boil.', ['cement', 'concrete', 'quicklime', 'slaked_lime']],
       ['Yeast ferments sugar water into alcohol, bubbling out carbon dioxide.', ['yeast', 'sugar', 'alcohol', 'carbon_dioxide']],
+      ['Manganese dioxide is a catalyst: it tears hydrogen peroxide into oxygen without being used up, and soap whips the gas into foam (elephant toothpaste).', ['manganese_dioxide', 'hydrogen_peroxide', 'soap', 'foam']],
+      ['Epoxy resin and hardener set together into a tough solid; blue crystals grow from copper sulfate solution; cabbage juice turns pink in acid and green in a base.', ['epoxy_resin', 'epoxy_hardener', 'epoxy', 'copper_sulfate', 'copper_sulfate_crystal', 'cabbage_juice']],
       ['Ammonium nitrate dissolving in water makes it ice cold, like a cold pack; great heat makes it explode.', ['ammonium_nitrate', 'water']],
       ['Glue oozes, then sets hard in place after a few seconds.', ['glue', 'dried_glue']],
     ],
@@ -189,7 +191,25 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['Spiders and frogs catch insects; birds eat seeds and insects; mice eat seeds and food; snakes eat mice, frogs and eggs; fish eat sinking seeds.', ['spider', 'frog', 'bird', 'mouse', 'snake', 'fish']],
       ['Creatures die of heat or cold, or out of their home; fish, birds and mice become meat, which cooks at 70 °C.', ['fish', 'meat', 'cooked_meat']],
       ['Fish, birds, mice, snakes, frogs, worms and snails have bodies several cells big that move, eat and die as one.', ['fish', 'bird', 'mouse', 'snake', 'frog', 'worm', 'snail']],
+      ['Plague mist makes animals sick: a fever, spreading to every animal they touch, and death unless medicine reaches them.', ['plague', 'medicine', 'mouse', 'ant']],
+      ['Mould spreads over damp food; spores grow mushrooms on damp soil, but only in the dark.', ['mould', 'meat', 'spores', 'mushroom']],
       ['Eggs cook, popcorn pops at 180 °C, sugar turns into caramel and chocolate melts at 35 °C.', ['egg', 'popcorn_kernel', 'popcorn', 'caramel', 'chocolate']],
+      ['Flour and water knead into dough, which bakes into bread, then toast, then burns.', ['flour', 'dough', 'bread', 'toast']],
+    ],
+  },
+  {
+    theme: 'Light',
+    items: [
+      ['Plants grow only where light reaches them: daylight down through air, glass and water, or a fire or lamp nearby; under a roof they stop.', ['plant', 'seed', 'tree', 'glass']],
+      ['A solar panel powers a circuit while light falls on it; glow paint soaks up light and shines green in the dark; silver chloride darkens in light like old film.', ['solar_panel', 'glow_paint', 'silver_chloride', 'exposed_silver']],
+    ],
+  },
+  {
+    theme: 'Building and structure',
+    items: [
+      ['Stone, brick, concrete, ice, glass and wood need holding up: each reaches only so far past a support, and what it cannot hold breaks off and falls as a block.', ['stone', 'brick', 'concrete', 'ice', 'glass', 'wood']],
+      ['Burn or blast away a support and what it held comes down; a block that falls far cracks into rubble.', ['wood', 'stone', 'gravel']],
+      ['A steel beam bridges gaps no stone can; rope and chain hold up what hangs below them, and a burning rope drops its load.', ['steel_beam', 'rope', 'chain']],
     ],
   },
   {
@@ -201,6 +221,7 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['Blasts shatter glass, brick, concrete, obsidian and sandstone.', ['glass', 'brick', 'concrete', 'obsidian', 'sandstone']],
       ['A fuse burns along like a rope and sets off any explosive at its end, even C4; a long charge goes off as a fast wave from where it was lit.', ['fuse', 'c4', 'gunpowder', 'tnt']],
       ['A magnet pulls iron filings in from a distance.', ['magnet', 'iron_filings']],
+      ['Uranium packed tightly enough goes critical: it heats, flings neutrons, melts down into corium and can blow apart; control rods, lead and concrete slow it.', ['uranium', 'corium', 'neutron', 'control_rod', 'lead']],
       ['Water boiling in a sealed box builds pressure until the box bursts; a valve vents it; propane tanks rupture in a fire into a cloud of propane, air tanks burst with a pure shock.', ['water', 'valve', 'propane_tank', 'air_tank', 'glass']],
       ['Real circuits: paint a battery onto a wire loop and current flows round it; a longer battery gives more volts, a thicker one more current, and batteries in one loop turn round to help each other.', ['battery', 'wire', 'mercury', 'graphite']],
       ['Parts painted onto wire cut into it; a short circuit heats wire red and can set a thick battery alight; bulbs in series glow dimmer; an LED without a resistor burns out.', ['wire', 'battery', 'bulb', 'led', 'resistor']],

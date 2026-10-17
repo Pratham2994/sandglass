@@ -75,6 +75,7 @@ export function tipFor(id: number): string | null {
 
 /** Facts for the library card and master list, one short line each. */
 export function elementFacts(id: number): [string, string][] {
+  const nameOf = (key: string | undefined): string => (key ? ELEMENTS.find((x) => x.key === key)!.name.toLowerCase() : '');
   const e: ElementDef = ELEMENTS[id];
   const out: [string, string][] = [];
   const state = e.phase === 'energy' ? 'Energy' : e.phase[0].toUpperCase() + e.phase.slice(1);
@@ -121,6 +122,20 @@ export function elementFacts(id: number): [string, string][] {
     out.push(['Conducts', r >= 1 ? `current, resisting it (${num.format(r)} Ω a cell) and heating as it passes` : 'current with almost no resistance']);
   }
   if (e.solvent) out.push(['Conducts', 'only when it carries salt; current then splits it into hydrogen and oxygen']);
+  if (e.span !== undefined) out.push(['Span', `reaches ${e.span} cells past its support; beyond that, or with nothing under it, it breaks off and falls`]);
+  if (e.tension) out.push(['Hangs', 'holds up what hangs below it, but nothing sideways']);
+  if (e.fissile) out.push(['Chain reaction', 'about 45 fuel cells within 5 cells make it critical: it heats, melts down and can blow apart']);
+  if (e.absorbsNeutrons) out.push(['Absorbs', 'neutrons, slowing a chain reaction nearby']);
+  if (e.crystalOf) out.push(['Grows', `into water that carries dissolved ${nameOf(e.crystalOf)}`]);
+  if (e.indicator) out.push(['Changes', `to ${nameOf(e.indicator.acid)} in acid, ${nameOf(e.indicator.base)} in a base`]);
+  if (e.colonyOn) out.push(['Spreads', `over damp ${e.colonyOn.map(nameOf).slice(0, 4).join(', ')}${e.colonyOn.length > 4 ? ' and more' : ''}`]);
+  if (e.infects) out.push(['Infects', 'animals it touches: fever, spreading, death unless cured']);
+  if (e.cures) out.push(['Cures', 'sick animals it touches']);
+  if (e.darkGrower) out.push(['Grows', 'only in the dark, from damp soil']);
+  if (e.lightInto) out.push(['In light', `slowly turns into ${nameOf(e.lightInto)}`]);
+  if (e.glowPaint) out.push(['Glows', 'in the dark after soaking up light']);
+  if (e.solar) out.push(['Powers', `${num.format(e.emf ?? 0)} V a cell in full daylight, less in shade`]);
+  if (e.decaysInto !== undefined) out.push(['Fades', `away on its own into ${e.decaysInto === 'empty' ? 'nothing' : nameOf(e.decaysInto)}`]);
   if (e.diode) out.push(['One way', 'current passes only rightwards or upwards through it']);
   if (e.capacitor) out.push(['Stores', 'charge while current flows through it, and gives it back; pops past 12 V']);
   if (e.motor) out.push(['Turns', 'while powered, carrying what rests on top along the way the current runs']);
@@ -132,7 +147,6 @@ export function elementFacts(id: number): [string, string][] {
   if (e.gate === 'plate') out.push(['Closes', 'while anything heavier than a gas rests on it']);
   if (e.gate === 'thermostat') out.push(['Opens', 'above 60 °C and closes again below 45 °C']);
   if (e.growsInto) out.push(['Grows', `into ${ELEMENTS.find((x) => x.key === e.growsInto)!.name.toLowerCase()} on damp soil (wet dirt or sand), even under a puddle`]);
-  const nameOf = (key: string | undefined): string => (key ? ELEMENTS.find((x) => x.key === key)!.name.toLowerCase() : '');
   if (e.topInto && e.topInto !== e.leafInto) out.push(['Flowers', `each stem ends in ${nameOf(e.topInto)}`]);
   if (e.leafInto) out.push(['Leaves', `grows ${nameOf(e.leafInto)} beside its branches`]);
   if (e.bake) out.push(['Bakes', `at ${n0.format(e.bake.at)} °C into ${nameOf(e.bake.into)}${e.bake.gas ? `, giving off ${nameOf(e.bake.gas)}` : ''}; there is no way back`]);
