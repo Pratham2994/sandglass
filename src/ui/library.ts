@@ -575,9 +575,12 @@ export function mountLibrary(
 
   const top = el('div', 'lib-top');
   top.append(bar, timeRow, viewBar, search, chips, recentRow);
-  const foot = el('div', 'lib-foot');
+  // The selected element, the inspect lens, the brush and the stats live in a
+  // slim bar under the canvas, so the whole right column is for elements.
+  const foot = el('div', 'lib-foot info-bar');
   foot.append(detail, lens, sizeRow, stats);
-  host.append(top, groups, foot);
+  host.append(top, groups);
+  (document.getElementById('infobar') ?? host).append(foot);
   applyFilter();
 
   const showDetail = (id: number): void => {
