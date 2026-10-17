@@ -14,6 +14,10 @@ import {
   PH_POWDER,
   PH_SOLID,
   SMOKE,
+  RUPTURE_BURST_OF,
+  RUPTURE_INTO_OF,
+  RUPTURE_P_OF,
+  VALVE_OF,
 } from './elements';
 import type { World } from './world';
 
@@ -99,11 +103,28 @@ function burst(world: World, x: number, y: number, id: number, r: number, pressu
  * - shatters brittle solids where the pressure passes their limit.
  * Skipped while the air is calm. Solid walls are refreshed every 8 frames.
  */
+/**
+ * A tank ruptures: it becomes what it holds (propane, or nothing for air)
+ * and a burst of pressure throws what is near, shattering brittle things.
+ */
+export function rupture(world: World, x: number, y: number): void {
+  const i = y * world.w + x;
+  const t = world.type[i];
+  const T = world.temp[i];
+  world.place(i, RUPTURE_INTO_OF[t]);
+  if (world.type[i] !== EMPTY) world.temp[i] = T;
+  world.air.addPressure(x, y, RUPTURE_BURST_OF[t], 4);
+  world.wakeAll();
+}
+
 export function airPass(world: World, st: number): void {
   const air = world.air;
-  if (!air.active) return;
   const { w, h, type } = world;
-  if ((world.frame & 7) === 0) air.updateBlocked(w, h, (i) => PHASE_OF[type[i]] === PH_SOLID);
+  // Which air is walled in, and which is joined to the open sky, kept current
+  // even while the air is calm (gas swelling in a sealed box needs it). An open
+  // valve lets the air (and gas) through.
+  if ((world.frame & 3) === 0) air.updateBlocked(w, h, (i) => PHASE_OF[type[i]] === PH_SOLID && !(VALVE_OF[type[i]] !== 0 && world.conc[i] !== 0));
+  if (!air.active) return;
   air.step();
   if (!air.active) return;
   const { aw, ah, p, vx, vy } = air;
@@ -116,12 +137,23 @@ export function airPass(world: World, st: number): void {
       const speed = Math.hypot(sx, sy);
       const x0 = ax << AIR_SHIFT;
       const y0 = ay << AIR_SHIFT;
-      // Brittle solids crack under pressure, either way.
-      const press = Math.abs(pk);
+      // Brittle solids crack under pressure, either way. A wall's own air cell is
+      // blocked and holds none, so it feels the strongest air on either side of it.
+      let press = Math.abs(pk);
+      if (air.blocked[k]) {
+        if (ax > 0) press = Math.max(press, Math.abs(p[k - 1]));
+        if (ax + 1 < aw) press = Math.max(press, Math.abs(p[k + 1]));
+        if (ay > 0) press = Math.max(press, Math.abs(p[k - aw]));
+        if (ay + 1 < ah) press = Math.max(press, Math.abs(p[k + aw]));
+      }
       if (press > 1) {
         for (let y = y0; y < y0 + AIR && y < h; y++)
           for (let x = x0; x < x0 + AIR && x < w; x++) {
             const i = y * w + x;
+            if (press > RUPTURE_P_OF[type[i]]) {
+              rupture(world, x, y);
+              continue;
+            }
             const b = BRITTLE_OF[type[i]];
             if (b > 0 && press > b) {
               const T = world.temp[i];

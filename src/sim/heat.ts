@@ -10,8 +10,10 @@ import {
   UP_INTO,
   UP_LATENT,
   PHASE_OF,
+  PH_GAS,
   PH_POWDER,
   PH_SOLID,
+  RUPTURE_T_OF,
   RUBBLE_OF,
   BLAST_POWER_OF,
   IGNITION_OF,
@@ -26,7 +28,7 @@ import {
   FUEL_OF,
   SELF_FED_OF,
 } from './elements';
-import { explode } from './blast';
+import { explode, rupture } from './blast';
 import { CHUNK_SHIFT, type World } from './world';
 
 const N = ELEMENT_COUNT;
@@ -34,6 +36,10 @@ const N = ELEMENT_COUNT;
 const WAKE_DT = 0.05;
 /** Differences smaller than this are not worth exchanging. */
 const MIN_DIFF = 0.01;
+/** Air pressure one cell of liquid or solid adds as it turns into gas, at each air cell of the patch it spreads over (about 0.6 in all). */
+export const GAS_SWELL = 0.045;
+/** Cells the swell spreads over: wide, as real pressure evens out almost at once. */
+export const SWELL_RADIUS = 8;
 /** Absolute zero, and the hottest any cell may get (°C). */
 const T_MIN = -273;
 const T_MAX = 5000;
@@ -124,6 +130,11 @@ function settle(world: World, i: number, x: number, y: number): void {
     explode(world, x, y);
     return;
   }
+  // Tanks rupture past their heat.
+  if (T >= RUPTURE_T_OF[t]) {
+    rupture(world, x, y);
+    return;
+  }
   // So do self-fed fuels (thermite): past ignition they start burning where they are.
   if (SELF_FED_OF[t] !== 0 && T >= IGNITION_OF[t]) {
     type[i] = FIRE;
@@ -174,6 +185,9 @@ function settle(world: World, i: number, x: number, y: number): void {
     conc[i] = 0;
     world.vy[i] = 0;
     world.wake(x, y);
+    // A liquid or solid turning into gas swells enormously. In the open it just pushes air
+    // aside; walled in, it builds pressure until the walls burst (or a valve opens).
+    if (PHASE_OF[UP_INTO[t]] === PH_GAS && world.air.sealedAt(x, y)) world.air.addPressure(x, y, GAS_SWELL, SWELL_RADIUS);
   } else if (T < (SOLVENT_OF[t] !== 0 && conc[i] !== 0 ? DOWN_T[t] - conc[i] * FREEZE_DROP : DOWN_T[t])) {
     // (A solvent carrying a dissolved solid freezes lower: brine stays liquid below 0 °C.)
     let into = DOWN_INTO[t];

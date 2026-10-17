@@ -1436,6 +1436,43 @@ check('yeast', 'ferments sugary water into alcohol and carbon dioxide', () => {
   return { ok: s.count('alcohol') > 0 && gas > 0, detail: `alcohol ${s.count('alcohol')}, carbon dioxide seen ${gas}` };
 });
 
+// ---- Pressure -------------------------------------------------------------------------
+
+/** A glass box (4 cells thick) of water on a heater; `lid` closes it, `valve` sets a valve into the lid. */
+function boiler(lid: boolean, valve = false): Scene {
+  const s = new Scene().fill(16, 58, 32, 4, 'heater').fill(16, 30, 4, 28, 'glass').fill(44, 30, 4, 28, 'glass').fill(20, 40, 24, 18, 'water');
+  if (lid) s.fill(16, 26, 32, 4, 'glass');
+  if (valve) s.fill(28, 26, 8, 4, 'valve');
+  return s;
+}
+check('water', 'boiling in a sealed glass box bursts it; in an open one it does not', () => {
+  const sealed = boiler(true);
+  const f = until(sealed, 3600, () => sealed.count('shards') > 0);
+  const open = boiler(false).run(f > 0 ? f : 3600);
+  return { ok: f > 0 && open.count('shards') === 0, detail: f > 0 ? `sealed box burst after ${f} frames; open box ${open.count('shards')} shards` : 'sealed box held' };
+});
+check('valve', 'vents a sealed boiler, so it lasts longer than one with no valve', () => {
+  const plain = boiler(true);
+  const burst = until(plain, 3600, () => plain.count('shards') > 0);
+  const s = boiler(true, true);
+  let opened = false;
+  const vented = until(s, 3600, () => ((opened = opened || s.world.conc[27 * W + 31] !== 0), s.count('shards') > 0));
+  return {
+    ok: opened && burst > 0 && (vented < 0 || vented > 1.5 * burst),
+    detail: `valve ${opened ? 'opened' : 'stayed shut'}; burst after ${vented < 0 ? 'never (60 s)' : `${vented} frames`} with it, ${burst} frames without`,
+  };
+});
+check('propane_tank', 'ruptures in a fire, releasing propane', () => {
+  const s = new Scene().fill(28, 54, 8, 8, 'propane_tank').heat(28, 54, 8, 8, 300);
+  s.run(10);
+  return { ok: s.count('propane_tank') < 64 && s.count('propane') + s.count('fire') > 0, detail: `tank cells ${s.count('propane_tank')} of 64, propane ${s.count('propane')}` };
+});
+check('air_tank', 'bursts with a shock that shatters glass', () => {
+  const s = new Scene().fill(20, 40, 24, 2, 'glass').fill(30, 44, 4, 4, 'air_tank').heat(30, 44, 4, 4, 320);
+  s.run(30);
+  return { ok: s.count('air_tank') < 16 && s.count('shards') > 0, detail: `tank cells ${s.count('air_tank')}, shards ${s.count('shards')}` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {

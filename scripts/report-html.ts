@@ -201,6 +201,7 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['Blasts shatter glass, brick, concrete, obsidian and sandstone.', ['glass', 'brick', 'concrete', 'obsidian', 'sandstone']],
       ['A fuse burns along like a rope and sets off any explosive at its end, even C4; a long charge goes off as a fast wave from where it was lit.', ['fuse', 'c4', 'gunpowder', 'tnt']],
       ['A magnet pulls iron filings in from a distance.', ['magnet', 'iron_filings']],
+      ['Water boiling in a sealed box builds pressure until the box bursts; a valve vents it; propane tanks rupture in a fire into a cloud of propane, air tanks burst with a pure shock.', ['water', 'valve', 'propane_tank', 'air_tank', 'glass']],
       ['Real circuits: paint a battery onto a wire loop and current flows round it; a longer battery gives more volts, a thicker one more current, and batteries in one loop turn round to help each other.', ['battery', 'wire', 'mercury', 'graphite']],
       ['Parts painted onto wire cut into it; a short circuit heats wire red and can set a thick battery alight; bulbs in series glow dimmer; an LED without a resistor burns out.', ['wire', 'battery', 'bulb', 'led', 'resistor']],
       ['Switches click open and shut, pressure plates close under sand or water, a thermostat holds a heater steady, a diode lets current one way only.', ['switch', 'pressure_plate', 'thermostat', 'diode']],

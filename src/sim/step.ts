@@ -10,6 +10,7 @@ import {
   CAP_ZERO,
   GATE_OF,
   GATE_THERMOSTAT,
+  VALVE_OF,
   SALT,
   SPARK,
   CONC_UNIT,
@@ -84,7 +85,7 @@ import {
 } from './elements';
 import { airPass, explode } from './blast';
 import { circuitStep, pullIron } from './circuit';
-import { heatStep } from './heat';
+import { GAS_SWELL, SWELL_RADIUS, heatStep } from './heat';
 import { CHUNK_SHIFT, type World } from './world';
 
 /**
@@ -300,6 +301,23 @@ function device(world: World, x: number, y: number, i: number, t: number): void 
   }
   // A magnet pulls magnetic grains within reach a step towards itself.
   if (MAGNET_OF[t] !== 0) pullIron(world, x, y, MAGNET_OF[t], 6);
+  // A valve opens while the air pressure on it is past its setting and closes below half of it (conc 1 = open; the shade shows it).
+  const setting = VALVE_OF[t];
+  if (setting !== 0) {
+    // The valve sits in a wall, so it feels the pressure of the air on either side of it.
+    const air = world.air;
+    const ax = x >> 2;
+    const ay = y >> 2;
+    let press = 0;
+    for (let d = 0; d < 5; d++) {
+      const qx = ax + (d === 1 ? -1 : d === 2 ? 1 : 0);
+      const qy = ay + (d === 3 ? -1 : d === 4 ? 1 : 0);
+      if (qx >= 0 && qy >= 0 && qx < air.aw && qy < air.ah) press = Math.max(press, Math.abs(air.p[qy * air.aw + qx]));
+    }
+    const open = world.conc[i] !== 0 ? press > setting * 0.5 : press > setting;
+    world.conc[i] = open ? 1 : 0;
+    world.shade[i] = open ? world.shade[i] | 128 : world.shade[i] & 127;
+  }
   // A thermostat's bimetal strip bends open when hot and closes again when cool (conc 1 = open).
   if (GATE_OF[t] === GATE_THERMOSTAT) {
     if (world.temp[i] > 60) world.conc[i] = 1;
@@ -853,6 +871,13 @@ function become(world: World, i: number, t: number): void {
   if (t !== EMPTY) world.temp[i] = T;
 }
 
+/** A reaction gave off gas at cell k: it pushes on the air around it (see GAS_SWELL). */
+function swell(world: World, k: number): void {
+  const x = k % world.w;
+  const y = (k / world.w) | 0;
+  if (world.air.sealedAt(x, y)) world.air.addPressure(x, y, GAS_SWELL, SWELL_RADIUS);
+}
+
 /** Sets cell i burning: it becomes fire that remembers its fuel. */
 function ignite(world: World, i: number, fuel: number): void {
   if (LAUNCHES_AS_OF[fuel] !== 0) {
@@ -948,7 +973,10 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
     const target = acid === i ? j : i;
     const eaten = type[target];
     become(world, target, EMPTY);
-    if (P_GAS[k] !== 0) become(world, target, P_GAS[k]);
+    if (P_GAS[k] !== 0) {
+      become(world, target, P_GAS[k]);
+      swell(world, target);
+    }
     if (conc[acid] + 85 > 255) {
       const T = world.temp[acid];
       world.place(acid, WATER);
@@ -966,8 +994,10 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
     if (solute[wet] !== FERMENT_FROM_OF[a] || conc[wet] === 0) return false;
     // Sugar splits about half into alcohol, half into carbon dioxide, which bubbles up.
     const T = temp[wet];
-    world.place(wet, (r >>> 16) & 1 ? P_GAS[k] : P_OUT_B[k]);
+    const bubble = ((r >>> 16) & 1) !== 0;
+    world.place(wet, bubble ? P_GAS[k] : P_OUT_B[k]);
     temp[wet] = T;
+    if (bubble) swell(world, wet);
     world.stamp[j] = st;
   } else if (rule === R_QUENCH) {
     // Water on fire: the flame goes out (a burning cell is left as its fuel,
@@ -986,6 +1016,7 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
       const liquid = type[wet];
       become(world, wet, steam);
       temp[wet] = UP_T[liquid] + 5;
+      swell(world, wet);
     }
     world.stamp[j] = st;
   } else {
@@ -1001,8 +1032,13 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
     }
     const gas = P_GAS[k];
     if (gas !== 0) {
-      if (type[j] === EMPTY) become(world, j, gas);
-      else if (type[i] === EMPTY) become(world, i, gas);
+      if (type[j] === EMPTY) {
+        become(world, j, gas);
+        swell(world, j);
+      } else if (type[i] === EMPTY) {
+        become(world, i, gas);
+        swell(world, i);
+      }
     }
     world.stamp[j] = st;
   }
@@ -1055,6 +1091,15 @@ function updateGas(world: World, x: number, y: number, i: number, st: number): v
       moveTo(world, i, j, 0, st);
       world.wake(x, ny);
       return;
+    }
+    // An open valve lets gas through: it hops to the far side if there is room.
+    if (VALVE_OF[tj] !== 0 && world.conc[j] !== 0) {
+      const far = ny + dir;
+      if (far >= 0 && far < h && type[j + dir * w] === EMPTY) {
+        moveTo(world, i, j + dir * w, 0, st);
+        world.wake(x, far);
+        return;
+      }
     }
     const dx = r & 256 ? 1 : -1;
     if (x + dx >= 0 && x + dx < w && type[j + dx] === EMPTY) {

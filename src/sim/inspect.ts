@@ -189,6 +189,10 @@ export function inspectCell(world: World, x: number, y: number): CellReport | nu
     name = e.phase === 'liquid' ? `${e.name} with ${ELEMENTS[so].name.toLowerCase()}` : `Wet ${e.name.toLowerCase()}`;
   }
   if (world.charge[i] !== 0) facts.push(['Charge', 'a pulse of current is passing through it']);
+  // Air pressure, where the air is not calm.
+  const air = world.air;
+  const press = air.p[(y >> 2) * air.aw + (x >> 2)];
+  if (Math.abs(press) >= 0.2) facts.push(['Pressure', `${press.toFixed(1)}${press > 0 ? ' above' : ' below'} calm air; glass cracks past 3`]);
   const powered = circuitFacts(world, i, t, facts);
   if (powered) state = powered;
   if (living) {

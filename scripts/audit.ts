@@ -54,6 +54,8 @@ import {
   EMF_OF,
   CAPACITOR_OF,
   BURNS_OUT_INTO_OF,
+  RUPTURE_INTO_OF,
+  RUPTURE_T_OF,
   RUBBLE_OF,
   SMOKE,
   SOLVENT_OF,
@@ -110,6 +112,8 @@ function allowed(start: number[]): Set<number> {
       // Circuit parts: an LED burns out, an overcharged capacitor pops into smoke.
       if (BURNS_OUT_INTO_OF[e]) grew = add(BURNS_OUT_INTO_OF[e]) || grew;
       if (CAPACITOR_OF[e]) grew = add(SMOKE) || grew;
+      // A tank ruptures into what it holds.
+      if (RUPTURE_INTO_OF[e]) grew = add(RUPTURE_INTO_OF[e]) || grew;
       for (const o of now) if (EATS[e * N + o] > 1) grew = add(EATS[e * N + o] - 1) || grew;
       if (IGNITION_OF[e] !== Infinity || BLAST_POWER_OF[e] > 0 || PHASE_OF[e] === PH_ENERGY) {
         grew = add(FIRE) || grew;
@@ -214,6 +218,7 @@ const active = (e: number): boolean =>
   VENTS_OF[e] > 0 ||
   EMF_OF[e] > 0 ||
   CAPACITOR_OF[e] > 0 ||
+  RUPTURE_T_OF[e] !== Infinity ||
   GROWS_INTO_OF[e] > 0 ||
   DEVICE_OF[e] > 0 ||
   RAIN_INTO_OF[e] > 0 ||

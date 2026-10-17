@@ -164,6 +164,13 @@ export interface ElementDef {
   burnsOutInto?: string;
   /** Electromagnets: while powered, pulls iron within this many cells. */
   coil?: number;
+  /** Valves: opens to let gas through while the air pressure on it is above this, and closes again below half of it. */
+  valve?: number;
+  /**
+   * Tanks: ruptures past `heat` °C or `pressure` of air pressure on it,
+   * becoming `into` (a gas, or 'empty') with a pressure burst of `burst`.
+   */
+  ruptures?: { heat: number; pressure: number; into: string; burst: number };
   /** Energy: frames a placed cell lasts (fire 45, spark 10). */
   lifetime?: number;
   /** Seeds: grow into this element on damp soil with room above. */
@@ -3718,6 +3725,56 @@ export const ELEMENTS: readonly ElementDef[] = [
     magnet: 10,
   },
   {
+    key: 'valve',
+    name: 'Valve',
+    blurb: 'A pressure relief valve. Stays put and seals like a wall until the air pressure on it climbs past its setting; then it opens (bright) and lets gas through, closing again as the pressure falls.',
+    tip: 'Build it into the wall of a sealed box, then boil water inside: it vents steam instead of the box bursting.',
+    category: 'devices',
+    colours: ['#7a5c2e', '#d4b06a'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.9,
+    density: 7800,
+    heatCapacity: 0.45,
+    conductivity: 0.5,
+    valve: 0.6,
+  },
+  {
+    key: 'propane_tank',
+    name: 'Propane tank',
+    blurb: 'A steel tank full of propane. Stays put. Heated past 250 °C or hit by a strong blast, it ruptures: the propane bursts out in a cloud that a single flame turns into a fireball.',
+    tip: 'Put it in a fire and stand back, or set it off with TNT next to a flame.',
+    category: 'devices',
+    colours: ['#b8bcc2', '#c9cdd2', '#a7abb1', '#d6d9dd'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.9,
+    electric: 1,
+    density: 2000,
+    heatCapacity: 0.45,
+    conductivity: 0.5,
+    ruptures: { heat: 250, pressure: 5, into: 'propane', burst: 6 },
+  },
+  {
+    key: 'air_tank',
+    name: 'Air tank',
+    blurb: 'A cylinder of compressed air. Stays put. Heated past 300 °C or hit by a blast, it bursts with a sharp shock of pressure and no flame, throwing what is nearby and shattering glass.',
+    tip: 'Put one next to glass or sand and heat it, or set one off to start a chain.',
+    category: 'devices',
+    colours: ['#3f6f9a', '#4a7cab', '#365f85', '#5a8aba'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.9,
+    electric: 1,
+    density: 1500,
+    heatCapacity: 0.45,
+    conductivity: 0.5,
+    ruptures: { heat: 300, pressure: 5, into: 'empty', burst: 14 },
+  },
+  {
     key: 'iron_filings',
     name: 'Iron filings',
     blurb: 'Fine iron dust, a heavy powder. Falls and piles, and a magnet pulls it in. It rusts in water, and acid eats it.',
@@ -4030,6 +4087,13 @@ export const LIT_RGB_OF = Uint32Array.from(ELEMENTS, (e) => (e.litColour ? parse
 export const MAX_AMPS_OF = Float32Array.from(ELEMENTS, (e) => e.maxAmps ?? Infinity);
 export const BURNS_OUT_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.burnsOutInto ? elementId(e.burnsOutInto) : 0));
 export const COIL_OF = Uint8Array.from(ELEMENTS, (e) => e.coil ?? 0);
+/** Valves: the air pressure that opens it, 0 = not a valve. */
+export const VALVE_OF = Float32Array.from(ELEMENTS, (e) => e.valve ?? 0);
+/** Tanks: rupture temperature and pressure (Infinity = never), what they release, and the burst. */
+export const RUPTURE_T_OF = Float32Array.from(ELEMENTS, (e) => e.ruptures?.heat ?? Infinity);
+export const RUPTURE_P_OF = Float32Array.from(ELEMENTS, (e) => e.ruptures?.pressure ?? Infinity);
+export const RUPTURE_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.ruptures && e.ruptures.into !== 'empty' ? elementId(e.ruptures.into) : 0));
+export const RUPTURE_BURST_OF = Float32Array.from(ELEMENTS, (e) => e.ruptures?.burst ?? 0);
 /** Capacitor charge is kept in `life`: this value means empty, and each unit is a millivolt. */
 export const CAP_ZERO = 32768;
 /** Seeds: what they grow into, 0 = not a seed. */
@@ -4121,7 +4185,7 @@ ELEMENTS.forEach((e, a) => {
   for (const [food, left] of Object.entries(e.creature?.eats ?? {})) EATS[a * ELEMENT_COUNT + elementId(food)] = (left === 'empty' ? 0 : elementId(left)) + 1;
 });
 /** Any device behaviour, so the cell pass checks one table. */
-export const DEVICE_OF = Uint8Array.from(ELEMENTS, (e) => (e.holdTemp !== undefined || e.clones || e.voids || e.blows || e.coolRate || e.magnet || e.gate === 'thermostat' ? 1 : 0));
+export const DEVICE_OF = Uint8Array.from(ELEMENTS, (e) => (e.holdTemp !== undefined || e.clones || e.voids || e.blows || e.coolRate || e.magnet || e.gate === 'thermostat' || e.valve ? 1 : 0));
 
 /** What a solid becomes instead when it freezes unsupported; 0 = itself. */
 export const RUBBLE_OF = Uint16Array.from(ELEMENTS, (e) => (e.rubble ? elementId(e.rubble) : 0));
