@@ -1,4 +1,4 @@
-import { EMPTY, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER } from './elements';
+import { EMPTY, HABITAT_OF, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER } from './elements';
 import type { World } from './world';
 
 /**
@@ -40,6 +40,8 @@ const TOOL_MIN = -100;
 const POWDER_FILL = 0.3;
 /** Same for liquids and gases: separate drops that merge as they land. */
 const LIQUID_FILL = 0.45;
+/** Creatures: a few per stroke, not a swarm (each is one cell, so a full disc would be hundreds). */
+const CREATURE_FILL = 0.015;
 
 export function applyOp(world: World, op: Op): void {
   if (op.kind === OP_CLEAR) {
@@ -59,7 +61,7 @@ function stamp(world: World, cx: number, cy: number, r: number, mode: number): v
   const { w, h, type } = world;
   const r2 = r * r + r;
   const ph = mode < 0 ? 0 : PHASE_OF[mode];
-  const p = ph === PH_POWDER ? POWDER_FILL : ph === PH_LIQUID || ph === PH_GAS ? LIQUID_FILL : 1;
+  const p = mode >= 0 && HABITAT_OF[mode] !== 0 ? CREATURE_FILL : ph === PH_POWDER ? POWDER_FILL : ph === PH_LIQUID || ph === PH_GAS ? LIQUID_FILL : 1;
   const y0 = Math.max(0, cy - r);
   const y1 = Math.min(h - 1, cy + r);
   const x0 = Math.max(0, cx - r);
