@@ -54,13 +54,17 @@ function burst(world: World, x: number, y: number, id: number, r: number, pressu
   const { w, h, type, temp } = world;
   let n = 0;
   const r2 = r * r;
-  // Heat and the detonation wave reach a little past the blast.
+  // Heat reaches a little past the blast. The detonation wave arms the same
+  // explosive as far as the air shock can push it (a powder only a little
+  // further, so a trail still burns like a fuse), so nothing it scatters is left behind.
   const R = r + 2;
   const R2 = R * R;
-  for (let j = Math.max(0, y - R); j <= Math.min(h - 1, y + R); j++) {
-    for (let i = Math.max(0, x - R); i <= Math.min(w - 1, x + R); i++) {
+  const A = PHASE_OF[id] === PH_POWDER ? R : r * 3;
+  const A2 = A * A;
+  for (let j = Math.max(0, y - A); j <= Math.min(h - 1, y + A); j++) {
+    for (let i = Math.max(0, x - A); i <= Math.min(w - 1, x + A); i++) {
       const d2 = (i - x) * (i - x) + (j - y) * (j - y);
-      if (d2 > R2) continue;
+      if (d2 > A2) continue;
       const k = j * w + i;
       const t = type[k];
       if (t === id && d2 <= r2) {
@@ -71,7 +75,7 @@ function burst(world: World, x: number, y: number, id: number, r: number, pressu
         // (Well past its ignition point, so cooling by its neighbours cannot stop the wave.)
         if (temp[k] < IGNITION_OF[id] + 150) temp[k] = IGNITION_OF[id] + 150;
         world.life[k] = world.currentStamp();
-      } else if (PHASE_OF[t] !== PH_SOLID || BRITTLE_OF[t] > 0 || BLAST_POWER_OF[t] > 0) {
+      } else if (d2 <= R2 && (PHASE_OF[t] !== PH_SOLID || BRITTLE_OF[t] > 0 || BLAST_POWER_OF[t] > 0)) {
         temp[k] += BLAST_HEAT * (1 - Math.sqrt(d2) / (R + 1));
         // An explosive heated by this blast goes off next frame, not in this one: a fuse, not one bang.
         // (Its unused life field holds the frame it was armed; it moves with the grain.)
