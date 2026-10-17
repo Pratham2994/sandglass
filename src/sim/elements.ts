@@ -219,6 +219,17 @@ export interface ElementDef {
   burstsInto?: string;
   /** Flames that sink instead of rising (falling embers). */
   sinks?: boolean;
+  /** Magnets: pull magnetic powders (iron filings) towards them from up to this many cells away. */
+  magnet?: number;
+  /** Powders a magnet pulls (iron filings). */
+  magnetic?: boolean;
+  /** Liquids that cure: after about this many frames they set into `curesInto` (glue). */
+  cureFrames?: number;
+  curesInto?: string;
+  /** Soluble things: °C the water gains as one unit dissolves (negative: it gets cold, as in a cold pack). */
+  dissolveHeat?: number;
+  /** Ferments: turns water carrying this dissolved solid into this liquid, bubbling out carbon dioxide (yeast: sugar → alcohol). */
+  ferments?: { from: string; into: string };
   /** Clouds: now and then a lightning bolt strikes down from it. */
   makesLightning?: boolean;
   /** Hand-written reactions by the other element's key; they win over the compiler. */
@@ -3334,6 +3345,115 @@ export const ELEMENTS: readonly ElementDef[] = [
     burnInto: 'ash',
     residue: 0.5,
   },
+  // ---- New reaction types: magnetism, curing, cold dissolving, fermentation ----------
+  {
+    key: 'magnet',
+    name: 'Magnet',
+    blurb: 'A strong permanent magnet. Stays put and pulls iron filings towards it from a short distance.',
+    category: 'devices',
+    colours: ['#b8322e', '#c43a35', '#9aa0a8', '#a8aeb6'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'metal',
+    hardness: 0.9,
+    electric: 1,
+    density: 7500,
+    heatCapacity: 0.45,
+    conductivity: 0.5,
+    magnet: 10,
+  },
+  {
+    key: 'iron_filings',
+    name: 'Iron filings',
+    blurb: 'Fine iron dust, a heavy powder. Falls and piles, and a magnet pulls it in. It rusts in water, and acid eats it.',
+    category: 'metals',
+    colours: ['#5a5e64', '#4e5258', '#686c72', '#43474c'],
+    phase: 'powder',
+    cls: 'metal',
+    hardness: 0.5,
+    density: 3500,
+    fallAccel: 240,
+    fallMax: 170,
+    heatCapacity: 0.45,
+    conductivity: 0.4,
+    magnetic: true,
+    rustsInto: 'rust',
+  },
+  {
+    key: 'glue',
+    name: 'Glue',
+    blurb: 'A thick white glue. Oozes slowly, then after a few seconds it sets hard into dried glue, sticking in place.',
+    category: 'building',
+    colours: ['#eeeae0', '#e4dfd2', '#f6f3ec', '#dad4c4'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 1100,
+    fallAccel: 120,
+    fallMax: 40,
+    dispersion: 1,
+    heatCapacity: 1,
+    conductivity: 0.1,
+    cureFrames: 240,
+    curesInto: 'dried_glue',
+  },
+  {
+    key: 'dried_glue',
+    name: 'Dried glue',
+    blurb: 'Glue that has set into a clear, hard solid. Stays put. It burns in strong heat.',
+    category: 'building',
+    colours: ['#d8d2c2', '#cfc8b6', '#e0dbcd', '#c5beaa'],
+    texture: 'stone',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.4,
+    density: 1200,
+    heatCapacity: 1,
+    conductivity: 0.1,
+    ignition: 350,
+    fuel: 120,
+    flameTemp: 800,
+    burnInto: 'ash',
+    residue: 0.2,
+  },
+  {
+    key: 'ammonium_nitrate',
+    name: 'Ammonium nitrate',
+    blurb: 'White fertiliser crystals, a powder. Dissolving in water, it makes the water ice cold, as in a cold pack. It feeds fire, and great heat makes it explode.',
+    category: 'powders',
+    colours: ['#f2f0ea', '#e8e5dc', '#faf9f5', '#dedad0'],
+    phase: 'powder',
+    cls: 'salt',
+    hardness: 0.25,
+    density: 1720,
+    fallAccel: 230,
+    fallMax: 160,
+    heatCapacity: 0.6,
+    conductivity: 0.15,
+    solubility: 0.6,
+    dissolveHeat: -14,
+    oxidiser: 0.6,
+    ignition: 400,
+    noFlame: true,
+    explosive: { power: 10, radius: 5 },
+  },
+  {
+    key: 'yeast',
+    name: 'Yeast',
+    blurb: 'Living baker\'s yeast, a light powder. Falls and piles. In sugary water it ferments the sugar into alcohol, bubbling out carbon dioxide.',
+    category: 'food',
+    colours: ['#d9c49a', '#cdb78a', '#e3d0aa', '#c1aa7c'],
+    phase: 'powder',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 1100,
+    fallAccel: 150,
+    fallMax: 100,
+    heatCapacity: 0.8,
+    conductivity: 0.1,
+    ferments: { from: 'sugar', into: 'alcohol' },
+  },
 ];
 
 export const ELEMENT_COUNT = ELEMENTS.length;
@@ -3608,6 +3728,13 @@ export const BOLT_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.bolt));
 export const LAUNCHES_AS_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.launchesAs));
 export const BURSTS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.burstsInto));
 export const SINKS_OF = Uint8Array.from(ELEMENTS, (e) => (e.sinks ? 1 : 0));
+export const MAGNET_OF = Uint8Array.from(ELEMENTS, (e) => e.magnet ?? 0);
+export const MAGNETIC_OF = Uint8Array.from(ELEMENTS, (e) => (e.magnetic ? 1 : 0));
+export const CURE_FRAMES_OF = Uint16Array.from(ELEMENTS, (e) => e.cureFrames ?? 0);
+export const CURES_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.curesInto));
+export const DISSOLVE_HEAT_OF = Float32Array.from(ELEMENTS, (e) => e.dissolveHeat ?? 0);
+export const FERMENT_FROM_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.ferments?.from));
+export const FERMENT_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.ferments?.into));
 export const LIGHTNING_FROM_OF = Uint8Array.from(ELEMENTS, (e) => (e.makesLightning ? 1 : 0));
 /** Per pair (creature, food): what the food becomes, plus one (0 = not food; 1 = eaten whole). */
 export const EATS = new Uint16Array(ELEMENT_COUNT * ELEMENT_COUNT);
@@ -3615,7 +3742,7 @@ ELEMENTS.forEach((e, a) => {
   for (const [food, left] of Object.entries(e.creature?.eats ?? {})) EATS[a * ELEMENT_COUNT + elementId(food)] = (left === 'empty' ? 0 : elementId(left)) + 1;
 });
 /** Any device behaviour, so the cell pass checks one table. */
-export const DEVICE_OF = Uint8Array.from(ELEMENTS, (e) => (e.holdTemp !== undefined || e.clones || e.voids || e.blows || e.coolRate ? 1 : 0));
+export const DEVICE_OF = Uint8Array.from(ELEMENTS, (e) => (e.holdTemp !== undefined || e.clones || e.voids || e.blows || e.coolRate || e.magnet ? 1 : 0));
 
 /** What a solid becomes instead when it freezes unsupported; 0 = itself. */
 export const RUBBLE_OF = Uint16Array.from(ELEMENTS, (e) => (e.rubble ? elementId(e.rubble) : 0));
