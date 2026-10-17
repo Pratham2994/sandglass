@@ -6,6 +6,7 @@ import {
   BRITTLE_OF,
   EMPTY,
   FIRE,
+  IGNITION_OF,
   PHASE_OF,
   PH_ENERGY,
   PH_GAS,
@@ -21,62 +22,19 @@ const BLAST_HEAT = 900;
 /** Air speed below which nothing is pushed. */
 const PUSH_MIN = 0.25;
 
-/** Reused flood-fill buffers (grown to the grid size when needed), so an explosion allocates nothing. */
-let fillStack = new Int32Array(0);
-let fillList = new Int32Array(0);
-/** A detonating charge blasts at one point per this many cells, spread along its length. */
-const CELLS_PER_BLAST = 12;
-
 /**
- * Sets off the explosive at (x, y).
- * - A solid or liquid charge (TNT, C4, nitro) detonates whole: every cell of
- *   it connected to this one goes up at once, however long the strip, and
- *   the blast and heat are spread along it.
- * - A powder (gunpowder) goes off grain by grain: only what lies within its
- *   blast radius goes up; the rest catches from the heat and flames.
- * Each cell that goes up becomes a short-lived flame or smoke. The air takes
- * a pressure blast (square-root scaled by how much went up), and heat floods
- * the area, which sets off other explosives further out (chain reactions).
+ * Sets off the explosive at (x, y). Every cell of it within its blast radius
+ * goes up at once; the same explosive just beyond the radius is armed and
+ * goes off next frame, so a long charge goes off as a fast detonation wave
+ * from where it was set off to its far end, and a trail of powder burns
+ * along like a fuse. Each cell that goes up becomes a short-lived flame or
+ * smoke, the air takes a pressure blast (square-root scaled by how much went
+ * up), and heat floods the area, setting off other explosives (chain reactions).
  */
 export function explode(world: World, x: number, y: number): void {
-  const { w, type } = world;
-  const id = type[y * w + x];
+  const id = world.type[y * world.w + x];
   const r = BLAST_RADIUS_OF[id];
-  if (r === 0) return;
-  if (PHASE_OF[id] === PH_POWDER) {
-    burst(world, x, y, id, r, -1);
-    return;
-  }
-  if (fillStack.length < world.size) {
-    fillStack = new Int32Array(world.size);
-    fillList = new Int32Array(world.size);
-  }
-  // Flood the connected charge first (each cell goes up as it is reached) ...
-  let top = 0;
-  let n = 0;
-  const start = y * w + x;
-  goUp(world, start);
-  fillStack[top++] = start;
-  while (top > 0) {
-    const k = fillStack[--top];
-    fillList[n++] = k;
-    const kx = k % w;
-    const ky = (k / w) | 0;
-    for (let d = 0; d < 4; d++) {
-      const q = d === 0 ? (ky > 0 ? k - w : -1) : d === 1 ? (kx + 1 < w ? k + 1 : -1) : d === 2 ? (ky + 1 < world.h ? k + w : -1) : kx > 0 ? k - 1 : -1;
-      if (q >= 0 && type[q] === id) {
-        goUp(world, q);
-        fillStack[top++] = q;
-      }
-    }
-  }
-  // ... then blast and heat at points spread along it.
-  const points = Math.ceil(n / CELLS_PER_BLAST);
-  const power = BLAST_POWER_OF[id] * Math.sqrt(n / points);
-  for (let m = 0; m < points; m++) {
-    const k = fillList[m * CELLS_PER_BLAST];
-    burst(world, k % w, (k / w) | 0, id, r, power);
-  }
+  if (r !== 0) burst(world, x, y, id, r, -1);
 }
 
 /** One cell of a charge goes up: a short-lived flame or puff of smoke, very hot. */
@@ -96,7 +54,7 @@ function burst(world: World, x: number, y: number, id: number, r: number, pressu
   const { w, h, type, temp } = world;
   let n = 0;
   const r2 = r * r;
-  // Heat reaches a little past the blast, so a trail of powder burns on like a fuse.
+  // Heat and the detonation wave reach a little past the blast.
   const R = r + 2;
   const R2 = R * R;
   for (let j = Math.max(0, y - R); j <= Math.min(h - 1, y + R); j++) {
@@ -108,6 +66,11 @@ function burst(world: World, x: number, y: number, id: number, r: number, pressu
       if (t === id && d2 <= r2) {
         n++;
         goUp(world, k);
+      } else if (t === id) {
+        // The same explosive just beyond reach: the detonation wave sets it off next frame.
+        // (Well past its ignition point, so cooling by its neighbours cannot stop the wave.)
+        if (temp[k] < IGNITION_OF[id] + 150) temp[k] = IGNITION_OF[id] + 150;
+        world.life[k] = world.currentStamp();
       } else if (PHASE_OF[t] !== PH_SOLID || BRITTLE_OF[t] > 0 || BLAST_POWER_OF[t] > 0) {
         temp[k] += BLAST_HEAT * (1 - Math.sqrt(d2) / (R + 1));
         // An explosive heated by this blast goes off next frame, not in this one: a fuse, not one bang.
