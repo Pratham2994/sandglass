@@ -50,6 +50,7 @@ import {
   LIGHTNING,
   EATS,
   HABITAT_OF,
+  BODY_OF,
   RAIN_INTO_OF,
   TOP_INTO_OF,
   WATER_LOSS_OF,
@@ -443,6 +444,11 @@ function atHome(world: World, habitat: number, x: number, y: number): boolean {
  * and diggers fall when nothing holds them up.
  */
 function creature(world: World, x: number, y: number, i: number, t: number, st: number): void {
+  // Creatures placed with a body (conc holds the part number) live as one body.
+  if (BODY_OF[t] !== null && world.conc[i] !== 0) {
+    bodyTurn(world, x, y, i, t, st);
+    return;
+  }
   world.wake(x, y);
   const { w, h, type, temp, life, vy } = world;
   const habitat = HABITAT_OF[t];
@@ -510,6 +516,164 @@ function creature(world: World, x: number, y: number, i: number, t: number, st: 
   }
   if (creatureCanEnter(world, habitat, k)) moveTo(world, i, k, dir, st);
   else vy[i] = -dir;
+}
+
+// ---- Creature bodies ------------------------------------------------------------------
+
+/** Places a creature body with its first part at (x, y), if every cell it needs is free (empty, or water for a fish). */
+export function placeBody(world: World, x: number, y: number, t: number): boolean {
+  const b = BODY_OF[t];
+  if (b === null) return false;
+  const { w, h, type } = world;
+  const swims = HABITAT_OF[t] === H_WATER;
+  for (let p = 0; p < b.dx.length; p++) {
+    const px = x + b.dx[p];
+    const py = y + b.dy[p];
+    if (px < 0 || py < 0 || px >= w || py >= h) return false;
+    const k = type[py * w + px];
+    if (k !== EMPTY && !(swims && k === WATER)) return false;
+  }
+  for (let p = 0; p < b.dx.length; p++) {
+    const k = (y + b.dy[p]) * w + x + b.dx[p];
+    world.place(k, t);
+    world.conc[k] = p + 1;
+    world.shade[k] = b.shade[p];
+  }
+  return true;
+}
+
+/** Is cell k part p of the body whose first part is at (x, y)? */
+function isPart(world: World, t: number, k: number, p: number): boolean {
+  return world.type[k] === t && world.conc[k] === p + 1;
+}
+
+/** The whole body dies at once: every part left becomes what the creature dies into. */
+function killBody(world: World, x: number, y: number, t: number): void {
+  const b = BODY_OF[t]!;
+  const { w, h } = world;
+  for (let p = 0; p < b.dx.length; p++) {
+    const px = x + b.dx[p];
+    const py = y + b.dy[p];
+    if (px < 0 || py < 0 || px >= w || py >= h) continue;
+    const k = py * w + px;
+    if (isPart(world, t, k, p)) become(world, k, DIES_INTO_OF[t]);
+  }
+}
+
+/**
+ * Moves the whole body one step by (mx, my), if every cell it would move into
+ * is its own or one it can enter. Parts move leading edge first, each
+ * swapping with what is ahead, so nothing is created or lost.
+ */
+function moveBody(world: World, x: number, y: number, t: number, mx: number, my: number, habitat: number, st: number): boolean {
+  const b = BODY_OF[t]!;
+  const { w, h, type } = world;
+  const n = b.dx.length;
+  for (let p = 0; p < n; p++) {
+    const tx = x + b.dx[p] + mx;
+    const ty = y + b.dy[p] + my;
+    if (tx < 0 || ty < 0 || tx >= w || ty >= h) return false;
+    const k = ty * w + tx;
+    const c = world.conc[k];
+    const own = type[k] === t && c !== 0 && b.dx[c - 1] === tx - x && b.dy[c - 1] === ty - y;
+    if (!own && !creatureCanEnter(world, habitat, k)) return false;
+  }
+  const order = b.order[(mx + 1) * 3 + (my + 1)];
+  for (let q = 0; q < n; q++) {
+    const p = order[q];
+    const from = (y + b.dy[p]) * w + x + b.dx[p];
+    const to = from + my * w + mx;
+    swap(world, from, to);
+    world.stamp[to] = st;
+    world.stamp[from] = st;
+  }
+  world.wake(x + mx, y + my);
+  return true;
+}
+
+/**
+ * A body's turn. Only the first part thinks; the others just check their
+ * body still exists (if not, they die where they are). The body dies whole
+ * of heat, cold, staying out of its habitat, or losing a part; otherwise it
+ * eats what is beside it (breeding into the space when fed), falls when
+ * nothing holds it up, and wanders: swimming, walking and climbing steps,
+ * digging or flying.
+ */
+function bodyTurn(world: World, x: number, y: number, i: number, t: number, st: number): void {
+  const b = BODY_OF[t]!;
+  const { w, h, type, temp, life, vy, conc } = world;
+  const part = conc[i] - 1;
+  const ax = x - b.dx[part];
+  const ay = y - b.dy[part];
+  world.wake(x, y);
+  if (part !== 0) {
+    // A part whose body is gone (or broken) dies where it is.
+    if (ax < 0 || ay < 0 || ax >= w || ay >= h || !isPart(world, t, ay * w + ax, 0)) become(world, i, DIES_INTO_OF[t]);
+    return;
+  }
+  const n = b.dx.length;
+  for (let p = 1; p < n; p++) {
+    const px = x + b.dx[p];
+    const py = y + b.dy[p];
+    if (px < 0 || py < 0 || px >= w || py >= h || !isPart(world, t, py * w + px, p)) {
+      killBody(world, x, y, t);
+      return;
+    }
+  }
+  const habitat = HABITAT_OF[t];
+  if (temp[i] > CREATURE_HOT || temp[i] < CREATURE_COLD) {
+    killBody(world, x, y, t);
+    return;
+  }
+  let home = false;
+  for (let p = 0; p < n && !home; p++) home = atHome(world, habitat, x + b.dx[p], y + b.dy[p]);
+  if (home) life[i] = 0;
+  else if (++life[i] > OUT_OF_HABITAT) {
+    killBody(world, x, y, t);
+    return;
+  }
+  const r = world.rng.nextU32();
+  // Eat beside a random part; a fed body may breed into the space the food left.
+  {
+    const p = (r >>> 2) % n;
+    const j = neighbour(world, x + b.dx[p], y + b.dy[p], r & 3);
+    if (j >= 0) {
+      const e = EATS[t * ELEMENT_COUNT + type[j]];
+      if (e !== 0 && ((r >>> 6) & 7) === 0) {
+        if (e === 1) {
+          world.place(j, EMPTY);
+          if (((r >>> 9) & 3) === 0) placeBody(world, j % w, (j / w) | 0, t);
+        } else become(world, j, e - 1);
+        return;
+      }
+    }
+  }
+  // Fall through open air when nothing holds it up (birds fly; a fish in water swims instead).
+  if (habitat !== H_AIR && !(habitat === H_WATER && home) && moveBody(world, x, y, t, 0, 1, H_AIR, st)) return;
+  if (((r >>> 11) & 3) !== 0) return;
+  let dir = vy[i] === 0 ? (((r >>> 13) & 1) === 0 ? 1 : -1) : vy[i] > 0 ? 1 : -1;
+  if (((r >>> 14) & 31) === 0) dir = -dir;
+  let moved = false;
+  if (habitat === H_GROUND) {
+    moved = moveBody(world, x, y, t, dir, 0, habitat, st) || moveBody(world, x, y, t, dir, -1, habitat, st);
+  } else {
+    const up = ((r >>> 19) & 7) === 0 ? -1 : ((r >>> 19) & 7) === 1 ? 1 : 0;
+    moved = moveBody(world, x, y, t, up !== 0 && ((r >>> 22) & 1) === 0 ? 0 : dir, up, habitat, st);
+  }
+  // The direction lives on the first part, wherever it moved to.
+  const a = moved ? -1 : i;
+  if (a >= 0) vy[a] = -dir;
+  else {
+    for (let k = 0; k < 9; k++) {
+      const mx = ((k / 3) | 0) - 1;
+      const my = (k % 3) - 1;
+      const q = (y + my) * w + x + mx;
+      if (q >= 0 && q < world.size && isPart(world, t, q, 0)) {
+        vy[q] = dir;
+        break;
+      }
+    }
+  }
 }
 
 // ---- Life -------------------------------------------------------------------------

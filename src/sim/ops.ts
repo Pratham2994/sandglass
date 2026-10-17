@@ -1,4 +1,5 @@
-import { EMPTY, HABITAT_OF, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER } from './elements';
+import { BODY_OF, EMPTY, HABITAT_OF, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER } from './elements';
+import { placeBody } from './step';
 import type { World } from './world';
 
 /**
@@ -81,6 +82,9 @@ function stamp(world: World, cx: number, cy: number, r: number, mode: number): v
           if (T0 < TOOL_MAX) world.temp[i] = Math.min(TOOL_MAX, T0 + TOOL_DT);
         } else if (T0 > TOOL_MIN) world.temp[i] = Math.max(TOOL_MIN, T0 - TOOL_DT);
         world.wake(x, y);
+      } else if (mode >= 0 && BODY_OF[mode] !== null) {
+        // Animals with a body are placed whole, wherever there is room for them (fish into water too).
+        if (world.rng.next() < p) placeBody(world, x, y, mode);
       } else if (type[i] === EMPTY && (p >= 1 || world.rng.next() < p)) {
         world.place(i, mode);
       }
