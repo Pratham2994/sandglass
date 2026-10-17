@@ -101,7 +101,7 @@ kbd {
   grid-template-columns: minmax(0, 1fr) minmax(280px, 34%);
   grid-template-rows: minmax(0, 1fr) auto;
   column-gap: 24px;
-  height: 128px;
+  height: 156px;
   box-sizing: border-box;
   padding: 10px 16px 8px;
   background: var(--panel);
@@ -137,7 +137,7 @@ kbd {
 
 /* Element card across the bar: preview, name and description, then every property in a scrolling column. */
 .info-bar .detail {
-  grid-template-columns: 108px minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-columns: 124px minmax(0, 1fr) minmax(0, 1.1fr);
   grid-template-rows: auto minmax(0, 1fr);
   column-gap: 18px;
 }
@@ -148,8 +148,8 @@ kbd {
 }
 
 .info-bar .detail-stage canvas {
-  width: 108px;
-  height: 108px;
+  width: 124px;
+  height: 124px;
 }
 
 .info-bar .detail-title {
@@ -173,7 +173,7 @@ kbd {
   grid-column: 3;
   grid-row: 1 / 3;
   align-content: start;
-  max-height: 108px;
+  max-height: 136px;
   margin: 0;
 }
 
@@ -190,6 +190,11 @@ kbd {
   margin-top: 4px;
   padding-top: 0;
   border-top: 0;
+}
+
+/* A pinned lens holds still: a faint outline says so. */
+.info-bar > .lens.pinned {
+  border-left-color: var(--line-strong);
 }
 
 .lens-hint {
@@ -996,10 +1001,14 @@ body.intro-fading #sim {
 }
 
 /* While the intro plays, the panel waits quietly. */
-body.intro .library,
-body.intro .info-bar {
+body.intro .library {
   opacity: 0.35;
   pointer-events: none;
+}
+
+/* The intro gets the full height of the canvas: the info bar appears once it ends. */
+body.intro #infobar {
+  display: none;
 }
 
 .library {
