@@ -99,6 +99,11 @@ export function elementFacts(id: number): [string, string][] {
   if (e.toxic) out.push(['Poisons', 'living things it touches: they wither']);
   if (e.selfFed) out.push(['Burns without air', 'it carries its own oxygen']);
   if (e.noFlame) out.push(['A flame', `will not light it; it needs ${n0.format(e.ignition ?? 0)} °C${e.explosive ? ' or a spark' : ''}`]);
+  if (e.magnet) out.push(['Magnet', `pulls iron filings from up to ${e.magnet} cells away`]);
+  if (e.magnetic) out.push(['Magnetic', 'a magnet pulls it in']);
+  if (e.curesInto) out.push(['Cures', `sets into ${nameOf(e.curesInto)} after about ${n0.format((e.cureFrames ?? 0) / 60)} s`]);
+  if ((e.dissolveHeat ?? 0) < 0) out.push(['Dissolving', 'makes the water colder (a cold pack)']);
+  if (e.ferments) out.push(['Ferments', `${nameOf(e.ferments.from)} in water into ${nameOf(e.ferments.into)}, bubbling out carbon dioxide`]);
   if (e.holdTemp !== undefined) out.push(['Holds', `itself at ${n0.format(e.holdTemp)} °C`]);
   if (e.clones) out.push(['Copies', 'the first element that touches it into the space around']);
   if (e.voids) out.push(['Deletes', 'anything that touches it, except walls and devices']);

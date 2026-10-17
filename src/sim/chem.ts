@@ -13,6 +13,9 @@ import {
   SETS_INTO_OF,
   TOXIC_OF,
   UP_INTO,
+  DISSOLVE_HEAT_OF,
+  FERMENT_FROM_OF,
+  FERMENT_INTO_OF,
   UP_T,
   WITHER_INTO_OF,
   POROUS_MAX_OF,
@@ -47,6 +50,7 @@ export const R_ACIDIFY = 10;
 export const R_TOXIC = 11;
 export const R_RUST = 12;
 export const R_ROT = 13;
+export const R_FERMENT = 14;
 
 /** Output value meaning "this cell stays as it is". */
 export const KEEP = 0xffff;
@@ -167,7 +171,7 @@ function compile(): void {
       const dissolves = (s: number, x: number): boolean =>
         SOLVENT_OF[s] !== 0 && SOLUBLE_MAX_OF[x] !== 0 && (ELEMENTS[x].phase === 'powder' || ELEMENTS[x].phase === 'solid');
       if (dissolves(a, b) || dissolves(b, a)) {
-        set(a, b, R_DISSOLVE, KEEP, KEEP, 0, 0.12);
+        set(a, b, R_DISSOLVE, KEEP, KEEP, 0, 0.12, -Infinity, DISSOLVE_HEAT_OF[SOLVENT_OF[a] !== 0 ? b : a]);
         continue;
       }
 
@@ -226,6 +230,12 @@ function compile(): void {
       // 11. Rusting: a metal slowly turns to rust where water or oxygen touches it.
       if (RUSTS_INTO_OF[a] !== 0 && (SOLVENT_OF[b] !== 0 || OXIDISER_OF[b] >= 0.5)) {
         set(a, b, R_RUST, RUSTS_INTO_OF[a], KEEP, 0, SOLVENT_OF[b] !== 0 ? 0.004 : 0.002);
+        continue;
+      }
+
+      // 12b. Fermenting: yeast turns water carrying sugar into alcohol (checked per cell: the sugar must be there).
+      if (FERMENT_INTO_OF[a] !== 0 && SOLVENT_OF[b] !== 0) {
+        set(a, b, R_FERMENT, KEEP, FERMENT_INTO_OF[a], CO2, 0.05);
         continue;
       }
 
@@ -306,6 +316,8 @@ export function explain(a: number, b: number): string | null {
     }
     case R_RUST:
       return `${A.name} slowly rusts into ${ELEMENTS[RUSTS_INTO_OF[a]].name.toLowerCase()} where ${B.name.toLowerCase()} touches it`;
+    case R_FERMENT:
+      return `${A.name} ferments the ${ELEMENTS[FERMENT_FROM_OF[a]].name.toLowerCase()} in ${B.name.toLowerCase()} into ${ELEMENTS[FERMENT_INTO_OF[a]].name.toLowerCase()}, bubbling out carbon dioxide`;
     case R_ROT:
       return `${A.name} slowly rots into ${ELEMENTS[ROTS_INTO_OF[a]].name.toLowerCase()} where ${B.name.toLowerCase()} touches it`;
     default:

@@ -1,4 +1,4 @@
-import { HAS_REACTION, KEEP, P_GAS, P_HEAT, P_MIN_T, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R_ABSORB, R_COMBUST, R_CORRODE, R_DISSOLVE, R_QUENCH } from './chem';
+import { HAS_REACTION, KEEP, P_GAS, P_HEAT, P_MIN_T, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R_ABSORB, R_COMBUST, R_CORRODE, R_DISSOLVE, R_FERMENT, R_QUENCH } from './chem';
 import {
   BLAST_POWER_OF,
   BUOY_DIR_OF,
@@ -51,6 +51,11 @@ import {
   EATS,
   HABITAT_OF,
   BODY_OF,
+  CURE_FRAMES_OF,
+  CURES_INTO_OF,
+  FERMENT_FROM_OF,
+  MAGNET_OF,
+  MAGNETIC_OF,
   RAIN_INTO_OF,
   TOP_INTO_OF,
   WATER_LOSS_OF,
@@ -154,6 +159,14 @@ function updateCell(world: World, x: number, y: number, st: number): void {
   }
   if (POWER_EVERY_OF[t] !== 0) powerSource(world, x, y, t);
   if (DEVICE_OF[t] !== 0) device(world, x, y, i, t);
+  // Curing: glue counts its frames, then sets hard.
+  if (CURE_FRAMES_OF[t] !== 0) {
+    world.wake(x, y);
+    if (++world.life[i] >= CURE_FRAMES_OF[t]) {
+      become(world, i, CURES_INTO_OF[t]);
+      return;
+    }
+  }
   if (HABITAT_OF[t] !== 0) {
     // A creature may still burn or be eaten by acid first; then it lives its turn.
     if (HAS_REACTION[t] !== 0 && react(world, x, y, i, st)) return;
@@ -280,6 +293,27 @@ function device(world: World, x: number, y: number, i: number, t: number): void 
     if (j >= 0) {
       const tj = world.type[j];
       if (tj !== EMPTY && tj !== WALL && DEVICE_OF[tj] === 0) world.place(j, EMPTY);
+    }
+  }
+  // A magnet pulls one magnetic grain within reach a step towards itself.
+  const reach = MAGNET_OF[t];
+  for (let tries = 0; reach !== 0 && tries < 6; tries++) {
+    const q0 = world.rng.nextU32();
+    const mx = x + (q0 % (2 * reach + 1)) - reach;
+    const my = y + ((q0 >>> 12) % (2 * reach + 1)) - reach;
+    if (mx < 0 || my < 0 || mx >= world.w || my >= world.h) continue;
+    const k = my * world.w + mx;
+    if (MAGNETIC_OF[world.type[k]] === 0) continue;
+    // A step towards the magnet: diagonally if it can, else straight across or up.
+    const sx = Math.sign(x - mx);
+    const sy = Math.sign(y - my);
+    let q = (my + sy) * world.w + mx + sx;
+    if (world.type[q] !== EMPTY) q = my * world.w + mx + sx;
+    if (world.type[q] !== EMPTY) q = (my + sy) * world.w + mx;
+    if (q !== k && world.type[q] === EMPTY) {
+      swap(world, k, q);
+      world.vy[q] = 0;
+      world.wake(mx, my);
     }
   }
   if (BLOW_X_OF[t] !== 0 || BLOW_Y_OF[t] !== 0) {
@@ -916,6 +950,8 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
     // The guest cell moves into the host: dissolved or soaked up.
     solute[host] = type[guest];
     conc[host] += CONC_UNIT;
+    // Dissolving can take in heat (ammonium nitrate: a cold pack) or give it out.
+    temp[host] += P_HEAT[k];
     world.place(guest, EMPTY);
     world.stamp[j] = st;
   } else if (rule === R_CORRODE) {
@@ -934,6 +970,15 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
       solute[acid] = eaten;
       conc[acid] += 85;
     }
+    world.stamp[j] = st;
+  } else if (rule === R_FERMENT) {
+    // Only water that really carries the sugar ferments.
+    const wet = j;
+    if (solute[wet] !== FERMENT_FROM_OF[a] || conc[wet] === 0) return false;
+    // Sugar splits about half into alcohol, half into carbon dioxide, which bubbles up.
+    const T = temp[wet];
+    world.place(wet, (r >>> 16) & 1 ? P_GAS[k] : P_OUT_B[k]);
+    temp[wet] = T;
     world.stamp[j] = st;
   } else if (rule === R_QUENCH) {
     // Water on fire: the flame goes out (a burning cell is left as its fuel,
