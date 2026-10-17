@@ -9,7 +9,7 @@
  */
 import { writeFileSync } from 'node:fs';
 import { ELEMENTS, EMPTY, elementId } from '../src/sim/elements';
-import { step } from '../src/sim/step';
+import { placeBody, step } from '../src/sim/step';
 import { World } from '../src/sim/world';
 
 const W = 64;
@@ -1240,6 +1240,46 @@ check('fuse', 'burns steadily end to end and sets off C4 at the far end', () => 
     return s.count('c4') === 0;
   });
   return { ok: f > 0 && midway > 60, detail: f > 0 ? `half way after ${(midway / 60).toFixed(1)} s, C4 went off after ${(f / 60).toFixed(1)} s` : `fuse left ${s.count('fuse')}, c4 left ${s.count('c4')}` };
+});
+
+// ---- Creature bodies ----------------------------------------------------------------
+
+/** Places a whole creature body with its first part at (x, y). */
+function body(s: Scene, key: string, x: number, y: number): Scene {
+  if (!placeBody(s.world, x, y, s.id(key))) throw new Error(`no room for a ${key} at ${x}, ${y}`);
+  return s;
+}
+check('fish', 'a fish body swims as one and stays whole', () => {
+  const s = body(new Scene().fill(0, 30, W, 34, 'water'), 'fish', 30, 45);
+  const cells = s.count('fish');
+  const start = s.meanY('fish') * 1000 + 0;
+  let moved = false;
+  const x0 = s.world.type.indexOf(s.id('fish'));
+  until(s, 900, () => ((moved = moved || s.world.type.indexOf(s.id('fish')) !== x0), false));
+  return { ok: cells === 7 && s.count('fish') % 7 === 0 && s.count('fish') > 0 && moved && start > 0, detail: `cells ${cells}, after 15 s ${s.count('fish')}, moved ${moved}` };
+});
+check('mouse', 'a mouse body walks and climbs as one', () => {
+  const s = body(new Scene().fill(0, 60, W, 4, 'wall').fill(40, 58, 4, 2, 'wall'), 'mouse', 10, 58);
+  const xs = new Set<number>();
+  until(s, 900, () => {
+    const k = s.world.type.indexOf(s.id('mouse'));
+    if (k >= 0) xs.add(k % W);
+    return false;
+  });
+  return { ok: s.count('mouse') === 6 && xs.size > 10, detail: `cells ${s.count('mouse')}, visited ${xs.size} columns` };
+});
+check('fish', 'a fish body cooks whole in boiling water', () => {
+  const s = body(new Scene().fill(0, 44, W, 20, 'water', 95).heat(0, 44, W, 20, 95), 'fish', 30, 52);
+  s.run(300);
+  // (Meat left in water slowly rots into dirt, so dirt counts too.)
+  const left = s.count('cooked_meat') + s.count('meat') + s.count('dirt');
+  return { ok: s.count('fish') === 0 && left === 7, detail: `fish ${s.count('fish')}, meat ${s.count('meat')}, cooked ${s.count('cooked_meat')}, rotted ${s.count('dirt')}` };
+});
+check('snake', 'losing a part kills the whole body', () => {
+  const s = body(new Scene().fill(0, 60, W, 4, 'wall'), 'snake', 20, 59);
+  s.world.place(59 * W + 22, 0);
+  s.run(5);
+  return { ok: s.count('snake') === 0 && s.count('meat') === 4, detail: `snake cells ${s.count('snake')}, meat ${s.count('meat')}` };
 });
 
 // ---- Run --------------------------------------------------------------------------

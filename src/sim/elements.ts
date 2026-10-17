@@ -200,7 +200,17 @@ export interface ElementDef {
    * and what it becomes when it dies of heat, cold or leaving its habitat.
    * `eats` maps food to what the food becomes ('empty': eaten whole).
    */
-  creature?: { lives: 'water' | 'ground' | 'soil' | 'air'; eats?: Record<string, string>; diesInto: string };
+  creature?: {
+    lives: 'water' | 'ground' | 'soil' | 'air';
+    eats?: Record<string, string>;
+    diesInto: string;
+    /**
+     * A body bigger than one cell, drawn as rows of colour indexes ('0' to '3')
+     * with '.' for gaps, e.g. a fish ['.00.', '3012']. It moves, eats and dies
+     * as one. Without it, the creature is a single cell (insects).
+     */
+    body?: string[];
+  };
   /** Energy: strikes straight down at once as a jagged bolt, leaving this behind on its path (lightning → plasma). */
   bolt?: string;
   /** Fuels: lit, it does not burn but launches as this rocket (firework). */
@@ -2355,7 +2365,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     name: 'Fish',
     blurb: 'A small fish. Swims about in water, eating seeds that sink to it and breeding when fed. Out of water it suffocates; heat or cold kill it.',
     category: 'life',
-    colours: ['#e8833a', '#f09a4c', '#d9732e', '#f4b06a'],
+    colours: ['#e8833a', '#f4b06a', '#2a2420', '#c9631e'],
     phase: 'solid',
     cls: 'organic',
     hardness: 0.1,
@@ -2366,7 +2376,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     fuel: 60,
     flameTemp: 700,
     burnInto: 'ash',
-    creature: { lives: 'water', eats: { seed: 'empty', grass_seed: 'empty', acorn: 'empty', ant: 'empty' }, diesInto: 'meat' },
+    creature: { lives: 'water', eats: { seed: 'empty', grass_seed: 'empty', acorn: 'empty', ant: 'empty' }, diesInto: 'meat', body: ['300.', '3102'] },
   },
   {
     key: 'ant',
@@ -2402,7 +2412,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     density: 1050,
     heatCapacity: 1,
     conductivity: 0.1,
-    creature: { lives: 'soil', eats: { dry_plant: 'dirt', paper: 'dirt', ash: 'dirt' }, diesInto: 'dirt' },
+    creature: { lives: 'soil', eats: { dry_plant: 'dirt', paper: 'dirt', ash: 'dirt' }, diesInto: 'dirt', body: ['010'] },
   },
   {
     key: 'bird',
@@ -2423,7 +2433,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     creature: {
       lives: 'air',
       eats: { seed: 'empty', grass_seed: 'empty', acorn: 'empty', ant: 'empty', bee: 'empty', spider: 'empty', termite: 'empty', snail: 'empty', popcorn_kernel: 'empty', popcorn: 'empty' },
-      diesInto: 'meat',
+      diesInto: 'meat', body: ['0.0', '.1.'],
     },
   },
   // ---- Sky: lightning and fireworks ------------------------------------------------
@@ -2747,7 +2757,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     density: 1100,
     heatCapacity: 1,
     conductivity: 0.1,
-    creature: { lives: 'ground', eats: { plant: 'empty', leaves: 'empty', grass: 'empty', flower: 'empty' }, diesInto: 'dirt' },
+    creature: { lives: 'ground', eats: { plant: 'empty', leaves: 'empty', grass: 'empty', flower: 'empty' }, diesInto: 'dirt', body: ['.00', '333'] },
   },
   {
     key: 'frog',
@@ -2765,7 +2775,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     fuel: 40,
     flameTemp: 700,
     burnInto: 'ash',
-    creature: { lives: 'ground', eats: { ant: 'empty', bee: 'empty', spider: 'empty', termite: 'empty', snail: 'empty' }, diesInto: 'meat' },
+    creature: { lives: 'ground', eats: { ant: 'empty', bee: 'empty', spider: 'empty', termite: 'empty', snail: 'empty' }, diesInto: 'meat', body: ['1.1', '000'] },
   },
   {
     key: 'mouse',
@@ -2786,7 +2796,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     creature: {
       lives: 'ground',
       eats: { seed: 'empty', grass_seed: 'empty', acorn: 'empty', flour: 'empty', popcorn: 'empty', popcorn_kernel: 'empty', chocolate: 'empty', cooked_meat: 'empty' },
-      diesInto: 'meat',
+      diesInto: 'meat', body: ['..00', '3000'],
     },
   },
   {
@@ -2805,7 +2815,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     fuel: 60,
     flameTemp: 700,
     burnInto: 'ash',
-    creature: { lives: 'ground', eats: { mouse: 'empty', frog: 'empty', egg: 'empty' }, diesInto: 'meat' },
+    creature: { lives: 'ground', eats: { mouse: 'empty', frog: 'empty', egg: 'empty' }, diesInto: 'meat', body: ['01010'] },
   },
   {
     key: 'ammonia',
@@ -3565,6 +3575,35 @@ export const RAIN_COLD_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.rainsColdI
 /** Creature habitat: 0 none, 1 water, 2 ground, 3 soil, 4 air. */
 export const HABITAT_OF = Uint8Array.from(ELEMENTS, (e) => (e.creature ? { water: 1, ground: 2, soil: 3, air: 4 }[e.creature.lives] : 0));
 export const DIES_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.creature?.diesInto));
+/**
+ * Creature bodies, by element: each part's offset from the first part (the
+ * anchor, which thinks for the whole body) and its shade (which picks its
+ * colour). Move orders list the parts leading edge first for each step
+ * direction, so a body moves by swaps without stepping on itself. Null = one cell.
+ */
+export interface Body {
+  dx: Int8Array;
+  dy: Int8Array;
+  shade: Uint8Array;
+  /** Part order per step direction, indexed (mx + 1) * 3 + (my + 1). */
+  order: Uint8Array[];
+}
+export const BODY_OF: (Body | null)[] = ELEMENTS.map((e) => {
+  const rows = e.creature?.body;
+  if (!rows) return null;
+  const cells: [number, number, number][] = [];
+  rows.forEach((row, y) => [...row].forEach((c, x) => c !== '.' && cells.push([x, y, Number(c)])));
+  const [ax, ay] = cells[0];
+  const dx = Int8Array.from(cells, (c) => c[0] - ax);
+  const dy = Int8Array.from(cells, (c) => c[1] - ay);
+  const n = e.colours.length;
+  const shade = Uint8Array.from(cells, (c) => Math.min(255, Math.floor(((c[2] % n) + 0.5) * (256 / n))));
+  const order: Uint8Array[] = [];
+  for (let mx = -1; mx <= 1; mx++)
+    for (let my = -1; my <= 1; my++)
+      order.push(Uint8Array.from([...cells.keys()].sort((p, q) => dx[q] * mx + dy[q] * my - (dx[p] * mx + dy[p] * my))));
+  return { dx, dy, shade, order };
+});
 export const BOLT_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.bolt));
 export const LAUNCHES_AS_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.launchesAs));
 export const BURSTS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.burstsInto));
