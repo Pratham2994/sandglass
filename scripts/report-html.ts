@@ -118,6 +118,88 @@ function auditStatus(): { runs: string; findings: number; rows: string[] } | nul
 
 // ---- Page ------------------------------------------------------------------------
 
+
+// ---- Highlights: the headline reactions, by theme ------------------------------------
+// Each line names the elements it involves; a missing key fails the build, so
+// the list cannot drift from the game. Every line is backed by a behaviour check.
+const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
+  {
+    theme: 'Fire',
+    items: [
+      ['A flame lights anything flammable it touches, but a fire needs air: sealed in a box, it goes out.', ['fire', 'wood']],
+      ['Pools of fuel burn right across their surface once lit; petrol goes up from the smallest flame.', ['petrol', 'oil', 'alcohol', 'kerosene']],
+      ['Oxygen, ozone, liquid oxygen and saltpeter make fires burn hotter and faster.', ['oxygen', 'ozone', 'liquid_oxygen', 'saltpeter']],
+      ['Saltpeter mixed with charcoal keeps burning with no air at all.', ['saltpeter', 'charcoal']],
+      ['Wood heated with no air turns into charcoal, so burning logs leave glowing coals.', ['wood', 'charcoal']],
+      ['Water puts fires out and flashes into steam; nitrogen, carbon dioxide and argon smother them.', ['water', 'steam', 'nitrogen', 'carbon_dioxide', 'argon']],
+      ['A flame will not light thermite, but great heat does: it burns white-hot with no air and leaves molten iron.', ['thermite', 'molten_iron']],
+      ['Burning magnesium is hot enough to set thermite off.', ['magnesium', 'thermite']],
+      ['Acetylene burns hotter than any other fuel.', ['acetylene']],
+      ['White phosphorus bursts into flame by itself in warm air, but is safe under water.', ['phosphorus', 'water']],
+      ['Sulfur burns into choking sulfur dioxide; a diamond burns away into carbon dioxide.', ['sulfur', 'sulfur_dioxide', 'diamond', 'carbon_dioxide']],
+      ['Napalm floats on water and keeps burning there.', ['napalm', 'water']],
+    ],
+  },
+  {
+    theme: 'Heat, melting and freezing',
+    items: [
+      ['Water boils into steam, steam rises and rains back down, and cold water freezes into ice.', ['water', 'steam', 'ice']],
+      ['Salt water stays liquid below 0 °C, and salt or sugar melts ice it touches.', ['salt', 'sugar', 'ice']],
+      ['Lava boils water; water chills lava so fast that it sets into obsidian.', ['lava', 'water', 'obsidian']],
+      ['Lava cools into stone, or into gravel where nothing holds it up.', ['lava', 'stone', 'gravel']],
+      ['Sand melts into molten glass, which sets into glass; lightning does this where it lands.', ['sand', 'molten_glass', 'glass', 'lightning']],
+      ['Metals melt and set back: gold, silver, lead, tin, aluminium, iron, copper wire, and gallium at just 30 °C.', ['gold', 'silver', 'lead', 'tin', 'aluminium', 'iron', 'wire', 'gallium']],
+      ['Dry ice and iodine turn straight into gas without melting; iodine vapour settles back into crystals.', ['dry_ice', 'iodine', 'iodine_vapour']],
+      ['Liquid nitrogen boils away into nitrogen and freezes water it touches.', ['liquid_nitrogen', 'nitrogen', 'water']],
+      ['Clay bakes into brick; limestone and marble bake into quicklime, giving off carbon dioxide.', ['clay', 'brick', 'limestone', 'marble', 'quicklime']],
+      ['Bromine boils into a heavy red vapour at 59 °C; warm soda goes flat, fizzing out its gas.', ['bromine', 'bromine_vapour', 'soda']],
+    ],
+  },
+  {
+    theme: 'Acids, bases and chemistry',
+    items: [
+      ['Acid eats metal (giving off hydrogen), rock and wood; gold, platinum, titanium and plastic resist it.', ['acid', 'iron', 'gold', 'platinum', 'titanium', 'plastic']],
+      ['Acid fizzes limestone, marble and chalk away into carbon dioxide.', ['acid', 'limestone', 'marble', 'chalk']],
+      ['Acids and bases neutralise into water and warm up; baking soda and vinegar fizz.', ['acid', 'lye', 'slaked_lime', 'baking_soda', 'vinegar', 'ammonia']],
+      ['Bleach mixed with any acid gives off poisonous chlorine.', ['bleach', 'acid', 'vinegar', 'chlorine']],
+      ['Sulfur dioxide and chlorine turn water into acid.', ['sulfur_dioxide', 'chlorine', 'water', 'acid']],
+      ['Sodium and potassium burst in water into lye and burning hydrogen; lithium fizzes gently.', ['sodium', 'potassium', 'lithium', 'lye', 'hydrogen']],
+      ['Calcium carbide and water make acetylene gas, leaving slaked lime.', ['calcium_carbide', 'acetylene', 'slaked_lime']],
+      ['Hydrogen peroxide breaks down into water and oxygen when heated, and fast on rust.', ['hydrogen_peroxide', 'rust', 'oxygen']],
+      ['Platinum makes hydrogen catch and burn into steam.', ['platinum', 'hydrogen']],
+      ['Acetone dissolves plastic.', ['acetone', 'plastic']],
+      ['Iron and steel slowly rust where water or oxygen touches them.', ['iron', 'steel', 'rust']],
+      ['Salt, sugar and baking soda dissolve in water; boiling the water leaves the crystals behind.', ['salt', 'sugar', 'baking_soda', 'water']],
+      ['Cement sets into concrete with water; quicklime and water seethe into slaked lime, hot enough to boil.', ['cement', 'concrete', 'quicklime', 'slaked_lime']],
+    ],
+  },
+  {
+    theme: 'Life',
+    items: [
+      ['Seeds sprout on damp soil; plants drink through roots, flower at their tips and wither into dry plant without water.', ['seed', 'plant', 'flower', 'dry_plant']],
+      ['Acorns grow into trees with leaves (a dead tree is plain wood); grass seed makes grass; cactus outlasts droughts.', ['acorn', 'tree', 'leaves', 'grass', 'cactus']],
+      ['Dead plants and paper rot into dirt in water, and worms turn them into dirt too.', ['dry_plant', 'paper', 'worm', 'dirt']],
+      ['Salt, bleach, chlorine, ammonia, ozone, bromine, sulfur dioxide and uranium kill plants they touch.', ['salt', 'bleach', 'chlorine', 'ammonia', 'ozone', 'bromine', 'uranium']],
+      ['Bees turn flowers into seeds and breed on honey.', ['bee', 'flower', 'seed', 'honey']],
+      ['Ants eat sweets and meat; termites chew wood into sawdust; snails graze plants. All breed as they eat.', ['ant', 'termite', 'snail', 'sugar', 'wood']],
+      ['Spiders and frogs catch insects; birds eat seeds and insects; mice eat seeds and food; snakes eat mice, frogs and eggs; fish eat sinking seeds.', ['spider', 'frog', 'bird', 'mouse', 'snake', 'fish']],
+      ['Creatures die of heat or cold, or out of their home; fish, birds and mice become meat, which cooks at 70 °C.', ['fish', 'meat', 'cooked_meat']],
+      ['Eggs cook, popcorn pops at 180 °C, sugar turns into caramel and chocolate melts at 35 °C.', ['egg', 'popcorn_kernel', 'popcorn', 'caramel', 'chocolate']],
+    ],
+  },
+  {
+    theme: 'Sky, blasts and power',
+    items: [
+      ['Clouds rain, snow below 0 °C, and throw lightning that lights fires and sends current down wires.', ['cloud', 'snow', 'lightning', 'wire']],
+      ['Fireworks launch rockets that burst high up into falling coloured embers.', ['firework', 'rocket', 'ember']],
+      ['TNT and gunpowder go off from heat or flame; nitro also when dropped hard; C4 only from a spark or great heat.', ['tnt', 'gunpowder', 'nitro', 'c4', 'spark']],
+      ['Blasts shatter glass, brick, concrete, obsidian and sandstone.', ['glass', 'brick', 'concrete', 'obsidian', 'sandstone']],
+      ['A battery pulses current through wire and metals; salt water carries it and splits into hydrogen and oxygen.', ['battery', 'wire', 'mercury', 'water']],
+      ['A bulb glows while current heats it; heaters, coolers, clones, voids and fans do just what they say.', ['bulb', 'heater', 'cooler', 'clone', 'void', 'fan']],
+    ],
+  },
+];
+
 export function renderHtml(): string {
   const ids = ELEMENTS.map((_, id) => id);
   const real = ids.filter((id) => id !== EMPTY);
@@ -185,6 +267,17 @@ h2 { margin: 0 0 4px; font-size: 19px; font-weight: 620; letter-spacing: -0.01em
 ul.rules { margin: 0; padding-left: 18px; color: var(--muted); }
 ul.rules li { margin: 4px 0; }
 ul.rules b { color: var(--text); font-weight: 560; }
+.hl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 12px; }
+.hl-group { border: 1px solid var(--line); border-radius: 12px; background: var(--raise); padding: 14px 16px; }
+.hl-group h3 { margin: 0 0 8px; font-size: 14px; font-weight: 620; }
+.hl-group ul { list-style: none; margin: 0; padding: 0; }
+.hl-group li { padding: 8px 0; border-top: 1px solid var(--line); }
+.hl-group li:first-child { border-top: 0; }
+.hl-group p { margin: 0 0 6px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+.chips-row { display: flex; flex-wrap: wrap; gap: 4px; }
+.el-chip { display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px 2px 3px; border: 1px solid var(--line); border-radius: 999px; color: var(--text); font-size: 11.5px; text-decoration: none; }
+.el-chip:hover { border-color: var(--line-strong); }
+.el-chip .sw { width: 12px; height: 12px; }
 .legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
 .legend div { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--raise); }
 .legend b { display: block; font-weight: 580; font-size: 13px; }
@@ -257,11 +350,29 @@ code { font: 12.5px ui-monospace, "Cascadia Code", Consolas, monospace; color: v
   h.push(`</div>
 </div></header>
 <nav class="bar"><div class="wrap">
-<div class="links"><a href="#matrix">Matrix</a><a href="#elements">Elements</a><a href="#rules">World rules</a>${audit ? '<a href="#audit">Audit</a>' : ''}</div>
+<div class="links"><a href="#highlights">Highlights</a><a href="#matrix">Matrix</a><a href="#elements">Elements</a><a href="#rules">World rules</a>${audit ? '<a href="#audit">Audit</a>' : ''}</div>
 <input class="search" type="search" placeholder="Find an element" aria-label="Find an element">
 <div class="chips"><button class="chip on" data-cat="all">All</button>${categories.map((c) => `<button class="chip" data-cat="${esc(c)}">${esc(c)}</button>`).join('')}</div>
 </div></nav>
 <main class="wrap">`);
+
+  // Highlights first: the reactions worth knowing, in plain words.
+  const idByKey = new Map(ELEMENTS.map((e, id) => [e.key, id]));
+  const chip = (key: string): string => {
+    const id = idByKey.get(key);
+    if (id === undefined) throw new Error(`Highlights name an unknown element: ${key}`);
+    return `<a class="el-chip" href="#el-${esc(key)}">${sw(id)}${esc(ELEMENTS[id].name)}</a>`;
+  };
+  h.push(`<section id="highlights">
+<h2>What happens: the headline reactions</h2>
+<p class="sub">The reactions worth knowing first, grouped by theme. Click an element to see everything it does.</p>
+<div class="hl-grid">`);
+  for (const group of HIGHLIGHTS) {
+    h.push(`<div class="hl-group"><h3>${esc(group.theme)}</h3><ul>`);
+    for (const [text, keys] of group.items) h.push(`<li><p>${esc(text)}</p><div class="chips-row">${keys.map(chip).join('')}</div></li>`);
+    h.push('</ul></div>');
+  }
+  h.push('</div></section>');
 
   // Matrix.
   h.push(`<section id="matrix">
