@@ -120,7 +120,7 @@ function settle(world: World, i: number, x: number, y: number): void {
     return;
   }
   // Explosives go off from heat alone: they carry their own oxygen.
-  if (BLAST_POWER_OF[t] > 0 && T >= IGNITION_OF[t]) {
+  if (BLAST_POWER_OF[t] > 0 && T >= IGNITION_OF[t] && world.life[i] !== world.currentStamp()) {
     explode(world, x, y);
     return;
   }
