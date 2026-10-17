@@ -1212,6 +1212,36 @@ check('soda', 'warmed, it fizzes out carbon dioxide', () => {
   return { ok: f > 0, detail: f > 0 ? `carbon dioxide after ${f} frames` : 'still fizzy' };
 });
 
+check('c4', 'a long strip goes off whole from one spark', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(4, 59, 56, 1, 'c4').fill(4, 58, 1, 1, 'wire').fill(4, 57, 1, 1, 'spark');
+  until(s, 120, () => s.count('c4') === 0);
+  return { ok: s.count('c4') === 0, detail: `c4 left ${s.count('c4')} of 56` };
+});
+check('tnt', 'a long strip goes off whole', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(4, 58, 56, 2, 'tnt').fill(4, 57, 1, 1, 'tnt', 400);
+  until(s, 120, () => s.count('tnt') === 0);
+  return { ok: s.count('tnt') === 0, detail: `tnt left ${s.count('tnt')} of 113` };
+});
+check('gunpowder', 'a long trail burns grain by grain, not all at once', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(4, 59, 56, 1, 'gunpowder').fill(4, 58, 1, 1, 'fire');
+  let afterFew = -1;
+  const f = until(s, 900, () => {
+    if (s.world.frame === 6) afterFew = s.count('gunpowder');
+    return s.count('gunpowder') === 0;
+  });
+  return { ok: afterFew > 20 && f > 6, detail: `left after 6 frames ${afterFew} of 56, all gone ${f > 0 ? `after ${f} frames` : 'no'}` };
+});
+
+check('fuse', 'burns steadily end to end and sets off C4 at the far end', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(4, 59, 48, 1, 'fuse').fill(52, 56, 6, 4, 'c4').fill(4, 58, 1, 1, 'fire');
+  let midway = -1;
+  const f = until(s, 1200, () => {
+    if (midway < 0 && s.at(28, 59) !== 'fuse') midway = s.world.frame;
+    return s.count('c4') === 0;
+  });
+  return { ok: f > 0 && midway > 60, detail: f > 0 ? `half way after ${(midway / 60).toFixed(1)} s, C4 went off after ${(f / 60).toFixed(1)} s` : `fuse left ${s.count('fuse')}, c4 left ${s.count('c4')}` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {
