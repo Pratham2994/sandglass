@@ -407,22 +407,22 @@ export function mountLibrary(
   sizeRow.append(sizeLabel, range, sizeValue);
   range.addEventListener('input', () => brush.setRadius(Number(range.value)));
 
-  // Inspect lens: while the pointer is over the canvas, the card shows the cell under it.
+  // Inspect lens, beside the element card: the cell under the pointer, and it
+  // keeps the last cell looked at, so it is never blank.
   const lens = el('section', 'lens');
-  lens.hidden = true;
+  const lensHint = el('p', 'lens-hint', 'Point at the canvas to see what is there, how hot it is, and what it reacts with.');
   const lensTitle = el('div', 'detail-title');
   const lensName = el('h2', 'detail-name');
   const lensState = el('span', 'detail-tag');
   lensTitle.append(lensName, lensState);
   const lensFacts = el('dl', 'facts');
   const lensReactions = el('ul', 'reactions');
-  lens.append(lensTitle, lensFacts, lensReactions);
+  lens.append(lensHint, lensTitle, lensFacts, lensReactions);
   const refreshLens = (): void => {
     const cell = brush.held ? null : brush.cellUnderPointer();
     const rep = cell ? inspectCell(world, cell[0], cell[1]) : null;
-    lens.hidden = !rep;
-    detail.hidden = !!rep;
     if (!rep) return;
+    lensHint.hidden = true;
     lensName.textContent = rep.name;
     lensState.textContent = rep.state;
     lensFacts.replaceChildren(...rep.facts.flatMap(([k, v]) => [el('dt', '', k), el('dd', 'num', v)]));
@@ -574,11 +574,12 @@ export function mountLibrary(
   noteRecent();
 
   const top = el('div', 'lib-top');
-  top.append(bar, timeRow, viewBar, search, chips, recentRow);
+  // The brush size is a control: it lives up top with the others, in one row.
+  top.append(bar, timeRow, sizeRow, viewBar, search, chips, recentRow);
   // The selected element, the inspect lens, the brush and the stats live in a
   // slim bar under the canvas, so the whole right column is for elements.
   const foot = el('div', 'lib-foot info-bar');
-  foot.append(detail, lens, sizeRow, stats);
+  foot.append(detail, lens, stats);
   host.append(top, groups);
   (document.getElementById('infobar') ?? host).append(foot);
   applyFilter();
