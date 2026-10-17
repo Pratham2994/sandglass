@@ -997,6 +997,22 @@ input[type='range']::-moz-range-thumb {
   display: none;
 }
 
+/* The hint under the name: wraps, quieter, at most a few lines. */
+.tip-how {
+  display: block;
+  max-width: 240px;
+  margin-top: 2px;
+  color: var(--muted);
+  font-weight: 400;
+  line-height: 1.35;
+  white-space: normal;
+}
+
+/* A tile gives a little as it is pressed. */
+.tile:active canvas {
+  transform: scale(0.96);
+}
+
 /* First-use line on the empty canvas after the intro. */
 .first-hint {
   position: absolute;

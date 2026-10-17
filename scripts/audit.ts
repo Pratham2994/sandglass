@@ -57,6 +57,8 @@ import {
   RUPTURE_INTO_OF,
   CRUMBLES_INTO_OF,
   LIGHT_INTO_OF,
+  MIST_INTO_OF,
+  COLONY_GAS_OF,
   FADES_OF,
   COLONY_OF,
   DECAYS_INTO_OF,
@@ -132,6 +134,8 @@ function allowed(start: number[]): Set<number> {
       if (CRUMBLES_INTO_OF[e]) grew = add(CRUMBLES_INTO_OF[e]) || grew;
       // Light turns silver chloride dark; foam pops; indicators change colour.
       if (LIGHT_INTO_OF[e]) grew = add(LIGHT_INTO_OF[e]) || grew;
+      if (MIST_INTO_OF[e]) grew = add(MIST_INTO_OF[e]) || grew;
+      if (COLONY_GAS_OF[e]) grew = add(COLONY_GAS_OF[e]) || grew;
       if (DECAYS_INTO_OF[e]) grew = add(DECAYS_INTO_OF[e]) || grew;
       if (INDICATOR_ACID_OF[e]) grew = add(INDICATOR_ACID_OF[e]) || grew;
       if (INDICATOR_BASE_OF[e]) grew = add(INDICATOR_BASE_OF[e]) || grew;

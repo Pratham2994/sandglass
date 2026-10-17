@@ -14,6 +14,8 @@ import {
   PH_POWDER,
   PH_SOLID,
   RUPTURE_T_OF,
+  MIST_WITH_OF,
+  MIST_INTO_OF,
   RUBBLE_OF,
   BLAST_POWER_OF,
   IGNITION_OF,
@@ -179,7 +181,13 @@ function settle(world: World, i: number, x: number, y: number): void {
       world.wake(x, y);
       return;
     }
-    type[i] = UP_INTO[t];
+    // Touching its mist liquid it gives off mist instead (dry ice in water: fog).
+    let into = UP_INTO[t];
+    if (MIST_WITH_OF[t] !== 0) {
+      const wth = MIST_WITH_OF[t];
+      if ((x > 0 && type[i - 1] === wth) || (x + 1 < world.w && type[i + 1] === wth) || (y + 1 < world.h && type[i + world.w] === wth) || (y > 0 && type[i - world.w] === wth)) into = MIST_INTO_OF[t];
+    }
+    type[i] = into;
     temp[i] = T - UP_LATENT[t];
     world.solute[i] = 0;
     conc[i] = 0;
@@ -187,7 +195,7 @@ function settle(world: World, i: number, x: number, y: number): void {
     world.wake(x, y);
     // A liquid or solid turning into gas swells enormously. In the open it just pushes air
     // aside; walled in, it builds pressure until the walls burst (or a valve opens).
-    if (PHASE_OF[UP_INTO[t]] === PH_GAS && world.air.sealedAt(x, y)) world.air.addPressure(x, y, GAS_SWELL, SWELL_RADIUS);
+    if (PHASE_OF[into] === PH_GAS && world.air.sealedAt(x, y)) world.air.addPressure(x, y, GAS_SWELL, SWELL_RADIUS);
   } else if (T < (SOLVENT_OF[t] !== 0 && conc[i] !== 0 ? DOWN_T[t] - conc[i] * FREEZE_DROP : DOWN_T[t])) {
     // (A solvent carrying a dissolved solid freezes lower: brine stays liquid below 0 °C.)
     let into = DOWN_INTO[t];

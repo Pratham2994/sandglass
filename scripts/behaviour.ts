@@ -1647,6 +1647,68 @@ check('cabbage_juice', 'turns pink with vinegar and green with lye', () => {
   return { ok: s.count('pink_juice') > 0 && s.count('green_juice') > 0, detail: `pink ${s.count('pink_juice')}, green ${s.count('green_juice')}` };
 });
 
+// ---- Algae, moss, ferrofluid, hot ice, fog, mints, touch explosive, UV resin ------------------
+
+/** A walled pond. */
+function pond(roof: boolean): Scene {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(4, 40, 2, 20, 'wall').fill(58, 40, 2, 20, 'wall').fill(6, 44, 52, 16, 'water');
+  if (roof) s.fill(0, 10, W, 3, 'wall');
+  return s;
+}
+check('algae', 'blooms on a sunlit pond and gives off oxygen, not in the dark', () => {
+  const sun = pond(false).fill(30, 40, 3, 2, 'algae');
+  let oxygen = 0;
+  until(sun, 2400, () => ((oxygen = Math.max(oxygen, sun.count('oxygen'))), false));
+  const dark = pond(true).fill(30, 40, 3, 2, 'algae').run(2400);
+  return { ok: sun.count('algae') > 20 && oxygen > 0 && dark.count('algae') <= 6, detail: `algae ${sun.count('algae')} in sun (oxygen seen ${oxygen}), ${dark.count('algae')} in the dark` };
+});
+check('moss', 'creeps over damp shaded stone', () => {
+  // A stone block under a roof, with a pool beside its foot; moss starts low on its side.
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(0, 4, W, 3, 'wall').fill(20, 40, 24, 20, 'stone').fill(10, 56, 10, 4, 'water').fill(9, 50, 1, 10, 'wall').fill(19, 54, 1, 1, 'moss').run(3600);
+  return { ok: s.count('moss') > 3, detail: `moss cells ${s.count('moss')} from 1` };
+});
+check('ferrofluid', 'a magnet pulls it in', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(10, 56, 44, 4, 'ferrofluid').fill(30, 47, 4, 4, 'magnet').run(900);
+  return { ok: s.topY('ferrofluid') < 55, detail: `top of the fluid at row ${s.topY('ferrofluid')} (pool top 56)` };
+});
+check('hot_ice', 'sets into crystal from one seed, giving off heat', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(4, 40, 2, 20, 'wall').fill(58, 40, 2, 20, 'wall').fill(6, 52, 52, 8, 'hot_ice').run(120);
+  s.fill(30, 51, 1, 1, 'sodium_acetate');
+  let hot = 0;
+  until(s, 900, () => ((hot = Math.max(hot, s.tempAt(20, 58))), false));
+  return { ok: s.count('sodium_acetate') > 300 && hot > 35, detail: `crystal cells ${s.count('sodium_acetate')} of 417, pool peak ${fmt(hot)} °C` };
+});
+check('dry_ice', 'in water makes a creeping fog', () => {
+  // Warm water, as in the real demonstration.
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(4, 50, 2, 10, 'wall').fill(58, 50, 2, 10, 'wall').fill(6, 54, 52, 6, 'water', 60).fill(28, 50, 6, 4, 'dry_ice');
+  let fog = 0;
+  until(s, 600, () => ((fog = Math.max(fog, s.count('fog'))), false));
+  return { ok: fog > 10, detail: `fog peak ${fog}` };
+});
+check('mints', 'make soda erupt into foam', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(20, 40, 2, 20, 'wall').fill(42, 40, 2, 20, 'wall').fill(22, 46, 20, 14, 'soda').run(60);
+  s.fill(30, 40, 3, 3, 'mints');
+  let foam = 0;
+  until(s, 600, () => ((foam = Math.max(foam, s.count('foam'))), false));
+  return { ok: foam > 20, detail: `foam peak ${foam}` };
+});
+check('nitrogen_triiodide', 'goes off when a single grain lands on it', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(28, 50, 8, 2, 'wall').fill(29, 49, 6, 1, 'nitrogen_triiodide').run(60);
+  const before = s.count('nitrogen_triiodide');
+  s.fill(31, 30, 1, 1, 'sand').run(120);
+  return { ok: before === 6 && s.count('nitrogen_triiodide') === 0, detail: `crystals ${before} before the grain, ${s.count('nitrogen_triiodide')} after` };
+});
+check('uv_resin', 'cures in daylight, stays runny in the dark', () => {
+  const tray = (roof: boolean): Scene => {
+    const s = new Scene().fill(0, 60, W, 4, 'wall').fill(10, 50, 2, 10, 'wall').fill(52, 50, 2, 10, 'wall').fill(12, 54, 40, 6, 'uv_resin');
+    if (roof) s.fill(0, 10, W, 3, 'wall');
+    return s.run(1800);
+  };
+  const sun = tray(false).count('cured_resin');
+  const dark = tray(true).count('cured_resin');
+  return { ok: sun > 20 && dark === 0, detail: `cured cells: ${sun} in daylight, ${dark} in the dark` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {

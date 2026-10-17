@@ -1,4 +1,7 @@
-import { CRUMBLES_INTO_OF, EMPTY, PHASE_OF, PH_ENERGY, PH_GAS, PH_LIQUID, PH_SOLID, SPAN_OF, TENSION_OF } from './elements';
+import { CRUMBLES_INTO_OF, ELEMENTS, EMPTY, PHASE_OF, PH_ENERGY, PH_GAS, PH_LIQUID, PH_SOLID, SPAN_OF, TENSION_OF } from './elements';
+
+/** Density by element (kg/m³): a falling block sinks only through liquid lighter than itself. */
+const DENSITY = Float32Array.from(ELEMENTS, (e) => e.density);
 import { CHUNK_SHIFT, type World } from './world';
 
 /*
@@ -139,12 +142,12 @@ function findUnsupported(world: World, s: Scratch): void {
   }
 }
 
-/** Can a falling block move into cell j? Air, gas, flames and liquid give way to it. */
-function givesWay(world: World, j: number): boolean {
+/** Can a falling block cell of type b move into cell j? Air, gas and flames give way; liquid only if lighter than the block (ice floats). */
+function givesWay(world: World, j: number, b: number): boolean {
   const t = world.type[j];
   if (t === EMPTY) return true;
   const ph = PHASE_OF[t];
-  return ph === PH_GAS || ph === PH_ENERGY || ph === PH_LIQUID;
+  return ph === PH_GAS || ph === PH_ENERGY || (ph === PH_LIQUID && DENSITY[t] < DENSITY[b]);
 }
 
 /** Moves every falling block down a cell, or lands it. */
@@ -194,7 +197,7 @@ function moveFalling(world: World, s: Scratch): void {
     for (let q = 0; q < size && free; q++) {
       const c = block[q];
       if (c + w >= world.size) free = false;
-      else if (blockOf[c + w] !== k && !givesWay(world, c + w)) free = false;
+      else if (blockOf[c + w] !== k && !givesWay(world, c + w, type[c])) free = false;
     }
     if (free) {
       for (let q = 0; q < size; q++) {

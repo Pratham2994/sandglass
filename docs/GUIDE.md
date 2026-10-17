@@ -1,8 +1,8 @@
 # Sandglass element guide
 
-Generated from the game data by `npm run guide`. 214 elements, by group. For each: what it is, what it does, and what to try.
+Generated from the game data by `npm run guide`. 224 elements, by group. For each: what it is, what it does, and what to try.
 
-## Powders (21)
+## Powders (22)
 
 **Sand.** A fine, heavy powder.
 Falls, piles into slopes and sinks through lighter liquids. Very hard to melt or eat away.
@@ -76,6 +76,10 @@ Falls and piles. Hydrogen peroxide touching it tears apart into water and a rush
 Falls and piles, and dissolves into water, turning it blue. Blue crystals grow from that water onto a copper sulfate crystal.
 *Try:* Dissolve plenty in water, then drop a copper sulfate crystal in and wait.
 
+**Sodium acetate.** White needle crystals of sodium acetate.
+Stays put. Warmed past 58 °C they melt back into hot ice, which stays liquid as it cools.
+*Try:* Drop a little into a pool of hot ice; heat the crystals to make more hot ice.
+
 **Silver chloride.** A white light-sensitive powder, the stuff of old photographs.
 Falls and piles. In strong light it slowly darkens into grey-black silver, so anything shading it leaves a pale print.
 *Try:* Pour a layer in the open, lay a wall stencil over part of it, and wait: the shaded part stays white.
@@ -87,7 +91,7 @@ Falls and piles. There is no way back.
 Dissolving in water, it makes the water ice cold, as in a cold pack. It feeds fire, and great heat makes it explode.
 *Try:* Stir it into water, then point at the water to see how cold it gets.
 
-## Liquids (20)
+## Liquids (22)
 
 **Water.** A runny liquid.
 Flows and settles flat. Boils into steam when hot, freezes into ice when cold, and cools what it touches.
@@ -166,7 +170,15 @@ Flows like water; a base turns it green.
 **Green juice.** Cabbage juice turned green by a base.
 Flows like water; an acid turns it pink.
 
-## Gases (19)
+**Ferrofluid.** Oil thick with tiny iron grains, a black liquid.
+Flows, and a magnet or a powered electromagnet pulls it in, so it climbs towards them.
+*Try:* Pour some near a magnet, or under an electromagnet you can switch on and off.
+
+**Hot ice.** A supercooled sodium acetate solution, a clear liquid.
+Flows and stays liquid when cold, until it touches a sodium acetate crystal: then it sets into crystal in a spreading wave, giving off heat like a hand warmer.
+*Try:* Pour a pool, then drop one sodium acetate crystal into it.
+
+## Gases (20)
 
 **Steam.** Hot water vapour.
 Rises and spreads. Turns back into water as it cools, so it rains.
@@ -244,6 +256,9 @@ Sinks and pools low. It never reacts, and it smothers flames by shutting out the
 Sinks and pools low, kills plants, and condenses back into bromine as it cools.
 *Try:* Leave it to cool below 59 °C: it condenses into bromine.
 
+**Fog.** Cold white mist, as when dry ice meets warm water.
+Heavy and cold, it sinks and creeps along the ground, then thins away.
+
 ## Solids (13)
 
 **Wall.** An indestructible solid.
@@ -298,7 +313,7 @@ Stays put. A blast crumbles it back into sand.
 Stays put, and grows into touching water that carries dissolved copper sulfate, taking the blue out of it.
 *Try:* Put one in water with a lot of copper sulfate dissolved in it.
 
-## Building (17)
+## Building (19)
 
 **Clay.** Fine, sticky earth, a heavy powder.
 Falls and piles, and soaks up water. Fired in great heat, it bakes hard into brick.
@@ -342,6 +357,14 @@ Oozes slowly. Touching resin, both set together into hard epoxy.
 **Epoxy.** Set two-part epoxy, a tough clear amber solid.
 Stays put and reaches far past its support. It burns only in strong heat.
 *Try:* Heat it past 450 °C.
+
+**UV resin.** A clear liquid resin.
+Flows slowly, and stays runny in the dark; strong light cures it from the top down into a hard clear solid.
+*Try:* Pour it into a mould under the open sky, and cover part of it with a roof.
+
+**Cured resin.** UV resin cured hard by light, a clear glassy solid.
+Stays put and reaches well past its support. It burns in strong heat.
+*Try:* Heat it past 420 °C.
 
 **Glow paint.** Paint full of glow-in-the-dark crystals.
 Stays put. It soaks up light while lit, then shines soft green in the dark for a while, fading as its stored light runs out.
@@ -576,7 +599,7 @@ Drifts down, swaying, and burns out. It can still light what it lands on.
 **Neutron.** A fast neutron, flung out when uranium splits.
 Flies straight until it hits something; striking uranium, it adds to the chain reaction. Lead, concrete, water and control rods soak neutrons up.
 
-## Explosives (7)
+## Explosives (8)
 
 **TNT.** A packed explosive block.
 Stays put. Heat or a flame sets it off: the whole block blasts outwards, throwing what is nearby.
@@ -605,6 +628,10 @@ Falls and piles. Lit, it smoulders slowly at a low heat, pouring out thick smoke
 **Fuse.** A slow-burning cord.
 Stays put. Lit at one end, it burns steadily along its whole length like a rope, and sets off any explosive at the far end, even C4.
 *Try:* Draw a line from a block of C4 or TNT, then light the far end with fire.
+
+**Nitrogen triiodide.** Dark purple-black crystals, the touchiest explosive there is.
+Stays put where it dried. Anything moving against it, even a falling grain of sand or a drop of water, sets it off with a sharp purple crack; so does the least warmth.
+*Try:* Paint a little on a ledge, then drop a single grain of sand on it.
 
 ## Electronics (13)
 
@@ -702,7 +729,7 @@ Stays put. Heated past 250 °C or hit by a strong blast, it ruptures: the propan
 Stays put. Heated past 300 °C or hit by a blast, it bursts with a sharp shock of pressure and no flame, throwing what is nearby and shattering glass.
 *Try:* Put one next to glass or sand and heat it, or set one off to start a chain.
 
-## Food (16)
+## Food (17)
 
 **Flour.** Fine white powder, very light.
 Drifts as it falls. It catches easily and burns fast where air reaches it, but soaks up water into a paste that will not burn.
@@ -764,11 +791,15 @@ Stays put. Heated past 260 °C it toasts dark; mould loves it when damp, and mic
 Stays put. A little more heat and it catches fire.
 *Try:* Light it with fire.
 
+**Mints.** Chalky mint sweets, a powder.
+Falls and piles. Dropped into soda, their rough surface tears the gas out of it at once: the soda erupts into a tower of foam.
+*Try:* Drop a handful of mints into a pool of soda.
+
 **Yeast.** Living baker's yeast, a light powder.
 Falls and piles. In sugary water it ferments the sugar into alcohol, bubbling out carbon dioxide.
 *Try:* Drop it into sugar water, then watch the bubbles.
 
-## Life (27)
+## Life (29)
 
 **Seed.** A small seed, a light powder.
 Falls, sinks in water and rests. On damp soil (wet dirt or sand), it sprouts into a plant, even under a puddle.
@@ -877,3 +908,11 @@ Drifts down and settles. On damp soil, out of the light, they sprout into mushro
 **Mushroom.** A pale living mushroom.
 Grows a short stalk from damp soil, but only in the dark: light stops it. It drinks from the soil, withers when dry, and snails and mice eat it.
 *Try:* Grow it in a cave or under a roof on damp dirt, from spores.
+
+**Algae.** Green pond scum, a light living powder.
+Floats on water and spreads through it while daylight reaches it, giving off bubbles of oxygen. Fish eat it.
+*Try:* Sprinkle a little on a sunlit pond and watch it bloom; add fish to keep it down.
+
+**Moss.** Soft green moss.
+Stays put, clinging to stone, brick, concrete and wood, and creeps over them where it is damp and shaded. Dry heat kills it.
+*Try:* Build a stone wall by a pool under a roof, and put a little moss on it.

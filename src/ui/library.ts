@@ -39,6 +39,7 @@ const RECENT_KEYS = [
   'valve', 'propane_tank', 'air_tank', 'steel_beam', 'rope', 'chain', 'solar_panel', 'glow_paint', 'silver_chloride',
   'plague', 'medicine', 'mould', 'spores', 'mushroom', 'corium', 'control_rod', 'dough', 'bread', 'toast',
   'manganese_dioxide', 'soap', 'foam', 'epoxy_resin', 'epoxy_hardener', 'epoxy', 'copper_sulfate', 'copper_sulfate_crystal', 'cabbage_juice',
+  'algae', 'moss', 'ferrofluid', 'hot_ice', 'sodium_acetate', 'fog', 'mints', 'nitrogen_triiodide', 'uv_resin', 'cured_resin',
 ];
 const SEEN_KEY = 'sandglass.seen';
 
@@ -212,7 +213,10 @@ export function mountLibrary(
   tip.hidden = true;
   document.body.append(tip);
   const showTip = (b: HTMLElement): void => {
-    tip.textContent = b.dataset.tip ?? '';
+    // Name, and for elements a quiet second line: how to see it act.
+    const how = b.dataset.how;
+    tip.replaceChildren(document.createTextNode(b.dataset.tip ?? ''));
+    if (how) tip.append(el('span', 'tip-how', how));
     tip.hidden = false;
     const r = b.getBoundingClientRect();
     // Centred on the button, but kept inside the window.
@@ -298,6 +302,8 @@ export function mountLibrary(
       }
       // Keys 1 to 9 now pick recent elements, so library tiles show just the name.
       b.dataset.tip = e.name;
+      const how = tipFor(id);
+      if (how) b.dataset.how = how;
       b.addEventListener('pointerdown', (ev) => ev.preventDefault());
       b.addEventListener('click', () => brush.setElement(id));
       b.addEventListener('pointerenter', () => {

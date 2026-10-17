@@ -188,6 +188,16 @@ export interface ElementDef {
   cures?: boolean;
   /** Colonies (mould): spreads into touching cells of these elements while there is water beside it. */
   colonyOn?: string[];
+  /** Colonies: what they need to spread: water within two cells ('damp', default), daylight ('light'), or damp and shade ('shade'). */
+  colonyNeeds?: 'damp' | 'light' | 'shade';
+  /** Colonies: a gas given off now and then as it spreads (algae: oxygen). */
+  colonyGas?: string;
+  /** Colonies that grow into open space: the new cell must touch one of these (moss on stone). */
+  colonyHost?: string[];
+  /** Sublimes into `into` (a mist) instead of its usual gas while touching `touching` (dry ice in water makes fog). */
+  mist?: { touching: string; into: string };
+  /** Touch-sensitive explosives: go off when anything moves against them. */
+  touchy?: boolean;
   /** Living things that grow only in the dark (mushrooms), not in light. */
   darkGrower?: boolean;
   /** Nuclear fuel: warms itself, and packed closely enough with more of it (counted within a few cells) runs a chain reaction. */
@@ -1802,6 +1812,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#eef3f6', '#e2e9ee', '#f7fafc', '#d6dfe5'],
     texture: 'stone',
     phase: 'solid',
+    span: 4,
+    mist: { touching: 'water', into: 'fog' },
     cls: 'gas',
     hardness: 0.3,
     density: 1560,
@@ -2785,7 +2797,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     fuel: 60,
     flameTemp: 700,
     burnInto: 'ash',
-    creature: { lives: 'water', eats: { seed: 'empty', grass_seed: 'empty', acorn: 'empty', ant: 'empty' }, diesInto: 'meat', body: ['300.', '3102'] },
+    creature: { lives: 'water', eats: { seed: 'empty', grass_seed: 'empty', acorn: 'empty', ant: 'empty' , algae: 'empty'}, diesInto: 'meat', body: ['300.', '3102'] },
   },
   {
     key: 'ant',
@@ -4196,6 +4208,191 @@ export const ELEMENTS: readonly ElementDef[] = [
     indicator: { acid: 'pink_juice', base: 'green_juice' },
   },
   {
+    key: 'algae',
+    name: 'Algae',
+    blurb: 'Green pond scum, a light living powder. Floats on water and spreads through it while daylight reaches it, giving off bubbles of oxygen. Fish eat it.',
+    tip: 'Sprinkle a little on a sunlit pond and watch it bloom; add fish to keep it down.',
+    category: 'life',
+    colours: ['#3f7a3a', '#4a8a42', '#356a31', '#58994e'],
+    phase: 'powder',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 990,
+    fallAccel: 80,
+    fallMax: 50,
+    heatCapacity: 3,
+    conductivity: 0.3,
+    colonyOn: ['water'],
+    colonyNeeds: 'light',
+    transmits: 0.6,
+    colonyGas: 'oxygen',
+    bake: { at: 70, into: 'dry_plant' },
+  },
+  {
+    key: 'moss',
+    name: 'Moss',
+    blurb: 'Soft green moss. Stays put, clinging to stone, brick, concrete and wood, and creeps over them where it is damp and shaded. Dry heat kills it.',
+    tip: 'Build a stone wall by a pool under a roof, and put a little moss on it.',
+    category: 'life',
+    colours: ['#4f6b33', '#5a7a3a', '#455e2c', '#668844'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 400,
+    heatCapacity: 2,
+    conductivity: 0.2,
+    colonyOn: ['empty'],
+    colonyNeeds: 'shade',
+    colonyHost: ['stone', 'brick', 'concrete', 'wood', 'gravel', 'basalt', 'granite'],
+    ignition: 260,
+    fuel: 30,
+    burnEnergy: 7,
+    flameTemp: 700,
+    burnInto: 'ash',
+    residue: 0.3,
+  },
+  {
+    key: 'ferrofluid',
+    name: 'Ferrofluid',
+    blurb: 'Oil thick with tiny iron grains, a black liquid. Flows, and a magnet or a powered electromagnet pulls it in, so it climbs towards them.',
+    tip: 'Pour some near a magnet, or under an electromagnet you can switch on and off.',
+    category: 'liquids',
+    colours: ['#1a1a1c', '#222224', '#141416', '#2c2c30'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 1300,
+    dispersion: 3,
+    heatCapacity: 1.8,
+    conductivity: 0.3,
+    magnetic: true,
+  },
+  {
+    key: 'hot_ice',
+    name: 'Hot ice',
+    blurb: 'A supercooled sodium acetate solution, a clear liquid. Flows and stays liquid when cold, until it touches a sodium acetate crystal: then it sets into crystal in a spreading wave, giving off heat like a hand warmer.',
+    tip: 'Pour a pool, then drop one sodium acetate crystal into it.',
+    category: 'liquids',
+    colours: ['#e4ecee', '#dce6e8', '#ecf2f3', '#d4dfe2'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'salt',
+    hardness: 0.1,
+    density: 1280,
+    heatCapacity: 3,
+    conductivity: 0.5,
+    overrides: {
+      sodium_acetate: { self: 'sodium_acetate', other: 'keep', chance: 0.6, heat: 8, reason: 'Supercooled hot ice crystallises on touching a crystal, giving off heat' },
+    },
+  },
+  {
+    key: 'sodium_acetate',
+    name: 'Sodium acetate',
+    blurb: 'White needle crystals of sodium acetate. Stays put. Warmed past 58 °C they melt back into hot ice, which stays liquid as it cools.',
+    tip: 'Drop a little into a pool of hot ice; heat the crystals to make more hot ice.',
+    category: 'powders',
+    colours: ['#f2f4f5', '#e8ebec', '#fafbfb', '#dfe3e5'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'salt',
+    hardness: 0.3,
+    density: 1450,
+    heatCapacity: 1.2,
+    conductivity: 0.3,
+    bake: { at: 58, into: 'hot_ice' },
+  },
+  {
+    key: 'fog',
+    name: 'Fog',
+    blurb: 'Cold white mist, as when dry ice meets warm water. Heavy and cold, it sinks and creeps along the ground, then thins away.',
+    category: 'gases',
+    colours: ['#d8dde2', '#cfd5db', '#e0e4e8', '#c6cdd4', '#7e848a', '#5c6166', '#3f4347', '#2a2d30'],
+    texture: 'gas',
+    phase: 'gas',
+    cls: 'gas',
+    hardness: 0,
+    density: 1.6,
+    temp: -20,
+    heatCapacity: 0.5,
+    conductivity: 0.03,
+    fades: true,
+  },
+  {
+    key: 'mints',
+    name: 'Mints',
+    blurb: 'Chalky mint sweets, a powder. Falls and piles. Dropped into soda, their rough surface tears the gas out of it at once: the soda erupts into a tower of foam.',
+    tip: 'Drop a handful of mints into a pool of soda.',
+    category: 'food',
+    colours: ['#f4f6f2', '#e9ece6', '#fbfcfa', '#dfe3db'],
+    phase: 'powder',
+    cls: 'organic',
+    hardness: 0.3,
+    density: 1500,
+    heatCapacity: 1,
+    conductivity: 0.2,
+    overrides: {
+      soda: { self: 'keep', other: 'foam', gas: 'carbon_dioxide', chance: 0.5, reason: 'Rough mints tear the gas out of soda at once: it erupts into foam' },
+    },
+  },
+  {
+    key: 'nitrogen_triiodide',
+    name: 'Nitrogen triiodide',
+    blurb: 'Dark purple-black crystals, the touchiest explosive there is. Stays put where it dried. Anything moving against it, even a falling grain of sand or a drop of water, sets it off with a sharp purple crack; so does the least warmth.',
+    tip: 'Paint a little on a ledge, then drop a single grain of sand on it.',
+    category: 'explosives',
+    colours: ['#3a2440', '#46304e', '#2e1c34', '#563c5e'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 0.1,
+    density: 3500,
+    heatCapacity: 0.4,
+    conductivity: 0.2,
+    ignition: 60,
+    explosive: { power: 2, radius: 3 },
+    touchy: true,
+  },
+  {
+    key: 'uv_resin',
+    name: 'UV resin',
+    blurb: 'A clear liquid resin. Flows slowly, and stays runny in the dark; strong light cures it from the top down into a hard clear solid.',
+    tip: 'Pour it into a mould under the open sky, and cover part of it with a roof.',
+    category: 'building',
+    colours: ['#e7eef0', '#dfe8eb', '#eef3f4', '#d6e0e3'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 1100,
+    dispersion: 3,
+    heatCapacity: 1.5,
+    conductivity: 0.2,
+    lightInto: 'cured_resin',
+  },
+  {
+    key: 'cured_resin',
+    name: 'Cured resin',
+    blurb: 'UV resin cured hard by light, a clear glassy solid. Stays put and reaches well past its support. It burns in strong heat.',
+    category: 'building',
+    colours: ['#cfe0e4', '#dbe8eb', '#c4d6db', '#e6eff1'],
+    texture: 'glass',
+    phase: 'solid',
+    span: 10,
+    cls: 'organic',
+    hardness: 0.5,
+    density: 1150,
+    heatCapacity: 1.2,
+    conductivity: 0.2,
+    ignition: 420,
+    noFlame: true,
+    fuel: 160,
+    flameTemp: 850,
+    burnInto: 'ash',
+    residue: 0.2,
+  },
+  {
     key: 'solar_panel',
     name: 'Solar panel',
     blurb: 'A photovoltaic cell. Stays put and works like a battery that never runs flat, but its voltage follows the light on it: full in open daylight, weak in shade, nothing in the dark. A longer panel gives more volts.',
@@ -4703,8 +4900,17 @@ export const DARK_GROWER_OF = Uint8Array.from(ELEMENTS, (e) => (e.darkGrower ? 1
 /** Colonies: COLONY_ON[colony * N + food] = 1 where the colony spreads into that element. */
 export const COLONY_OF = Uint8Array.from(ELEMENTS, (e) => (e.colonyOn ? 1 : 0));
 export const COLONY_ON = new Uint8Array(ELEMENTS.length * ELEMENTS.length);
+/** Colonies: 0 needs damp, 1 needs light, 2 needs damp shade; the gas they give off; hosts they must touch (COLONY_HOST[colony * N + host]). */
+export const COLONY_NEEDS_OF = Uint8Array.from(ELEMENTS, (e) => (e.colonyNeeds === 'light' ? 1 : e.colonyNeeds === 'shade' ? 2 : 0));
+export const COLONY_GAS_OF = Uint16Array.from(ELEMENTS, (e) => (e.colonyGas ? elementId(e.colonyGas) : 0));
+export const COLONY_HOST = new Uint8Array(ELEMENTS.length * ELEMENTS.length);
+export const HAS_HOST_OF = Uint8Array.from(ELEMENTS, (e) => (e.colonyHost ? 1 : 0));
+export const TOUCHY_OF = Uint8Array.from(ELEMENTS, (e) => (e.touchy ? 1 : 0));
+export const MIST_WITH_OF = Uint16Array.from(ELEMENTS, (e) => (e.mist ? elementId(e.mist.touching) : 0));
+export const MIST_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.mist ? elementId(e.mist.into) : 0));
 ELEMENTS.forEach((e, a) => {
   for (const key of e.colonyOn ?? []) COLONY_ON[a * ELEMENTS.length + elementId(key)] = 1;
+  for (const key of e.colonyHost ?? []) COLONY_HOST[a * ELEMENTS.length + elementId(key)] = 1;
 });
 export const GLOW_PAINT_OF = Uint8Array.from(ELEMENTS, (e) => (e.glowPaint ? 1 : 0));
 export const LIGHT_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.lightInto ? elementId(e.lightInto) : 0));

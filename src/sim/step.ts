@@ -17,6 +17,11 @@ import {
   CURES_OF,
   COLONY_OF,
   COLONY_ON,
+  COLONY_NEEDS_OF,
+  COLONY_GAS_OF,
+  COLONY_HOST,
+  HAS_HOST_OF,
+  TOUCHY_OF,
   DARK_GROWER_OF,
   SALT,
   SPARK,
@@ -197,6 +202,17 @@ function updateCell(world: World, x: number, y: number, st: number): void {
     }
   }
   if (CRYSTAL_OF[t] !== 0) crystal(world, x, y, t);
+  // Touch-sensitive explosives: anything that moved against it this frame sets it off.
+  if (TOUCHY_OF[t] !== 0) {
+    world.wake(x, y);
+    for (let d = 0; d < 4; d++) {
+      const j = neighbour(world, x, y, d);
+      if (j >= 0 && world.type[j] !== EMPTY && (world.stamp[j] === st || world.vy[j] > 0)) {
+        explode(world, x, y);
+        return;
+      }
+    }
+  }
   if (INDICATOR_ACID_OF[t] !== 0 && indicator(world, x, y, i, t)) return;
   if (BURSTS_INTO_OF[t] !== 0) {
     rocket(world, x, y, i, t, st);
@@ -1106,25 +1122,49 @@ function indicator(world: World, x: number, y: number, i: number, t: number): bo
   return true;
 }
 
-/** Mould and other colonies: now and then spread into a touching cell they feed on, if there is water beside. */
+/**
+ * Colonies (mould, algae, moss): now and then spread into a touching cell
+ * they live on, when what they need is there: water within two cells
+ * (mould), daylight (algae), or water nearby and shade (moss). A colony
+ * that grows into open space needs a host beside the new cell (moss on
+ * stone). Some give off a gas as they spread (algae: oxygen).
+ */
 function colony(world: World, x: number, y: number, t: number): void {
   world.wake(x, y);
   const r = world.rng.nextU32();
   if ((r & 31) !== 0) return;
   const j = neighbour(world, x, y, (r >>> 5) & 3);
   if (j < 0 || COLONY_ON[t * ELEMENT_COUNT + world.type[j]] === 0) return;
-  // Damp: water (or something soaked with it) within two cells of the food.
   const { w, h, type, solute, conc } = world;
   const fx = j % w;
   const fy = (j / w) | 0;
-  for (let yy = Math.max(0, fy - 2); yy <= Math.min(h - 1, fy + 2); yy++)
-    for (let xx = Math.max(0, fx - 2); xx <= Math.min(w - 1, fx + 2); xx++) {
-      const k = yy * w + xx;
-      if (type[k] === WATER || (solute[k] === WATER && conc[k] !== 0)) {
-        become(world, j, t);
-        return;
-      }
+  if (HAS_HOST_OF[t] !== 0) {
+    let host = false;
+    for (let d = 0; d < 4 && !host; d++) {
+      const k = neighbour(world, fx, fy, d);
+      host = k >= 0 && COLONY_HOST[t * ELEMENT_COUNT + type[k]] !== 0;
     }
+    if (!host) return;
+  }
+  const needs = COLONY_NEEDS_OF[t];
+  if (needs === 1) {
+    // Light where the colony is (algae on the surface catches it).
+    if (lightAt(world, x, y) < 0.4) return;
+  } else {
+    if (needs === 2 && lightAt(world, fx, fy) > 0.6) return;
+    // Moss lives on humid air: water within six cells; mould needs it within two.
+    const reach = needs === 2 ? 6 : 2;
+    let damp = false;
+    for (let yy = Math.max(0, fy - reach); yy <= Math.min(h - 1, fy + reach) && !damp; yy++)
+      for (let xx = Math.max(0, fx - reach); xx <= Math.min(w - 1, fx + reach) && !damp; xx++) {
+        const k = yy * w + xx;
+        damp = type[k] === WATER || (solute[k] === WATER && conc[k] !== 0);
+      }
+    if (!damp) return;
+  }
+  // Now and then the cell it takes becomes the gas it gives off (algae: water into an oxygen bubble), so nothing is made from nothing.
+  const gas = COLONY_GAS_OF[t];
+  become(world, j, gas !== 0 && ((r >>> 8) & 3) === 0 ? gas : t);
 }
 
 /** A reaction gave off gas at cell k: it pushes on the air around it (see GAS_SWELL). */
