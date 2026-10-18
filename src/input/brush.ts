@@ -154,6 +154,8 @@ export class Brush {
   }
 
   private onDown(e: PointerEvent): void {
+    // Working on the canvas takes the keyboard back from the search box, so I, E and 1 to 9 work again.
+    if (document.activeElement instanceof HTMLElement && document.activeElement !== document.body) document.activeElement.blur();
     if (e.button === 1) {
       e.preventDefault();
       this.pick(e);

@@ -43,7 +43,7 @@ const RECENT_KEYS = [
   'glycerin', 'potassium_permanganate', 'fire_ice', 'sparkler', 'glow_plankton', 'superglue', 'hydrogen_chloride',
   'milk', 'curds', 'lemon_juice', 'red_dye', 'blue_dye', 'steel_wool',
   'sulfuric_acid', 'nitric_acid', 'nitrogen_dioxide',
-  'caterpillar', 'cocoon', 'butterfly',
+  'caterpillar', 'cocoon', 'butterfly', 'storm_cloud',
 ];
 const SEEN_KEY = 'sandglass.seen';
 

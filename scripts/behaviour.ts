@@ -1068,8 +1068,8 @@ check('lightning', 'sends current into a conductor', () => {
   }
   return { ok: m > 0, detail: `charge reached the wire ends: ${m}` };
 });
-check('cloud', 'storm clouds let go lightning', () => {
-  const s = new Scene().fill(0, 2, W, 8, 'cloud');
+check('storm_cloud', 'lets go lightning', () => {
+  const s = new Scene().fill(0, 2, W, 8, 'storm_cloud');
   let bolts = 0;
   until(s, 1800, () => ((bolts = Math.max(bolts, s.count('plasma'))), false));
   return { ok: bolts > 0, detail: bolts > 0 ? `plasma seen ${bolts}` : 'no lightning' };
@@ -1833,6 +1833,28 @@ check('caterpillar', 'eats leaves and spins a cocoon, which hatches a butterfly'
   until(s, 3600, () => ((cocoons = Math.max(cocoons, s.count('cocoon'))), false));
   const hatch = new Scene().fill(0, 60, W, 4, 'wall').fill(30, 59, 1, 1, 'cocoon').run(960);
   return { ok: cocoons > 0 && hatch.count('butterfly') + hatch.count('dirt') > 0 && hatch.count('cocoon') === 0, detail: `cocoons seen ${cocoons}; a cocoon after 16 s: butterflies ${hatch.count('butterfly')}` };
+});
+
+// ---- Whole scenes, played the way a person plays -----------------------------------------------
+
+check('butterfly', 'in a rain-fed garden: finds flowers and leaves, makes seeds and caterpillars', () => {
+  // Soak the soil, plant seeds, keep a rain cloud overhead, let it grow, then release butterflies near it.
+  const s = new Scene().fill(0, 50, W, 14, 'dirt').fill(0, 46, W, 3, 'water').run(600);
+  for (let x = 8; x < 60; x += 8) s.fill(x, 49, 1, 1, x === 32 ? 'acorn' : 'seed');
+  // A thin cloud: gentle rain that keeps the soil damp without flooding it.
+  s.fill(16, 2, 32, 1, 'cloud').run(3000);
+  const flowers = s.count('flower');
+  for (let x = 6; x < 60; x += 8) s.fill(x, 20, 1, 1, 'butterfly');
+  let caterpillars = 0;
+  let seeds = 0;
+  until(s, 3600, () => ((caterpillars = Math.max(caterpillars, s.count('caterpillar'))), (seeds = Math.max(seeds, s.count('seed'))), false));
+  return { ok: flowers > 0 && caterpillars + seeds > 0, detail: `flowers before ${flowers}; then seeds ${seeds}, caterpillars ${caterpillars}` };
+});
+check('plant', 'a garden under a thin rain cloud stays mostly green', () => {
+  const s = new Scene().fill(0, 50, W, 14, 'dirt').fill(0, 46, W, 3, 'water').run(600);
+  for (let x = 8; x < 60; x += 8) s.fill(x, 49, 1, 1, 'seed');
+  s.fill(16, 2, 32, 1, 'cloud').run(4200);
+  return { ok: s.count('plant') > 20 && s.count('dry_plant') < s.count('plant') / 2, detail: `live plant ${s.count('plant')}, dried ${s.count('dry_plant')} after 70 s` };
 });
 
 // ---- Run --------------------------------------------------------------------------

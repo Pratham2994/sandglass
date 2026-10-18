@@ -52,24 +52,27 @@ const HOME: Record<string, string> = { water: 'into water', ground: 'onto the gr
 export function tipFor(id: number): string | null {
   const e = ELEMENTS[id];
   if (e.tip) return e.tip;
-  if (e.explosive) return e.noFlame ? 'A flame will not do: use a fuse, a spark down a wire, or great heat.' : 'Light it with fire, or run a fuse or a spark to it.';
-  if (e.creature) return `Paint a few ${HOME[e.creature.lives]}, with something to eat nearby.`;
-  if (e.growsInto) return 'Drop it on damp dirt (pour water on dirt and let it soak in).';
-  if ((e.acidity ?? 0) >= 0.3) return 'Pour it on metal, stone or wood.';
-  if ((e.acidity ?? 0) <= -0.3) return 'Mix it with an acid.';
-  if (e.ignition !== undefined && !e.noFlame) return `Light it with fire${e.ignition > 400 ? ', or heat it hard first' : ''}.`;
+  if (e.explosive) return e.noFlame ? 'Build a small block. A flame does nothing: run a fuse to it and light the fuse, or touch it with a spark on a wire, and it blows up.' : 'Build a small block next to some stone and touch it with fire: it blows up.';
+  if (e.creature) {
+    const food = Object.keys(e.creature.eats ?? {}).slice(0, 3).map((k) => ELEMENTS.find((x) => x.key === k)!.name.toLowerCase());
+    return `Paint a few ${HOME[e.creature.lives]}${food.length ? `, close to some ${food.join(' or ')}` : ''}: they head for the food, eat it and breed.`;
+  }
+  if (e.growsInto) return 'Pour water on dirt and wait a few seconds, then drop it on the damp dirt under open sky: it sprouts and grows.';
+  if ((e.acidity ?? 0) >= 0.3) return 'Pour it onto a block of iron or stone: it fizzes and eats it away.';
+  if ((e.acidity ?? 0) <= -0.3) return 'Pour it into a pool of acid: the two cancel out into warm water.';
+  if (e.ignition !== undefined && !e.noFlame) return `Make a heap and touch it with fire${e.ignition > 400 ? ' (or the heat tool, as it is hard to light)' : ''}: it catches and burns.`;
   // The heat tool reaches 1,500 °C; hotter needs lava, thermite or lightning.
   const up = upChange(id);
   if (up) {
     const how = up.at > 1450 ? ' (thermite or lightning)' : up.at > 200 ? ' (the heat tool or lava)' : ' (the heat tool)';
-    return `Heat it past ${n0.format(up.at)} °C${how}: it ${up.verb.toLowerCase()} into ${up.into.toLowerCase()}.`;
+    return `Heat it past ${n0.format(up.at)} °C${how} and watch: it ${up.verb.toLowerCase()} into ${up.into.toLowerCase()}.`;
   }
   const down = downChange(id);
   if (down) {
     const how = down.at > AMBIENT ? 'Leave it to cool' : 'Cool it with the cool tool or liquid nitrogen';
     return `${how} below ${n0.format(down.at)} °C: it ${down.verb.toLowerCase()} into ${down.into.toLowerCase()}.`;
   }
-  if (e.ignition !== undefined) return `Heat it past ${n0.format(e.ignition)} °C.`;
+  if (e.ignition !== undefined) return `Heat it past ${n0.format(e.ignition)} °C with the heat tool: it catches fire.`;
   return null;
 }
 

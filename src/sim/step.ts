@@ -256,6 +256,8 @@ function updateCell(world: World, x: number, y: number, st: number): void {
   }
   if (RAIN_INTO_OF[t] !== 0) rain(world, x, y, i, t);
   if (COLONY_OF[t] !== 0) colony(world, x, y, t);
+  // Damp soil shares its water with drier soil beside it (wicking).
+  if (POROUS_MAX_OF[t] !== 0 && world.conc[i] > WICK && world.solute[i] === WATER) wick(world, x, y, i);
   // Light-sensitive powders slowly change in strong light (they stay awake to keep checking).
   if (LIGHT_INTO_OF[t] !== 0) {
     world.wake(x, y);
@@ -619,6 +621,9 @@ function creature(world: World, x: number, y: number, i: number, t: number, st: 
       return;
     }
   }
+  // Food in sight: look at a few cells nearby and head for the first food seen
+  // (a butterfly flies down to a flower, an ant walks to sugar).
+  if (((r >>> 8) & 1) === 0 && seekFood(world, x, y, i, t, habitat, st)) return;
   // Move now and then, so they wander instead of buzzing.
   if (((r >>> 8) & 3) !== 0) return;
   let dir = vy[i] === 0 ? (((r >>> 10) & 1) === 0 ? 1 : -1) : vy[i] > 0 ? 1 : -1;
@@ -648,6 +653,70 @@ function creature(world: World, x: number, y: number, i: number, t: number, st: 
   }
   if (creatureCanEnter(world, habitat, k)) moveTo(world, i, k, dir, st);
   else vy[i] = -dir;
+}
+
+/** Water units soil passes on at a time, and the chance (of 8) per frame it tries. */
+const WICK = 8;
+
+/**
+ * Wicking: damp soil passes a little water to a drier soil cell beside it,
+ * so a pool or a rain-soaked patch slowly wets the whole bed. Water moves
+ * only from wetter to drier, in whole units, so none is made or lost.
+ */
+function wick(world: World, x: number, y: number, i: number): void {
+  const r = world.rng.nextU32();
+  if ((r & 7) !== 0) return;
+  const j = neighbour(world, x, y, (r >>> 3) & 3);
+  if (j < 0) return;
+  const { type, solute, conc } = world;
+  const room = POROUS_MAX_OF[type[j]];
+  if (room === 0 || (solute[j] !== 0 && solute[j] !== WATER)) return;
+  if (conc[j] + WICK > room || conc[i] - conc[j] < 2 * WICK) return;
+  conc[i] -= WICK;
+  conc[j] += WICK;
+  solute[j] = WATER;
+  world.wake(x, y);
+  world.wake(j % world.w, (j / world.w) | 0);
+}
+
+/** How far a creature sees food, in cells, and how many cells it looks at each try. */
+const SEEK_REACH = 14;
+const SEEK_LOOKS = 8;
+
+/**
+ * A creature looks at a few random cells within SEEK_REACH; if one is food,
+ * it takes one step towards it (diagonally if it can, else across or up and
+ * down; walkers only across, or up a step). Returns true if it moved.
+ */
+function seekFood(world: World, x: number, y: number, i: number, t: number, habitat: number, st: number): boolean {
+  const { w, h, type } = world;
+  const span = 2 * SEEK_REACH + 1;
+  for (let look = 0; look < SEEK_LOOKS; look++) {
+    const q = world.rng.nextU32();
+    const fx = x + (q % span) - SEEK_REACH;
+    const fy = y + ((q >>> 10) % span) - SEEK_REACH;
+    if (fx < 0 || fy < 0 || fx >= w || fy >= h || (fx === x && fy === y)) continue;
+    if (EATS[t * ELEMENT_COUNT + type[fy * w + fx]] === 0) continue;
+    const sx = Math.sign(fx - x);
+    const sy = habitat === H_GROUND ? 0 : Math.sign(fy - y);
+    for (let k = 0; k < 3; k++) {
+      const nx = x + (k === 2 ? 0 : sx);
+      const ny = y + (k === 1 ? 0 : k === 2 ? sy : sy);
+      if ((nx === x && ny === y) || nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+      const j = ny * w + nx;
+      if (creatureCanEnter(world, habitat, j)) {
+        moveTo(world, i, j, sx !== 0 ? sx : 1, st);
+        return true;
+      }
+    }
+    // Walkers step up onto a ledge on the way.
+    if (habitat === H_GROUND && sx !== 0 && y > 0 && creatureCanEnter(world, habitat, (y - 1) * w + x + sx) && creatureCanEnter(world, habitat, (y - 1) * w + x)) {
+      moveTo(world, i, (y - 1) * w + x + sx, sx, st);
+      return true;
+    }
+    return false;
+  }
+  return false;
 }
 
 // ---- Creature bodies ------------------------------------------------------------------
@@ -1153,7 +1222,8 @@ function indicator(world: World, x: number, y: number, i: number, t: number): bo
 function colony(world: World, x: number, y: number, t: number): void {
   world.wake(x, y);
   const r = world.rng.nextU32();
-  if ((r & 31) !== 0) return;
+  // Colonies that live on light (algae) spread four times faster, so a bowl turns green in about half a minute.
+  if ((r & (COLONY_NEEDS_OF[t] === 1 ? 7 : 31)) !== 0) return;
   const j = neighbour(world, x, y, (r >>> 5) & 3);
   if (j < 0 || COLONY_ON[t * ELEMENT_COUNT + world.type[j]] === 0) return;
   const { w, h, type, solute, conc } = world;

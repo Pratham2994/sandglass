@@ -222,7 +222,7 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
   {
     theme: 'Sky, blasts and power',
     items: [
-      ['Clouds rain, snow below 0 °C, and throw lightning that lights fires and sends current down wires.', ['cloud', 'snow', 'lightning', 'wire']],
+      ['Clouds rain gently or snow below 0 °C, which keeps a garden damp; storm clouds rain, hail and throw lightning that lights fires and sends current down wires.', ['cloud', 'storm_cloud', 'snow', 'hail', 'lightning', 'wire']],
       ['Fireworks launch rockets that burst high up into falling coloured embers.', ['firework', 'rocket', 'ember']],
       ['TNT and gunpowder go off from heat or flame; nitro also when dropped hard; C4 only from a spark or great heat.', ['tnt', 'gunpowder', 'nitro', 'c4', 'spark']],
       ['Blasts shatter glass, brick, concrete, obsidian and sandstone.', ['glass', 'brick', 'concrete', 'obsidian', 'sandstone']],
