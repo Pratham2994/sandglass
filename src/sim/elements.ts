@@ -518,7 +518,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 2.5,
     conductivity: 0.25,
     overrides: {
-      water: { self: 'obsidian', other: 'steam', chance: 0.25, reason: 'Water chills the lava so fast that it sets into glassy obsidian' },
+      water: { self: 'obsidian', other: 'steam', chance: 0.7, reason: 'Water chills the lava so fast that it sets into glassy obsidian' },
+      steam: { self: 'obsidian', other: 'keep', chance: 0.35, reason: 'Lava quenched in a burst of steam sets into glassy obsidian' },
     },
   },
   {
@@ -1218,6 +1219,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     acidity: -0.8,
     setsInto: 'slaked_lime',
     setHeat: 120,
+    overrides: {
+      water: { self: 'slaked_lime', other: 'steam', chance: 0.25, heat: 160, reason: 'Quicklime slakes violently: it grabs the water and gets so hot that water on it spits off as steam' },
+    },
   },
   {
     key: 'slaked_lime',
@@ -4362,7 +4366,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     key: 'hot_ice',
     name: 'Hot ice',
     blurb: 'A supercooled sodium acetate solution, a clear liquid. Flows and stays liquid when cold, until it touches a sodium acetate crystal: then it sets into crystal in a spreading wave, giving off heat like a hand warmer.',
-    tip: 'Pour a pool of hot ice, then drop one cell of sodium acetate into it: white crystal spreads through the whole pool and it warms up.',
+    tip: 'Pour a pool of hot ice, then paint a dab of sodium acetate touching it (it stays where you paint it): white crystal spreads through the whole pool and it warms up.',
     category: 'liquids',
     colours: ['#e4ecee', '#dce6e8', '#ecf2f3', '#d4dfe2'],
     texture: 'liquid',
@@ -4380,7 +4384,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     key: 'sodium_acetate',
     name: 'Sodium acetate',
     blurb: 'White needle crystals of sodium acetate. Stays put. Warmed past 58 °C they melt back into hot ice, which stays liquid as it cools.',
-    tip: 'Drop a single cell into a pool of hot ice: the pool turns to crystal. Heat crystals past 58 °C to make hot ice again.',
+    tip: 'Paint a dab touching a pool of hot ice (it stays where you paint it, so paint it right on the surface): the pool turns to crystal. Heat crystals past 58 °C to make hot ice again.',
     category: 'powders',
     colours: ['#f2f4f5', '#e8ebec', '#fafbfb', '#dfe3e5'],
     texture: 'grain',
