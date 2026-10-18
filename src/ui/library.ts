@@ -1,4 +1,5 @@
 import type { FixedLoop } from '../core/loop';
+import { onView, view, zoomStep, zoomTo } from '../render/view';
 import { MAX_RADIUS, type Brush, type Tool } from '../input/brush';
 import { ELEMENTS, EMPTY, PHASE_OF, PH_LIQUID, PH_POWDER, type Category } from '../sim/elements';
 import type { World } from '../sim/world';
@@ -104,7 +105,29 @@ export function mountLibrary(
   const stats = el('div', 'stats num');
   const mark = el('span', 'wordmark', 'Sandglass');
   const statsText = el('span');
-  stats.append(mark, statsText);
+  // Zoom: out, the level (click to show the whole world), in.
+  const zoomBox = el('span', 'zoom');
+  const zoomOut = el('button', 'zoom-btn', '−');
+  const zoomLevel = el('button', 'zoom-level num', '100%');
+  const zoomIn = el('button', 'zoom-btn', '+');
+  zoomOut.title = 'Zoom out  −';
+  zoomIn.title = 'Zoom in  +\nCtrl and the mouse wheel zoom about the pointer;\ndrag with the middle button to move round';
+  zoomLevel.title = 'Show the whole world  0';
+  for (const b of [zoomOut, zoomLevel, zoomIn]) {
+    b.type = 'button';
+    b.addEventListener('pointerdown', (e) => e.preventDefault());
+  }
+  zoomOut.addEventListener('click', () => zoomStep(-1));
+  zoomIn.addEventListener('click', () => zoomStep(1));
+  zoomLevel.addEventListener('click', () => zoomTo(1));
+  zoomBox.append(zoomOut, zoomLevel, zoomIn);
+  const refreshZoom = (): void => {
+    zoomLevel.textContent = `${Math.round(view.zoom * 100)}%`;
+    zoomOut.disabled = view.zoom <= 1;
+  };
+  onView(refreshZoom);
+  refreshZoom();
+  stats.append(mark, zoomBox, statsText);
 
   // Transport and tools.
   const bar = el('div', 'toolbar');
@@ -721,7 +744,7 @@ export function mountLibrary(
   refreshStatus();
   setInterval(refreshStatus, STATUS_MS);
 
-  // Keyboard: / searches, E toggles the eraser, 1 to 9 pick elements.
+  // Keyboard: / searches, E toggles the eraser, 1 to 9 pick elements, + and - zoom, 0 shows the whole world.
   window.addEventListener('keydown', (e) => {
     if (e.target instanceof HTMLInputElement && e.target.type !== 'range') return;
     if (e.key === '/') {
@@ -729,6 +752,12 @@ export function mountLibrary(
       input.focus();
     } else if (e.key === 'e' || e.key === 'E') {
       brush.setErasing(!brush.erasing);
+    } else if (e.key === '+' || e.key === '=') {
+      zoomStep(1);
+    } else if (e.key === '-' || e.key === '_') {
+      zoomStep(-1);
+    } else if (e.key === '0') {
+      zoomTo(1);
     } else if (e.key >= '1' && e.key <= '9') {
       const id = recent[Number(e.key) - 1];
       if (id !== undefined) pickRecent(id);

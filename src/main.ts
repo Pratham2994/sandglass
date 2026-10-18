@@ -6,6 +6,7 @@ import { loadWorld, saveWorld } from './core/savefile';
 import { Timeline } from './core/timeline';
 import { Brush } from './input/brush';
 import { createRenderer } from './render/renderer';
+import { onView } from './render/view';
 import { ELEMENTS } from './sim/elements';
 import { OP_CLEAR } from './sim/ops';
 import { step } from './sim/step';
@@ -201,6 +202,9 @@ function start(): void {
       loop.invalidate();
     }
   });
+
+  // Zooming or panning redraws at once, even while paused.
+  onView(() => loop.invalidate());
 
   if (import.meta.env.DEV) {
     void import('./dev/hook').then((m) =>

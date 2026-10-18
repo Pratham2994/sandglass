@@ -1,6 +1,7 @@
 import { EMPTY, SAND } from '../sim/elements';
 import { MODE_COOL, MODE_ERASE, MODE_HEAT, OP_STAMP, OP_TOGGLE, OP_WIND, applyOp, isSwitchAt, type Op } from '../sim/ops';
 import type { World } from '../sim/world';
+import { pan, toWorld, view, zoomStep } from '../render/view';
 
 export const MAX_RADIUS = 64;
 /** Mode values queued for strokes that are not an element (wind is not a stamp). */
@@ -48,6 +49,11 @@ export class Brush {
   private lastY = NaN;
   private mode = 0;
   private button = -1;
+  /** Middle-button drag: pans the view; a middle click without a drag picks the element under the pointer. */
+  private panning = false;
+  private panMoved = false;
+  private panX = 0;
+  private panY = 0;
   private wheelAcc = 0;
   private readonly listeners: (() => void)[] = [];
 
@@ -107,15 +113,16 @@ export class Brush {
   cellUnderPointer(): [number, number] | null {
     if (!this.hovering) return null;
     const r = this.canvas.getBoundingClientRect();
-    const x = Math.floor(((this.clientX - r.left) / r.width) * this.world.w);
-    const y = Math.floor(((this.clientY - r.top) / r.height) * this.world.h);
+    const [wx, wy] = toWorld((this.clientX - r.left) / r.width, (this.clientY - r.top) / r.height);
+    const x = Math.floor(wx * this.world.w);
+    const y = Math.floor(wy * this.world.h);
     if (x < 0 || y < 0 || x >= this.world.w || y >= this.world.h) return null;
     return [x, y];
   }
 
   /** Size of one cell on screen, in CSS px. */
   cellCssSize(): number {
-    return this.canvas.getBoundingClientRect().width / this.world.w;
+    return (this.canvas.getBoundingClientRect().width / this.world.w) * view.zoom;
   }
 
   /** Drops queued input and ends any stroke. */
@@ -158,7 +165,11 @@ export class Brush {
     if (document.activeElement instanceof HTMLElement && document.activeElement !== document.body) document.activeElement.blur();
     if (e.button === 1) {
       e.preventDefault();
-      this.pick(e);
+      this.canvas.setPointerCapture(e.pointerId);
+      this.panning = true;
+      this.panMoved = false;
+      this.panX = e.clientX;
+      this.panY = e.clientY;
       return;
     }
     if (this.held || (e.button !== 0 && e.button !== 2)) return;
@@ -200,11 +211,26 @@ export class Brush {
   }
 
   private onMove(e: PointerEvent): void {
+    if (this.panning) {
+      const dx = e.clientX - this.panX;
+      const dy = e.clientY - this.panY;
+      if (!this.panMoved && Math.hypot(dx, dy) < 4) return;
+      this.panMoved = true;
+      const r = this.canvas.getBoundingClientRect();
+      pan(dx / r.width, dy / r.height);
+      this.panX = e.clientX;
+      this.panY = e.clientY;
+    }
     this.track(e);
     if (this.held) this.queuePoint(e);
   }
 
   private onUp(e: PointerEvent): void {
+    if (this.panning && e.button === 1) {
+      this.panning = false;
+      if (!this.panMoved && e.type === 'pointerup') this.pick(e);
+      return;
+    }
     if (!this.held || (e.type === 'pointerup' && e.button !== this.button)) return;
     this.queuePoint(e);
     this.setHeld(false);
@@ -214,6 +240,13 @@ export class Brush {
     // Only over the canvas: everywhere else (the library) the wheel scrolls as usual.
     if (!(e.target instanceof Element) || !e.target.closest('#stage')) return;
     e.preventDefault();
+    // Ctrl and the wheel zoom the view about the pointer.
+    if (e.ctrlKey) {
+      const r = this.canvas.getBoundingClientRect();
+      if (e.deltaY !== 0) zoomStep(e.deltaY < 0 ? 1 : -1, (e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height);
+      this.emit();
+      return;
+    }
     if (Math.sign(e.deltaY) !== Math.sign(this.wheelAcc)) this.wheelAcc = 0;
     this.wheelAcc += e.deltaMode === 0 ? e.deltaY : e.deltaY * WHEEL_STEP;
     while (Math.abs(this.wheelAcc) >= WHEEL_STEP) {
@@ -232,9 +265,8 @@ export class Brush {
 
   private queuePoint(e: PointerEvent): void {
     const r = this.canvas.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width) * this.world.w;
-    const y = ((e.clientY - r.top) / r.height) * this.world.h;
-    this.queue.push(Math.floor(x), Math.floor(y), this.mode);
+    const [wx, wy] = toWorld((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height);
+    this.queue.push(Math.floor(wx * this.world.w), Math.floor(wy * this.world.h), this.mode);
   }
 
   private setHeld(held: boolean): void {

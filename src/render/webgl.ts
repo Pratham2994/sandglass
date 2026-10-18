@@ -4,6 +4,7 @@ import { CHUNK, type World } from '../sim/world';
 import { GLOW_MAX, GLOW_MIN, LEVEL_STRIDE, L_PLAIN, TEXTURE_OF, buildGlow, buildPalette, buildStoneShade } from './palette';
 import type { Renderer, View } from './renderer';
 import { AIR } from '../sim/air';
+import { view } from './view';
 
 const VERT = `#version 300 es
 void main() {
@@ -243,6 +244,8 @@ uniform float uTime;
 uniform int uChunks;
 uniform int uView;
 uniform float uFlash;
+/** Zoom, then the world point (0 to 1) at the middle of the canvas. */
+uniform vec3 uZoom;
 out vec4 o;
 
 /** Temperature to colour: blue cold, grey room, orange warm, red hot, yellow-white very hot. */
@@ -259,6 +262,9 @@ vec3 hsv(float h, float s, float v) {
 }
 void main() {
   vec2 uv = gl_FragCoord.xy / uCanvas;
+  // Zoom: the canvas shows the part of the world round the view centre.
+  uv = vec2(uZoom.y + (uv.x - 0.5) / uZoom.x, 1.0 - uZoom.z + (uv.y - 0.5) / uZoom.x);
+  vec2 lightUv = uv;
   vec2 cellF = vec2(uv.x, 1.0 - uv.y) * vec2(uSize);
   ivec2 cell = clamp(ivec2(cellF), ivec2(0), uSize - 1);
   // Heat haze: hot air wobbles the view sideways, more the hotter it is.
@@ -269,7 +275,7 @@ void main() {
     uv.y += cos(cellF.x * 0.35 + uTime * 5.0) * a * 0.4 / float(uSize.y);
   }
   vec3 scene = texture(uScene, uv).rgb;
-  vec3 L = texture(uLight, gl_FragCoord.xy / uCanvas).rgb;
+  vec3 L = texture(uLight, lightUv).rgb;
   // Light falls off with distance (the blur); close surfaces take its colour strongly.
   vec3 c = scene * (1.0 + L * 1.8) + L * 0.12;
   if (uView == 1) {
@@ -550,6 +556,7 @@ export class WebGLRenderer implements Renderer {
     gl.uniform1i(gl.getUniformLocation(this.comp, 'uChunks'), this.showChunks ? 1 : 0);
     gl.uniform1i(gl.getUniformLocation(this.comp, 'uView'), viewCode);
     gl.uniform1f(gl.getUniformLocation(this.comp, 'uFlash'), world.flash);
+    gl.uniform3f(gl.getUniformLocation(this.comp, 'uZoom'), view.zoom, view.cx, view.cy);
     this.bind(this.comp, 'uPress', this.pressTex, 5);
     this.bind(this.comp, 'uVel', this.velTex, 6);
     gl.drawArrays(gl.TRIANGLES, 0, 3);

@@ -896,6 +896,51 @@ input[type='range']::-moz-range-thumb {
   color: var(--faint);
 }
 
+/* Zoom: quiet out, level, in, between the wordmark and the stats. */
+.zoom {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-right: auto;
+  margin-left: 12px;
+}
+
+.zoom-btn,
+.zoom-level {
+  height: 20px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+}
+
+.zoom-btn {
+  width: 20px;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.zoom-level {
+  min-width: 44px;
+  padding: 0 4px;
+}
+
+.zoom-btn:hover:not(:disabled),
+.zoom-level:hover {
+  background: var(--raise-2);
+  color: var(--text);
+}
+
+.zoom-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 .wordmark {
   font-weight: 600;
   color: var(--muted);
