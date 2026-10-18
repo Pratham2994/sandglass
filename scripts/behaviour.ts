@@ -1823,6 +1823,18 @@ check('nitric_acid', 'dissolves copper into brown nitrogen dioxide', () => {
   return { ok: brown > 3 && s.count('wire') < 64, detail: `nitrogen dioxide seen ${brown}, wire left ${s.count('wire')} of 64` };
 });
 
+// ---- Metamorphosis -----------------------------------------------------------------------
+
+check('caterpillar', 'eats leaves and spins a cocoon, which hatches a butterfly', () => {
+  // Living grass on damp soil, caterpillars on it.
+  const s = new Scene().fill(0, 50, W, 14, 'dirt').fill(0, 46, W, 3, 'water').run(600).fill(0, 48, W, 1, 'grass');
+  for (let x = 6; x < 60; x += 6) s.fill(x, 47, 1, 1, 'caterpillar');
+  let cocoons = 0;
+  until(s, 3600, () => ((cocoons = Math.max(cocoons, s.count('cocoon'))), false));
+  const hatch = new Scene().fill(0, 60, W, 4, 'wall').fill(30, 59, 1, 1, 'cocoon').run(960);
+  return { ok: cocoons > 0 && hatch.count('butterfly') + hatch.count('dirt') > 0 && hatch.count('cocoon') === 0, detail: `cocoons seen ${cocoons}; a cocoon after 16 s: butterflies ${hatch.count('butterfly')}` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {

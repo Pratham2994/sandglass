@@ -1,6 +1,6 @@
 # Sandglass element guide
 
-Generated from the game data by `npm run guide`. 240 elements, by group. For each: what it is, what it does, and what to try.
+Generated from the game data by `npm run guide`. 243 elements, by group. For each: what it is, what it does, and what to try.
 
 ## Powders (25)
 
@@ -856,7 +856,7 @@ Flows like water. Too weak to eat metal, but it fizzes with baking soda, curdles
 Falls and piles. In sugary water it ferments the sugar into alcohol, bubbling out carbon dioxide.
 *Try:* Drop it into sugar water, then watch the bubbles.
 
-## Life (30)
+## Life (33)
 
 **Seed.** A small seed, a light powder.
 Falls, sinks in water and rests. On damp soil (wet dirt or sand), it sprouts into a plant, even under a puddle.
@@ -977,3 +977,15 @@ Stays put, clinging to stone, brick, concrete and wood, and creeps over them whe
 **Glowing plankton.** Sea water full of tiny glowing plankton.
 Flows like water. Calm, it is dark; stirred, poured or splashed, it flashes bright blue where it moves.
 *Try:* Pour it into a pool, then drop sand into it or stir it with wind.
+
+**Caterpillar.** A plump green caterpillar.
+Crawls over the ground and plants, munching leaves, grass and plants. After a few good meals it spins itself into a cocoon.
+*Try:* Put a few on a tree or a patch of grass and wait for the cocoons.
+
+**Cocoon.** A silk cocoon with a caterpillar changing inside.
+Stays put; after a while a butterfly breaks out. It burns easily.
+*Try:* Light it with fire.
+
+**Butterfly.** A bright butterfly.
+Flutters through the open air, turning flowers into seeds as it feeds on them, and lays its eggs on leaves, where they hatch as caterpillars. Water drowns it; heat or cold kill it.
+*Try:* Release a few near flowers and trees, and watch the cycle go round.

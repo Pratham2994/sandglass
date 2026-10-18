@@ -191,6 +191,7 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['Dead plants and paper rot into dirt in water, and worms turn them into dirt too.', ['dry_plant', 'paper', 'worm', 'dirt']],
       ['Salt, bleach, chlorine, ammonia, ozone, bromine, sulfur dioxide and uranium kill plants they touch.', ['salt', 'bleach', 'chlorine', 'ammonia', 'ozone', 'bromine', 'uranium']],
       ['Bees turn flowers into seeds and breed on honey.', ['bee', 'flower', 'seed', 'honey']],
+      ['Caterpillars eat leaves and spin cocoons that hatch into butterflies; butterflies turn flowers into seeds and lay eggs on leaves that hatch as caterpillars.', ['caterpillar', 'cocoon', 'butterfly', 'leaves', 'flower']],
       ['Ants eat sweets and meat; termites chew wood into sawdust; snails graze plants. All breed as they eat.', ['ant', 'termite', 'snail', 'sugar', 'wood']],
       ['Spiders and frogs catch insects; birds eat seeds and insects; mice eat seeds and food; snakes eat mice, frogs and eggs; fish eat sinking seeds.', ['spider', 'frog', 'bird', 'mouse', 'snake', 'fish']],
       ['Creatures die of heat or cold, or out of their home; fish, birds and mice become meat, which cooks at 70 °C.', ['fish', 'meat', 'cooked_meat']],

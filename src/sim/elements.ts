@@ -297,6 +297,8 @@ export interface ElementDef {
      * as one. Without it, the creature is a single cell (insects).
      */
     body?: string[];
+    /** Metamorphosis: after this many meals it turns into `into` (a caterpillar into a cocoon). */
+    growsUp?: { meals: number; into: string };
   };
   /** Energy: strikes straight down at once as a jagged bolt, leaving this behind on its path (lightning → plasma). */
   bolt?: string;
@@ -4704,6 +4706,57 @@ export const ELEMENTS: readonly ElementDef[] = [
     toxic: true,
   },
   {
+    key: 'caterpillar',
+    name: 'Caterpillar',
+    blurb: 'A plump green caterpillar. Crawls over the ground and plants, munching leaves, grass and plants. After a few good meals it spins itself into a cocoon.',
+    tip: 'Put a few on a tree or a patch of grass and wait for the cocoons.',
+    category: 'life',
+    colours: ['#6aa83a', '#7cba48', '#5a962e', '#2a2a1c'],
+    phase: 'powder',
+    cls: 'life',
+    hardness: 0.1,
+    density: 1000,
+    heatCapacity: 3,
+    conductivity: 0.3,
+    creature: { lives: 'ground', eats: { leaves: 'dirt', plant: 'dirt', grass: 'dirt' }, diesInto: 'dirt', growsUp: { meals: 6, into: 'cocoon' } },
+  },
+  {
+    key: 'cocoon',
+    name: 'Cocoon',
+    blurb: 'A silk cocoon with a caterpillar changing inside. Stays put; after a while a butterfly breaks out. It burns easily.',
+    category: 'life',
+    colours: ['#c9b38a', '#d6c29c', '#b9a278', '#e0cfae'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'organic',
+    hardness: 0.2,
+    density: 600,
+    heatCapacity: 1.5,
+    conductivity: 0.2,
+    cureFrames: 900,
+    curesInto: 'butterfly',
+    ignition: 250,
+    fuel: 30,
+    flameTemp: 700,
+    burnInto: 'ash',
+    residue: 0.3,
+  },
+  {
+    key: 'butterfly',
+    name: 'Butterfly',
+    blurb: 'A bright butterfly. Flutters through the open air, turning flowers into seeds as it feeds on them, and lays its eggs on leaves, where they hatch as caterpillars. Water drowns it; heat or cold kill it.',
+    tip: 'Release a few near flowers and trees, and watch the cycle go round.',
+    category: 'life',
+    colours: ['#e86a2a', '#f2a03a', '#2a2a2e', '#f4d06a'],
+    phase: 'powder',
+    cls: 'life',
+    hardness: 0.1,
+    density: 300,
+    heatCapacity: 2,
+    conductivity: 0.2,
+    creature: { lives: 'air', eats: { flower: 'seed', leaves: 'caterpillar' }, diesInto: 'dirt' },
+  },
+  {
     key: 'solar_panel',
     name: 'Solar panel',
     blurb: 'A photovoltaic cell. Stays put and works like a battery that never runs flat, but its voltage follows the light on it: full in open daylight, weak in shade, nothing in the dark. A longer panel gives more volts.',
@@ -5282,6 +5335,9 @@ export const RAIN_COLD_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.rainsColdI
 /** Creature habitat: 0 none, 1 water, 2 ground, 3 soil, 4 air. */
 export const HABITAT_OF = Uint8Array.from(ELEMENTS, (e) => (e.creature ? { water: 1, ground: 2, soil: 3, air: 4 }[e.creature.lives] : 0));
 export const DIES_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.creature?.diesInto));
+/** Metamorphosis: meals needed (0 = never) and what it turns into. */
+export const GROWS_UP_MEALS_OF = Uint8Array.from(ELEMENTS, (e) => e.creature?.growsUp?.meals ?? 0);
+export const GROWS_UP_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.creature?.growsUp?.into));
 /**
  * Creature bodies, by element: each part's offset from the first part (the
  * anchor, which thinks for the whole body) and its shade (which picks its

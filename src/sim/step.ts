@@ -62,6 +62,8 @@ import {
   LEAF_INTO_OF,
   RAIN_COLD_OF,
   DIES_INTO_OF,
+  GROWS_UP_MEALS_OF,
+  GROWS_UP_INTO_OF,
   BOLT_OF,
   BURSTS_INTO_OF,
   LAUNCHES_AS_OF,
@@ -603,6 +605,8 @@ function creature(world: World, x: number, y: number, i: number, t: number, st: 
         temp[j] = Tj;
       } else become(world, j, e - 1);
       world.stamp[j] = st;
+      // Metamorphosis: enough meals (counted in conc) and it changes (a caterpillar spins a cocoon).
+      if (GROWS_UP_MEALS_OF[t] !== 0 && ++world.conc[i] >= GROWS_UP_MEALS_OF[t]) become(world, i, GROWS_UP_INTO_OF[t]);
       return;
     }
   }
