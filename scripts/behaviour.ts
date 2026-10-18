@@ -11,7 +11,7 @@ import { writeFileSync } from 'node:fs';
 import { BODY_OF, ELEMENTS, EMPTY, elementId } from '../src/sim/elements';
 import { downChange } from '../src/sim/describe';
 import { placeBody, step } from '../src/sim/step';
-import { ampsAt } from '../src/sim/circuit';
+import { ampsAt, litLevels } from '../src/sim/circuit';
 import { OP_TOGGLE, applyOp } from '../src/sim/ops';
 import { World } from '../src/sim/world';
 
@@ -481,6 +481,16 @@ check('diode', 'lets current one way only', () => {
   const one = peakTemp(circuit(new Scene()).fill(25, 40, 1, 1, 'diode').fill(30, 20, 1, 1, 'bulb'), 30, 20, 300);
   const two = peakTemp(circuit(new Scene()).fill(25, 40, 1, 1, 'diode').fill(25, 20, 1, 1, 'diode').fill(30, 20, 1, 1, 'bulb'), 30, 20, 300);
   return { ok: one > 900 && two < 100, detail: `bulb ${fmt(one)} °C with one diode, ${fmt(two)} °C with two facing opposite ways round the loop` };
+});
+check('led', 'painted thick, bent and looped, still lights as one LED', () => {
+  // The left side of the loop is a 3-wide LED with a loop of its own bulging out to the left.
+  const s = circuit(new Scene(), 2).fill(30, 20, 1, 1, 'resistor').fill(6, 26, 3, 13, 'led').fill(2, 26, 4, 3, 'led').fill(2, 33, 4, 3, 'led').fill(2, 26, 2, 10, 'led');
+  const cells = s.count('led');
+  s.run(60);
+  const lit = litLevels(s.world);
+  let on = 0;
+  for (let i = 0; i < W * H; i++) if (s.world.type[i] === s.id('led') && lit !== null && lit[i] > 0) on++;
+  return { ok: s.count('led') === cells && on === cells, detail: `${on} of ${cells} cells lit, ${fmt(amps(s, 7, 32) * 1000)} mA through a cell` };
 });
 check('led', 'lights with a resistor in line, burns out without one', () => {
   const s = circuit(new Scene(), 2).fill(25, 20, 1, 1, 'led').fill(30, 20, 1, 1, 'resistor').run(60);

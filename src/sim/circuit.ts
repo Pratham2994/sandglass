@@ -52,6 +52,13 @@ import { CHUNK_SHIFT, type World } from './world';
  * or when that is the only way current can get past a diode, so batteries in
  * a loop always help each other and a lone LED always lights.
  *
+ * A diode or LED is a two-terminal part in the same way: each blob of it is
+ * one piece, read the same way (its axis from where the circuit touches it),
+ * and it lets current in only at its - side (left, or bottom) and out only at
+ * its + side (right, or top), whatever its shape. Blocking, its terminals
+ * carry nothing. So a thick or scribbled LED works as one LED, and two diodes
+ * facing opposite ways round one loop still block it.
+ *
  * A search from every source finds the live networks. They are kept from
  * frame to frame while no conductor in them or beside them changes (each
  * frame checks that finding them again would give exactly the same), so a
@@ -217,6 +224,9 @@ interface Scratch {
   bAxis: Uint8Array;
   bCentre: Float64Array;
   bLen: Int32Array;
+  /** A diode blob that is blocking (1), and a copy kept while trying a battery the other way round. */
+  bOff: Uint8Array;
+  bOffSaved: Uint8Array;
   /** Signed EMF (volts, towards the + side), internal ohms, and the ohms of each contact on the + and - sides. */
   bEmf: Float64Array;
   bOhms: Float64Array;
@@ -289,6 +299,8 @@ function scratchFor(world: World): Scratch {
     bCount: new Int32Array(MAX_BLOBS),
     bCell: new Int32Array(MAX_BLOBS),
     bAxis: new Uint8Array(MAX_BLOBS),
+    bOff: new Uint8Array(MAX_BLOBS),
+    bOffSaved: new Uint8Array(MAX_BLOBS),
     bCentre: new Float64Array(MAX_BLOBS),
     bLen: new Int32Array(MAX_BLOBS),
     bEmf: new Float64Array(MAX_BLOBS),
@@ -350,7 +362,7 @@ function terminal(s: Scratch, b: number, x: number, y: number): number {
 }
 
 /**
- * Reads the battery or capacitor blob around cell i: its cells, the axis
+ * Reads the battery, capacitor or diode blob around cell i: its cells, the axis
  * along which the circuit touches it on both sides, its resistances and its
  * voltage.
  */
@@ -440,8 +452,9 @@ function labelBlob(world: World, s: Scratch, i: number): void {
   s.bCentre[b] = axis === 0 ? centreX : centreY;
   s.bLen[b] = len;
   s.bCell[b] = firstCell;
-  const ohms = ((SOLAR_OF[t] !== 0 ? OHMS_OF[t] : EMF_OF[t] !== 0 ? BATTERY_R : CAP_R) * len) / thick;
+  const ohms = ((SOLAR_OF[t] !== 0 || DIODE_OF[t] !== 0 ? OHMS_OF[t] : EMF_OF[t] !== 0 ? BATTERY_R : CAP_R) * len) / thick;
   s.bOhms[b] = ohms;
+  s.bOff[b] = 0;
   blobEmf(world, s, b);
   // Each side's contacts share half the internal resistance between them.
   const plus = axis === 0 ? right : top;
@@ -473,10 +486,10 @@ function blobEmf(world: World, s: Scratch, b: number): void {
     let charge = 0;
     for (let k = first; k < first + count; k++) charge += life[blobCells[k]];
     emf = charge > 0 ? EMF_OF[t] * len * (conc[firstCell] !== 0 ? -1 : 1) : 0;
-  } else {
+  } else if (CAPACITOR_OF[t] !== 0) {
     // A charged capacitor pushes back against the current that charged it; all its cells hold the same charge.
     emf = -(life[firstCell] - CAP_ZERO) / 1000;
-  }
+  } else emf = 0;
   s.bEmf[b] = emf;
 }
 
@@ -499,13 +512,13 @@ export function circuitStep(world: World): void {
   const n = s.n;
   const comps = s.comps;
   if (n === 0) return;
-  // Resistances. A diode starts from last frame's verdict: blocking while pushed leftwards or downwards.
+  // Resistances. A diode starts from last frame's verdict: blocking while pushed backwards.
   for (let a = 0; a < n; a++) {
     const i = cellOf[a];
     const t = type[i];
     typeOf[a] = t;
     ohm[a] = blobOf[i] >= 0 ? BLOB_OHMS : raw[a];
-    if (DIODE_OF[t] !== 0) {
+    if (DIODE_OF[t] !== 0 && blobOf[i] < 0) {
       const xi = i % w;
       const yi = (i / w) | 0;
       let bias = 0;
@@ -518,6 +531,7 @@ export function circuitStep(world: World): void {
     }
     x[a] = volt[i];
   }
+  for (let b = 0; b < s.blobs; b++) if (DIODE_OF[type[s.bCell[b]]] !== 0) s.bOff[b] = pushedBack(world, s, b) ? 1 : 0;
   // Each network's edges and pieces are built once, and kept while the
   // network stands: a flip changes only the few edges at a diode or a
   // battery terminal, so a solve again redoes only those.
@@ -636,11 +650,9 @@ function unchanged(world: World, s: Scratch): boolean {
 
 /** Solves network c as its diodes and batteries now stand, letting diodes settle. True if the solve settled. */
 function settle(world: World, s: Scratch, c: number): boolean {
-  const lo = s.compStart[c];
-  const hi = s.compStart[c + 1];
   reassemble(world, s, c);
   let settled = solvePieces(s, c);
-  for (let round = 0; settled && round < 3 && flipDiodes(world, s, lo, hi); round++) {
+  for (let round = 0; settled && round < 3 && flipDiodes(world, s, c); round++) {
     reassemble(world, s, c);
     settled = solvePieces(s, c);
   }
@@ -702,11 +714,12 @@ function tryOtherWay(world: World, s: Scratch, c: number): boolean {
   let batteries = 0;
   for (let b = s.blobStart[c]; b < s.blobStart[c + 1]; b++) if (isBattery(world, s, b)) batteries++;
   if (batteries === 0 || driving(world, s, c)) return true;
-  const { x, ohm, xs, os } = s;
+  const { x, ohm, xs, os, bOff, bOffSaved } = s;
   for (let a = lo; a < hi; a++) {
     xs[a] = x[a];
     os[a] = ohm[a];
   }
+  for (let b = s.blobStart[c]; b < s.blobStart[c + 1]; b++) bOffSaved[b] = bOff[b];
   // Tries: each battery alone (at most four), then all together.
   const singles = batteries > 1 ? Math.min(4, batteries) : 0;
   for (let attempt = 0; attempt <= singles; attempt++) {
@@ -718,6 +731,7 @@ function tryOtherWay(world: World, s: Scratch, c: number): boolean {
     }
     // Diodes start open for the new way round, so the solve finds which ones pass.
     for (let a = lo; a < hi; a++) if (ohm[a] === R_OFF) ohm[a] = cellOhms(world, s.cellOf[a]);
+    for (let b = s.blobStart[c]; b < s.blobStart[c + 1]; b++) bOff[b] = 0;
     if (settle(world, s, c) && driving(world, s, c)) return true;
     // No better: back as it was.
     nth = 0;
@@ -730,6 +744,7 @@ function tryOtherWay(world: World, s: Scratch, c: number): boolean {
       x[a] = xs[a];
       ohm[a] = os[a];
     }
+    for (let b = s.blobStart[c]; b < s.blobStart[c + 1]; b++) bOff[b] = bOffSaved[b];
   }
   return settle(world, s, c);
 }
@@ -771,6 +786,34 @@ function blobCurrents(world: World, s: Scratch, b0: number, b1: number): void {
   }
 }
 
+/** Is diode blob b pushed backwards by last frame's potentials (its + side higher than its - side)? Its starting verdict. */
+function pushedBack(world: World, s: Scratch, b: number): boolean {
+  const { w, volt } = world;
+  const { blobOf, blobCells, nodeOf } = s;
+  let vPlus = 0;
+  let vMinus = 0;
+  let nPlus = 0;
+  let nMinus = 0;
+  const f = s.bFirst[b];
+  for (let k = f; k < f + s.bCount[b]; k++) {
+    const c = blobCells[k];
+    const cx = c % w;
+    const cy = (c / w) | 0;
+    for (let d = 0; d < 4; d++) {
+      const j = side(world, cx, cy, d);
+      if (j < 0 || nodeOf[j] < 0 || blobOf[j] === b) continue;
+      if (terminal(s, b, j % w, (j / w) | 0) > 0) {
+        vPlus += volt[j];
+        nPlus++;
+      } else {
+        vMinus += volt[j];
+        nMinus++;
+      }
+    }
+  }
+  return nPlus > 0 && nMinus > 0 && vMinus / nMinus - vPlus / nPlus < -0.01;
+}
+
 /**
  * Grows a network breadth first from the nodes head..n-1 through every
  * conductor that joins it, noting each node's neighbours (nb) and the cells
@@ -782,7 +825,7 @@ function grow(world: World, s: Scratch, head: number, n: number): number {
   let nBound = s.nBound;
   for (let a = head; a < n; a++) {
     const i = cellOf[a];
-    if (blobOf[i] < 0 && (EMF_OF[type[i]] !== 0 || CAPACITOR_OF[type[i]] !== 0)) labelBlob(world, s, i);
+    if (blobOf[i] < 0 && (EMF_OF[type[i]] !== 0 || CAPACITOR_OF[type[i]] !== 0 || DIODE_OF[type[i]] !== 0)) labelBlob(world, s, i);
     const xi = i % w;
     for (let d = 0; d < 4; d++) {
       const k = 4 * a + d;
@@ -819,13 +862,14 @@ function assemble(world: World, s: Scratch, c: number): void {
   let nv = s.vStart[c];
   for (let a = lo; a < hi; a++) {
     const ba = blobOf[cellOf[a]];
-    const diode = DIODE_OF[typeOf[a]] !== 0;
+    // A diode cell of its own (past the blob limit) changes with its verdict; a diode blob only at its terminals.
+    const diode = DIODE_OF[typeOf[a]] !== 0 && ba < 0;
     for (let d = 0; d < 4; d++) {
       const k = 4 * a + d;
       const q = nb[k];
       if (q < 0) continue;
       const bb = blobOf[cellOf[q]];
-      if (diode || DIODE_OF[typeOf[q]] !== 0 || ba !== bb) {
+      if (diode || (DIODE_OF[typeOf[q]] !== 0 && bb < 0) || ba !== bb) {
         edge(world, s, a, q, k);
         vary[nv++] = k;
       } else if (ba < 0) {
@@ -861,6 +905,8 @@ function edge(world: World, s: Scratch, a: number, q: number, k: number): void {
       R += t > 0 ? s.bRPlus[bb] : s.bRMinus[bb];
       ek -= 0.5 * t * s.bEmf[bb];
     } else R += 0.5 * ohm[q];
+    // A blocking diode blob's terminals carry nothing.
+    if ((ba >= 0 && s.bOff[ba] !== 0) || (bb >= 0 && s.bOff[bb] !== 0)) R = R_OFF;
   }
   // A blocking diode is an open circuit: its edges carry nothing (1 / Infinity = 0).
   s.g[k] = 1 / R;
@@ -876,13 +922,32 @@ function reassemble(world: World, s: Scratch, c: number): void {
   }
 }
 
-/** Flips every diode the last solve shows to be wrong. True if any changed. */
-function flipDiodes(world: World, s: Scratch, lo: number, hi: number): boolean {
-  const { cellOf, typeOf, nb, g, e, ohm, x } = s;
+/** Flips every diode in network c the last solve shows to be wrong. True if any changed. */
+function flipDiodes(world: World, s: Scratch, c: number): boolean {
+  const { cellOf, typeOf, nb, g, e, ohm, x, blobOf, bOff, bAmps, bVolts } = s;
+  const lo = s.compStart[c];
+  const hi = s.compStart[c + 1];
+  const b0 = s.blobStart[c];
+  const b1 = s.blobStart[c + 1];
   let changed = false;
+  // Diode blobs: passing current backwards (out of the - side) blocks; pushed forwards (- side higher) passes.
+  blobCurrents(world, s, b0, b1);
+  for (let b = b0; b < b1; b++) {
+    if (DIODE_OF[world.type[s.bCell[b]]] === 0) continue;
+    if (bOff[b] === 0) {
+      if (bAmps[b] < -1e-6) {
+        bOff[b] = 1;
+        changed = true;
+      }
+    } else if (-bVolts[b] > 0.01) {
+      bOff[b] = 0;
+      changed = true;
+    }
+  }
+  // Diode cells past the blob limit, each on its own: forward is rightwards and upwards.
   for (let a = lo; a < hi; a++) {
     const t = typeOf[a];
-    if (DIODE_OF[t] === 0) continue;
+    if (DIODE_OF[t] === 0 || blobOf[cellOf[a]] >= 0) continue;
     // Forward current through it (rightwards plus upwards), and the push across it in that direction.
     let fwd = 0;
     let bias = 0;
@@ -936,12 +1001,12 @@ function act(world: World, s: Scratch, c: number, st: number): void {
     // A cell inside a piece of wire carries the piece's current shared across its width.
     const I = cCount[k] > 1 ? cThrough[k] / Math.max(1, (2 * cCount[k]) / Math.max(1, cPerim[k])) : 0.5 * sum;
     amps[i] = I;
-    // Batteries and capacitors act as whole blobs, below.
-    if (I < 1e-4 || ohm[a] === R_OFF || blobOf[i] >= 0) continue;
+    // Batteries and capacitors act as whole blobs, below; a diode blob's cells act one by one, each on its share.
+    if (I < 1e-4 || ohm[a] === R_OFF || (blobOf[i] >= 0 && DIODE_OF[t] === 0)) continue;
     const xi = i % w;
     const yi = (i / w) | 0;
     world.wake(xi, yi);
-    const P = I * I * ohm[a];
+    const P = I * I * (blobOf[i] >= 0 ? s.raw[a] : ohm[a]);
     temp[i] += P * JOULE * INV_CAP_OF[t] - (temp[i] - AMBIENT) * POWER_COOL;
     if (FILAMENT_OF[t] !== 0) {
       const glow = Math.min(FILAMENT_MAX, AMBIENT + FILAMENT_T * Math.sqrt(Math.sqrt(P)));
@@ -1010,9 +1075,9 @@ function act(world: World, s: Scratch, c: number, st: number): void {
   }
 }
 
-/** Is node a a piece of its own (a load, or anything that acts on its own current)? */
+/** Is node a a piece of its own (a load, or anything that acts on its own current)? A blob's cell never is: the blob is one piece. */
 function ownPiece(s: Scratch, a: number): boolean {
-  return s.ohm[a] >= OWN_OHMS || OWN_OF[s.typeOf[a]] !== 0;
+  return (s.ohm[a] >= OWN_OHMS || OWN_OF[s.typeOf[a]] !== 0) && s.blobOf[s.cellOf[a]] < 0;
 }
 
 /**
@@ -1263,6 +1328,8 @@ export interface PartInfo {
   shorted: boolean;
   /** It touches the circuit on both sides, so current can pass through it. */
   connected: boolean;
+  /** A diode or LED that is blocking: the current is trying to go through it backwards. */
+  blocking: boolean;
 }
 
 export function partInfo(world: World, i: number): PartInfo | null {
@@ -1281,6 +1348,7 @@ export function partInfo(world: World, i: number): PartInfo | null {
     upright: s.bAxis[b] === 1,
     shorted: emf > 0 && amps > 0.5 && Math.abs(s.bVolts[b]) < emf * SHORT_SHARE,
     connected: s.bVolts[b] !== 0 || amps > 1e-4,
+    blocking: s.bOff[b] !== 0,
   };
 }
 

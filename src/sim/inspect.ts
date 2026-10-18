@@ -118,7 +118,11 @@ function circuitFacts(world: World, i: number, t: number, facts: [string, string
   }
   const electronic = e.category === 'electronics' && EMF_OF[t] === 0;
   if (!electronic) return null;
-  if (DIODE_OF[t] !== 0 && live) {
+  if (DIODE_OF[t] !== 0 && live && part?.blocking) {
+    facts.push(['Current', 'none: blocked, because the current is trying to go through it backwards; it passes only in at its left (or bottom) end and out at its right (or top) end']);
+    return 'Blocking';
+  }
+  if (DIODE_OF[t] !== 0 && live && !part) {
     const x = i % world.w;
     const y = (i / world.w) | 0;
     const v = (j: number): number => (inLiveCircuit(world, j) ? world.volt[j] : 0);
