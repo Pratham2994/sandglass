@@ -9,6 +9,7 @@
  */
 import { writeFileSync } from 'node:fs';
 import { ELEMENTS, EMPTY, elementId } from '../src/sim/elements';
+import { downChange } from '../src/sim/describe';
 import { placeBody, step } from '../src/sim/step';
 import { ampsAt } from '../src/sim/circuit';
 import { OP_TOGGLE, applyOp } from '../src/sim/ops';
@@ -1777,6 +1778,33 @@ check('steel_wool', 'a battery makes it glow and burn into rust', () => {
   const s = circuit(new Scene(), 3).fill(10, 19, 3, 3, 'battery').fill(30, 19, 6, 3, 'steel_wool');
   const f = until(s, 1200, () => s.count('fire') > 0 || s.count('rust') > 0);
   return { ok: f > 0, detail: f > 0 ? `alight after ${f} frames` : 'never caught' };
+});
+
+// ---- Coverage: products and parts with no check of their own --------------------------------
+
+for (const key of ['molten_gold', 'molten_aluminium', 'molten_lead', 'molten_iron', 'molten_glass', 'molten_silver', 'molten_plastic', 'molten_tin', 'molten_chocolate', 'liquid_gallium', 'iodine_vapour', 'bromine_vapour', 'corium']) {
+  const down = downChange(elementId(key));
+  check(key, `sets back into ${down?.into.toLowerCase()} when cooled below ${down?.at} °C`, () => {
+    if (!down) return { ok: false, detail: 'no cooling change' };
+    const into = ELEMENTS.find((e) => e.name === down.into)!.key;
+    // Held in a wall cup, chilled well below its setting point.
+    const s = new Scene().fill(0, 60, W, 4, 'wall').fill(24, 50, 2, 10, 'wall').fill(40, 50, 2, 10, 'wall').fill(26, 54, 14, 6, key, down.at - 80).run(120);
+    return { ok: s.count(into) > 20, detail: `${into} ${s.count(into)} of 84 after 2 s` };
+  });
+}
+check('c4', 'a flame does nothing, a fuse sets it off', () => {
+  const flame = new Scene().fill(0, 60, W, 4, 'wall').fill(24, 54, 16, 6, 'c4').fill(30, 52, 4, 2, 'fire').run(300);
+  const fused = new Scene().fill(0, 60, W, 4, 'wall').fill(24, 54, 16, 6, 'c4').fill(4, 56, 20, 1, 'fuse').fill(3, 55, 2, 1, 'fire').heat(3, 56, 2, 1, 400).run(1200);
+  return { ok: flame.count('c4') === 96 && fused.count('c4') < 20, detail: `c4 left: ${flame.count('c4')} of 96 after a flame, ${fused.count('c4')} after the fuse` };
+});
+check('chain', 'holds a hanging block through a fire', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(20, 4, 24, 3, 'wall').fill(31, 7, 1, 20, 'chain').fill(28, 27, 7, 4, 'stone').run(60);
+  s.fill(28, 15, 2, 2, 'fire').heat(30, 12, 3, 8, 400).run(900);
+  return { ok: s.meanY('stone') < 32 && s.count('chain') === 20, detail: `block row ${fmt(s.meanY('stone'))}, chain cells ${s.count('chain')}` };
+});
+check('cactus_seed', 'sprouts on damp sand', () => {
+  const s = new Scene().fill(0, 50, W, 14, 'sand').fill(0, 46, W, 3, 'water').run(600).fill(20, 40, 1, 1, 'cactus_seed').fill(40, 40, 1, 1, 'cactus_seed').run(2400);
+  return { ok: s.count('cactus') > 2, detail: `cactus cells ${s.count('cactus')}` };
 });
 
 // ---- Run --------------------------------------------------------------------------
