@@ -71,10 +71,10 @@ vec3 background(ivec2 p) {
   float k = 1.12 - 0.3 * min(1.0, dot(d, d) * 0.5);
   return uBg * k + (hash(p) - 0.5) / 255.0;
 }
-/** Row where the run of filled, non-gas cells containing p starts (its surface). */
-int runTop(ivec2 p) {
+/** Row where the run of filled, non-gas cells containing p starts (its surface); the cap bounds the walk. */
+int runTop(ivec2 p, int cap) {
   int y = p.y;
-  for (int k = 0; k < 64; k++) {
+  for (int k = 0; k < cap; k++) {
     if (y <= 0 || !solidish(typeAt(ivec2(p.x, y - 1)))) break;
     y--;
   }
@@ -127,16 +127,15 @@ void body() {
   }
   int level = L_PLAIN;
   uint s;
-  int top = runTop(p);
-  int d = p.y - top + 1;
   if (tex == TEX_LIQUID) {
+    int top = runTop(p, 64);
     // Depth below the surface averaged over 5 columns, so a surface flat within 1 cell shows no stripes.
     float sum = 0.0;
     float n = 0.0;
     for (int k = -2; k <= 2; k++) {
       ivec2 q = ivec2(p.x + k, p.y);
       if (!solidish(typeAt(q))) continue;
-      int tk = runTop(q);
+      int tk = runTop(q, 64);
       if (tk < top - 2 || tk > top + 2) continue;
       sum += float(tk);
       n += 1.0;
@@ -163,7 +162,7 @@ void body() {
     s = shade;
     if (int(texelFetch(uStamp, p, 0).r) == uMoved && (shade & 15u) == 0u) level = L_GLINT;
     else if (upEmpty) level = L_TOP;
-    else if (d > 6) level = L_DEEP;
+    else if (p.y - runTop(p, 6) + 1 > 6) level = L_DEEP;
   }
   vec3 c = min(pal(t, s) * LIGHT[level], vec3(1.0));
   // Solutions: a liquid takes a tint of what it carries; a soaked powder darkens.
@@ -347,8 +346,10 @@ export class WebGLRenderer implements Renderer {
   private readonly dataTex: Record<'type' | 'shade' | 'stamp' | 'stone' | 'temp' | 'awake' | 'solute' | 'conc' | 'charge' | 'lit' | 'fx' | 'fxKind', WebGLTexture>;
   private readonly litColTex: WebGLTexture;
   private readonly fxColTex: WebGLTexture;
-  /** Light levels to upload when no circuit has run yet. */
-  private noLit = new Uint8Array(0);
+  /** Uniform locations by program and name; a miss still asks the driver, so the cache never hides a location. */
+  private readonly locs = new Map<WebGLProgram, Map<string, WebGLUniformLocation | null>>();
+  /** Grid of zeros, standing in for absent level textures so a dropped array reads as nothing. */
+  private zeroTex!: WebGLTexture;
   private readonly palTex: WebGLTexture;
   private readonly glowTex: WebGLTexture;
   private readonly texTex: WebGLTexture;
@@ -370,10 +371,10 @@ export class WebGLRenderer implements Renderer {
     this.gl = gl;
     this.canvas = canvas;
     this.floatTargets = gl.getExtension('EXT_color_buffer_float') !== null;
-    this.scene = this.program(SCENE);
-    this.down = this.program(DOWN);
-    this.blur = this.program(BLUR);
-    this.comp = this.program(COMPOSITE);
+    this.scene = this.program(SCENE, [['uType', 0], ['uShade', 1], ['uStamp', 2], ['uStone', 3], ['uTex', 4], ['uTemp', 5], ['uPal', 6], ['uGlow', 7], ['uSolute', 8], ['uConc', 9], ['uCharge', 10], ['uLit', 11], ['uLitCol', 12], ['uFx', 13], ['uFxKind', 14], ['uFxCol', 15]]);
+    this.down = this.program(DOWN, [['uSrc', 0]]);
+    this.blur = this.program(BLUR, [['uSrc', 0]]);
+    this.comp = this.program(COMPOSITE, [['uScene', 0], ['uLight', 1], ['uTemp', 2], ['uType', 3], ['uAwake', 4], ['uPress', 5], ['uVel', 6]]);
     this.vao = gl.createVertexArray()!;
     gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
 
@@ -468,7 +469,9 @@ export class WebGLRenderer implements Renderer {
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
     }
-    this.noLit = new Uint8Array(w * h);
+    // A null upload leaves the texture zeroed, so this is an all-zero grid to bind when there is nothing.
+    this.zeroTex = this.texture();
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
 
     // Scene targets at cell resolution: colour and emission.
     this.sceneTex = this.target(w, h, gl.RGBA8, gl.NEAREST);
@@ -509,13 +512,18 @@ export class WebGLRenderer implements Renderer {
     gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.conc);
     gl.bindTexture(gl.TEXTURE_2D, this.dataTex.charge);
     gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.charge);
-    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.lit);
-    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, litLevels(world) ?? this.noLit);
+    const lit = litLevels(world);
+    if (lit) {
+      gl.bindTexture(gl.TEXTURE_2D, this.dataTex.lit);
+      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, lit);
+    }
     const fx = fxLevels(world);
-    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.fx);
-    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, fx ? fx.level : this.noLit);
-    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.fxKind);
-    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, fx ? fx.kind : this.noLit);
+    if (fx) {
+      gl.bindTexture(gl.TEXTURE_2D, this.dataTex.fx);
+      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, fx.level);
+      gl.bindTexture(gl.TEXTURE_2D, this.dataTex.fxKind);
+      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, fx.kind);
+    }
     if (this.showChunks) {
       gl.bindTexture(gl.TEXTURE_2D, this.dataTex.awake);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, world.cw, world.ch, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.awake);
@@ -526,34 +534,34 @@ export class WebGLRenderer implements Renderer {
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.sceneFb);
     gl.viewport(0, 0, w, h);
     gl.useProgram(this.scene);
-    this.bind(this.scene, 'uType', this.dataTex.type, 0);
-    this.bind(this.scene, 'uShade', this.dataTex.shade, 1);
-    this.bind(this.scene, 'uStamp', this.dataTex.stamp, 2);
-    this.bind(this.scene, 'uStone', this.dataTex.stone, 3);
-    this.bind(this.scene, 'uTex', this.texTex, 4);
-    this.bind(this.scene, 'uTemp', this.dataTex.temp, 5);
-    this.bind(this.scene, 'uPal', this.palTex, 6);
-    this.bind(this.scene, 'uGlow', this.glowTex, 7);
-    this.bind(this.scene, 'uSolute', this.dataTex.solute, 8);
-    this.bind(this.scene, 'uConc', this.dataTex.conc, 9);
-    this.bind(this.scene, 'uCharge', this.dataTex.charge, 10);
-    this.bind(this.scene, 'uLit', this.dataTex.lit, 11);
-    this.bind(this.scene, 'uLitCol', this.litColTex, 12);
-    this.bind(this.scene, 'uFx', this.dataTex.fx, 13);
-    this.bind(this.scene, 'uFxKind', this.dataTex.fxKind, 14);
-    this.bind(this.scene, 'uFxCol', this.fxColTex, 15);
-    gl.uniform2i(gl.getUniformLocation(this.scene, 'uSize'), w, h);
-    gl.uniform1i(gl.getUniformLocation(this.scene, 'uMoved'), world.frame === 0 ? -1 : 1 + ((world.frame - 1) % 255));
-    gl.uniform1i(gl.getUniformLocation(this.scene, 'uFrame'), world.frame);
-    gl.uniform3f(gl.getUniformLocation(this.scene, 'uBg'), ...this.bg);
+    this.bind(this.dataTex.type, 0);
+    this.bind(this.dataTex.shade, 1);
+    this.bind(this.dataTex.stamp, 2);
+    this.bind(this.dataTex.stone, 3);
+    this.bind(this.texTex, 4);
+    this.bind(this.dataTex.temp, 5);
+    this.bind(this.palTex, 6);
+    this.bind(this.glowTex, 7);
+    this.bind(this.dataTex.solute, 8);
+    this.bind(this.dataTex.conc, 9);
+    this.bind(this.dataTex.charge, 10);
+    this.bind(lit ? this.dataTex.lit : this.zeroTex, 11);
+    this.bind(this.litColTex, 12);
+    this.bind(fx ? this.dataTex.fx : this.zeroTex, 13);
+    this.bind(fx ? this.dataTex.fxKind : this.zeroTex, 14);
+    this.bind(this.fxColTex, 15);
+    gl.uniform2i(this.uniformLoc(this.scene, 'uSize'), w, h);
+    gl.uniform1i(this.uniformLoc(this.scene, 'uMoved'), world.frame === 0 ? -1 : 1 + ((world.frame - 1) % 255));
+    gl.uniform1i(this.uniformLoc(this.scene, 'uFrame'), world.frame);
+    gl.uniform3f(this.uniformLoc(this.scene, 'uBg'), ...this.bg);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
 
     // 2. Light: downsample emission, blur twice each way (wide, soft).
     gl.useProgram(this.down);
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.quarter.fb);
     gl.viewport(0, 0, this.quarter.w, this.quarter.h);
-    this.bind(this.down, 'uSrc', this.emitTex, 0);
-    gl.uniform2f(gl.getUniformLocation(this.down, 'uSrcSize'), w, h);
+    this.bind(this.emitTex, 0);
+    gl.uniform2f(this.uniformLoc(this.down, 'uSrcSize'), w, h);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
     gl.useProgram(this.blur);
     for (let pass = 0; pass < 2; pass++) {
@@ -581,20 +589,20 @@ export class WebGLRenderer implements Renderer {
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.viewport(0, 0, this.canvas.width, this.canvas.height);
     gl.useProgram(this.comp);
-    this.bind(this.comp, 'uScene', this.sceneTex, 0);
-    this.bind(this.comp, 'uLight', this.quarter.tex, 1);
-    this.bind(this.comp, 'uTemp', this.dataTex.temp, 2);
-    this.bind(this.comp, 'uType', this.dataTex.type, 3);
-    this.bind(this.comp, 'uAwake', this.dataTex.awake, 4);
-    gl.uniform2i(gl.getUniformLocation(this.comp, 'uSize'), w, h);
-    gl.uniform2f(gl.getUniformLocation(this.comp, 'uCanvas'), this.canvas.width, this.canvas.height);
-    gl.uniform1f(gl.getUniformLocation(this.comp, 'uTime'), (performance.now() - this.t0) / 1000);
-    gl.uniform1i(gl.getUniformLocation(this.comp, 'uChunks'), this.showChunks ? 1 : 0);
-    gl.uniform1i(gl.getUniformLocation(this.comp, 'uView'), viewCode);
-    gl.uniform1f(gl.getUniformLocation(this.comp, 'uFlash'), world.flash);
-    gl.uniform3f(gl.getUniformLocation(this.comp, 'uZoom'), view.zoom, view.cx, view.cy);
-    this.bind(this.comp, 'uPress', this.pressTex, 5);
-    this.bind(this.comp, 'uVel', this.velTex, 6);
+    this.bind(this.sceneTex, 0);
+    this.bind(this.quarter.tex, 1);
+    this.bind(this.dataTex.temp, 2);
+    this.bind(this.dataTex.type, 3);
+    this.bind(this.dataTex.awake, 4);
+    gl.uniform2i(this.uniformLoc(this.comp, 'uSize'), w, h);
+    gl.uniform2f(this.uniformLoc(this.comp, 'uCanvas'), this.canvas.width, this.canvas.height);
+    gl.uniform1f(this.uniformLoc(this.comp, 'uTime'), (performance.now() - this.t0) / 1000);
+    gl.uniform1i(this.uniformLoc(this.comp, 'uChunks'), this.showChunks ? 1 : 0);
+    gl.uniform1i(this.uniformLoc(this.comp, 'uView'), viewCode);
+    gl.uniform1f(this.uniformLoc(this.comp, 'uFlash'), world.flash);
+    gl.uniform3f(this.uniformLoc(this.comp, 'uZoom'), view.zoom, view.cx, view.cy);
+    this.bind(this.pressTex, 5);
+    this.bind(this.velTex, 6);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
 
@@ -602,16 +610,26 @@ export class WebGLRenderer implements Renderer {
     const gl = this.gl;
     gl.bindFramebuffer(gl.FRAMEBUFFER, dst.fb);
     gl.viewport(0, 0, dst.w, dst.h);
-    this.bind(this.blur, 'uSrc', src.tex, 0);
-    gl.uniform2f(gl.getUniformLocation(this.blur, 'uStep'), sx, sy);
+    this.bind(src.tex, 0);
+    gl.uniform2f(this.uniformLoc(this.blur, 'uStep'), sx, sy);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
 
-  private bind(prog: WebGLProgram, name: string, tex: WebGLTexture, unit: number): void {
+  /** Point a texture unit at a texture; each sampler was told its unit once at link time. */
+  private bind(tex: WebGLTexture, unit: number): void {
     const gl = this.gl;
     gl.activeTexture(gl.TEXTURE0 + unit);
     gl.bindTexture(gl.TEXTURE_2D, tex);
-    gl.uniform1i(gl.getUniformLocation(prog, name), unit);
+  }
+
+  /** A location by program and name, asking the driver only on a cache miss. */
+  private uniformLoc(prog: WebGLProgram, name: string): WebGLUniformLocation | null {
+    let byName = this.locs.get(prog);
+    if (!byName) this.locs.set(prog, (byName = new Map()));
+    const hit = byName.get(name);
+    const loc = hit === undefined ? this.gl.getUniformLocation(prog, name) : hit;
+    if (hit === undefined) byName.set(name, loc);
+    return loc;
   }
 
   private texture(filter?: number): WebGLTexture {
@@ -642,7 +660,8 @@ export class WebGLRenderer implements Renderer {
     return { tex, fb, w, h };
   }
 
-  private program(frag: string): WebGLProgram {
+  /** Link, then set the sampler uniforms once: a sampler's texture unit never changes. */
+  private program(frag: string, samplers: Array<[string, number]>): WebGLProgram {
     const gl = this.gl;
     const compile = (type: number, src: string): WebGLShader => {
       const s = gl.createShader(type)!;
@@ -656,6 +675,8 @@ export class WebGLRenderer implements Renderer {
     gl.attachShader(p, compile(gl.FRAGMENT_SHADER, frag));
     gl.linkProgram(p);
     if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(`Program: ${gl.getProgramInfoLog(p)}`);
+    gl.useProgram(p);
+    for (const [name, unit] of samplers) gl.uniform1i(this.uniformLoc(p, name), unit);
     return p;
   }
 }
