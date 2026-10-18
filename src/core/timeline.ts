@@ -27,6 +27,8 @@ interface Snap {
   airBlocked: Uint8Array;
   awake: Uint8Array;
   awakeNext: Uint8Array;
+  warm: Uint8Array;
+  warmNext: Uint8Array;
 }
 
 /**
@@ -149,6 +151,8 @@ export class Timeline {
       s.airBlocked.set(w.air.blocked);
       s.awake.set(w.awake);
       s.awakeNext.set(w.awakeNext);
+      s.warm.set(w.warm);
+      s.warmNext.set(w.warmNext);
       return s;
     }
     return {
@@ -171,6 +175,8 @@ export class Timeline {
       airBlocked: w.air.blocked.slice(),
       awake: w.awake.slice(),
       awakeNext: w.awakeNext.slice(),
+      warm: w.warm.slice(),
+      warmNext: w.warmNext.slice(),
     };
   }
 
@@ -197,5 +203,7 @@ export class Timeline {
     // cells draw random numbers, and the replay would drift.
     w.awake.set(s.awake);
     w.awakeNext.set(s.awakeNext);
+    w.warm.set(s.warm);
+    w.warmNext.set(s.warmNext);
   }
 }

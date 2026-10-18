@@ -43,6 +43,13 @@ export class World {
   awake: Uint8Array;
   /** Chunks woken during this frame, for the next one. */
   awakeNext: Uint8Array;
+  /**
+   * Chunks that are only warming or cooling: the heat pass runs them, the cell
+   * pass does not. A hot crater or a cooling sky then costs one cheap pass, not
+   * a full update of every cell in it.
+   */
+  warm: Uint8Array;
+  warmNext: Uint8Array;
 
   /** Air pressure and wind, on a coarse grid. */
   air: Air;
@@ -71,6 +78,8 @@ export class World {
     this.ch = Math.ceil(h / CHUNK);
     this.awake = new Uint8Array(this.cw * this.ch);
     this.awakeNext = new Uint8Array(this.cw * this.ch).fill(1);
+    this.warm = new Uint8Array(this.cw * this.ch);
+    this.warmNext = new Uint8Array(this.cw * this.ch).fill(1);
     this.seed = seed;
     this.rng = new Rng(seed);
     this.air = new Air(w, h);
@@ -132,6 +141,8 @@ export class World {
     this.ch = Math.ceil(h / CHUNK);
     this.awake = new Uint8Array(this.cw * this.ch);
     this.awakeNext = new Uint8Array(this.cw * this.ch).fill(1);
+    this.warm = new Uint8Array(this.cw * this.ch);
+    this.warmNext = new Uint8Array(this.cw * this.ch).fill(1);
     this.air = new Air(w, h);
   }
 
@@ -181,6 +192,8 @@ export class World {
     this.volt.fill(0);
     this.awake.fill(0);
     this.awakeNext.fill(1);
+    this.warm.fill(0);
+    this.warmNext.fill(1);
     this.air.clear();
     this.seed = seed;
     this.rng.seed(seed);
@@ -203,15 +216,31 @@ export class World {
     a[r1 + x1] = 1;
   }
 
+  /** Marks the chunks round cell (x, y) for the heat pass only next frame (see `warm`). */
+  wakeHeat(x: number, y: number): void {
+    const x0 = (x > 0 ? x - 1 : 0) >> CHUNK_SHIFT;
+    const x1 = (x + 1 < this.w ? x + 1 : x) >> CHUNK_SHIFT;
+    const r0 = ((y > 0 ? y - 1 : 0) >> CHUNK_SHIFT) * this.cw;
+    const r1 = ((y + 1 < this.h ? y + 1 : y) >> CHUNK_SHIFT) * this.cw;
+    const a = this.warmNext;
+    a[r0 + x0] = 1;
+    a[r0 + x1] = 1;
+    a[r1 + x0] = 1;
+    a[r1 + x1] = 1;
+  }
+
   /** Wakes every chunk for the next frame. */
   wakeAll(): void {
     this.awakeNext.fill(1);
+    this.warmNext.fill(1);
   }
 
   /** Start of a frame: chunks woken last frame run now; a chunk nothing wakes this frame sleeps next. */
   beginFrame(): void {
     this.awake.set(this.awakeNext);
     this.awakeNext.fill(0);
+    this.warm.set(this.warmNext);
+    this.warmNext.fill(0);
   }
 
   /** Chunks that ran in the last frame. */

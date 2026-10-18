@@ -1563,10 +1563,15 @@ function updateGas(world: World, x: number, y: number, i: number, st: number): v
   if (FADES_OF[t] !== 0) {
     if (world.shade[i] < 254) {
       if (((r >>> 20) & 3) === 0) world.shade[i] += 2;
-    } else if (world.life[i] < SMOKE_LINGER) world.life[i]++;
-    else if (r >>> 25 === 0) {
-      world.place(i, EMPTY);
-      return;
+    } else {
+      // Fully faded. Trapped (sealed in), it lingers as spent air that chokes a fire; out in the
+      // open it clears within a moment, so a big fire does not leave the sky full of invisible gas.
+      const sealed = world.air.sealedAt(x, y);
+      if (sealed && world.life[i] < SMOKE_LINGER) world.life[i]++;
+      else if (r >>> 25 < (sealed ? 1 : 8)) {
+        world.place(i, EMPTY);
+        return;
+      }
     }
   }
   const dir = BUOY_DIR_OF[t];

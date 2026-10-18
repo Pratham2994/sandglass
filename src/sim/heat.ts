@@ -31,11 +31,14 @@ import {
   SELF_FED_OF,
 } from './elements';
 import { explode, rupture } from './blast';
+import { P_MIN_T, P_RULE } from './chem';
 import { CHUNK_SHIFT, type World } from './world';
 
 const N = ELEMENT_COUNT;
 /** A temperature change bigger than this keeps a chunk awake (spec: 0.05 °C). */
 const WAKE_DT = 0.05;
+/** °C a cell must change in one exchange to wake the full cell pass; smaller changes only keep the heat pass running (`warm`). */
+const MOVE_DT = 1;
 /** Differences smaller than this are not worth exchanging. */
 const MIN_DIFF = 0.01;
 /** Air pressure one cell of liquid or solid adds as it turns into gas, at each air cell of the patch it spreads over (about 0.6 in all). */
@@ -66,25 +69,79 @@ const FREEZE_DROP = 0.08;
  * 3. Air drifts back to room temperature.
  * No allocations in here.
  */
+/**
+ * Lowest temperature at which each element has a reaction gated by heat
+ * (burning, hot hand-written reactions). A cell that reaches it wakes the full
+ * cell pass, so it still catches fire in a chunk that was only cooling.
+ */
+const REACT_T_OF = Float32Array.from({ length: N }, (_, a) => {
+  let m = Infinity;
+  for (let b = 0; b < N; b++) {
+    const k = a * N + b;
+    if (P_RULE[k] !== 0 && P_MIN_T[k] > -Infinity && P_MIN_T[k] < m) m = P_MIN_T[k];
+  }
+  return m;
+});
+
+/**
+ * Lowest temperature at which anything happens to each element by heat: it
+ * reacts, goes off, ruptures, catches by itself, bakes or melts or boils. Below
+ * it (and above its freezing point) settle has nothing to do.
+ */
+const CALM_HI_OF = Float32Array.from({ length: N }, (_, t) =>
+  Math.min(REACT_T_OF[t], BLAST_POWER_OF[t] > 0 || SELF_FED_OF[t] !== 0 ? IGNITION_OF[t] : Infinity, RUPTURE_T_OF[t], BAKE_T_OF[t], UP_T[t]),
+);
+
 export function heatStep(world: World): void {
-  const { w, h, cw, ch, awake, type, temp } = world;
+  const { w, h, cw, ch, awake, warm, type, temp } = world;
   for (let cy = 0; cy < ch; cy++) {
     for (let cx = 0; cx < cw; cx++) {
-      if (awake[cy * cw + cx] === 0) continue;
+      if (awake[cy * cw + cx] === 0 && warm[cy * cw + cx] === 0) continue;
       const x0 = cx << CHUNK_SHIFT;
       const y0 = cy << CHUNK_SHIFT;
       const x1 = Math.min(x0 + (1 << CHUNK_SHIFT), w);
       const y1 = Math.min(y0 + (1 << CHUNK_SHIFT), h);
-      const leftAsleep = cx > 0 && awake[cy * cw + cx - 1] === 0;
-      const upAsleep = cy > 0 && awake[(cy - 1) * cw + cx] === 0;
-      // Equal neighbours (most of a settled world) skip the call: the test is inline and the arrays are locals.
+      const leftAsleep = cx > 0 && awake[cy * cw + cx - 1] === 0 && warm[cy * cw + cx - 1] === 0;
+      const upAsleep = cy > 0 && awake[(cy - 1) * cw + cx] === 0 && warm[(cy - 1) * cw + cx] === 0;
+      // The exchanges right and down are written out here (the same sums as `exchange`), with the
+      // arrays as locals: this loop runs for every cell of every busy chunk, every frame.
       for (let y = y0; y < y1; y++) {
         for (let x = x0; x < x1; x++) {
           const i = y * w + x;
-          const T = temp[i];
-          let d = 0;
-          if (x + 1 < w && ((d = T - temp[i + 1]) >= MIN_DIFF || d <= -MIN_DIFF)) exchange(world, i, i + 1, x, y);
-          if (y + 1 < h && ((d = temp[i] - temp[i + w]) >= MIN_DIFF || d <= -MIN_DIFF)) exchange(world, i, i + w, x, y);
+          if (x + 1 < w) {
+            const d = temp[i] - temp[i + 1];
+            if (d >= MIN_DIFF || d <= -MIN_DIFF) {
+              const ta = type[i];
+              const tb = type[i + 1];
+              const q = HEAT_K[ta * N + tb] * d;
+              const da = q * INV_CAP_OF[ta];
+              const db = q * INV_CAP_OF[tb];
+              temp[i] -= da;
+              temp[i + 1] += db;
+              const m = Math.max(da < 0 ? -da : da, db < 0 ? -db : db);
+              if (m > WAKE_DT) {
+                world.wakeHeat(x, y);
+                if (m > MOVE_DT) world.wake(x, y);
+              }
+            }
+          }
+          if (y + 1 < h) {
+            const d = temp[i] - temp[i + w];
+            if (d >= MIN_DIFF || d <= -MIN_DIFF) {
+              const ta = type[i];
+              const tb = type[i + w];
+              const q = HEAT_K[ta * N + tb] * d;
+              const da = q * INV_CAP_OF[ta];
+              const db = q * INV_CAP_OF[tb];
+              temp[i] -= da;
+              temp[i + w] += db;
+              const m = Math.max(da < 0 ? -da : da, db < 0 ? -db : db);
+              if (m > WAKE_DT) {
+                world.wakeHeat(x, y);
+                if (m > MOVE_DT) world.wake(x, y);
+              }
+            }
+          }
           if (x === x0 && leftAsleep) exchange(world, i - 1, i, x, y);
           if (y === y0 && upAsleep) exchange(world, i - w, i, x, y);
         }
@@ -112,7 +169,10 @@ function exchange(world: World, a: number, b: number, x: number, y: number): voi
   const db = q * INV_CAP_OF[tb];
   temp[a] -= da;
   temp[b] += db;
-  if (da > WAKE_DT || da < -WAKE_DT || db > WAKE_DT || db < -WAKE_DT) world.wake(x, y);
+  if (da > WAKE_DT || da < -WAKE_DT || db > WAKE_DT || db < -WAKE_DT) {
+    world.wakeHeat(x, y);
+    if (da > MOVE_DT || da < -MOVE_DT || db > MOVE_DT || db < -MOVE_DT) world.wake(x, y);
+  }
 }
 
 function settle(world: World, i: number, x: number, y: number): void {
@@ -136,9 +196,13 @@ function settle(world: World, i: number, x: number, y: number): void {
       return;
     }
     temp[i] = T + d * AIR_RELAX;
-    world.wake(x, y);
+    world.wakeHeat(x, y);
     return;
   }
+  // Fast way out: between this element's nearest thresholds, with nothing soaked up, nothing can happen.
+  if (T < CALM_HI_OF[t] && T > DOWN_T[t] && world.conc[i] === 0) return;
+  // Hot enough to react (burn): make sure the cell pass sees it.
+  if (T >= REACT_T_OF[t]) world.wake(x, y);
   // Explosives go off from heat alone: they carry their own oxygen.
   if (BLAST_POWER_OF[t] > 0 && T >= IGNITION_OF[t] && world.life[i] !== world.currentStamp()) {
     explode(world, x, y);
