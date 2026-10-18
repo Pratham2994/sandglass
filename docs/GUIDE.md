@@ -769,7 +769,7 @@ Stays put. Lit at one end, it burns steadily along its whole length like a rope,
 
 **Nitrogen triiodide.** Dark purple-black crystals, the touchiest explosive there is.
 Stays put where it dried. Anything moving against it, even a falling grain of sand or a drop of water, sets it off with a sharp purple crack; so does the least warmth.
-*Try:* Paint a little on a ledge, then drop one grain of sand onto it: it goes off with a sharp crack.
+*Try:* Paint a small patch anywhere (it stays put, even in mid-air), then sprinkle a little sand above it: the moment a grain lands on it, it goes off with a sharp crack.
 
 **Sparkler.** A stick of slow sparkler compound.
 Stays put. Lit, it burns slowly along, spitting bright sparks into the air all the while.

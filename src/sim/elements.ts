@@ -4415,7 +4415,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     key: 'nitrogen_triiodide',
     name: 'Nitrogen triiodide',
     blurb: 'Dark purple-black crystals, the touchiest explosive there is. Stays put where it dried. Anything moving against it, even a falling grain of sand or a drop of water, sets it off with a sharp purple crack; so does the least warmth.',
-    tip: 'Paint a little on a ledge, then drop one grain of sand onto it: it goes off with a sharp crack.',
+    tip: 'Paint a small patch anywhere (it stays put, even in mid-air), then sprinkle a little sand above it: the moment a grain lands on it, it goes off with a sharp crack.',
     category: 'explosives',
     colours: ['#3a2440', '#46304e', '#2e1c34', '#563c5e'],
     texture: 'grain',
