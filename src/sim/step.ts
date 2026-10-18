@@ -1,3 +1,4 @@
+import { fxStep, reactionFlash } from './fx';
 import { HAS_REACTION, KEEP, P_GAS, P_HEAT, P_MIN_LIGHT, P_MIN_T, P_RUNAWAY, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R_ABSORB, R_COMBUST, R_CORRODE, R_DISSOLVE, R_FERMENT, R_QUENCH } from './chem';
 import {
   BLAST_POWER_OF,
@@ -178,6 +179,7 @@ export function step(world: World): void {
   heatStep(world);
   airPass(world, st);
   world.flash = world.flash > 0.01 ? world.flash * 0.95 : 0;
+  fxStep(world);
   world.frame++;
 }
 
@@ -1527,6 +1529,8 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
     }
     world.stamp[j] = st;
   }
+  // The reaction shows: both cells flash in its colour for a moment.
+  reactionFlash(world, i, j, rule, P_HEAT[k]);
   world.stamp[i] = st;
   world.wake(j % world.w, (j / world.w) | 0);
   return true;

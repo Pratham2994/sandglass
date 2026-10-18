@@ -1,5 +1,6 @@
 import { ELEMENTS, ELEMENT_COUNT, LIT_RGB_OF } from '../sim/elements';
 import { litLevels } from '../sim/circuit';
+import { FX_RGB, fxLevels } from '../sim/fx';
 import { CHUNK, type World } from '../sim/world';
 import { GLOW_MAX, GLOW_MIN, LEVEL_STRIDE, L_PLAIN, TEXTURE_OF, buildGlow, buildPalette, buildStoneShade } from './palette';
 import type { Renderer, View } from './renderer';
@@ -33,6 +34,10 @@ uniform usampler2D uConc;
 uniform usampler2D uCharge;
 uniform usampler2D uLit;
 uniform sampler2D uLitCol;
+/** Reaction flashes: brightness and kind per cell, and a colour per kind. */
+uniform usampler2D uFx;
+uniform usampler2D uFxKind;
+uniform sampler2D uFxCol;
 uniform sampler2D uTemp;
 uniform sampler2D uPal;
 uniform sampler2D uGlow;
@@ -76,7 +81,7 @@ int runTop(ivec2 p) {
   return y;
 }
 
-void main() {
+void body() {
   ivec2 p = ivec2(int(gl_FragCoord.x), uSize.y - 1 - int(gl_FragCoord.y));
   uint t = typeAt(p);
   vec3 bg = background(p);
@@ -191,6 +196,18 @@ void main() {
     oEmit = vec4(g.rgb * g.a, 1.0);
   }
   oColor = vec4(c, 1.0);
+}
+void main() {
+  body();
+  // A reaction here: the cell flashes its reaction's colour and lights what is round it, fading fast.
+  ivec2 p = ivec2(int(gl_FragCoord.x), uSize.y - 1 - int(gl_FragCoord.y));
+  uint fl = texelFetch(uFx, p, 0).r;
+  if (fl > 0u) {
+    float k = float(fl) / 255.0;
+    vec3 fc = texelFetch(uFxCol, ivec2(int(texelFetch(uFxKind, p, 0).r), 0), 0).rgb;
+    oColor = vec4(mix(oColor.rgb, fc, 0.65 * k), 1.0);
+    oEmit = vec4(max(oEmit.rgb, fc * (0.9 * k)), 1.0);
+  }
 }`;
 
 /** Downsample by 4: average of a 4 × 4 block via four bilinear taps. */
@@ -327,8 +344,9 @@ export class WebGLRenderer implements Renderer {
   private readonly comp: WebGLProgram;
   private readonly vao: WebGLVertexArrayObject;
   private readonly floatTargets: boolean;
-  private readonly dataTex: Record<'type' | 'shade' | 'stamp' | 'stone' | 'temp' | 'awake' | 'solute' | 'conc' | 'charge' | 'lit', WebGLTexture>;
+  private readonly dataTex: Record<'type' | 'shade' | 'stamp' | 'stone' | 'temp' | 'awake' | 'solute' | 'conc' | 'charge' | 'lit' | 'fx' | 'fxKind', WebGLTexture>;
   private readonly litColTex: WebGLTexture;
+  private readonly fxColTex: WebGLTexture;
   /** Light levels to upload when no circuit has run yet. */
   private noLit = new Uint8Array(0);
   private readonly palTex: WebGLTexture;
@@ -370,6 +388,8 @@ export class WebGLRenderer implements Renderer {
       conc: this.texture(),
       charge: this.texture(),
       lit: this.texture(),
+      fx: this.texture(),
+      fxKind: this.texture(),
     };
 
     // Palette: one row per element, 256 shades, plain light level.
@@ -399,6 +419,10 @@ export class WebGLRenderer implements Renderer {
       litBytes[id * 4 + 2] = c & 255;
       litBytes[id * 4 + 3] = 255;
     }
+    const fxBytes = new Uint8Array(FX_RGB.length * 4);
+    FX_RGB.forEach(([r, g, b], k) => fxBytes.set([r, g, b, 255], k * 4));
+    this.fxColTex = this.texture();
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, FX_RGB.length, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, fxBytes);
     this.litColTex = this.texture();
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, ELEMENT_COUNT, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, litBytes);
 
@@ -440,6 +464,10 @@ export class WebGLRenderer implements Renderer {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
     gl.bindTexture(gl.TEXTURE_2D, this.dataTex.lit);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
+    for (const tex of [this.dataTex.fx, this.dataTex.fxKind]) {
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
+    }
     this.noLit = new Uint8Array(w * h);
 
     // Scene targets at cell resolution: colour and emission.
@@ -483,6 +511,11 @@ export class WebGLRenderer implements Renderer {
     gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.charge);
     gl.bindTexture(gl.TEXTURE_2D, this.dataTex.lit);
     gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, litLevels(world) ?? this.noLit);
+    const fx = fxLevels(world);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.fx);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, fx ? fx.level : this.noLit);
+    gl.bindTexture(gl.TEXTURE_2D, this.dataTex.fxKind);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, fx ? fx.kind : this.noLit);
     if (this.showChunks) {
       gl.bindTexture(gl.TEXTURE_2D, this.dataTex.awake);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, world.cw, world.ch, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, world.awake);
@@ -506,6 +539,9 @@ export class WebGLRenderer implements Renderer {
     this.bind(this.scene, 'uCharge', this.dataTex.charge, 10);
     this.bind(this.scene, 'uLit', this.dataTex.lit, 11);
     this.bind(this.scene, 'uLitCol', this.litColTex, 12);
+    this.bind(this.scene, 'uFx', this.dataTex.fx, 13);
+    this.bind(this.scene, 'uFxKind', this.dataTex.fxKind, 14);
+    this.bind(this.scene, 'uFxCol', this.fxColTex, 15);
     gl.uniform2i(gl.getUniformLocation(this.scene, 'uSize'), w, h);
     gl.uniform1i(gl.getUniformLocation(this.scene, 'uMoved'), world.frame === 0 ? -1 : 1 + ((world.frame - 1) % 255));
     gl.uniform1i(gl.getUniformLocation(this.scene, 'uFrame'), world.frame);
