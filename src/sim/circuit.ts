@@ -350,9 +350,13 @@ function beside(i: number, xi: number, d: number, w: number, size: number): numb
   return i + w < size ? i + w : -1;
 }
 
+/** Elements that could ever drive current: a battery, a solar panel or a capacitor. */
+const CAN_SOURCE = Uint8Array.from({ length: ELEMENT_COUNT }, (_, t) => (EMF_OF[t] !== 0 || CAPACITOR_OF[t] !== 0 ? 1 : 0));
+
 /** Is cell i a source that could drive current now (a battery with charge, a charged capacitor)? */
 function isSource(world: World, i: number): boolean {
   const t = world.type[i];
+  if (CAN_SOURCE[t] === 0) return false;
   return (EMF_OF[t] !== 0 && (world.life[i] > 0 || SOLAR_OF[t] !== 0)) || (CAPACITOR_OF[t] !== 0 && world.life[i] !== CAP_ZERO);
 }
 

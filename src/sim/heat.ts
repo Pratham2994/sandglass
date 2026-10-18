@@ -93,7 +93,7 @@ const CALM_HI_OF = Float32Array.from({ length: N }, (_, t) =>
 );
 
 export function heatStep(world: World): void {
-  const { w, h, cw, ch, awake, warm, type, temp } = world;
+  const { w, h, cw, ch, awake, warm, type, temp, conc } = world;
   for (let cy = 0; cy < ch; cy++) {
     for (let cx = 0; cx < cw; cx++) {
       if (awake[cy * cw + cx] === 0 && warm[cy * cw + cx] === 0) continue;
@@ -150,7 +150,12 @@ export function heatStep(world: World): void {
         for (let x = x0; x < x1; x++) {
           const i = y * w + x;
           // Still air at room temperature has nothing to settle.
-          if (type[i] === EMPTY && temp[i] === AMBIENT) continue;
+          if (type[i] === EMPTY) {
+            if (temp[i] === AMBIENT) continue;
+          } else if (temp[i] >= T_MIN && temp[i] <= T_MAX && temp[i] < CALM_HI_OF[type[i]] && temp[i] > DOWN_T[type[i]] && conc[i] === 0) {
+            // At rest between its thresholds: settle would return here at once.
+            continue;
+          }
           settle(world, i, x, y);
         }
       }

@@ -142,6 +142,46 @@ const SINK_VMAX = VY_UNIT >> 2;
 const N = ELEMENT_COUNT;
 /** Elements that are acids (they do the eating in corrosion). */
 const ELEMENTS_ACIDIC = Uint8Array.from({ length: N }, (_, id) => ((ELEMENTS[id].acidity ?? 0) >= 0.3 ? 1 : 0));
+/** Elements with a touch reaction that is not dissolving or soaking: only those can keep a chunk awake. */
+const TOUCH_REACTS = Uint8Array.from({ length: N }, (_, a) => {
+  const base = a * N;
+  for (let b = 0; b < N; b++) {
+    const rule = P_RULE[base + b];
+    if (rule !== 0 && rule !== R_DISSOLVE && rule !== R_ABSORB) return 1;
+  }
+  return 0;
+});
+/**
+ * Elements with no behaviour of their own in the cell pass: every flag the
+ * pass tests is zero for them, so they can go straight to moving.
+ */
+const PLAIN_OF = Uint8Array.from({ length: N }, (_, t) =>
+  PHASE_OF[t] !== 0 &&
+  t !== SPARK &&
+  BOLT_OF[t] === 0 &&
+  PARTICLE_OF[t] === 0 &&
+  FISSILE_OF[t] === 0 &&
+  DECAY_P_OF[t] === 0 &&
+  CRYSTAL_OF[t] === 0 &&
+  GLOWS_STIRRED_OF[t] === 0 &&
+  TOUCHY_OF[t] === 0 &&
+  INDICATOR_ACID_OF[t] === 0 &&
+  BURSTS_INTO_OF[t] === 0 &&
+  EMF_OF[t] === 0 &&
+  CAPACITOR_OF[t] === 0 &&
+  DEVICE_OF[t] === 0 &&
+  CURE_FRAMES_OF[t] === 0 &&
+  HABITAT_OF[t] === 0 &&
+  RAIN_INTO_OF[t] === 0 &&
+  COLONY_OF[t] === 0 &&
+  POROUS_MAX_OF[t] === 0 &&
+  LIGHT_INTO_OF[t] === 0 &&
+  WITHER_INTO_OF[t] === 0 &&
+  GROWS_INTO_OF[t] === 0 &&
+  HAS_REACTION[t] === 0
+    ? 1
+    : 0,
+);
 /** How far a liquid surface cell looks sideways for a drop. Bounds the cost on wide lakes. */
 const FLOW_SEARCH = 160;
 /** Speed a liquid keeps after a sideways move: half a cell per frame. */
@@ -188,6 +228,17 @@ function updateCell(world: World, x: number, y: number, st: number): void {
   const t = world.type[i];
   const ph = PHASE_OF[t];
   if (ph === 0 || world.stamp[i] === st) return;
+  // Nothing of its own to do: skip the whole flag chain and go straight to moving.
+  if (PLAIN_OF[t] !== 0) {
+    if (world.charge[i] !== 0) {
+      updateCharge(world, x, y, i, st);
+      if (world.type[i] !== t) return;
+    }
+    if (ph === PH_POWDER || ph === PH_LIQUID) updateMover(world, x, y, i, st, ph === PH_LIQUID);
+    else if (ph === PH_GAS) updateGas(world, x, y, i, st);
+    else if (ph === PH_ENERGY) updateFire(world, x, y, i, st);
+    return;
+  }
   // Electricity and life first: they act in place.
   if (t === SPARK) {
     updateSpark(world, x, y, i, st);
@@ -1381,10 +1432,13 @@ function ignite(world: World, i: number, fuel: number): void {
  * soaking are left out (a full solution would keep its chunk awake for
  * ever); so is a flame that is a burning cell, which never lights by touch.
  */
-function reactionPending(world: World, x: number, y: number, i: number): boolean {
+function reactionPending(world: World, x: number, y: number, i: number, skip: number): boolean {
   const { type, temp } = world;
   const base = type[i] * ELEMENT_COUNT;
   for (let d = 0; d < 4; d++) {
+    // The caller already tested this neighbour and it did not pass (react bails
+    // on the same rule and temperature tests), so testing it again says nothing.
+    if (d === skip) continue;
     const j = neighbour(world, x, y, d);
     if (j < 0) continue;
     const k = base + type[j];
@@ -1411,8 +1465,9 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
   const rule = P_RULE[k];
   if (rule === 0 || temp[i] < P_MIN_T[k]) {
     // This neighbour does not react, but another may (slowly, by chance):
-    // keep the chunk awake so the reaction still gets its tries.
-    if (reactionPending(world, x, y, i)) world.wake(x, y);
+    // keep the chunk awake so the reaction still gets its tries. The tested
+    // direction is passed in so it is not tested twice.
+    if (TOUCH_REACTS[a] !== 0 && reactionPending(world, x, y, i, r & 3)) world.wake(x, y);
     return false;
   }
   // Light-driven reactions happen only where the light reaches.
