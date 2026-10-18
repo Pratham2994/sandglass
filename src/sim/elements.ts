@@ -1838,6 +1838,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.15,
     boil: -78,
     boilInto: 'carbon_dioxide',
+    shape: ['220', '201', '011'],
   },
   {
     key: 'baking_soda',
@@ -2624,6 +2625,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.1,
     bake: { at: 70, into: 'cooked_meat' },
     rotsInto: 'dirt',
+    shape: ['.0110.', '013100', '.0220.'],
   },
   {
     key: 'cooked_meat',
@@ -2645,6 +2647,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     burnInto: 'ash',
     residue: 0.3,
     rotsInto: 'dirt',
+    shape: ['.0110.', '013100', '.0220.'],
   },
   {
     key: 'popcorn_kernel',
@@ -2807,6 +2810,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 1200,
     burnInto: 'carbon_dioxide',
     noFlame: true,
+    shape: ['.222.', '21012', '.101.', '..0..'],
   },
   {
     key: 'napalm',
@@ -3402,6 +3406,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.1,
     melt: 35,
     meltInto: 'molten_chocolate',
+    shape: ['33233', '30203', '22222', '33233', '30203'],
   },
   {
     key: 'molten_chocolate',
@@ -3438,7 +3443,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.1,
     bake: { at: 70, into: 'cooked_egg' },
     rotsInto: 'dirt',
-    shape: ['.2.', '200', '001', '.3.'],
+    shape: ['.2.', '212', '030', '.0.'],
   },
   {
     key: 'cooked_egg',
@@ -3455,6 +3460,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.1,
     bake: { at: 250, into: 'charcoal' },
     rotsInto: 'dirt',
+    shape: ['.2.', '212', '030', '.0.'],
   },
   {
     key: 'phosphorus',
@@ -3892,6 +3898,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.45,
     conductivity: 0.5,
     magnet: 10,
+    shape: ['3...3', '2...2', '0...0', '1...1', '.000.'],
   },
   {
     key: 'plague',
@@ -3992,6 +3999,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 700,
     burnInto: 'ash',
     residue: 0.4,
+    shape: ['.333.', '33333', '..0..', '..1..'],
   },
   {
     key: 'corium',
@@ -4074,6 +4082,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 1.5,
     conductivity: 0.15,
     bake: { at: 260, into: 'toast' },
+    shape: ['.3333.', '300113', '222222'],
   },
   {
     key: 'toast',
@@ -4093,6 +4102,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 800,
     burnInto: 'charcoal',
     residue: 0.6,
+    shape: ['.3333.', '300113', '222222'],
   },
   {
     key: 'manganese_dioxide',
@@ -4235,6 +4245,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.6,
     conductivity: 0.2,
     crystalOf: 'copper_sulfate',
+    shape: ['.2.', '212', '101', '303', '.3.'],
   },
   {
     key: 'cabbage_juice',
@@ -4977,6 +4988,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.45,
     conductivity: 0.5,
     ruptures: { heat: 250, pressure: 5, into: 'propane', burst: 6 },
+    shape: ['.1.', '303', '000', '000', '.2.'],
   },
   {
     key: 'air_tank',
@@ -4994,6 +5006,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.45,
     conductivity: 0.5,
     ruptures: { heat: 300, pressure: 5, into: 'empty', burst: 14 },
+    shape: ['.1.', '303', '000', '000', '.2.'],
   },
   {
     key: 'iron_filings',
