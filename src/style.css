@@ -1154,3 +1154,44 @@ body.intro #infobar {
     transition-duration: 0.001s !important;
   }
 }
+
+/* Search results ease in, the best matches first. */
+.group.results .tile {
+  animation: settle-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.group.results .tile:nth-child(2) {
+  animation-delay: 0.02s;
+}
+
+.group.results .tile:nth-child(3) {
+  animation-delay: 0.04s;
+}
+
+.group.results .tile:nth-child(4) {
+  animation-delay: 0.06s;
+}
+
+.group.results .tile:nth-child(5) {
+  animation-delay: 0.08s;
+}
+
+.group.results .tile:nth-child(n + 6) {
+  animation-delay: 0.1s;
+}
+
+/* The newest element in the recent row arrives with a small pop. */
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.recent .chip-el.fresh {
+  animation: pop-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}

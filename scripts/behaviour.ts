@@ -1709,6 +1709,52 @@ check('uv_resin', 'cures in daylight, stays runny in the dark', () => {
   return { ok: sun > 20 && dark === 0, detail: `cured cells: ${sun} in daylight, ${dark} in the dark` };
 });
 
+// ---- Delayed fire, fire ice, sparklers, plankton, superglue, light-driven reactions ------------
+
+check('potassium_permanganate', 'with glycerin heats up by itself and bursts into flame', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(26, 56, 12, 4, 'potassium_permanganate').fill(26, 52, 12, 3, 'glycerin');
+  const f = until(s, 1800, () => s.count('fire') > 0);
+  return { ok: f > 60, detail: f > 0 ? `flame after ${f} frames` : 'no flame in 30 s' };
+});
+check('fire_ice', 'fizzes methane as it warms, and burns', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(26, 54, 12, 6, 'fire_ice').heat(26, 54, 12, 6, 10);
+  let methane = 0;
+  until(s, 300, () => ((methane = Math.max(methane, s.count('methane'))), false));
+  const lit = new Scene().fill(0, 60, W, 4, 'wall').fill(26, 54, 12, 6, 'fire_ice').fill(31, 52, 2, 2, 'fire');
+  let burning = 0;
+  until(lit, 300, () => ((burning = Math.max(burning, lit.count('fire'))), false));
+  return { ok: methane > 3 && burning > 4, detail: `methane ${methane} as it warmed, flames ${burning} when lit` };
+});
+check('sparkler', 'spits embers as it burns', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(10, 40, 40, 1, 'sparkler').fill(9, 39, 1, 1, 'fire').heat(9, 40, 2, 1, 400);
+  let embers = 0;
+  until(s, 900, () => ((embers = Math.max(embers, s.count('ember'))), false));
+  return { ok: embers > 2, detail: `embers seen ${embers}` };
+});
+check('glow_plankton', 'glows where it is stirred, dark when calm', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(4, 44, 2, 16, 'wall').fill(58, 44, 2, 16, 'wall').fill(6, 48, 52, 12, 'glow_plankton').run(600);
+  let calm = 0;
+  for (let k = 0; k < s.world.size; k++) if (s.world.type[k] === s.id('glow_plankton') && s.world.life[k] > 0) calm++;
+  s.fill(20, 30, 20, 4, 'sand').run(20);
+  let lit = 0;
+  for (let k = 0; k < s.world.size; k++) if (s.world.type[k] === s.id('glow_plankton') && s.world.life[k] > 0) lit++;
+  return { ok: calm === 0 && lit > 5, detail: `glowing cells: ${calm} calm, ${lit} as sand falls in` };
+});
+check('superglue', 'sets at once where water touches it', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(10, 58, 40, 2, 'superglue').fill(20, 50, 6, 3, 'water').run(40);
+  return { ok: s.count('dried_glue') > 2 && s.count('superglue') > 0, detail: `set ${s.count('dried_glue')}, still runny ${s.count('superglue')}` };
+});
+check('chlorine', 'flashes with hydrogen in light, not in the dark', () => {
+  const mix = (roof: boolean): number => {
+    const s = new Scene().fill(0, 60, W, 4, 'wall').fill(4, 30, 2, 30, 'glass').fill(58, 30, 2, 30, 'glass').fill(6, 50, 52, 10, 'chlorine').fill(6, 40, 52, 10, 'hydrogen');
+    if (roof) s.fill(0, 4, W, 3, 'wall');
+    return s.run(300).count('hydrogen_chloride');
+  };
+  const light = mix(false);
+  const dark = mix(true);
+  return { ok: light > 10 && dark === 0, detail: `hydrogen chloride ${light} in light, ${dark} in the dark` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {

@@ -1,4 +1,4 @@
-import { HAS_REACTION, KEEP, P_GAS, P_HEAT, P_MIN_T, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R_ABSORB, R_COMBUST, R_CORRODE, R_DISSOLVE, R_FERMENT, R_QUENCH } from './chem';
+import { HAS_REACTION, KEEP, P_GAS, P_HEAT, P_MIN_LIGHT, P_MIN_T, P_RUNAWAY, P_OUT_A, P_OUT_B, P_PROB, P_RULE, R_ABSORB, R_COMBUST, R_CORRODE, R_DISSOLVE, R_FERMENT, R_QUENCH } from './chem';
 import {
   BLAST_POWER_OF,
   BUOY_DIR_OF,
@@ -22,6 +22,9 @@ import {
   COLONY_HOST,
   HAS_HOST_OF,
   TOUCHY_OF,
+  SPARKS_OF,
+  GLOWS_STIRRED_OF,
+  EMBER,
   DARK_GROWER_OF,
   SALT,
   SPARK,
@@ -202,6 +205,20 @@ function updateCell(world: World, x: number, y: number, st: number): void {
     }
   }
   if (CRYSTAL_OF[t] !== 0) crystal(world, x, y, t);
+  // Glowing plankton: flashes where it moves or is pushed, fading as it calms (glow kept in life).
+  if (GLOWS_STIRRED_OF[t] !== 0) {
+    // Moved this frame or the last (a cell pushed this frame skips its own turn).
+    const prev = st === 1 ? 255 : st - 1;
+    let stirred = world.vy[i] > 0 || world.stamp[i] === prev;
+    for (let d = 0; d < 4 && !stirred; d++) {
+      const j = neighbour(world, x, y, d);
+      stirred = j >= 0 && world.type[j] !== EMPTY && (world.stamp[j] === st || world.stamp[j] === prev);
+    }
+    if (stirred) world.life[i] = 255;
+    else if (world.life[i] > 0) world.life[i] = world.life[i] > 12 ? world.life[i] - 12 : 0;
+    if (world.life[i] > 0) world.wake(x, y);
+    setLit(world, i, world.life[i]);
+  }
   // Touch-sensitive explosives: anything that moved against it this frame sets it off.
   if (TOUCHY_OF[t] !== 0) {
     world.wake(x, y);
@@ -1230,6 +1247,11 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
     if (reactionPending(world, x, y, i)) world.wake(x, y);
     return false;
   }
+  // Light-driven reactions happen only where the light reaches.
+  if (P_MIN_LIGHT[k] > 0 && lightAt(world, x, y) < P_MIN_LIGHT[k]) {
+    world.wake(x, y);
+    return false;
+  }
   // Only a loose flame (out in the air) lights fuel by touch; a burning cell's
   // neighbours must heat up and meet air themselves, or they would light and
   // smother over and over.
@@ -1321,7 +1343,8 @@ function react(world: World, x: number, y: number, i: number, st: number): boole
     if (outA !== KEEP) become(world, i, outA);
     if (outB !== KEEP) become(world, j, outB);
     // Heat released (neutralising, setting): both cells warm.
-    const heat = P_HEAT[k];
+    // A runaway reaction gives off more heat the hotter it is (it speeds up).
+    const heat = P_RUNAWAY[k] !== 0 ? P_HEAT[k] * (1 + Math.max(0, temp[i] - AMBIENT) / 50) : P_HEAT[k];
     if (heat !== 0) {
       if (type[i] !== EMPTY) temp[i] += heat;
       if (type[j] !== EMPTY) temp[j] += heat;
@@ -1559,6 +1582,14 @@ function updateFire(world: World, x: number, y: number, i: number, st: number): 
   if (oxJ >= 0 && ((r >>> 8) & 255) < (CONSUME_P * AIR_OXIDISER) / Math.max(AIR_OXIDISER, OXIDISER_OF[type[oxJ]]) && type[oxJ] !== FIRE) {
     become(world, oxJ, SMOKE);
     world.temp[oxJ] = temp[i] * 0.5;
+  }
+  // Sparklers spit embers into the open air as they burn.
+  if (SPARKS_OF[fuel] !== 0 && ((r >>> 12) & 3) === 0) {
+    const sj = neighbour(world, x, y, (r >>> 14) & 3);
+    if (sj >= 0 && type[sj] === EMPTY) {
+      world.place(sj, EMBER);
+      world.life[sj] = 12 + ((r >>> 20) & 15);
+    }
   }
   if (y > 0 && type[i - w] === EMPTY && ((r >>> 16) & 255) < FLAME_P) {
     const up = i - w;

@@ -39,6 +39,10 @@ export interface Override {
   reason: string;
   /** °C added to both cells when it happens (heat released). */
   heat?: number;
+  /** Only where at least this much light (0..1) reaches this cell (light-driven reactions). */
+  light?: number;
+  /** Runs faster as it heats: the heat given off grows with temperature, so it can run away. */
+  runaway?: boolean;
 }
 
 export interface ElementDef {
@@ -196,6 +200,10 @@ export interface ElementDef {
   colonyHost?: string[];
   /** Sublimes into `into` (a mist) instead of its usual gas while touching `touching` (dry ice in water makes fog). */
   mist?: { touching: string; into: string };
+  /** Burning, it spits sparks (embers) into the air (sparklers). */
+  sparks?: boolean;
+  /** Glows its litColour while it is moving or something moves against it (glowing plankton). */
+  glowsStirred?: boolean;
   /** Touch-sensitive explosives: go off when anything moves against them. */
   touchy?: boolean;
   /** Living things that grow only in the dark (mushrooms), not in light. */
@@ -1777,6 +1785,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#c6d86a', '#b9cc5c', '#d2e27a'],
     texture: 'gas',
     phase: 'gas',
+    overrides: {
+      hydrogen: { self: 'hydrogen_chloride', other: 'hydrogen_chloride', chance: 0.5, heat: 450, light: 0.5, reason: 'In light, hydrogen and chlorine combine with a flash into hydrogen chloride' },
+    },
     cls: 'gas',
     hardness: 0,
     density: 3.2,
@@ -4393,6 +4404,145 @@ export const ELEMENTS: readonly ElementDef[] = [
     residue: 0.2,
   },
   {
+    key: 'glycerin',
+    name: 'Glycerin',
+    blurb: 'A thick, sweet, clear liquid. Oozes slowly and sinks through water. It burns once very hot; mixed with potassium permanganate it warms by itself and, after a pause, bursts into flame.',
+    tip: 'Pour a puddle onto a small heap of potassium permanganate and wait a few seconds.',
+    category: 'fuels',
+    colours: ['#eef0e6', '#e6e9dc', '#f4f6ee', '#dde1d2'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 1260,
+    dispersion: 2,
+    heatCapacity: 2.4,
+    conductivity: 0.3,
+    ignition: 370,
+    fuel: 260,
+    flameTemp: 950,
+    burnInto: 'empty',
+  },
+  {
+    key: 'potassium_permanganate',
+    name: 'Potassium permanganate',
+    blurb: 'Dark purple crystals that carry oxygen, a powder. Falls and piles, and dissolves into water, turning it purple. Glycerin touching it heats up by itself until it bursts into flame.',
+    tip: 'Make a small heap and pour glycerin onto it, then stand back.',
+    category: 'powders',
+    colours: ['#4a1c5a', '#5a2470', '#3c1648', '#6a2e84'],
+    phase: 'powder',
+    cls: 'salt',
+    hardness: 0.3,
+    density: 2700,
+    heatCapacity: 0.8,
+    conductivity: 0.2,
+    oxidiser: 0.8,
+    solubility: 0.2,
+    overrides: {
+      glycerin: { self: 'keep', other: 'keep', chance: 0.5, heat: 12, runaway: true, reason: 'Permanganate slowly oxidises glycerin, which heats up until it bursts into flame' },
+    },
+  },
+  {
+    key: 'fire_ice',
+    name: 'Fire ice',
+    blurb: 'Methane hydrate: ice with natural gas locked inside. Stays put and very cold. Warmed past 5 °C it falls apart into water and methane, and a flame sets the lump burning like ice on fire.',
+    tip: 'Paint a lump and touch it with fire as it starts to fizz.',
+    category: 'fuels',
+    colours: ['#dfe9ef', '#e8f0f4', '#d4e0e8', '#f0f5f8'],
+    texture: 'glass',
+    phase: 'solid',
+    span: 4,
+    cls: 'mineral',
+    hardness: 0.3,
+    density: 900,
+    temp: -20,
+    heatCapacity: 2,
+    conductivity: 0.5,
+    bake: { at: 5, into: 'water', gas: 'methane' },
+    ignition: 120,
+    fuel: 120,
+    flameTemp: 900,
+    burnInto: 'water',
+    residue: 0.6,
+  },
+  {
+    key: 'sparkler',
+    name: 'Sparkler',
+    blurb: 'A stick of slow sparkler compound. Stays put. Lit, it burns slowly along, spitting bright sparks into the air all the while.',
+    tip: 'Draw a thin line, then light one end.',
+    category: 'explosives',
+    colours: ['#7d7f84', '#8a8c91', '#707277', '#9a9ca1'],
+    texture: 'grain',
+    phase: 'solid',
+    cls: 'mineral',
+    hardness: 0.4,
+    density: 2200,
+    heatCapacity: 0.8,
+    conductivity: 0.3,
+    ignition: 280,
+    fuel: 240,
+    flameTemp: 1200,
+    burnInto: 'ash',
+    residue: 0.4,
+    burnEnergy: 6,
+    sparks: true,
+  },
+  {
+    key: 'glow_plankton',
+    name: 'Glowing plankton',
+    blurb: 'Sea water full of tiny glowing plankton. Flows like water. Calm, it is dark; stirred, poured or splashed, it flashes bright blue where it moves.',
+    tip: 'Pour it into a pool, then drop sand into it or stir it with wind.',
+    category: 'life',
+    colours: ['#12304a', '#163a58', '#0e2840', '#1a4466'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0,
+    density: 1025,
+    heatCapacity: 4,
+    conductivity: 0.55,
+    litColour: '#4fc8ff',
+    glowsStirred: true,
+    bake: { at: 60, into: 'water' },
+  },
+  {
+    key: 'superglue',
+    name: 'Superglue',
+    blurb: 'A thin, clear glue. Flows freely, and sets hard in a moment on its own; touching water it sets at once.',
+    tip: 'Pour a line of it, then splash water across it.',
+    category: 'building',
+    colours: ['#eeeeea', '#e6e6e2', '#f4f4f1', '#ddddda'],
+    texture: 'liquid',
+    phase: 'liquid',
+    cls: 'organic',
+    hardness: 0.1,
+    density: 1060,
+    dispersion: 4,
+    heatCapacity: 1.5,
+    conductivity: 0.2,
+    cureFrames: 150,
+    curesInto: 'dried_glue',
+    overrides: {
+      water: { self: 'dried_glue', other: 'keep', chance: 0.9, reason: 'Water sets superglue at once' },
+    },
+  },
+  {
+    key: 'hydrogen_chloride',
+    name: 'Hydrogen chloride',
+    blurb: 'A sharp, choking gas, heavier than air. Sinks and pools low. It turns water it touches into acid. It forms with a flash where hydrogen and chlorine meet in light.',
+    category: 'gases',
+    colours: ['#e8eadf', '#dfe2d4', '#f0f2ea', '#d6dac9'],
+    texture: 'gas',
+    phase: 'gas',
+    cls: 'gas',
+    hardness: 0,
+    density: 1.49,
+    heatCapacity: 0.8,
+    conductivity: 0.03,
+    acidGas: 'acid',
+    toxic: true,
+  },
+  {
     key: 'solar_panel',
     name: 'Solar panel',
     blurb: 'A photovoltaic cell. Stays put and works like a battery that never runs flat, but its voltage follows the light on it: full in open daylight, weak in shade, nothing in the dark. A longer panel gives more volts.',
@@ -4906,6 +5056,8 @@ export const COLONY_GAS_OF = Uint16Array.from(ELEMENTS, (e) => (e.colonyGas ? el
 export const COLONY_HOST = new Uint8Array(ELEMENTS.length * ELEMENTS.length);
 export const HAS_HOST_OF = Uint8Array.from(ELEMENTS, (e) => (e.colonyHost ? 1 : 0));
 export const TOUCHY_OF = Uint8Array.from(ELEMENTS, (e) => (e.touchy ? 1 : 0));
+export const SPARKS_OF = Uint8Array.from(ELEMENTS, (e) => (e.sparks ? 1 : 0));
+export const GLOWS_STIRRED_OF = Uint8Array.from(ELEMENTS, (e) => (e.glowsStirred ? 1 : 0));
 export const MIST_WITH_OF = Uint16Array.from(ELEMENTS, (e) => (e.mist ? elementId(e.mist.touching) : 0));
 export const MIST_INTO_OF = Uint16Array.from(ELEMENTS, (e) => (e.mist ? elementId(e.mist.into) : 0));
 ELEMENTS.forEach((e, a) => {
@@ -5032,6 +5184,8 @@ export function elementId(key: string): number {
 export const LIGHTNING = elementId('lightning');
 /** Germs: the marker a sick creature carries as its solute. */
 export const PLAGUE = elementId('plague');
+/** Embers, which sparklers spit. */
+export const EMBER = elementId('ember');
 /** Neutrons, flung out by a chain reaction. */
 export const NEUTRON = elementId('neutron');
 export const PLASMA = elementId('plasma');

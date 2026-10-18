@@ -73,6 +73,10 @@ export const P_PROB = new Uint8Array(N * N);
 export const P_MIN_T = new Float32Array(N * N).fill(-Infinity);
 /** °C added to both cells when it happens (heat released), 0 = none. */
 export const P_HEAT = new Float32Array(N * N);
+/** Least light (0..1) a reaction needs at the first cell; 0 = works in the dark too. */
+export const P_MIN_LIGHT = new Float32Array(N * N);
+/** Reactions that speed up as they heat (the heat given off grows with temperature). */
+export const P_RUNAWAY = new Uint8Array(N * N);
 /** Elements that have at least one reaction, so the cell pass can skip the rest. */
 export const HAS_REACTION = new Uint8Array(N);
 
@@ -114,6 +118,8 @@ function compile(): void {
       if (o) {
         const out = (key: string): number => (key === 'keep' ? KEEP : elementId(key));
         set(a, b, R_OVERRIDE, out(o.self), out(o.other), o.gas ? elementId(o.gas) : 0, o.chance, o.minTemp, o.heat);
+        if (o.light) P_MIN_LIGHT[a * N + b] = o.light;
+        if (o.runaway) P_RUNAWAY[a * N + b] = 1;
         overrideReasons.set(k, o.reason);
         continue;
       }

@@ -1,8 +1,8 @@
 # Sandglass element guide
 
-Generated from the game data by `npm run guide`. 224 elements, by group. For each: what it is, what it does, and what to try.
+Generated from the game data by `npm run guide`. 231 elements, by group. For each: what it is, what it does, and what to try.
 
-## Powders (22)
+## Powders (23)
 
 **Sand.** A fine, heavy powder.
 Falls, piles into slopes and sinks through lighter liquids. Very hard to melt or eat away.
@@ -79,6 +79,10 @@ Falls and piles, and dissolves into water, turning it blue. Blue crystals grow f
 **Sodium acetate.** White needle crystals of sodium acetate.
 Stays put. Warmed past 58 °C they melt back into hot ice, which stays liquid as it cools.
 *Try:* Drop a little into a pool of hot ice; heat the crystals to make more hot ice.
+
+**Potassium permanganate.** Dark purple crystals that carry oxygen, a powder.
+Falls and piles, and dissolves into water, turning it purple. Glycerin touching it heats up by itself until it bursts into flame.
+*Try:* Make a small heap and pour glycerin onto it, then stand back.
 
 **Silver chloride.** A white light-sensitive powder, the stuff of old photographs.
 Falls and piles. In strong light it slowly darkens into grey-black silver, so anything shading it leaves a pale print.
@@ -178,7 +182,7 @@ Flows, and a magnet or a powered electromagnet pulls it in, so it climbs towards
 Flows and stays liquid when cold, until it touches a sodium acetate crystal: then it sets into crystal in a spreading wave, giving off heat like a hand warmer.
 *Try:* Pour a pool, then drop one sodium acetate crystal into it.
 
-## Gases (20)
+## Gases (21)
 
 **Steam.** Hot water vapour.
 Rises and spreads. Turns back into water as it cools, so it rains.
@@ -259,6 +263,9 @@ Sinks and pools low, kills plants, and condenses back into bromine as it cools.
 **Fog.** Cold white mist, as when dry ice meets warm water.
 Heavy and cold, it sinks and creeps along the ground, then thins away.
 
+**Hydrogen chloride.** A sharp, choking gas, heavier than air.
+Sinks and pools low. It turns water it touches into acid. It forms with a flash where hydrogen and chlorine meet in light.
+
 ## Solids (13)
 
 **Wall.** An indestructible solid.
@@ -313,7 +320,7 @@ Stays put. A blast crumbles it back into sand.
 Stays put, and grows into touching water that carries dissolved copper sulfate, taking the blue out of it.
 *Try:* Put one in water with a lot of copper sulfate dissolved in it.
 
-## Building (19)
+## Building (20)
 
 **Clay.** Fine, sticky earth, a heavy powder.
 Falls and piles, and soaks up water. Fired in great heat, it bakes hard into brick.
@@ -365,6 +372,10 @@ Flows slowly, and stays runny in the dark; strong light cures it from the top do
 **Cured resin.** UV resin cured hard by light, a clear glassy solid.
 Stays put and reaches well past its support. It burns in strong heat.
 *Try:* Heat it past 420 °C.
+
+**Superglue.** A thin, clear glue.
+Flows freely, and sets hard in a moment on its own; touching water it sets at once.
+*Try:* Pour a line of it, then splash water across it.
 
 **Glow paint.** Paint full of glow-in-the-dark crystals.
 Stays put. It soaks up light while lit, then shines soft green in the dark for a while, fading as its stored light runs out.
@@ -504,7 +515,7 @@ Oozes slowly and sinks through almost everything. It keeps heating itself while 
 Falls and piles, and a magnet pulls it in. It rusts in water, and acid eats it.
 *Try:* Pour them near a magnet or a powered electromagnet.
 
-## Fuels (16)
+## Fuels (18)
 
 **Coal.** Black lumps of fossil fuel, a heavy powder.
 Falls and piles. Hard to light, but once going it burns hot for a very long time.
@@ -570,6 +581,14 @@ Falls and piles. Water makes it hiss out acetylene gas, leaving slaked lime.
 Falls and piles and soaks up a lot of water. Dried out, it smoulders for a very long time.
 *Try:* Light it with fire.
 
+**Glycerin.** A thick, sweet, clear liquid.
+Oozes slowly and sinks through water. It burns once very hot; mixed with potassium permanganate it warms by itself and, after a pause, bursts into flame.
+*Try:* Pour a puddle onto a small heap of potassium permanganate and wait a few seconds.
+
+**Fire ice.** Methane hydrate: ice with natural gas locked inside.
+Stays put and very cold. Warmed past 5 °C it falls apart into water and methane, and a flame sets the lump burning like ice on fire.
+*Try:* Paint a lump and touch it with fire as it starts to fizz.
+
 ## Energy (7)
 
 **Fire.** Loose flames.
@@ -599,7 +618,7 @@ Drifts down, swaying, and burns out. It can still light what it lands on.
 **Neutron.** A fast neutron, flung out when uranium splits.
 Flies straight until it hits something; striking uranium, it adds to the chain reaction. Lead, concrete, water and control rods soak neutrons up.
 
-## Explosives (8)
+## Explosives (9)
 
 **TNT.** A packed explosive block.
 Stays put. Heat or a flame sets it off: the whole block blasts outwards, throwing what is nearby.
@@ -632,6 +651,10 @@ Stays put. Lit at one end, it burns steadily along its whole length like a rope,
 **Nitrogen triiodide.** Dark purple-black crystals, the touchiest explosive there is.
 Stays put where it dried. Anything moving against it, even a falling grain of sand or a drop of water, sets it off with a sharp purple crack; so does the least warmth.
 *Try:* Paint a little on a ledge, then drop a single grain of sand on it.
+
+**Sparkler.** A stick of slow sparkler compound.
+Stays put. Lit, it burns slowly along, spitting bright sparks into the air all the while.
+*Try:* Draw a thin line, then light one end.
 
 ## Electronics (13)
 
@@ -799,7 +822,7 @@ Falls and piles. Dropped into soda, their rough surface tears the gas out of it 
 Falls and piles. In sugary water it ferments the sugar into alcohol, bubbling out carbon dioxide.
 *Try:* Drop it into sugar water, then watch the bubbles.
 
-## Life (29)
+## Life (30)
 
 **Seed.** A small seed, a light powder.
 Falls, sinks in water and rests. On damp soil (wet dirt or sand), it sprouts into a plant, even under a puddle.
@@ -916,3 +939,7 @@ Floats on water and spreads through it while daylight reaches it, giving off bub
 **Moss.** Soft green moss.
 Stays put, clinging to stone, brick, concrete and wood, and creeps over them where it is damp and shaded. Dry heat kills it.
 *Try:* Build a stone wall by a pool under a roof, and put a little moss on it.
+
+**Glowing plankton.** Sea water full of tiny glowing plankton.
+Flows like water. Calm, it is dark; stirred, poured or splashed, it flashes bright blue where it moves.
+*Try:* Pour it into a pool, then drop sand into it or stir it with wind.

@@ -40,6 +40,7 @@ const RECENT_KEYS = [
   'plague', 'medicine', 'mould', 'spores', 'mushroom', 'corium', 'control_rod', 'dough', 'bread', 'toast',
   'manganese_dioxide', 'soap', 'foam', 'epoxy_resin', 'epoxy_hardener', 'epoxy', 'copper_sulfate', 'copper_sulfate_crystal', 'cabbage_juice',
   'algae', 'moss', 'ferrofluid', 'hot_ice', 'sodium_acetate', 'fog', 'mints', 'nitrogen_triiodide', 'uv_resin', 'cured_resin',
+  'glycerin', 'potassium_permanganate', 'fire_ice', 'sparkler', 'glow_plankton', 'superglue', 'hydrogen_chloride',
 ];
 const SEEN_KEY = 'sandglass.seen';
 
@@ -638,6 +639,8 @@ export function mountLibrary(
     recent.unshift(id);
     recent.length = Math.min(recent.length, 9);
     drawRecent();
+    // Only a newly added element pops in, not one already in the row.
+    if (at < 0) recentRow.firstElementChild?.classList.add('fresh');
   };
   brush.subscribe(noteRecent);
   noteRecent();
