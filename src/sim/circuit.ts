@@ -52,7 +52,10 @@ import { CHUNK_SHIFT, type World } from './world';
  * or when that is the only way current can get past a diode, so batteries in
  * a loop always help each other and a lone LED always lights.
  *
- * Each frame, a search from every source finds the live networks. In each,
+ * A search from every source finds the live networks. They are kept from
+ * frame to frame while no conductor in them or beside them changes (each
+ * frame checks that finding them again would give exactly the same), so a
+ * standing circuit is not rebuilt cell by cell every frame. In each network,
  * every stretch of wire or metal (anything under 0.05 ohm a cell, joined
  * with no voltage source between) is one piece at one potential: its own
  * resistance is far too small to matter to the loads. Each load cell (bulb,
@@ -139,7 +142,7 @@ const OWN_OF = Uint8Array.from({ length: ELEMENT_COUNT }, (_, t) =>
   DIODE_OF[t] || MOTOR_OF[t] || COIL_OF[t] || LIT_RGB_OF[t] || FILAMENT_OF[t] || SOLVENT_OF[t] || MAX_AMPS_OF[t] !== Infinity ? 1 : 0,
 );
 
-/** Scratch for one world: rebuilt every frame from world state, so it is never saved. */
+/** Scratch for one world: built from world state (again whenever a network changes), so it is never saved. */
 interface Scratch {
   size: number;
   /** Node index of each cell, -1 if not in a live network this frame. */
@@ -147,11 +150,22 @@ interface Scratch {
   /** Cell of each node, in search order, and how many there are. */
   cellOf: Int32Array;
   typeOf: Uint16Array;
+  /** Resistance of each node's cell (cellOhms) when the networks were found. */
+  raw: Float64Array;
   n: number;
+  /** Cells next to a network that do not conduct, as found; if one starts to, the networks are found again. */
+  bound: Int32Array;
+  nBound: number;
+  /** The networks were found within every limit, so they can stand for the next frame if nothing in or round them changes. */
+  reusable: boolean;
   /** Network c holds nodes compStart[c] to compStart[c + 1] - 1, and blobs blobStart[c] to blobStart[c + 1] - 1. */
   compStart: Int32Array;
   blobStart: Int32Array;
   comps: number;
+  /** Network c's pieces are pStart[c] to pStart[c + 1] - 1, its links lStart[c] onwards, its changing edges vStart[c] onwards. */
+  pStart: Int32Array;
+  lStart: Int32Array;
+  vStart: Int32Array;
   /** Per node and direction (left, right, up, down): neighbour node, conductance, and the EMF along that edge. */
   nb: Int32Array;
   g: Float64Array;
@@ -162,8 +176,7 @@ interface Scratch {
   /** The piece each node belongs to, and a stack for finding pieces. */
   aggOf: Int32Array;
   stack: Int32Array;
-  /** Pieces of the network being solved: first node, nodes, outline length, and the solver's vectors. */
-  pieces: number;
+  /** Pieces of every network: first node, nodes, outline length, and the solver's vectors. */
   cFirst: Int32Array;
   cCount: Int32Array;
   cPerim: Int32Array;
@@ -176,7 +189,13 @@ interface Scratch {
   cQ: Float64Array;
   /** Current through each piece (half the current crossing its edges). */
   cThrough: Float64Array;
-  /** Edges between pieces: ends, conductance, EMF from the first end to the second. */
+  /** Node edges that can change within a frame (into a diode, or across a battery or capacitor terminal), as 4 × node + direction. */
+  vary: Int32Array;
+  /** Every node edge between two pieces (even a blocked one): its pieces, and the node edge it is. */
+  lA: Int32Array;
+  lB: Int32Array;
+  lK: Int32Array;
+  /** Edges between pieces that carry current: ends, conductance, EMF from the first end to the second. */
   edges: number;
   eA: Int32Array;
   eB: Int32Array;
@@ -192,6 +211,8 @@ interface Scratch {
   blobs: number;
   bFirst: Int32Array;
   bCount: Int32Array;
+  /** Lowest cell of each blob: the one whose conc says which way round it is. */
+  bCell: Int32Array;
   /** Axis: 0 across (+ side right), 1 up (+ side top). Centre along the axis, length along it, cells across it. */
   bAxis: Uint8Array;
   bCentre: Float64Array;
@@ -220,10 +241,17 @@ function scratchFor(world: World): Scratch {
     nodeOf: new Int32Array(world.size).fill(-1),
     cellOf: new Int32Array(m),
     typeOf: new Uint16Array(m),
+    raw: new Float64Array(m),
     n: 0,
+    bound: new Int32Array(4 * m),
+    nBound: 0,
+    reusable: false,
     compStart: new Int32Array(MAX_COMPONENTS + 1),
     blobStart: new Int32Array(MAX_COMPONENTS + 1),
     comps: 0,
+    pStart: new Int32Array(MAX_COMPONENTS + 1),
+    lStart: new Int32Array(MAX_COMPONENTS + 1),
+    vStart: new Int32Array(MAX_COMPONENTS + 1),
     nb: new Int32Array(4 * m),
     g: new Float64Array(4 * m),
     e: new Float64Array(4 * m),
@@ -231,7 +259,6 @@ function scratchFor(world: World): Scratch {
     x: new Float64Array(m),
     aggOf: new Int32Array(m),
     stack: new Int32Array(m),
-    pieces: 0,
     cFirst: new Int32Array(m),
     cCount: new Int32Array(m),
     cPerim: new Int32Array(m),
@@ -243,6 +270,10 @@ function scratchFor(world: World): Scratch {
     cP: new Float64Array(m),
     cQ: new Float64Array(m),
     cThrough: new Float64Array(m),
+    vary: new Int32Array(4 * m),
+    lA: new Int32Array(2 * m),
+    lB: new Int32Array(2 * m),
+    lK: new Int32Array(2 * m),
     edges: 0,
     eA: new Int32Array(2 * m),
     eB: new Int32Array(2 * m),
@@ -256,6 +287,7 @@ function scratchFor(world: World): Scratch {
     blobs: 0,
     bFirst: new Int32Array(MAX_BLOBS),
     bCount: new Int32Array(MAX_BLOBS),
+    bCell: new Int32Array(MAX_BLOBS),
     bAxis: new Uint8Array(MAX_BLOBS),
     bCentre: new Float64Array(MAX_BLOBS),
     bLen: new Int32Array(MAX_BLOBS),
@@ -298,6 +330,14 @@ function side(world: World, x: number, y: number, d: number): number {
   return y + 1 < world.h ? (y + 1) * world.w + x : -1;
 }
 
+/** Neighbour of cell i, in column xi, in direction d (as side), or -1 at the edge: the same cell side gives, found faster. */
+function beside(i: number, xi: number, d: number, w: number, size: number): number {
+  if (d === 0) return xi > 0 ? i - 1 : -1;
+  if (d === 1) return xi + 1 < w ? i + 1 : -1;
+  if (d === 2) return i >= w ? i - w : -1;
+  return i + w < size ? i + w : -1;
+}
+
 /** Is cell i a source that could drive current now (a battery with charge, a charged capacitor)? */
 function isSource(world: World, i: number): boolean {
   const t = world.type[i];
@@ -311,12 +351,12 @@ function terminal(s: Scratch, b: number, x: number, y: number): number {
 
 /**
  * Reads the battery or capacitor blob around cell i: its cells, the axis
- * along which the circuit touches it on both sides, its voltage (signed by
- * which way round it is, kept in its cells' conc) and its resistances.
+ * along which the circuit touches it on both sides, its resistances and its
+ * voltage.
  */
 function labelBlob(world: World, s: Scratch, i: number): void {
   if (s.blobs >= MAX_BLOBS) return;
-  const { w, type, life, conc } = world;
+  const { w, type } = world;
   const { blobOf, blobCells } = s;
   const b = s.blobs++;
   const t = type[i];
@@ -329,7 +369,6 @@ function labelBlob(world: World, s: Scratch, i: number): void {
   let maxY = -1;
   let sumX = 0;
   let sumY = 0;
-  let charge = 0;
   let firstCell = i;
   for (let k = first; k < s.nCells; k++) {
     const c = blobCells[k];
@@ -341,7 +380,6 @@ function labelBlob(world: World, s: Scratch, i: number): void {
     if (cy > maxY) maxY = cy;
     sumX += cx;
     sumY += cy;
-    charge += life[c];
     if (c < firstCell) firstCell = c;
     for (let d = 0; d < 4; d++) {
       const j = side(world, cx, cy, d);
@@ -401,8 +439,27 @@ function labelBlob(world: World, s: Scratch, i: number): void {
   s.bAxis[b] = axis;
   s.bCentre[b] = axis === 0 ? centreX : centreY;
   s.bLen[b] = len;
+  s.bCell[b] = firstCell;
+  const ohms = ((SOLAR_OF[t] !== 0 ? OHMS_OF[t] : EMF_OF[t] !== 0 ? BATTERY_R : CAP_R) * len) / thick;
+  s.bOhms[b] = ohms;
+  blobEmf(world, s, b);
+  // Each side's contacts share half the internal resistance between them.
+  const plus = axis === 0 ? right : top;
+  const minus = axis === 0 ? left : bottom;
+  s.bRPlus[b] = 0.5 * ohms * Math.max(1, plus);
+  s.bRMinus[b] = 0.5 * ohms * Math.max(1, minus);
+}
+
+/** Blob b's voltage now, signed by which way round it is (kept in its cells' conc): it changes with charge and light. */
+function blobEmf(world: World, s: Scratch, b: number): void {
+  const { w, type, life, conc } = world;
+  const { blobCells } = s;
+  const first = s.bFirst[b];
+  const count = s.bCount[b];
+  const len = s.bLen[b];
+  const firstCell = s.bCell[b];
+  const t = type[firstCell];
   let emf: number;
-  let ohms: number;
   if (SOLAR_OF[t] !== 0) {
     // A solar panel's voltage follows the light on it: sample a few of its cells.
     let light = 0;
@@ -412,29 +469,89 @@ function labelBlob(world: World, s: Scratch, i: number): void {
       light += lightAt(world, c % w, (c / w) | 0);
     }
     emf = EMF_OF[t] * len * (light / samples) * (conc[firstCell] !== 0 ? -1 : 1);
-    ohms = (OHMS_OF[t] * len) / thick;
   } else if (EMF_OF[t] !== 0) {
+    let charge = 0;
+    for (let k = first; k < first + count; k++) charge += life[blobCells[k]];
     emf = charge > 0 ? EMF_OF[t] * len * (conc[firstCell] !== 0 ? -1 : 1) : 0;
-    ohms = (BATTERY_R * len) / thick;
   } else {
     // A charged capacitor pushes back against the current that charged it; all its cells hold the same charge.
     emf = -(life[firstCell] - CAP_ZERO) / 1000;
-    ohms = (CAP_R * len) / thick;
   }
   s.bEmf[b] = emf;
-  s.bOhms[b] = ohms;
-  // Each side's contacts share half the internal resistance between them.
-  const plus = axis === 0 ? right : top;
-  const minus = axis === 0 ? left : bottom;
-  s.bRPlus[b] = 0.5 * ohms * Math.max(1, plus);
-  s.bRMinus[b] = 0.5 * ohms * Math.max(1, minus);
 }
 
 /** One frame of circuits: find the live networks, solve them, and let the current act. No allocations. */
 export function circuitStep(world: World): void {
   const s = scratchFor(world);
-  const { w, cw, ch, awake, type, volt } = world;
-  const { nodeOf, cellOf, typeOf, ohm, x, amps, lit, blobOf, blobCells } = s;
+  const { w, type, volt } = world;
+  const { nodeOf, cellOf, typeOf, raw, ohm, x, amps, lit, blobOf, compStart } = s;
+  // Last frame's networks stand if nothing in them or round them has
+  // changed (finding them again would give exactly the same); else find them.
+  const kept = s.reusable && s.n > 0 && unchanged(world, s);
+  if (kept) {
+    for (let a = 0; a < s.n; a++) {
+      const c = cellOf[a];
+      amps[c] = 0;
+      lit[c] = 0;
+    }
+    for (let b = 0; b < s.blobs; b++) blobEmf(world, s, b);
+  } else findNetworks(world, s);
+  const n = s.n;
+  const comps = s.comps;
+  if (n === 0) return;
+  // Resistances. A diode starts from last frame's verdict: blocking while pushed leftwards or downwards.
+  for (let a = 0; a < n; a++) {
+    const i = cellOf[a];
+    const t = type[i];
+    typeOf[a] = t;
+    ohm[a] = blobOf[i] >= 0 ? BLOB_OHMS : raw[a];
+    if (DIODE_OF[t] !== 0) {
+      const xi = i % w;
+      const yi = (i / w) | 0;
+      let bias = 0;
+      for (let d = 0; d < 4; d++) {
+        const j = side(world, xi, yi, d);
+        // Forward is from left to right and from below to above.
+        if (j >= 0 && nodeOf[j] >= 0) bias += d === 0 || d === 3 ? volt[j] : -volt[j];
+      }
+      if (bias < -0.01) ohm[a] = R_OFF;
+    }
+    x[a] = volt[i];
+  }
+  // Each network's edges and pieces are built once, and kept while the
+  // network stands: a flip changes only the few edges at a diode or a
+  // battery terminal, so a solve again redoes only those.
+  if (!kept) {
+    for (let c = 0; c < comps; c++) {
+      assemble(world, s, c);
+      findPieces(s, c);
+    }
+  }
+  // Solve each network. If a diode turns out wrong (passing current
+  // backwards, or blocking while pushed forwards), flip it; if a battery is
+  // being pushed backwards by another, turn it round; solve again.
+  const st = world.currentStamp();
+  for (let c = 0; c < comps; c++) {
+    const lo = compStart[c];
+    const hi = compStart[c + 1];
+    let settled = settle(world, s, c);
+    if (settled && turnBatteries(world, s, c)) settled = settle(world, s, c);
+    if (settled) settled = tryOtherWay(world, s, c);
+    if (settled) act(world, s, c, st);
+    // Unsettled: keep the progress for next frame, but let nothing act on half-solved currents.
+    else for (let a = lo; a < hi; a++) volt[cellOf[a]] = x[a];
+  }
+}
+
+/**
+ * Finds the live networks. Sources keep their chunks awake, so scanning
+ * awake chunks finds them all. Each source not yet reached starts a
+ * network, grown through everything that conducts, so a network's nodes
+ * (and its blobs) lie together.
+ */
+function findNetworks(world: World, s: Scratch): void {
+  const { w, cw, ch, awake } = world;
+  const { nodeOf, cellOf, raw, amps, lit, blobOf, blobCells, compStart, blobStart } = s;
   // Forget last frame's networks and blobs.
   for (let k = 0; k < s.n; k++) {
     const c = cellOf[k];
@@ -445,10 +562,7 @@ export function circuitStep(world: World): void {
   for (let k = 0; k < s.nCells; k++) blobOf[blobCells[k]] = -1;
   s.nCells = 0;
   s.blobs = 0;
-  // Sources keep their chunks awake, so scanning awake chunks finds them all.
-  // Each source not yet reached starts a network, grown through everything
-  // that conducts, so a network's nodes (and its blobs) lie together.
-  const { compStart, blobStart } = s;
+  s.nBound = 0;
   let n = 0;
   let comps = 0;
   for (let cy = 0; cy < ch; cy++) {
@@ -468,6 +582,7 @@ export function circuitStep(world: World): void {
           }
           nodeOf[i] = n;
           cellOf[n] = i;
+          raw[n] = cellOhms(world, i);
           n = grow(world, s, n, n + 1);
         }
       }
@@ -477,51 +592,57 @@ export function circuitStep(world: World): void {
   blobStart[comps] = s.blobs;
   s.n = n;
   s.comps = comps;
-  if (n === 0) return;
-  // Resistances. A diode starts from last frame's verdict: blocking while pushed leftwards or downwards.
-  for (let a = 0; a < n; a++) {
-    const i = cellOf[a];
-    const t = type[i];
-    typeOf[a] = t;
-    ohm[a] = blobOf[i] >= 0 ? BLOB_OHMS : cellOhms(world, i);
-    if (DIODE_OF[t] !== 0) {
-      const xi = i % w;
-      const yi = (i / w) | 0;
-      let bias = 0;
-      for (let d = 0; d < 4; d++) {
-        const j = side(world, xi, yi, d);
-        // Forward is from left to right and from below to above.
-        if (j >= 0 && nodeOf[j] >= 0) bias += d === 0 || d === 3 ? volt[j] : -volt[j];
-      }
-      if (bias < -0.01) ohm[a] = R_OFF;
-    }
-    x[a] = volt[i];
-  }
-  // Solve each network. If a diode turns out wrong (passing current
-  // backwards, or blocking while pushed forwards), flip it; if a battery is
-  // being pushed backwards by another, turn it round; solve again.
-  const st = world.currentStamp();
-  for (let c = 0; c < comps; c++) {
-    const lo = compStart[c];
-    const hi = compStart[c + 1];
-    let settled = settle(world, s, c);
-    if (settled && turnBatteries(world, s, c)) settled = settle(world, s, c);
-    if (settled) settled = tryOtherWay(world, s, c);
-    if (settled) act(world, s, c, st);
-    // Unsettled: keep the progress for next frame, but let nothing act on half-solved currents.
-    else for (let a = lo; a < hi; a++) volt[cellOf[a]] = x[a];
-  }
+  s.reusable = n < MAX_NODES && comps < MAX_COMPONENTS && s.blobs < MAX_BLOBS && s.nCells < blobCells.length;
 }
 
-/** Assembles and solves network c, letting diodes settle. True if the solve settled. */
+/**
+ * Would finding the networks again give exactly last frame's? True if
+ * every node is the same element with the same resistance, nothing round
+ * them has started to conduct, and the scan for sources would start the
+ * same networks from the same sources in the same order.
+ */
+function unchanged(world: World, s: Scratch): boolean {
+  const { w, cw, ch, awake, type } = world;
+  const { nodeOf, cellOf, typeOf, raw, bound, compStart } = s;
+  for (let a = 0; a < s.n; a++) {
+    const i = cellOf[a];
+    if (type[i] !== typeOf[a] || cellOhms(world, i) !== raw[a]) return false;
+  }
+  for (let k = 0; k < s.nBound; k++) if (cellOhms(world, bound[k]) !== 0) return false;
+  let next = 0;
+  for (let cy = 0; cy < ch; cy++) {
+    for (let cx = 0; cx < cw; cx++) {
+      if (awake[cy * cw + cx] === 0) continue;
+      const x0 = cx << CHUNK_SHIFT;
+      const y0 = cy << CHUNK_SHIFT;
+      const x1 = Math.min(x0 + (1 << CHUNK_SHIFT), w);
+      const y1 = Math.min(y0 + (1 << CHUNK_SHIFT), world.h);
+      for (let yy = y0; yy < y1; yy++) {
+        for (let xx = x0; xx < x1; xx++) {
+          const i = yy * w + xx;
+          const a = nodeOf[i];
+          // In a network already started: the scan would pass it by.
+          if (a >= 0 && a < compStart[next]) continue;
+          if (!isSource(world, i)) continue;
+          // A source here would start a network: it must be the next one, from the same source.
+          if (next >= s.comps || a !== compStart[next]) return false;
+          next++;
+        }
+      }
+    }
+  }
+  return next === s.comps;
+}
+
+/** Solves network c as its diodes and batteries now stand, letting diodes settle. True if the solve settled. */
 function settle(world: World, s: Scratch, c: number): boolean {
   const lo = s.compStart[c];
   const hi = s.compStart[c + 1];
-  assemble(world, s, lo, hi);
-  let settled = solvePieces(world, s, lo, hi);
+  reassemble(world, s, c);
+  let settled = solvePieces(s, c);
   for (let round = 0; settled && round < 3 && flipDiodes(world, s, lo, hi); round++) {
-    assemble(world, s, lo, hi);
-    settled = solvePieces(world, s, lo, hi);
+    reassemble(world, s, c);
+    settled = solvePieces(s, c);
   }
   if (settled) blobCurrents(world, s, s.blobStart[c], s.blobStart[c + 1]);
   return settled;
@@ -650,70 +771,108 @@ function blobCurrents(world: World, s: Scratch, b0: number, b1: number): void {
   }
 }
 
-/** Grows a network breadth first from the nodes head..n-1 through every conductor that joins it. Returns the new node count. */
+/**
+ * Grows a network breadth first from the nodes head..n-1 through every
+ * conductor that joins it, noting each node's neighbours (nb) and the cells
+ * round it that do not conduct. Returns the new node count.
+ */
 function grow(world: World, s: Scratch, head: number, n: number): number {
-  const { w, type } = world;
-  const { nodeOf, cellOf, blobOf } = s;
+  const { w, size, type } = world;
+  const { nodeOf, cellOf, raw, blobOf, nb, bound } = s;
+  let nBound = s.nBound;
   for (let a = head; a < n; a++) {
     const i = cellOf[a];
     if (blobOf[i] < 0 && (EMF_OF[type[i]] !== 0 || CAPACITOR_OF[type[i]] !== 0)) labelBlob(world, s, i);
     const xi = i % w;
-    const yi = (i / w) | 0;
     for (let d = 0; d < 4; d++) {
-      const j = side(world, xi, yi, d);
-      if (j < 0 || nodeOf[j] >= 0 || n >= MAX_NODES || cellOhms(world, j) === 0) continue;
+      const k = 4 * a + d;
+      const j = beside(i, xi, d, w, size);
+      const q = j >= 0 ? nodeOf[j] : -1;
+      nb[k] = q;
+      if (j < 0 || q >= 0 || n >= MAX_NODES) continue;
+      const r = cellOhms(world, j);
+      if (r === 0) {
+        bound[nBound++] = j;
+        continue;
+      }
       nodeOf[j] = n;
+      raw[n] = r;
+      nb[k] = n;
       cellOf[n++] = j;
     }
   }
+  s.nBound = nBound;
   return n;
 }
 
 /**
- * Builds each node's edges: conductance and EMF to its four neighbours. An
+ * Builds each node's edges (to the neighbours grow found): conductance and EMF. An
  * edge into a battery or capacitor from outside meets its terminal on that
  * side: half the blob's EMF, signed by the side, and that side's share of
- * its internal resistance.
+ * its internal resistance. Also lists the edges a flip can change.
  */
-function assemble(world: World, s: Scratch, lo: number, hi: number): void {
-  const { w } = world;
-  const { nodeOf, cellOf, nb, g, e, ohm, blobOf } = s;
+function assemble(world: World, s: Scratch, c: number): void {
+  const { cellOf, typeOf, nb, g, e, ohm, blobOf, vary } = s;
+  const lo = s.compStart[c];
+  const hi = s.compStart[c + 1];
+  if (c === 0) s.vStart[0] = 0;
+  let nv = s.vStart[c];
   for (let a = lo; a < hi; a++) {
-    const i = cellOf[a];
-    const xi = i % w;
-    const yi = (i / w) | 0;
-    const ba = blobOf[i];
+    const ba = blobOf[cellOf[a]];
+    const diode = DIODE_OF[typeOf[a]] !== 0;
     for (let d = 0; d < 4; d++) {
       const k = 4 * a + d;
-      const j = side(world, xi, yi, d);
-      const q = j >= 0 ? nodeOf[j] : -1;
-      if (q < 0) {
-        nb[k] = -1;
-        continue;
-      }
-      const bb = blobOf[j];
-      let R: number;
-      let ek = 0;
-      if (ba >= 0 && ba === bb) R = BLOB_OHMS;
-      else {
-        R = 0;
-        if (ba >= 0) {
-          const t = terminal(s, ba, j % w, (j / w) | 0);
-          R += t > 0 ? s.bRPlus[ba] : s.bRMinus[ba];
-          ek += 0.5 * t * s.bEmf[ba];
-        } else R += 0.5 * ohm[a];
-        if (bb >= 0) {
-          const t = terminal(s, bb, xi, yi);
-          R += t > 0 ? s.bRPlus[bb] : s.bRMinus[bb];
-          ek -= 0.5 * t * s.bEmf[bb];
-        } else R += 0.5 * ohm[q];
-      }
-      // A blocking diode is an open circuit: its edges carry nothing (1 / Infinity = 0).
-      const gk = 1 / R;
-      nb[k] = q;
-      g[k] = gk;
-      e[k] = ek;
+      const q = nb[k];
+      if (q < 0) continue;
+      const bb = blobOf[cellOf[q]];
+      if (diode || DIODE_OF[typeOf[q]] !== 0 || ba !== bb) {
+        edge(world, s, a, q, k);
+        vary[nv++] = k;
+      } else if (ba < 0) {
+        // Plain conductor to plain conductor (what edge works out, without the terminals).
+        g[k] = 1 / (0.5 * ohm[a] + 0.5 * ohm[q]);
+        e[k] = 0;
+      } else edge(world, s, a, q, k);
     }
+  }
+  s.vStart[c + 1] = nv;
+}
+
+/** Edge k, from node a to its neighbour q: conductance and EMF as the diodes and batteries now stand. */
+function edge(world: World, s: Scratch, a: number, q: number, k: number): void {
+  const { w } = world;
+  const { cellOf, ohm, blobOf } = s;
+  const i = cellOf[a];
+  const j = cellOf[q];
+  const ba = blobOf[i];
+  const bb = blobOf[j];
+  let R: number;
+  let ek = 0;
+  if (ba >= 0 && ba === bb) R = BLOB_OHMS;
+  else {
+    R = 0;
+    if (ba >= 0) {
+      const t = terminal(s, ba, j % w, (j / w) | 0);
+      R += t > 0 ? s.bRPlus[ba] : s.bRMinus[ba];
+      ek += 0.5 * t * s.bEmf[ba];
+    } else R += 0.5 * ohm[a];
+    if (bb >= 0) {
+      const t = terminal(s, bb, i % w, (i / w) | 0);
+      R += t > 0 ? s.bRPlus[bb] : s.bRMinus[bb];
+      ek -= 0.5 * t * s.bEmf[bb];
+    } else R += 0.5 * ohm[q];
+  }
+  // A blocking diode is an open circuit: its edges carry nothing (1 / Infinity = 0).
+  s.g[k] = 1 / R;
+  s.e[k] = ek;
+}
+
+/** Rebuilds only the edges a diode flip or a battery turning round can change. */
+function reassemble(world: World, s: Scratch, c: number): void {
+  const { nb, vary } = s;
+  for (let v = s.vStart[c]; v < s.vStart[c + 1]; v++) {
+    const k = vary[v];
+    edge(world, s, k >> 2, nb[k], k);
   }
 }
 
@@ -761,16 +920,18 @@ function act(world: World, s: Scratch, c: number, st: number): void {
     volt[i] = x[a];
     const k = aggOf[a];
     let sum = 0;
-    // Current through the cell rightwards, for motors.
+    // Current through the cell rightwards, for motors (a piece of their own).
     let ix = 0;
-    for (let d = 0; d < 4; d++) {
-      const k = 4 * a + d;
-      const b = nb[k];
-      if (b < 0) continue;
-      const I = g[k] * (x[a] - x[b] + e[k]);
-      sum += I < 0 ? -I : I;
-      if (d === 1) ix += 0.5 * I;
-      else if (d === 0) ix -= 0.5 * I;
+    if (cCount[k] === 1) {
+      for (let d = 0; d < 4; d++) {
+        const k = 4 * a + d;
+        const b = nb[k];
+        if (b < 0) continue;
+        const I = g[k] * (x[a] - x[b] + e[k]);
+        sum += I < 0 ? -I : I;
+        if (d === 1) ix += 0.5 * I;
+        else if (d === 0) ix -= 0.5 * I;
+      }
     }
     // A cell inside a piece of wire carries the piece's current shared across its width.
     const I = cCount[k] > 1 ? cThrough[k] / Math.max(1, (2 * cCount[k]) / Math.max(1, cPerim[k])) : 0.5 * sum;
@@ -855,16 +1016,22 @@ function ownPiece(s: Scratch, a: number): boolean {
 }
 
 /**
- * Splits nodes lo..hi-1 into pieces, builds the system between pieces and
- * solves it by preconditioned conjugate gradient from the potentials in x.
- * Writes each node's potential back to x. True if the solve settled.
+ * Splits nodes lo..hi-1 into pieces and lists every node edge between two
+ * pieces. Which nodes join is the same however the diodes and batteries
+ * stand (diodes are pieces of their own, and a battery or capacitor never
+ * joins what it touches), so this runs only when the networks are found.
  */
-function solvePieces(world: World, s: Scratch, lo: number, hi: number): boolean {
-  const { w } = world;
-  const { nodeOf, cellOf, nb, g, e, x, aggOf, stack, cFirst, cCount, cPerim, cDiag, cRhs, cX, cR, cZ, cP, cQ, cThrough, eA, eB, eG, eE } = s;
+function findPieces(s: Scratch, c: number): void {
+  const { cellOf, nb, g, e, aggOf, stack, cFirst, cCount, cPerim, lA, lB, lK } = s;
+  const lo = s.compStart[c];
+  const hi = s.compStart[c + 1];
+  if (c === 0) {
+    s.pStart[0] = 0;
+    s.lStart[0] = 0;
+  }
   for (let a = lo; a < hi; a++) aggOf[a] = -1;
   // Pieces: wire and metal joined by plain low-resistance edges; every other node alone.
-  let m = 0;
+  let m = s.pStart[c];
   for (let a = lo; a < hi; a++) {
     if (aggOf[a] >= 0) continue;
     const k = m++;
@@ -890,46 +1057,67 @@ function solvePieces(world: World, s: Scratch, lo: number, hi: number): boolean 
     }
   }
   // Outline of each piece (for the width its current spreads over), and the edges between pieces.
+  let nl = s.lStart[c];
+  for (let a = lo; a < hi; a++) {
+    const A = aggOf[a];
+    for (let d = 0; d < 4; d++) {
+      const kk = 4 * a + d;
+      // The neighbour's node (nb holds it, -1 if none).
+      const q = nb[kk];
+      if (q < lo || q >= hi || aggOf[q] !== A) cPerim[A]++;
+      if (q <= a) continue;
+      const B = aggOf[q];
+      if (B === A) continue;
+      lA[nl] = A;
+      lB[nl] = B;
+      lK[nl++] = kk;
+    }
+  }
+  s.pStart[c + 1] = m;
+  s.lStart[c + 1] = nl;
+}
+
+/**
+ * Builds the system between the pieces of network c from their edges as
+ * they now stand and solves it by preconditioned conjugate gradient from
+ * the potentials in x. Writes each node's potential back to x. True if the
+ * solve settled.
+ */
+function solvePieces(s: Scratch, c: number): boolean {
+  const { g, e, x, aggOf, cFirst, cDiag, cRhs, cX, cR, cZ, cP, cQ, cThrough, eA, eB, eG, eE, lA, lB, lK } = s;
+  const lo = s.compStart[c];
+  const hi = s.compStart[c + 1];
+  const p0 = s.pStart[c];
+  const p1 = s.pStart[c + 1];
+  const m = p1 - p0;
   let ne = 0;
-  for (let k = 0; k < m; k++) {
+  for (let k = p0; k < p1; k++) {
     cDiag[k] = LEAK;
     cRhs[k] = 0;
     cX[k] = x[cFirst[k]];
   }
-  for (let a = lo; a < hi; a++) {
-    const A = aggOf[a];
-    const i = cellOf[a];
-    const xi = i % w;
-    const yi = (i / w) | 0;
-    for (let d = 0; d < 4; d++) {
-      const j = side(world, xi, yi, d);
-      const nj = j >= 0 ? nodeOf[j] : -1;
-      if (nj < lo || nj >= hi || aggOf[nj] !== A) cPerim[A]++;
-      const kk = 4 * a + d;
-      const q = nb[kk];
-      if (q <= a) continue;
-      const B = aggOf[q];
-      if (B === A) continue;
-      const gk = g[kk];
-      if (gk === 0) continue;
-      eA[ne] = A;
-      eB[ne] = B;
-      eG[ne] = gk;
-      eE[ne] = e[kk];
-      ne++;
-      cDiag[A] += gk;
-      cDiag[B] += gk;
-      cRhs[A] -= gk * e[kk];
-      cRhs[B] += gk * e[kk];
-    }
+  for (let l = s.lStart[c]; l < s.lStart[c + 1]; l++) {
+    const kk = lK[l];
+    const gk = g[kk];
+    if (gk === 0) continue;
+    const A = lA[l];
+    const B = lB[l];
+    eA[ne] = A;
+    eB[ne] = B;
+    eG[ne] = gk;
+    eE[ne] = e[kk];
+    ne++;
+    cDiag[A] += gk;
+    cDiag[B] += gk;
+    cRhs[A] -= gk * e[kk];
+    cRhs[B] += gk * e[kk];
   }
-  s.pieces = m;
   s.edges = ne;
   // Conjugate gradient, Jacobi preconditioned, on the pieces.
   let iterations = Math.min(MAX_ITERATIONS, Math.max(MIN_ITERATIONS, 3 * m + 20));
   if (iterations * (m + ne) > WORK) iterations = Math.max(MIN_ITERATIONS, (WORK / (m + ne)) | 0);
   let bb = 0;
-  for (let k = 0; k < m; k++) {
+  for (let k = p0; k < p1; k++) {
     cQ[k] = cDiag[k] * cX[k];
     bb += cRhs[k] * cRhs[k];
   }
@@ -939,7 +1127,7 @@ function solvePieces(world: World, s: Scratch, lo: number, hi: number): boolean 
   }
   let rz = 0;
   let rr = 0;
-  for (let k = 0; k < m; k++) {
+  for (let k = p0; k < p1; k++) {
     const r = cRhs[k] - cQ[k];
     cR[k] = r;
     const z = r / cDiag[k];
@@ -950,18 +1138,18 @@ function solvePieces(world: World, s: Scratch, lo: number, hi: number): boolean 
   }
   const limit = TOLERANCE * TOLERANCE * (bb > 1e-8 ? bb : 1e-8);
   for (let it = 0; it < iterations && rr > limit; it++) {
-    for (let k = 0; k < m; k++) cQ[k] = cDiag[k] * cP[k];
+    for (let k = p0; k < p1; k++) cQ[k] = cDiag[k] * cP[k];
     for (let k = 0; k < ne; k++) {
       cQ[eA[k]] -= eG[k] * cP[eB[k]];
       cQ[eB[k]] -= eG[k] * cP[eA[k]];
     }
     let pq = 0;
-    for (let k = 0; k < m; k++) pq += cP[k] * cQ[k];
+    for (let k = p0; k < p1; k++) pq += cP[k] * cQ[k];
     if (pq <= 0) break;
     const alpha = rz / pq;
     let rz2 = 0;
     rr = 0;
-    for (let k = 0; k < m; k++) {
+    for (let k = p0; k < p1; k++) {
       cX[k] += alpha * cP[k];
       const r = cR[k] - alpha * cQ[k];
       cR[k] = r;
@@ -972,11 +1160,11 @@ function solvePieces(world: World, s: Scratch, lo: number, hi: number): boolean 
     }
     const beta = rz2 / rz;
     rz = rz2;
-    for (let k = 0; k < m; k++) cP[k] = cZ[k] + beta * cP[k];
+    for (let k = p0; k < p1; k++) cP[k] = cZ[k] + beta * cP[k];
   }
   for (let a = lo; a < hi; a++) x[a] = cX[aggOf[a]];
   // Current through each piece: half of all the current crossing its edges.
-  for (let k = 0; k < m; k++) cThrough[k] = 0;
+  for (let k = p0; k < p1; k++) cThrough[k] = 0;
   for (let k = 0; k < ne; k++) {
     const I = eG[k] * (cX[eA[k]] - cX[eB[k]] + eE[k]);
     const mag = I < 0 ? -I : I;
