@@ -456,7 +456,9 @@ function labelBlob(world: World, s: Scratch, i: number): void {
   s.bCentre[b] = axis === 0 ? centreX : centreY;
   s.bLen[b] = len;
   s.bCell[b] = firstCell;
-  const ohms = ((SOLAR_OF[t] !== 0 || DIODE_OF[t] !== 0 ? OHMS_OF[t] : EMF_OF[t] !== 0 ? BATTERY_R : CAP_R) * len) / thick;
+  // A diode or LED barely resists, however long it is drawn: a long LED must not act as its own
+  // resistor, or it would survive without one (it burns out unless a resistor limits the current).
+  const ohms = DIODE_OF[t] !== 0 ? OHMS_OF[t] / thick : ((SOLAR_OF[t] !== 0 ? OHMS_OF[t] : EMF_OF[t] !== 0 ? BATTERY_R : CAP_R) * len) / thick;
   s.bOhms[b] = ohms;
   s.bOff[b] = 0;
   blobEmf(world, s, b);
