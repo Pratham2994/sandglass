@@ -63,6 +63,7 @@ import {
   RAIN_COLD_OF,
   DIES_INTO_OF,
   GROWS_UP_MEALS_OF,
+  SHAPE_OF,
   GROWS_UP_INTO_OF,
   BOLT_OF,
   BURSTS_INTO_OF,
@@ -245,7 +246,9 @@ function updateCell(world: World, x: number, y: number, st: number): void {
   if (CURE_FRAMES_OF[t] !== 0) {
     world.wake(x, y);
     if (++world.life[i] >= CURE_FRAMES_OF[t]) {
-      become(world, i, CURES_INTO_OF[t]);
+      // A shaped object (a cocoon) hatches from its first cell only; the rest falls away.
+      const into = CURES_INTO_OF[t];
+      become(world, i, BODY_OF[into] !== null && world.conc[i] > 1 ? EMPTY : into);
       return;
     }
   }
@@ -581,6 +584,19 @@ function creature(world: World, x: number, y: number, i: number, t: number, st: 
     bodyTurn(world, x, y, i, t, st);
     return;
   }
+  // A lone cell of an animal with a body (painted, hatched, or born from food) grows its body once there is room:
+  // standing on its feet where it is, else hanging from where it is.
+  if (BODY_OF[t] !== null) {
+    const sick = world.solute[i];
+    const up = BODY_OF[t]!.tall;
+    const ay = placeBody(world, x, y - up, t, i) ? y - up : placeBody(world, x, y, t, i) ? y : -1;
+    if (ay >= 0) {
+      if (world.conc[i] === 0) world.place(i, EMPTY);
+      // It keeps any sickness it had.
+      world.solute[ay * world.w + x] = sick;
+      return;
+    }
+  }
   world.wake(x, y);
   const { w, h, type, temp, life, vy } = world;
   const habitat = HABITAT_OF[t];
@@ -608,8 +624,8 @@ function creature(world: World, x: number, y: number, i: number, t: number, st: 
         temp[j] = Tj;
       } else become(world, j, e - 1);
       world.stamp[j] = st;
-      // Metamorphosis: enough meals (counted in conc) and it changes (a caterpillar spins a cocoon).
-      if (GROWS_UP_MEALS_OF[t] !== 0 && ++world.conc[i] >= GROWS_UP_MEALS_OF[t]) become(world, i, GROWS_UP_INTO_OF[t]);
+      // Metamorphosis: enough meals (counted in conc) and it changes (a caterpillar spins a cocoon). Bodied animals count in bodyTurn.
+      if (BODY_OF[t] === null && GROWS_UP_MEALS_OF[t] !== 0 && ++world.conc[i] >= GROWS_UP_MEALS_OF[t]) become(world, i, GROWS_UP_INTO_OF[t]);
       return;
     }
   }
@@ -722,8 +738,12 @@ function seekFood(world: World, x: number, y: number, i: number, t: number, habi
 
 // ---- Creature bodies ------------------------------------------------------------------
 
-/** Places a creature body with its first part at (x, y), if every cell it needs is free (empty, or water for a fish). */
-export function placeBody(world: World, x: number, y: number, t: number): boolean {
+/**
+ * Places a creature body with its first part at (x, y), if every cell it
+ * needs is free (empty, or water for a fish); cell `own` (the lone animal
+ * growing its body) counts as free.
+ */
+export function placeBody(world: World, x: number, y: number, t: number, own = -1): boolean {
   const b = BODY_OF[t];
   if (b === null) return false;
   const { w, h, type } = world;
@@ -732,12 +752,39 @@ export function placeBody(world: World, x: number, y: number, t: number): boolea
     const px = x + b.dx[p];
     const py = y + b.dy[p];
     if (px < 0 || py < 0 || px >= w || py >= h) return false;
-    const k = type[py * w + px];
-    if (k !== EMPTY && !(swims && k === WATER)) return false;
+    const q = py * w + px;
+    const k = type[q];
+    if (q !== own && k !== EMPTY && !(swims && k === WATER)) return false;
   }
   for (let p = 0; p < b.dx.length; p++) {
     const k = (y + b.dy[p]) * w + x + b.dx[p];
     world.place(k, t);
+    world.conc[k] = p + 1;
+    world.shade[k] = b.shade[p];
+  }
+  return true;
+}
+
+/**
+ * Places an object's shape (an egg) with its first part at (x, y), if every
+ * cell it needs is empty (cell `own` counts as free). Parts are numbered in conc.
+ */
+export function placeShape(world: World, x: number, y: number, t: number, own = -1): boolean {
+  const b = SHAPE_OF[t];
+  if (b === null) return false;
+  const { w, h, type } = world;
+  for (let p = 0; p < b.dx.length; p++) {
+    const px = x + b.dx[p];
+    const py = y + b.dy[p];
+    if (px < 0 || py < 0 || px >= w || py >= h) return false;
+    const q = py * w + px;
+    if (q !== own && type[q] !== EMPTY) return false;
+  }
+  for (let p = 0; p < b.dx.length; p++) {
+    const k = (y + b.dy[p]) * w + x + b.dx[p];
+    const T = world.temp[k];
+    world.place(k, t);
+    if (k === own) world.temp[k] = T;
     world.conc[k] = p + 1;
     world.shade[k] = b.shade[p];
   }
@@ -853,14 +900,24 @@ function bodyTurn(world: World, x: number, y: number, i: number, t: number, st: 
       if (e !== 0 && ((r >>> 6) & 7) === 0) {
         if (e === 1) {
           world.place(j, EMPTY);
-          if (((r >>> 9) & 3) === 0) placeBody(world, j % w, (j / w) | 0, t);
+          // A fed body breeds: a newborn takes the food's place and grows its body once there is room.
+          if (((r >>> 9) & 3) === 0) {
+            world.place(j, t);
+            world.stamp[j] = st;
+          }
         } else become(world, j, e - 1);
+        // Metamorphosis: meals are counted in the last part's life; enough, and the body changes (a caterpillar spins a cocoon).
+        if (GROWS_UP_MEALS_OF[t] !== 0) {
+          const kl = (y + b.dy[n - 1]) * w + x + b.dx[n - 1];
+          if (++life[kl] >= GROWS_UP_MEALS_OF[t]) growUp(world, x, y, i, t);
+        }
         return;
       }
     }
   }
   // Fall through open air when nothing holds it up (birds fly; a fish in water swims instead).
   if (habitat !== H_AIR && !(habitat === H_WATER && home) && moveBody(world, x, y, t, 0, 1, H_AIR, st)) return;
+  if (((r >>> 24) & 1) === 0 && seekBody(world, x, y, t, habitat, st)) return;
   if (((r >>> 11) & 3) !== 0) return;
   let dir = vy[i] === 0 ? (((r >>> 13) & 1) === 0 ? 1 : -1) : vy[i] > 0 ? 1 : -1;
   if (((r >>> 14) & 31) === 0) dir = -dir;
@@ -885,6 +942,40 @@ function bodyTurn(world: World, x: number, y: number, i: number, t: number, st: 
       }
     }
   }
+}
+
+/** A body grows up: its first cell becomes the new form (with that form's shape, if it has room); the other parts fall away. */
+function growUp(world: World, x: number, y: number, i: number, t: number): void {
+  const b = BODY_OF[t]!;
+  const { w } = world;
+  for (let p = 1; p < b.dx.length; p++) world.place((y + b.dy[p]) * w + x + b.dx[p], EMPTY);
+  const into = GROWS_UP_INTO_OF[t];
+  if (!placeShape(world, x, y, into, i)) become(world, i, into);
+}
+
+/**
+ * A body looks at a few random cells within SEEK_REACH of its head; if one is
+ * food, it takes one step towards it (diagonally, else across, else up or
+ * down; walkers across or up a step). Returns true if it moved.
+ */
+function seekBody(world: World, x: number, y: number, t: number, habitat: number, st: number): boolean {
+  const { w, h, type } = world;
+  const span = 2 * SEEK_REACH + 1;
+  for (let look = 0; look < SEEK_LOOKS; look++) {
+    const q = world.rng.nextU32();
+    const fx = x + (q % span) - SEEK_REACH;
+    const fy = y + ((q >>> 10) % span) - SEEK_REACH;
+    if (fx < 0 || fy < 0 || fx >= w || fy >= h) continue;
+    if (EATS[t * ELEMENT_COUNT + type[fy * w + fx]] === 0) continue;
+    const sx = Math.sign(fx - x);
+    const sy = habitat === H_GROUND ? 0 : Math.sign(fy - y);
+    if ((sx !== 0 || sy !== 0) && moveBody(world, x, y, t, sx, sy, habitat, st)) return true;
+    if (sx !== 0 && sy !== 0 && moveBody(world, x, y, t, sx, 0, habitat, st)) return true;
+    if (sy !== 0 && sx !== 0 && moveBody(world, x, y, t, 0, sy, habitat, st)) return true;
+    if (habitat === H_GROUND && sx !== 0 && moveBody(world, x, y, t, sx, -1, habitat, st)) return true;
+    return false;
+  }
+  return false;
 }
 
 // ---- Life -------------------------------------------------------------------------

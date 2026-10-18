@@ -8,7 +8,7 @@
  * Run: npm run behaviour
  */
 import { writeFileSync } from 'node:fs';
-import { ELEMENTS, EMPTY, elementId } from '../src/sim/elements';
+import { BODY_OF, ELEMENTS, EMPTY, elementId } from '../src/sim/elements';
 import { downChange } from '../src/sim/describe';
 import { placeBody, step } from '../src/sim/step';
 import { ampsAt } from '../src/sim/circuit';
@@ -52,7 +52,16 @@ class Scene {
     for (let f = 0; f < frames; f++) step(this.world);
     return this;
   }
+  /** How many there are: cells, but whole animals for animals with a body (a lone cell or a body's first part). */
   count(key: string): number {
+    const t = this.id(key);
+    if (BODY_OF[t] === null) return this.world.count(t);
+    let n = 0;
+    for (let k = 0; k < this.world.size; k++) if (this.world.type[k] === t && this.world.conc[k] <= 1) n++;
+    return n;
+  }
+  /** Cells of an element, counting every part of every body. */
+  cells(key: string): number {
     return this.world.count(this.id(key));
   }
   /** Mean row of an element (larger is lower); NaN if none. */
@@ -994,8 +1003,8 @@ check('fish', 'swims and lives in water', () => {
 });
 check('fish', 'out of water it dies into meat', () => {
   const s = new Scene().fill(30, 60, 2, 1, 'fish');
-  const f = until(s, 900, () => s.count('meat') > 0);
-  return { ok: f > 0 && s.count('fish') === 0, detail: f > 0 ? `meat after ${f} frames` : `fish ${s.count('fish')}` };
+  const f = until(s, 1200, () => s.count('fish') === 0);
+  return { ok: f > 0 && s.count('meat') > 0, detail: f > 0 ? `all dead into meat after ${f} frames` : `fish ${s.count('fish')}` };
 });
 check('fish', 'in boiling water it cooks', () => {
   const s = new Scene().fill(0, 44, W, 20, 'water', 95).heat(0, 44, W, 20, 95).fill(30, 54, 2, 2, 'fish');
@@ -1042,8 +1051,8 @@ check('worm', 'turns dead plants into dirt', () => {
   return { ok: s.count('dry_plant') < before, detail: `dry plant ${before} to ${s.count('dry_plant')}, worms ${s.count('worm')}` };
 });
 check('bird', 'flies and stays up', () => {
-  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(30, 20, 2, 2, 'bird').run(900);
-  return { ok: s.count('bird') === 4 && s.meanY('bird') < 58, detail: `birds ${s.count('bird')}, row ${fmt(s.meanY('bird'))}` };
+  const s = body(new Scene().fill(0, 60, W, 4, 'wall'), 'bird', 30, 20).run(900);
+  return { ok: s.cells('bird') === size('bird') && s.meanY('bird') < 50, detail: `birds ${s.cells('bird')}, row ${fmt(s.meanY('bird'))}` };
 });
 check('bird', 'eats ants', () => {
   const s = new Scene().fill(0, 60, W, 4, 'wall').fill(0, 59, W, 1, 'ant').fill(10, 50, 44, 2, 'bird');
@@ -1363,6 +1372,10 @@ check('fuse', 'burns steadily end to end and sets off C4 at the far end', () => 
 
 // ---- Creature bodies ----------------------------------------------------------------
 
+/** Cells in a creature's body. */
+function size(key: string): number {
+  return BODY_OF[elementId(key)]!.dx.length;
+}
 /** Places a whole creature body with its first part at (x, y). */
 function body(s: Scene, key: string, x: number, y: number): Scene {
   if (!placeBody(s.world, x, y, s.id(key))) throw new Error(`no room for a ${key} at ${x}, ${y}`);
@@ -1370,35 +1383,35 @@ function body(s: Scene, key: string, x: number, y: number): Scene {
 }
 check('fish', 'a fish body swims as one and stays whole', () => {
   const s = body(new Scene().fill(0, 30, W, 34, 'water'), 'fish', 30, 45);
-  const cells = s.count('fish');
+  const cells = s.cells('fish');
   const start = s.meanY('fish') * 1000 + 0;
   let moved = false;
   const x0 = s.world.type.indexOf(s.id('fish'));
   until(s, 900, () => ((moved = moved || s.world.type.indexOf(s.id('fish')) !== x0), false));
-  return { ok: cells === 7 && s.count('fish') % 7 === 0 && s.count('fish') > 0 && moved && start > 0, detail: `cells ${cells}, after 15 s ${s.count('fish')}, moved ${moved}` };
+  return { ok: cells === size('fish') && s.cells('fish') % size('fish') === 0 && s.cells('fish') > 0 && moved && start > 0, detail: `cells ${cells}, after 15 s ${s.cells('fish')}, moved ${moved}` };
 });
 check('mouse', 'a mouse body walks and climbs as one', () => {
-  const s = body(new Scene().fill(0, 60, W, 4, 'wall').fill(40, 58, 4, 2, 'wall'), 'mouse', 10, 58);
+  const s = body(new Scene().fill(0, 60, W, 4, 'wall').fill(40, 58, 4, 2, 'wall'), 'mouse', 10, 57);
   const xs = new Set<number>();
   until(s, 900, () => {
     const k = s.world.type.indexOf(s.id('mouse'));
     if (k >= 0) xs.add(k % W);
     return false;
   });
-  return { ok: s.count('mouse') === 6 && xs.size > 10, detail: `cells ${s.count('mouse')}, visited ${xs.size} columns` };
+  return { ok: s.cells('mouse') === size('mouse') && xs.size > 10, detail: `cells ${s.cells('mouse')}, visited ${xs.size} columns` };
 });
 check('fish', 'a fish body cooks whole in boiling water', () => {
   const s = body(new Scene().fill(0, 44, W, 20, 'water', 95).heat(0, 44, W, 20, 95), 'fish', 30, 52);
   s.run(300);
   // (Meat left in water slowly rots into dirt, so dirt counts too.)
   const left = s.count('cooked_meat') + s.count('meat') + s.count('dirt');
-  return { ok: s.count('fish') === 0 && left === 7, detail: `fish ${s.count('fish')}, meat ${s.count('meat')}, cooked ${s.count('cooked_meat')}, rotted ${s.count('dirt')}` };
+  return { ok: s.cells('fish') === 0 && left === size('fish'), detail: `fish ${s.cells('fish')}, meat ${s.count('meat')}, cooked ${s.count('cooked_meat')}, rotted ${s.count('dirt')}` };
 });
 check('snake', 'losing a part kills the whole body', () => {
   const s = body(new Scene().fill(0, 60, W, 4, 'wall'), 'snake', 20, 59);
   s.world.place(59 * W + 22, 0);
   s.run(5);
-  return { ok: s.count('snake') === 0 && s.count('meat') === 4, detail: `snake cells ${s.count('snake')}, meat ${s.count('meat')}` };
+  return { ok: s.cells('snake') === 0 && s.count('meat') === size('snake') - 1, detail: `snake cells ${s.cells('snake')}, meat ${s.count('meat')}` };
 });
 
 // ---- New reaction types ------------------------------------------------------------
@@ -1859,6 +1872,15 @@ check('plant', 'a garden under a thin rain cloud stays mostly green', () => {
 
 // ---- Run --------------------------------------------------------------------------
 
+// npx tsx scripts/behaviour.ts fish,ant runs only those elements' checks and prints them; the report is not written.
+const only = process.argv[2]?.split(',');
+if (only) {
+  for (const c of checks.filter((k) => only.includes(k.element))) {
+    const r = c.run();
+    console.log(`${r.ok ? 'pass' : 'FAIL'} ${c.element}: ${c.claim} | ${r.detail}`);
+  }
+  process.exit(0);
+}
 const results = checks.map((c) => {
   const t0 = Date.now();
   let r: { ok: boolean; detail: string };

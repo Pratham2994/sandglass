@@ -1,5 +1,5 @@
-import { BODY_OF, EMPTY, GATE_OF, GATE_SWITCH, GROWS_INTO_OF, HABITAT_OF, PART_OF, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER, WIRE } from './elements';
-import { placeBody } from './step';
+import { BODY_OF, EMPTY, GATE_OF, GATE_SWITCH, GROWS_INTO_OF, HABITAT_OF, SHAPE_OF, PART_OF, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER, WIRE } from './elements';
+import { placeBody, placeShape } from './step';
 import type { World } from './world';
 
 /**
@@ -49,6 +49,8 @@ const SEED_PER_STAMP = 1;
 /** Free space kept round each new animal or seed (cells), so they come out spaced. */
 const CREATURE_GAP = 4;
 const SEED_GAP = 3;
+/** Space kept between painted objects (eggs). */
+const SHAPE_GAP = 5;
 
 export function applyOp(world: World, op: Op): void {
   if (op.kind === OP_CLEAR) {
@@ -120,8 +122,9 @@ function stamp(world: World, cx: number, cy: number, r: number, mode: number): v
   const r2 = r * r + r;
   const ph = mode < 0 ? 0 : PHASE_OF[mode];
   const animal = mode >= 0 && HABITAT_OF[mode] !== 0;
-  const seed = mode >= 0 && GROWS_INTO_OF[mode] !== 0;
-  const gap = animal ? CREATURE_GAP : seed ? SEED_GAP : 0;
+  const shaped = mode >= 0 && SHAPE_OF[mode] !== null;
+  const seed = mode >= 0 && (GROWS_INTO_OF[mode] !== 0 || shaped);
+  const gap = animal ? CREATURE_GAP : shaped ? SHAPE_GAP : seed ? SEED_GAP : 0;
   const area = Math.max(1, Math.PI * r2);
   const p = animal
     ? Math.min(1, CREATURE_PER_STAMP / area)
@@ -151,6 +154,9 @@ function stamp(world: World, cx: number, cy: number, r: number, mode: number): v
           if (T0 < TOOL_MAX) world.temp[i] = Math.min(TOOL_MAX, T0 + TOOL_DT);
         } else if (T0 > TOOL_MIN) world.temp[i] = Math.max(TOOL_MIN, T0 - TOOL_DT);
         world.wake(x, y);
+      } else if (shaped) {
+        // Objects (an egg) are placed whole, spaced apart.
+        if (world.rng.next() < p && !crowded(world, x, y, mode, gap)) placeShape(world, x, y, mode);
       } else if (mode >= 0 && BODY_OF[mode] !== null) {
         // Animals with a body are placed whole, wherever there is room for them (fish into water too).
         if (world.rng.next() < p && !crowded(world, x, y, mode, gap)) placeBody(world, x, y, mode);
