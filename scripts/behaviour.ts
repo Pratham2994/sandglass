@@ -1755,6 +1755,30 @@ check('chlorine', 'flashes with hydrogen in light, not in the dark', () => {
   return { ok: light > 10 && dark === 0, detail: `hydrogen chloride ${light} in light, ${dark} in the dark` };
 });
 
+// ---- Kitchen chemistry: milk, lemon, dyes, steel wool ----------------------------------------
+
+check('milk', 'curdles with lemon juice', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(10, 40, 2, 20, 'wall').fill(52, 40, 2, 20, 'wall').fill(12, 50, 40, 10, 'milk').fill(28, 44, 8, 3, 'lemon_juice').run(600);
+  return { ok: s.count('curds') > 5, detail: `curds ${s.count('curds')}` };
+});
+check('lemon_juice', 'fizzes with baking soda', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(24, 56, 16, 4, 'baking_soda').fill(24, 48, 16, 4, 'lemon_juice');
+  let gas = 0;
+  until(s, 600, () => ((gas = Math.max(gas, s.count('carbon_dioxide'))), false));
+  return { ok: gas > 3, detail: `carbon dioxide seen ${gas}` };
+});
+check('red_dye', 'tints the water it dissolves into', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(10, 40, 2, 20, 'wall').fill(52, 40, 2, 20, 'wall').fill(12, 46, 40, 14, 'water').fill(30, 40, 3, 3, 'red_dye').run(900);
+  let tinted = 0;
+  for (let k = 0; k < s.world.size; k++) if (s.world.type[k] === s.id('water') && s.world.solute[k] === s.id('red_dye')) tinted++;
+  return { ok: tinted > 5 && s.count('red_dye') < 9, detail: `tinted water cells ${tinted}, dye left ${s.count('red_dye')}` };
+});
+check('steel_wool', 'a battery makes it glow and burn into rust', () => {
+  const s = circuit(new Scene(), 3).fill(10, 19, 3, 3, 'battery').fill(30, 19, 6, 3, 'steel_wool');
+  const f = until(s, 1200, () => s.count('fire') > 0 || s.count('rust') > 0);
+  return { ok: f > 0, detail: f > 0 ? `alight after ${f} frames` : 'never caught' };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {

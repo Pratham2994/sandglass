@@ -199,6 +199,7 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['Algae blooms over a sunlit pond, bubbling oxygen, and fish eat it; moss creeps over damp shaded stone; glowing plankton flashes blue where it is stirred.', ['algae', 'oxygen', 'fish', 'moss', 'glow_plankton']],
       ['Eggs cook, popcorn pops at 180 °C, sugar turns into caramel and chocolate melts at 35 °C.', ['egg', 'popcorn_kernel', 'popcorn', 'caramel', 'chocolate']],
       ['Flour and water knead into dough, which bakes into bread, then toast, then burns.', ['flour', 'dough', 'bread', 'toast']],
+      ['Lemon juice or vinegar curdles milk into curds; dyes tint the water they dissolve into; steel wool on a battery glows, catches and burns into rust.', ['milk', 'curds', 'lemon_juice', 'red_dye', 'blue_dye', 'steel_wool']],
     ],
   },
   {

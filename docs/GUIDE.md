@@ -1,8 +1,8 @@
 # Sandglass element guide
 
-Generated from the game data by `npm run guide`. 231 elements, by group. For each: what it is, what it does, and what to try.
+Generated from the game data by `npm run guide`. 237 elements, by group. For each: what it is, what it does, and what to try.
 
-## Powders (23)
+## Powders (25)
 
 **Sand.** A fine, heavy powder.
 Falls, piles into slopes and sinks through lighter liquids. Very hard to melt or eat away.
@@ -83,6 +83,14 @@ Stays put. Warmed past 58 °C they melt back into hot ice, which stays liquid as
 **Potassium permanganate.** Dark purple crystals that carry oxygen, a powder.
 Falls and piles, and dissolves into water, turning it purple. Glycerin touching it heats up by itself until it bursts into flame.
 *Try:* Make a small heap and pour glycerin onto it, then stand back.
+
+**Red dye.** Bright red dye powder.
+Falls and piles, and dissolves into water, tinting it red as far as it spreads.
+*Try:* Drop a pinch into a still pond and watch the colour drift.
+
+**Blue dye.** Deep blue dye powder.
+Falls and piles, and dissolves into water, tinting it blue as far as it spreads.
+*Try:* Drop red dye at one end of a pond and blue dye at the other.
 
 **Silver chloride.** A white light-sensitive powder, the stuff of old photographs.
 Falls and piles. In strong light it slowly darkens into grey-black silver, so anything shading it leaves a pale print.
@@ -401,7 +409,7 @@ Oozes slowly, then after a few seconds it sets hard into dried glue, sticking in
 Stays put. It burns in strong heat.
 *Try:* Light it with fire.
 
-## Metals (28)
+## Metals (29)
 
 **Iron.** A dense metal.
 Stays put and moves heat quickly. Acid eats it, giving off hydrogen.
@@ -510,6 +518,10 @@ Flows and sinks through water. Sets back into gallium just below body warmth.
 **Corium.** Molten nuclear fuel from a meltdown, white-hot and very heavy.
 Oozes slowly and sinks through almost everything. It keeps heating itself while enough of it is together, and sets back into uranium only if it cools.
 *Try:* Make a big pile of uranium with nothing to slow it, and watch it melt down.
+
+**Steel wool.** A tangle of fine steel threads.
+Stays put. So thin it heats fast: a battery across it makes it glow and catch, and it burns away in air into rust, faster still in oxygen.
+*Try:* Paint a pad of it into a wire loop with a thick battery.
 
 **Iron filings.** Fine iron dust, a heavy powder.
 Falls and piles, and a magnet pulls it in. It rusts in water, and acid eats it.
@@ -752,7 +764,7 @@ Stays put. Heated past 250 °C or hit by a strong blast, it ruptures: the propan
 Stays put. Heated past 300 °C or hit by a blast, it bursts with a sharp shock of pressure and no flame, throwing what is nearby and shattering glass.
 *Try:* Put one next to glass or sand and heat it, or set one off to start a chain.
 
-## Food (17)
+## Food (20)
 
 **Flour.** Fine white powder, very light.
 Drifts as it falls. It catches easily and burns fast where air reaches it, but soaks up water into a paste that will not burn.
@@ -817,6 +829,17 @@ Stays put. A little more heat and it catches fire.
 **Mints.** Chalky mint sweets, a powder.
 Falls and piles. Dropped into soda, their rough surface tears the gas out of it at once: the soda erupts into a tower of foam.
 *Try:* Drop a handful of mints into a pool of soda.
+
+**Milk.** Fresh milk, a white liquid.
+Flows like water and sinks just below it. An acid (lemon juice, vinegar) curdles it into lumps of curds.
+*Try:* Pour a pool of milk, then add a splash of lemon juice or vinegar.
+
+**Curds.** Soft white lumps of curdled milk, a powder.
+Falls and settles. Mice love them; left in water they rot.
+
+**Lemon juice.** Sour lemon juice, a weak acid.
+Flows like water. Too weak to eat metal, but it fizzes with baking soda, curdles milk and turns cabbage juice pink.
+*Try:* Drip it onto baking soda, into milk, or into cabbage juice.
 
 **Yeast.** Living baker's yeast, a light powder.
 Falls and piles. In sugary water it ferments the sugar into alcohol, bubbling out carbon dioxide.

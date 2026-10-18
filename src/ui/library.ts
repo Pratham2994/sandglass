@@ -41,6 +41,7 @@ const RECENT_KEYS = [
   'manganese_dioxide', 'soap', 'foam', 'epoxy_resin', 'epoxy_hardener', 'epoxy', 'copper_sulfate', 'copper_sulfate_crystal', 'cabbage_juice',
   'algae', 'moss', 'ferrofluid', 'hot_ice', 'sodium_acetate', 'fog', 'mints', 'nitrogen_triiodide', 'uv_resin', 'cured_resin',
   'glycerin', 'potassium_permanganate', 'fire_ice', 'sparkler', 'glow_plankton', 'superglue', 'hydrogen_chloride',
+  'milk', 'curds', 'lemon_juice', 'red_dye', 'blue_dye', 'steel_wool',
 ];
 const SEEN_KEY = 'sandglass.seen';
 

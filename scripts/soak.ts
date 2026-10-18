@@ -16,7 +16,9 @@ import { Rng } from '../src/sim/rng';
 
 const W = 120;
 const H = 80;
-const WORLDS = 40;
+/** How many worlds, and where their seeds start (SOAK_WORLDS, SOAK_FROM to explore more). */
+const WORLDS = Number(process.env.SOAK_WORLDS ?? 40);
+const FROM = Number(process.env.SOAK_FROM ?? 0);
 const ELEMENTS_EACH = 6;
 const FRAMES = 1200;
 const T_MIN = -273;
@@ -60,7 +62,7 @@ function broken(world: World): string | null {
 const rows: string[] = [];
 let failures = 0;
 const t0 = Date.now();
-for (let n = 0; n < WORLDS; n++) {
+for (let n = FROM; n < FROM + WORLDS; n++) {
   const { world, keys } = build(n);
   let problem: string | null = null;
   try {
