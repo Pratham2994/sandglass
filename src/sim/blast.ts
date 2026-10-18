@@ -23,6 +23,7 @@ import {
   VALVE_OF,
   WALL,
 } from './elements';
+import { SMOKE_LINGER } from './step';
 import type { World } from './world';
 
 /** °C pushed into cells near a blast, scaled by closeness. */
@@ -61,10 +62,12 @@ function nuke(world: World, x: number, y: number): void {
   const { w, h, type, temp, rng } = world;
   const R = BLAST_RADIUS_OF[NUKE];
   const F = 3 * R;
+  const F2 = F * F;
   for (let j = Math.max(0, y - F); j <= Math.min(h - 1, y + F); j++)
     for (let i = Math.max(0, x - F); i <= Math.min(w - 1, x + F); i++) {
-      const d = Math.hypot(i - x, j - y) / R;
-      if (d > 3) continue;
+      const d2 = (i - x) * (i - x) + (j - y) * (j - y);
+      if (d2 > F2) continue;
+      const d = Math.sqrt(d2) / R;
       const k = j * w + i;
       const t = type[k];
       if (t === WALL) continue;
@@ -83,8 +86,12 @@ function nuke(world: World, x: number, y: number): void {
         world.life[k] = world.currentStamp();
         continue;
       }
-      // Beyond the fireball: heat falling off with distance; brittle solids shatter near it; flame in the air close in.
-      temp[k] += 1600 * f * f;
+      // Beyond the fireball, a heat flash falling off with distance: what burns catches fire, the air
+      // scorches, but rock, soil and water only warm (heating them through would keep the whole map
+      // cooling, and busy, for many seconds). Brittle solids shatter near it; flame in the air close in.
+      if (t === EMPTY) temp[k] += 150 * f * f;
+      else if (IGNITION_OF[t] !== Infinity && rng.next() < f) temp[k] = Math.max(temp[k], IGNITION_OF[t] + 60);
+      else temp[k] += 250 * f * f;
       if (BRITTLE_OF[t] > 0 && BREAKS_INTO_OF[t] !== 0 && rng.next() < f) world.place(k, BREAKS_INTO_OF[t]);
       else if (t === EMPTY && rng.next() < 0.25 * f * f) {
         world.place(k, FIRE);
@@ -95,7 +102,10 @@ function nuke(world: World, x: number, y: number): void {
   world.air.addPressure(x, y, 12, 2 * R);
   cloud(world, x, y, R);
   world.flash = 1;
-  world.wakeAll();
+  // Wake only what the blast and its cloud reach (the air pass wakes what the shock pushes), not the whole map.
+  const top = Math.max(0, y - Math.round(R * 3.4));
+  for (let j = top; j <= Math.min(h - 1, y + F); j += 16)
+    for (let i = Math.max(0, x - F - 8); i <= Math.min(w - 1, x + F + 8); i += 16) world.wake(i, j);
 }
 
 /** The mushroom cloud: a stem of flame and smoke rising from the blast to a wide cap, with fallout in the cap. */
@@ -108,12 +118,12 @@ function cloud(world: World, x: number, y: number, R: number): void {
   // Stem.
   for (let j = Math.max(0, cy); j <= Math.min(h - 1, y - R); j++)
     for (let i = Math.max(0, x - sw); i <= Math.min(w - 1, x + sw); i++)
-      if (rng.next() < 0.75) puff(world, j * w + i, Math.abs(i - x) < sw / 2);
+      if (rng.next() < 0.55) puff(world, j * w + i, Math.abs(i - x) < sw / 2);
   // Cap: a flattened ellipse, flame inside, smoke round the edge.
   for (let j = Math.max(0, Math.floor(cy - ry)); j <= Math.min(h - 1, Math.ceil(cy + ry)); j++)
     for (let i = Math.max(0, Math.floor(x - rx)); i <= Math.min(w - 1, Math.ceil(x + rx)); i++) {
       const e = ((i - x) / rx) ** 2 + ((j - cy) / ry) ** 2;
-      if (e <= 1 && rng.next() < 0.85) puff(world, j * w + i, e < 0.35);
+      if (e <= 1 && rng.next() < 0.6) puff(world, j * w + i, e < 0.35);
     }
 }
 
@@ -124,7 +134,14 @@ function puff(world: World, k: number, inner: boolean): void {
   const id = u < 0.06 ? FALLOUT : inner && u < 0.5 ? FIRE : SMOKE;
   world.place(k, id);
   if (id === FIRE) world.life[k] = 30 + (world.rng.nextU32() & 63);
-  world.temp[k] = inner ? 900 : 400;
+  else if (id === SMOKE) {
+    // Mushroom smoke starts part faded and clears soon after it fades, so the cloud
+    // shows for a few seconds and does not hang over the whole map as haze.
+    world.shade[k] = 96 + (world.rng.nextU32() & 31);
+    world.life[k] = SMOKE_LINGER - 20;
+  }
+  // Smoke only warm: a sky full of hot smoke would heat the air over half the map, which then takes long to cool.
+  world.temp[k] = id === FIRE ? 900 : 60;
 }
 
 /** One cell of a charge goes up: a short-lived flame or puff of smoke, very hot. */

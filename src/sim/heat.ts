@@ -47,6 +47,8 @@ const T_MIN = -273;
 const T_MAX = 5000;
 /** Air drifts back to room temperature by this fraction per frame (heat lost to the room). */
 const AIR_RELAX = 0.005;
+/** Air within this many °C of room temperature snaps to it. */
+const AIR_SNAP = 0.5;
 /** °C a solvent's freezing point drops per unit of dissolved solid (full brine, 255: about −20 °C). */
 const FREEZE_DROP = 0.08;
 
@@ -65,7 +67,7 @@ const FREEZE_DROP = 0.08;
  * No allocations in here.
  */
 export function heatStep(world: World): void {
-  const { w, h, cw, ch, awake } = world;
+  const { w, h, cw, ch, awake, type, temp } = world;
   for (let cy = 0; cy < ch; cy++) {
     for (let cx = 0; cx < cw; cx++) {
       if (awake[cy * cw + cx] === 0) continue;
@@ -75,17 +77,25 @@ export function heatStep(world: World): void {
       const y1 = Math.min(y0 + (1 << CHUNK_SHIFT), h);
       const leftAsleep = cx > 0 && awake[cy * cw + cx - 1] === 0;
       const upAsleep = cy > 0 && awake[(cy - 1) * cw + cx] === 0;
+      // Equal neighbours (most of a settled world) skip the call: the test is inline and the arrays are locals.
       for (let y = y0; y < y1; y++) {
         for (let x = x0; x < x1; x++) {
           const i = y * w + x;
-          if (x + 1 < w) exchange(world, i, i + 1, x, y);
-          if (y + 1 < h) exchange(world, i, i + w, x, y);
+          const T = temp[i];
+          let d = 0;
+          if (x + 1 < w && ((d = T - temp[i + 1]) >= MIN_DIFF || d <= -MIN_DIFF)) exchange(world, i, i + 1, x, y);
+          if (y + 1 < h && ((d = temp[i] - temp[i + w]) >= MIN_DIFF || d <= -MIN_DIFF)) exchange(world, i, i + w, x, y);
           if (x === x0 && leftAsleep) exchange(world, i - 1, i, x, y);
           if (y === y0 && upAsleep) exchange(world, i - w, i, x, y);
         }
       }
       for (let y = y0; y < y1; y++) {
-        for (let x = x0; x < x1; x++) settle(world, y * w + x, x, y);
+        for (let x = x0; x < x1; x++) {
+          const i = y * w + x;
+          // Still air at room temperature has nothing to settle.
+          if (type[i] === EMPTY && temp[i] === AMBIENT) continue;
+          settle(world, i, x, y);
+        }
       }
     }
   }
@@ -119,7 +129,9 @@ function settle(world: World, i: number, x: number, y: number): void {
   if (t === EMPTY) {
     const d = AMBIENT - T;
     if (d === 0) return;
-    if (d < WAKE_DT && d > -WAKE_DT) {
+    // Air this close to room temperature is room temperature: snapping it lets the chunk sleep
+    // seconds sooner than waiting out the slow tail of the cooling.
+    if (d < AIR_SNAP && d > -AIR_SNAP) {
       temp[i] = AMBIENT;
       return;
     }

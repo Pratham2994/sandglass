@@ -1613,7 +1613,7 @@ const CONTAGION = 12;
 const GLOW_FULL = 1000;
 
 /** Frames fully faded smoke lingers before it starts to clear (ten seconds). */
-const SMOKE_LINGER = 600;
+export const SMOKE_LINGER = 600;
 
 /** True if element a is denser than element b (both gases). */
 function densityOver(a: number, b: number): boolean {
@@ -1961,9 +1961,9 @@ function updateMover(world: World, x: number, y: number, i: number, st: number, 
   // 3. Slide down a slope. A wet powder sticks: it only slides where the drop is
   // at least two cells deep, so wet sand holds steeper slopes.
   const wet = !liquid && world.conc[i] >= 32;
-  const deep = (j: number): boolean => !wet || (y + 2 < h && type[j + w] === EMPTY);
-  const openL = x > 0 && ENTER_P[t * N + type[below - 1]] !== 0 && deep(below - 1);
-  const openR = x + 1 < w && ENTER_P[t * N + type[below + 1]] !== 0 && deep(below + 1);
+  // (Inline, not a helper closure: this runs for every sliding grain, and the hot loop must not allocate.)
+  const openL = x > 0 && ENTER_P[t * N + type[below - 1]] !== 0 && (!wet || (y + 2 < h && type[below - 1 + w] === EMPTY));
+  const openR = x + 1 < w && ENTER_P[t * N + type[below + 1]] !== 0 && (!wet || (y + 2 < h && type[below + 1 + w] === EMPTY));
   if (openL || openR) {
     let v = vy[i];
     if (!liquid) {
