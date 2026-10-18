@@ -42,6 +42,7 @@ const RECENT_KEYS = [
   'algae', 'moss', 'ferrofluid', 'hot_ice', 'sodium_acetate', 'fog', 'mints', 'nitrogen_triiodide', 'uv_resin', 'cured_resin',
   'glycerin', 'potassium_permanganate', 'fire_ice', 'sparkler', 'glow_plankton', 'superglue', 'hydrogen_chloride',
   'milk', 'curds', 'lemon_juice', 'red_dye', 'blue_dye', 'steel_wool',
+  'sulfuric_acid', 'nitric_acid', 'nitrogen_dioxide',
 ];
 const SEEN_KEY = 'sandglass.seen';
 

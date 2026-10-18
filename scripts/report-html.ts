@@ -171,6 +171,7 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['Hydrogen peroxide breaks down into water and oxygen when heated, and fast on rust.', ['hydrogen_peroxide', 'rust', 'oxygen']],
       ['Platinum makes hydrogen catch and burn into steam.', ['platinum', 'hydrogen']],
       ['Acetone dissolves plastic.', ['acetone', 'plastic']],
+      ['Sulfuric acid chars sugar into a black column of carbon and heats water fiercely; nitric acid dissolves copper in a cloud of brown nitrogen dioxide.', ['sulfuric_acid', 'sugar', 'charcoal', 'nitric_acid', 'wire', 'nitrogen_dioxide']],
       ['Iron and steel slowly rust where water or oxygen touches them.', ['iron', 'steel', 'rust']],
       ['Salt, sugar and baking soda dissolve in water; boiling the water leaves the crystals behind.', ['salt', 'sugar', 'baking_soda', 'water']],
       ['Cement sets into concrete with water; quicklime and water seethe into slaked lime, hot enough to boil.', ['cement', 'concrete', 'quicklime', 'slaked_lime']],

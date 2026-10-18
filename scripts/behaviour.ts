@@ -1807,6 +1807,22 @@ check('cactus_seed', 'sprouts on damp sand', () => {
   return { ok: s.count('cactus') > 2, detail: `cactus cells ${s.count('cactus')}` };
 });
 
+// ---- Strong acids ---------------------------------------------------------------------------
+
+check('sulfuric_acid', 'chars sugar into carbon and heats water', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(24, 54, 16, 6, 'sugar').fill(24, 48, 16, 4, 'sulfuric_acid').run(600);
+  const w = new Scene().fill(0, 60, W, 4, 'wall').fill(10, 40, 2, 20, 'wall').fill(52, 40, 2, 20, 'wall').fill(12, 52, 40, 8, 'water').fill(24, 46, 16, 3, 'sulfuric_acid');
+  let hot = 0;
+  until(w, 600, () => ((hot = Math.max(hot, w.tempAt(30, 56))), false));
+  return { ok: s.count('charcoal') > 10 && hot > 50, detail: `carbon ${s.count('charcoal')}, water peak ${fmt(hot)} °C` };
+});
+check('nitric_acid', 'dissolves copper into brown nitrogen dioxide', () => {
+  const s = new Scene().fill(0, 60, W, 4, 'wall').fill(16, 58, 32, 2, 'wire').fill(24, 50, 16, 4, 'nitric_acid');
+  let brown = 0;
+  until(s, 600, () => ((brown = Math.max(brown, s.count('nitrogen_dioxide'))), false));
+  return { ok: brown > 3 && s.count('wire') < 64, detail: `nitrogen dioxide seen ${brown}, wire left ${s.count('wire')} of 64` };
+});
+
 // ---- Run --------------------------------------------------------------------------
 
 const results = checks.map((c) => {

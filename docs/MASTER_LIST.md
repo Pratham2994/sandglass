@@ -2,7 +2,7 @@
 
 Generated from the game code by `npm run master-list`. Do not edit by hand: change the element data in `src/sim/elements.ts` (or the rules in `src/sim/chem.ts`) and run the script again.
 
-237 elements. Every pair of elements is listed below, in both directions, with what happens and why.
+240 elements. Every pair of elements is listed below, in both directions, with what happens and why.
 
 ## World rules
 
@@ -261,6 +261,9 @@ The chemistry compiler applies these general rules to every pair of elements; no
 | Red dye | powders | powder | 1,500 | 20 °C |  |  |  |
 | Blue dye | powders | powder | 1,500 | 20 °C |  |  |  |
 | Steel wool | metals | solid | 1,200 | 20 °C |  |  | from 350 °C |
+| Sulfuric acid | liquids | liquid | 1,830 | 20 °C |  |  |  |
+| Nitric acid | liquids | liquid | 1,510 | 20 °C |  |  |  |
+| Nitrogen dioxide | gases | gas | 1.88 | 20 °C |  |  |  |
 | Solar panel | electronics | solid | 2,400 | 20 °C |  |  |  |
 | Glow paint | building | solid | 1,800 | 20 °C |  |  |  |
 | Silver chloride | powders | powder | 5,560 | 20 °C |  |  |  |
@@ -289,7 +292,7 @@ An indestructible solid. Never moves. Nothing melts, burns or eats it; use it fo
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sand
 
@@ -302,7 +305,7 @@ A fine, heavy powder. Falls, piles into slopes and sinks through lighter liquids
 - **Soaks up:** water, up to 30% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.95 (acid stronger than this eats it)
 
-With other elements (65 interact):
+With other elements (67 interact):
 
 - **Water:** Sand soaks up water: it is porous and holds up to 30% water. Sand sinks through water (1,600 vs 1,000 kg/m³).
 - **Oil:** Sand sinks through oil (1,600 vs 900 kg/m³).
@@ -368,9 +371,11 @@ With other elements (65 interact):
 - **Hydrogen chloride:** Sand falls through hydrogen chloride.
 - **Milk:** Sand sinks through milk (1,600 vs 1,030 kg/m³).
 - **Lemon juice:** Sand sinks through lemon juice (1,600 vs 1,030 kg/m³).
+- **Nitric acid:** Sand sinks through nitric acid (1,600 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Sand falls through nitrogen dioxide.
 - **Glue:** Sand sinks through glue (1,600 vs 1,100 kg/m³).
 
-No direct interaction with: Air, Wall, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Sulfuric acid, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Water
 
@@ -385,7 +390,7 @@ A runny liquid. Flows and settles flat. Boils into steam when hot, freezes into 
 - **Absorbs:** neutrons, slowing a chain reaction nearby
 - **Dissolves:** soluble powders (salt, sugar), up to each one’s limit; saltier is heavier
 
-With other elements (141 interact):
+With other elements (144 interact):
 
 - **Sand:** Sand soaks up water: it is porous and holds up to 30% water. Sand sinks through water (1,600 vs 1,000 kg/m³).
 - **Oil:** Water sinks through oil (1,000 vs 900 kg/m³).
@@ -522,6 +527,9 @@ With other elements (141 interact):
 - **Lemon juice:** Lemon juice sinks through water (1,030 vs 1,000 kg/m³).
 - **Red dye:** Red dye dissolves into water: water is a solvent and each cell holds up to 50% red dye. Red dye sinks through water (1,500 vs 1,000 kg/m³).
 - **Blue dye:** Blue dye dissolves into water: water is a solvent and each cell holds up to 50% blue dye. Blue dye sinks through water (1,500 vs 1,000 kg/m³).
+- **Sulfuric acid:** Sulfuric acid mixing into water gives off a lot of heat. Sulfuric acid sinks through water (1,830 vs 1,000 kg/m³).
+- **Nitric acid:** Nitric acid sinks through water (1,510 vs 1,000 kg/m³).
+- **Nitrogen dioxide:** Nitrogen dioxide dissolves in water and turns it into nitric acid. Water falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through water (5,560 vs 1,000 kg/m³).
 - **Exposed silver:** Exposed silver sinks through water (5,560 vs 1,000 kg/m³).
 - **Iron filings:** Iron filings slowly rusts into rust where water touches it. Iron filings sinks through water (3,500 vs 1,000 kg/m³).
@@ -541,7 +549,7 @@ A thick, slow liquid. Floats on water. Burns into smoke once hot enough.
 - **Burns:** from 250 °C in air, 4 s per cell, leaves smoke
 - **Flash point:** 55 °C: above it, flames spread across it
 
-With other elements (119 interact):
+With other elements (122 interact):
 
 - **Air:** Oil burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through oil (1,600 vs 900 kg/m³).
@@ -656,6 +664,9 @@ With other elements (119 interact):
 - **Lemon juice:** Lemon juice sinks through oil (1,030 vs 900 kg/m³).
 - **Red dye:** Red dye sinks through oil (1,500 vs 900 kg/m³).
 - **Blue dye:** Blue dye sinks through oil (1,500 vs 900 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through oil (1,830 vs 900 kg/m³).
+- **Nitric acid:** Oil burns: it catches fire at 250 °C next to nitric acid (oxidiser 0.6). Nitric acid sinks through oil (1,510 vs 900 kg/m³). Nitric acid makes burning oil hotter and faster.
+- **Nitrogen dioxide:** Oil falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through oil (5,560 vs 900 kg/m³).
 - **Exposed silver:** Exposed silver sinks through oil (5,560 vs 900 kg/m³).
 - **Iron filings:** Iron filings sinks through oil (3,500 vs 900 kg/m³).
@@ -713,7 +724,7 @@ With other elements (36 interact):
 - **Blue dye:** Blue dye melts ice: dissolved, it lowers the freezing point.
 - **Ammonium nitrate:** Ammonium nitrate melts ice: dissolved, it lowers the freezing point.
 
-No direct interaction with: Air, Wall, Sand, Oil, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Steam
 
@@ -724,7 +735,7 @@ Hot water vapour. Rises and spreads. Turns back into water as it cools, so it ra
 - **In air:** Rises (lighter than air)
 - **Condenses:** below 100 °C, into water
 
-With other elements (115 interact):
+With other elements (117 interact):
 
 - **Sand:** Sand falls through steam.
 - **Water:** Steam (150 °C) is hot enough to boil water into steam. Water falls through steam.
@@ -835,6 +846,8 @@ With other elements (115 interact):
 - **Lemon juice:** Lemon juice falls through steam.
 - **Red dye:** Red dye falls through steam.
 - **Blue dye:** Blue dye falls through steam.
+- **Sulfuric acid:** Sulfuric acid falls through steam.
+- **Nitric acid:** Nitric acid falls through steam.
 - **Silver chloride:** Silver chloride falls through steam.
 - **Exposed silver:** Exposed silver falls through steam.
 - **Iron filings:** Iron filings falls through steam.
@@ -842,7 +855,7 @@ With other elements (115 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through steam.
 - **Yeast:** Yeast falls through steam.
 
-No direct interaction with: Air, Wall, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Egg, Cooked egg, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Cactus, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Cured resin, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Egg, Cooked egg, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Cactus, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Cured resin, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Lava
 
@@ -854,7 +867,7 @@ Molten rock, extremely hot. Flows slowly and glows. Sets fuel alight, boils wate
 - **Falls:** up to 90 cells/s
 - **Freezes:** below 1,000 °C, into stone
 
-With other elements (162 interact):
+With other elements (165 interact):
 
 - **Water:** Water chills the lava so fast that it sets into glassy obsidian. Lava sinks through water (2,600 vs 1,000 kg/m³). Lava (1,200 °C) is hot enough to boil water into steam. Water chills the lava so fast that it sets into glassy obsidian, flashing into steam.
 - **Oil:** Lava sinks through oil (2,600 vs 900 kg/m³). Lava (1,200 °C) can set oil on fire (it ignites at 250 °C).
@@ -1011,6 +1024,9 @@ With other elements (162 interact):
 - **Milk:** Lava sinks through milk (2,600 vs 1,030 kg/m³).
 - **Lemon juice:** Lava sinks through lemon juice (2,600 vs 1,030 kg/m³).
 - **Steel wool:** Lava (1,200 °C) can set steel wool on fire (it ignites at 350 °C).
+- **Sulfuric acid:** Lava sinks through sulfuric acid (2,600 vs 1,830 kg/m³).
+- **Nitric acid:** Lava sinks through nitric acid (2,600 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Lava falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through lava (5,560 vs 2,600 kg/m³).
 - **Exposed silver:** Exposed silver sinks through lava (5,560 vs 2,600 kg/m³).
 - **Rope:** Lava (1,200 °C) can set rope on fire (it ignites at 250 °C).
@@ -1030,7 +1046,7 @@ Solid rock. Stays put. Glows as it heats and melts back into lava.
 - **Span:** reaches 6 cells past its support; beyond that, or with nothing under it, it breaks off and falls
 - **Hardness:** 0.85 (acid stronger than this eats it)
 
-With other elements (8 interact):
+With other elements (9 interact):
 
 - **Lava:** Lava (1,200 °C) is hot enough to melt stone into lava.
 - **Molten copper:** Molten copper (1,200 °C) is hot enough to melt stone into lava.
@@ -1040,8 +1056,9 @@ With other elements (8 interact):
 - **Lightning:** Lightning (3,000 °C) is hot enough to melt stone into lava.
 - **Plasma:** Plasma (3,000 °C) is hot enough to melt stone into lava.
 - **Corium:** Corium (1,400 °C) is hot enough to melt stone into lava.
+- **Sulfuric acid:** Sulfuric acid eats stone: acidity 0.9 beats hardness 0.85.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Gravel
 
@@ -1053,7 +1070,7 @@ Loose rock, a heavy powder. Falls and piles. Forms where lava sets with nothing 
 - **Melts:** at 1,000 °C, into lava
 - **Hardness:** 0.8 (acid stronger than this eats it)
 
-With other elements (72 interact):
+With other elements (75 interact):
 
 - **Water:** Gravel sinks through water (2,000 vs 1,000 kg/m³).
 - **Oil:** Gravel sinks through oil (2,000 vs 900 kg/m³).
@@ -1126,6 +1143,9 @@ With other elements (72 interact):
 - **Hydrogen chloride:** Gravel falls through hydrogen chloride.
 - **Milk:** Gravel sinks through milk (2,000 vs 1,030 kg/m³).
 - **Lemon juice:** Gravel sinks through lemon juice (2,000 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats gravel: acidity 0.9 beats hardness 0.8. Gravel sinks through sulfuric acid (2,000 vs 1,830 kg/m³).
+- **Nitric acid:** Nitric acid eats gravel: acidity 0.85 beats hardness 0.8. Gravel sinks through nitric acid (2,000 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Gravel falls through nitrogen dioxide.
 - **Glue:** Gravel sinks through glue (2,000 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Stone, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -1137,7 +1157,7 @@ Loose flames. Rise and burn out quickly. Light anything flammable they touch; a 
 - **State:** Energy, 0.3 kg/m³
 - **Starts at:** 850 °C
 
-With other elements (153 interact):
+With other elements (155 interact):
 
 - **Sand:** Sand falls through fire.
 - **Water:** Water puts out the fire, flashing into steam. Fire (850 °C) is hot enough to boil water into steam. Water falls through fire.
@@ -1284,6 +1304,8 @@ With other elements (153 interact):
 - **Red dye:** Red dye falls through fire.
 - **Blue dye:** Blue dye falls through fire.
 - **Steel wool:** Steel wool catches from the flame touching it.
+- **Sulfuric acid:** Sulfuric acid falls through fire.
+- **Nitric acid:** Nitric acid falls through fire.
 - **Silver chloride:** Silver chloride falls through fire.
 - **Exposed silver:** Exposed silver falls through fire.
 - **Rope:** Rope catches from the flame touching it.
@@ -1293,7 +1315,7 @@ With other elements (153 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through fire.
 - **Yeast:** Yeast falls through fire.
 
-No direct interaction with: Air, Wall, Steam, Stone, Smoke, Iron, Oxygen, Glass, Spark, Wire, Brick, Concrete, Limestone, Gold, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Diamond, Worm, Lightning, Plasma, Rocket, Ember, Steel, Zinc, Uranium, Snail, Ammonia, Ozone, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Stone, Smoke, Iron, Oxygen, Glass, Spark, Wire, Brick, Concrete, Limestone, Gold, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Diamond, Worm, Lightning, Plasma, Rocket, Ember, Steel, Zinc, Uranium, Snail, Ammonia, Ozone, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Smoke
 
@@ -1303,7 +1325,7 @@ What burning leaves behind, a warm gas. Rises and fades to a faint haze as it ag
 - **Starts at:** 150 °C
 - **In air:** Rises (lighter than air)
 
-With other elements (114 interact):
+With other elements (116 interact):
 
 - **Sand:** Sand falls through smoke.
 - **Water:** Smoke (150 °C) is hot enough to boil water into steam. Water falls through smoke.
@@ -1413,6 +1435,8 @@ With other elements (114 interact):
 - **Lemon juice:** Lemon juice falls through smoke.
 - **Red dye:** Red dye falls through smoke.
 - **Blue dye:** Blue dye falls through smoke.
+- **Sulfuric acid:** Sulfuric acid falls through smoke.
+- **Nitric acid:** Nitric acid falls through smoke.
 - **Silver chloride:** Silver chloride falls through smoke.
 - **Exposed silver:** Exposed silver falls through smoke.
 - **Iron filings:** Iron filings falls through smoke.
@@ -1420,7 +1444,7 @@ With other elements (114 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through smoke.
 - **Yeast:** Yeast falls through smoke.
 
-No direct interaction with: Air, Wall, Steam, Stone, Fire, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Egg, Cooked egg, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Cactus, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Cured resin, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Stone, Fire, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Egg, Cooked egg, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Cactus, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Cured resin, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Wood
 
@@ -1432,7 +1456,7 @@ A solid fuel. Stays put. Catches fire where it touches air once hot enough, and 
 - **Bakes:** at 400 °C into charcoal, giving off smoke; there is no way back
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Air:** Wood burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set wood on fire (it ignites at 300 °C).
@@ -1458,9 +1482,11 @@ With other elements (25 interact):
 - **Corium:** Corium (1,400 °C) can set wood on fire (it ignites at 300 °C).
 - **Neutron:** Wood catches from the flame touching it.
 - **Potassium permanganate:** Wood burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning wood hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats wood: acidity 0.9 beats hardness 0.3.
+- **Nitric acid:** Nitric acid eats wood: acidity 0.85 beats hardness 0.3. Nitric acid makes burning wood hotter and faster.
 - **Ammonium nitrate:** Wood burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning wood hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Ash
 
@@ -1471,7 +1497,7 @@ A very light powder left by fire. Drifts as it falls. Floats on water.
 - **Falls:** up to 45 cells/s
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (30 interact):
+With other elements (33 interact):
 
 - **Steam:** Ash falls through steam.
 - **Fire:** Ash falls through fire.
@@ -1503,6 +1529,9 @@ With other elements (30 interact):
 - **Neutron:** Ash falls through neutron.
 - **Fog:** Ash falls through fog.
 - **Hydrogen chloride:** Ash falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid eats ash: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats ash: acidity 0.85 beats hardness 0.2.
+- **Nitrogen dioxide:** Ash falls through nitrogen dioxide.
 
 No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Lava, Stone, Gravel, Wood, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -1515,7 +1544,7 @@ A corrosive liquid. Flows like water. Eats metal, wood and soft rock and is used
 - **Falls:** up to 160 cells/s
 - **Eats:** metal, rock and wood softer than 0.8, weakening as it fills
 
-With other elements (193 interact):
+With other elements (196 interact):
 
 - **Sand:** Sand sinks through acid (1,600 vs 1,100 kg/m³).
 - **Water:** Acid sinks through water (1,100 vs 1,000 kg/m³).
@@ -1701,6 +1730,9 @@ With other elements (193 interact):
 - **Red dye:** Red dye sinks through acid (1,500 vs 1,100 kg/m³).
 - **Blue dye:** Blue dye sinks through acid (1,500 vs 1,100 kg/m³).
 - **Steel wool:** Acid eats steel wool: acidity 0.8 beats hardness 0.3, giving off hydrogen.
+- **Sulfuric acid:** Sulfuric acid sinks through acid (1,830 vs 1,100 kg/m³).
+- **Nitric acid:** Nitric acid sinks through acid (1,510 vs 1,100 kg/m³).
+- **Nitrogen dioxide:** Acid falls through nitrogen dioxide.
 - **Solar panel:** Acid eats solar panel: acidity 0.8 beats hardness 0.7.
 - **Glow paint:** Acid eats glow paint: acidity 0.8 beats hardness 0.5.
 - **Silver chloride:** Silver chloride sinks through acid (5,560 vs 1,100 kg/m³).
@@ -1723,7 +1755,7 @@ A dense metal. Stays put and moves heat quickly. Acid eats it, giving off hydrog
 - **Rusts:** slowly into rust where water or oxygen touches it
 - **Hardness:** 0.55 (acid stronger than this eats it)
 
-With other elements (12 interact):
+With other elements (14 interact):
 
 - **Water:** Iron slowly rusts into rust where water touches it.
 - **Acid:** Acid eats iron: acidity 0.8 beats hardness 0.55, giving off hydrogen.
@@ -1736,9 +1768,11 @@ With other elements (12 interact):
 - **Saltpeter:** Iron slowly rusts into rust where saltpeter touches it.
 - **Ozone:** Iron slowly rusts into rust where ozone touches it.
 - **Potassium permanganate:** Iron slowly rusts into rust where potassium permanganate touches it.
+- **Sulfuric acid:** Sulfuric acid eats iron: acidity 0.9 beats hardness 0.55, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats iron: acidity 0.85 beats hardness 0.55, giving off hydrogen.
 - **Ammonium nitrate:** Iron slowly rusts into rust where ammonium nitrate touches it.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Hydrogen
 
@@ -1748,7 +1782,7 @@ The lightest gas. Shoots upwards. Burns in a flash into steam when hot and touch
 - **In air:** Rises (lighter than air)
 - **Burns:** from 500 °C in air, 0.1 s per cell, leaves steam
 
-With other elements (117 interact):
+With other elements (119 interact):
 
 - **Air:** Hydrogen burns: it catches fire at 500 °C next to air (oxidiser 0.21).
 - **Sand:** Sand falls through hydrogen.
@@ -1861,6 +1895,8 @@ With other elements (117 interact):
 - **Lemon juice:** Lemon juice falls through hydrogen.
 - **Red dye:** Red dye falls through hydrogen.
 - **Blue dye:** Blue dye falls through hydrogen.
+- **Sulfuric acid:** Sulfuric acid falls through hydrogen.
+- **Nitric acid:** Hydrogen burns: it catches fire at 500 °C next to nitric acid (oxidiser 0.6). Nitric acid falls through hydrogen. Nitric acid makes burning hydrogen hotter and faster.
 - **Silver chloride:** Silver chloride falls through hydrogen.
 - **Exposed silver:** Exposed silver falls through hydrogen.
 - **Iron filings:** Iron filings falls through hydrogen.
@@ -1868,7 +1904,7 @@ With other elements (117 interact):
 - **Ammonium nitrate:** Hydrogen burns: it catches fire at 500 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate falls through hydrogen. Ammonium nitrate makes burning hydrogen hotter and faster.
 - **Yeast:** Yeast falls through hydrogen.
 
-No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Methane, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Methane, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Oxygen
 
@@ -1879,7 +1915,7 @@ A gas slightly heavier than air. Sinks and pools low. Makes fire burn hotter and
 - **Condenses:** below -183 °C, into liquid oxygen
 - **Feeds fire:** strength 1 (air is 0.21)
 
-With other elements (152 interact):
+With other elements (154 interact):
 
 - **Sand:** Sand falls through oxygen.
 - **Water:** Water falls through oxygen.
@@ -2025,6 +2061,8 @@ With other elements (152 interact):
 - **Red dye:** Red dye falls through oxygen.
 - **Blue dye:** Blue dye falls through oxygen.
 - **Steel wool:** Oxygen makes burning steel wool hotter and faster. Steel wool burns: it catches fire at 350 °C next to oxygen (oxidiser 1).
+- **Sulfuric acid:** Sulfuric acid falls through oxygen.
+- **Nitric acid:** Nitric acid falls through oxygen.
 - **Silver chloride:** Silver chloride falls through oxygen.
 - **Exposed silver:** Exposed silver falls through oxygen.
 - **Rope:** Oxygen makes burning rope hotter and faster. Rope burns: it catches fire at 250 °C next to oxygen (oxidiser 1).
@@ -2034,7 +2072,7 @@ With other elements (152 interact):
 - **Ammonium nitrate:** Oxygen makes burning ammonium nitrate hotter and faster. Ammonium nitrate explodes at 400 °C; it needs no air. Ammonium nitrate falls through oxygen.
 - **Yeast:** Yeast falls through oxygen.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Glass, Spark, Wire, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, Dry ice, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Worm, Lightning, Plasma, Rocket, Ember, Tin, Zinc, Uranium, Snail, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Blue crystal, Sodium acetate, Fog, Hydrogen chloride, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Glass, Spark, Wire, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, Dry ice, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Worm, Lightning, Plasma, Rocket, Ember, Tin, Zinc, Uranium, Snail, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Blue crystal, Sodium acetate, Fog, Hydrogen chloride, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Methane
 
@@ -2044,7 +2082,7 @@ Natural gas, lighter than air. Rises. Burns hot into steam when it meets heat an
 - **In air:** Rises (lighter than air)
 - **Burns:** from 540 °C in air, 0.17 s per cell, leaves steam
 
-With other elements (115 interact):
+With other elements (117 interact):
 
 - **Air:** Methane burns: it catches fire at 540 °C next to air (oxidiser 0.21).
 - **Sand:** Sand falls through methane.
@@ -2155,6 +2193,8 @@ With other elements (115 interact):
 - **Lemon juice:** Lemon juice falls through methane.
 - **Red dye:** Red dye falls through methane.
 - **Blue dye:** Blue dye falls through methane.
+- **Sulfuric acid:** Sulfuric acid falls through methane.
+- **Nitric acid:** Methane burns: it catches fire at 540 °C next to nitric acid (oxidiser 0.6). Nitric acid falls through methane. Nitric acid makes burning methane hotter and faster.
 - **Silver chloride:** Silver chloride falls through methane.
 - **Exposed silver:** Exposed silver falls through methane.
 - **Iron filings:** Iron filings falls through methane.
@@ -2162,7 +2202,7 @@ With other elements (115 interact):
 - **Ammonium nitrate:** Methane burns: it catches fire at 540 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate falls through methane. Ammonium nitrate makes burning methane hotter and faster.
 - **Yeast:** Yeast falls through methane.
 
-No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Alcohol
 
@@ -2174,7 +2214,7 @@ A thin, light liquid. Floats on water. Catches fire easily and burns clean into 
 - **Burns:** from 365 °C in air, 2 s per cell, leaves steam
 - **Flash point:** 13 °C: above it, flames spread across it
 
-With other elements (124 interact):
+With other elements (127 interact):
 
 - **Air:** Alcohol burns: it catches fire at 365 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through alcohol (1,600 vs 789 kg/m³).
@@ -2294,6 +2334,9 @@ With other elements (124 interact):
 - **Lemon juice:** Lemon juice sinks through alcohol (1,030 vs 789 kg/m³).
 - **Red dye:** Red dye sinks through alcohol (1,500 vs 789 kg/m³).
 - **Blue dye:** Blue dye sinks through alcohol (1,500 vs 789 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through alcohol (1,830 vs 789 kg/m³).
+- **Nitric acid:** Alcohol burns: it catches fire at 365 °C next to nitric acid (oxidiser 0.6). Nitric acid sinks through alcohol (1,510 vs 789 kg/m³). Nitric acid makes burning alcohol hotter and faster.
+- **Nitrogen dioxide:** Alcohol falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through alcohol (5,560 vs 789 kg/m³).
 - **Exposed silver:** Exposed silver sinks through alcohol (5,560 vs 789 kg/m³).
 - **Iron filings:** Iron filings sinks through alcohol (3,500 vs 789 kg/m³).
@@ -2314,7 +2357,7 @@ Fine wood dust, a very light powder. Drifts and floats on water. Catches fire ea
 - **Soaks up:** water, up to 60% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (47 interact):
+With other elements (50 interact):
 
 - **Air:** Sawdust burns: it catches fire at 260 °C next to air (oxidiser 0.21).
 - **Water:** Sawdust soaks up water: it is porous and holds up to 60% water.
@@ -2362,6 +2405,9 @@ With other elements (47 interact):
 - **Fog:** Sawdust falls through fog.
 - **Potassium permanganate:** Sawdust burns: it catches fire at 260 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning sawdust hotter and faster.
 - **Hydrogen chloride:** Sawdust falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid eats sawdust: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats sawdust: acidity 0.85 beats hardness 0.1. Nitric acid makes burning sawdust hotter and faster.
+- **Nitrogen dioxide:** Sawdust falls through nitrogen dioxide.
 - **Ammonium nitrate:** Sawdust burns: it catches fire at 260 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning sawdust hotter and faster.
 
 No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Alcohol, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -2376,7 +2422,7 @@ White crystals, a powder. Falls and piles. Dissolves into water, making it heavi
 - **Poisons:** living things it touches: they wither
 - **Dissolves in:** water, up to 40% of a cell; boiling leaves it as crystals
 
-With other elements (76 interact):
+With other elements (79 interact):
 
 - **Water:** Salt dissolves into water: water is a solvent and each cell holds up to 40% salt. Salt sinks through water (2,160 vs 1,000 kg/m³).
 - **Oil:** Salt sinks through oil (2,160 vs 900 kg/m³).
@@ -2453,6 +2499,9 @@ With other elements (76 interact):
 - **Hydrogen chloride:** Salt falls through hydrogen chloride.
 - **Milk:** Salt sinks through milk (2,160 vs 1,030 kg/m³).
 - **Lemon juice:** Salt sinks through lemon juice (2,160 vs 1,030 kg/m³).
+- **Sulfuric acid:** Salt sinks through sulfuric acid (2,160 vs 1,830 kg/m³).
+- **Nitric acid:** Salt sinks through nitric acid (2,160 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Salt falls through nitrogen dioxide.
 - **Glue:** Salt sinks through glue (2,160 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Sugar, Dirt, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Acorn, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -2469,7 +2518,7 @@ Sweet crystals, a powder. Falls and piles. Dissolves into water even more than s
 - **Dissolves in:** water, up to 70% of a cell; boiling leaves it as crystals
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (81 interact):
+With other elements (84 interact):
 
 - **Air:** Sugar burns: it catches fire at 350 °C next to air (oxidiser 0.21).
 - **Water:** Sugar dissolves into water: water is a solvent and each cell holds up to 70% sugar. Sugar sinks through water (1,590 vs 1,000 kg/m³).
@@ -2550,6 +2599,9 @@ With other elements (81 interact):
 - **Hydrogen chloride:** Sugar falls through hydrogen chloride.
 - **Milk:** Sugar sinks through milk (1,590 vs 1,030 kg/m³).
 - **Lemon juice:** Sugar sinks through lemon juice (1,590 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats sugar: acidity 0.9 beats hardness 0.2. Sulfuric acid tears the water out of sugar, leaving carbon and a puff of steam.
+- **Nitric acid:** Nitric acid eats sugar: acidity 0.85 beats hardness 0.2. Sugar sinks through nitric acid (1,590 vs 1,510 kg/m³). Nitric acid makes burning sugar hotter and faster.
+- **Nitrogen dioxide:** Sugar falls through nitrogen dioxide.
 - **Glue:** Sugar sinks through glue (1,590 vs 1,100 kg/m³).
 - **Ammonium nitrate:** Sugar burns: it catches fire at 350 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning sugar hotter and faster.
 
@@ -2565,7 +2617,7 @@ Earth, a heavy powder. Falls and piles. Soaks up a lot of water and turns into d
 - **Soaks up:** water, up to 50% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (65 interact):
+With other elements (68 interact):
 
 - **Water:** Dirt soaks up water: it is porous and holds up to 50% water. Dirt sinks through water (1,500 vs 1,000 kg/m³).
 - **Oil:** Dirt sinks through oil (1,500 vs 900 kg/m³).
@@ -2631,6 +2683,9 @@ With other elements (65 interact):
 - **Hydrogen chloride:** Dirt falls through hydrogen chloride.
 - **Milk:** Dirt sinks through milk (1,500 vs 1,030 kg/m³).
 - **Lemon juice:** Dirt sinks through lemon juice (1,500 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats dirt: acidity 0.9 beats hardness 0.3.
+- **Nitric acid:** Nitric acid eats dirt: acidity 0.85 beats hardness 0.3.
+- **Nitrogen dioxide:** Dirt falls through nitrogen dioxide.
 - **Glue:** Dirt sinks through glue (1,500 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -2645,7 +2700,7 @@ Loose frozen flakes, a very light powder. Drifts down and settles in soft piles.
 - **Falls:** up to 35 cells/s
 - **Melts:** at 0 °C, into water
 
-With other elements (55 interact):
+With other elements (56 interact):
 
 - **Water:** Snow (-5 °C) is cold enough to freeze water into ice.
 - **Steam:** Snow falls through steam. Snow (-5 °C) is cold enough to condense steam into water. Steam (150 °C) is hot enough to melt snow into water.
@@ -2701,9 +2756,10 @@ With other elements (55 interact):
 - **Hydrogen chloride:** Snow falls through hydrogen chloride.
 - **Red dye:** Red dye melts snow: dissolved, it lowers the freezing point.
 - **Blue dye:** Blue dye melts snow: dissolved, it lowers the freezing point.
+- **Nitrogen dioxide:** Snow falls through nitrogen dioxide.
 - **Ammonium nitrate:** Ammonium nitrate melts snow: dissolved, it lowers the freezing point.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Alcohol, Sawdust, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Alcohol, Sawdust, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Steel wool, Sulfuric acid, Nitric acid, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### TNT
 
@@ -2713,7 +2769,7 @@ A packed explosive block. Stays put. Heat or a flame sets it off: the whole bloc
 - **Explodes:** from 300 °C or a flame; blast radius 7 cells
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Air:** TNT explodes at 300 °C; it needs no air.
 - **Lava:** Lava (1,200 °C) can set tnt on fire (it ignites at 300 °C).
@@ -2739,9 +2795,11 @@ With other elements (25 interact):
 - **Corium:** Corium (1,400 °C) can set tnt on fire (it ignites at 300 °C).
 - **Neutron:** TNT explodes when a flame touches it.
 - **Potassium permanganate:** TNT explodes at 300 °C; it needs no air. Potassium permanganate makes burning tnt hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats tnt: acidity 0.9 beats hardness 0.3.
+- **Nitric acid:** Nitric acid eats tnt: acidity 0.85 beats hardness 0.3. Nitric acid makes burning tnt hotter and faster.
 - **Ammonium nitrate:** TNT explodes at 300 °C; it needs no air. Ammonium nitrate makes burning tnt hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Gunpowder
 
@@ -2753,7 +2811,7 @@ A dark explosive powder. Falls and piles. Lit, it goes off grain by grain in qui
 - **Explodes:** from 250 °C or a flame; blast radius 2 cells
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (80 interact):
+With other elements (83 interact):
 
 - **Air:** Gunpowder explodes at 250 °C; it needs no air.
 - **Water:** Gunpowder sinks through water (1,700 vs 1,000 kg/m³).
@@ -2833,6 +2891,9 @@ With other elements (80 interact):
 - **Hydrogen chloride:** Gunpowder falls through hydrogen chloride.
 - **Milk:** Gunpowder sinks through milk (1,700 vs 1,030 kg/m³).
 - **Lemon juice:** Gunpowder sinks through lemon juice (1,700 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats gunpowder: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats gunpowder: acidity 0.85 beats hardness 0.2. Gunpowder sinks through nitric acid (1,700 vs 1,510 kg/m³). Nitric acid makes burning gunpowder hotter and faster.
+- **Nitrogen dioxide:** Gunpowder falls through nitrogen dioxide.
 - **Glue:** Gunpowder sinks through glue (1,700 vs 1,100 kg/m³).
 - **Ammonium nitrate:** Gunpowder explodes at 250 °C; it needs no air. Ammonium nitrate makes burning gunpowder hotter and faster.
 
@@ -2847,7 +2908,7 @@ An oily explosive liquid. Flows slowly. Goes off when heated, lit, or dropped ha
 - **Falls:** up to 160 cells/s
 - **Explodes:** from 200 °C or a flame, or when it lands hard; blast radius 6 cells
 
-With other elements (97 interact):
+With other elements (100 interact):
 
 - **Air:** Nitro explodes at 200 °C; it needs no air.
 - **Water:** Nitro sinks through water (1,600 vs 1,000 kg/m³).
@@ -2941,6 +3002,9 @@ With other elements (97 interact):
 - **Hydrogen chloride:** Nitro falls through hydrogen chloride.
 - **Milk:** Nitro sinks through milk (1,600 vs 1,030 kg/m³).
 - **Lemon juice:** Nitro sinks through lemon juice (1,600 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through nitro (1,830 vs 1,600 kg/m³).
+- **Nitric acid:** Nitro explodes at 200 °C; it needs no air. Nitro sinks through nitric acid (1,600 vs 1,510 kg/m³). Nitric acid makes burning nitro hotter and faster.
+- **Nitrogen dioxide:** Nitro falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through nitro (5,560 vs 1,600 kg/m³).
 - **Exposed silver:** Exposed silver sinks through nitro (5,560 vs 1,600 kg/m³).
 - **Iron filings:** Iron filings sinks through nitro (3,500 vs 1,600 kg/m³).
@@ -2966,7 +3030,7 @@ With other elements (4 interact):
 - **Lightning:** Lightning (3,000 °C) is hot enough to melt glass into molten glass.
 - **Plasma:** Plasma (3,000 °C) is hot enough to melt glass into molten glass.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Shards
 
@@ -2977,7 +3041,7 @@ Broken glass, a sharp powder. Falls and piles in glittering heaps.
 - **Falls:** up to 170 cells/s
 - **Hardness:** 0.9 (acid stronger than this eats it)
 
-With other elements (68 interact):
+With other elements (71 interact):
 
 - **Water:** Shards sinks through water (2,500 vs 1,000 kg/m³).
 - **Oil:** Shards sinks through oil (2,500 vs 900 kg/m³).
@@ -3046,6 +3110,9 @@ With other elements (68 interact):
 - **Hydrogen chloride:** Shards falls through hydrogen chloride.
 - **Milk:** Shards sinks through milk (2,500 vs 1,030 kg/m³).
 - **Lemon juice:** Shards sinks through lemon juice (2,500 vs 1,030 kg/m³).
+- **Sulfuric acid:** Shards sinks through sulfuric acid (2,500 vs 1,830 kg/m³).
+- **Nitric acid:** Shards sinks through nitric acid (2,500 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Shards falls through nitrogen dioxide.
 - **Glue:** Shards sinks through glue (2,500 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -3057,7 +3124,7 @@ A flash of electric charge. Jumps into any conductor it touches and runs along i
 - **State:** Energy, 0.1 kg/m³
 - **Starts at:** 300 °C
 
-With other elements (151 interact):
+With other elements (153 interact):
 
 - **Sand:** Sand falls through spark.
 - **Water:** Spark (300 °C) is hot enough to boil water into steam. Water falls through spark.
@@ -3202,6 +3269,8 @@ With other elements (151 interact):
 - **Red dye:** Red dye falls through spark.
 - **Blue dye:** Blue dye falls through spark.
 - **Steel wool:** Steel wool catches from the flame touching it.
+- **Sulfuric acid:** Sulfuric acid falls through spark.
+- **Nitric acid:** Nitric acid falls through spark.
 - **Silver chloride:** Silver chloride falls through spark.
 - **Exposed silver:** Exposed silver falls through spark.
 - **Rope:** Rope catches from the flame touching it.
@@ -3211,7 +3280,7 @@ With other elements (151 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through spark.
 - **Yeast:** Yeast falls through spark.
 
-No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Wire, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Diamond, Worm, Lightning, Plasma, Rocket, Ember, Steel, Zinc, Uranium, Snail, Ammonia, Ozone, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Wire, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Diamond, Worm, Lightning, Plasma, Rocket, Ember, Steel, Zinc, Uranium, Snail, Ammonia, Ozone, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Wire
 
@@ -3222,7 +3291,7 @@ Thin copper. Stays put and carries current with almost no resistance. A normal l
 - **Conducts:** current with almost no resistance
 - **Hardness:** 0.45 (acid stronger than this eats it)
 
-With other elements (9 interact):
+With other elements (11 interact):
 
 - **Lava:** Lava (1,200 °C) is hot enough to melt wire into molten copper.
 - **Acid:** Acid eats wire: acidity 0.8 beats hardness 0.45, giving off hydrogen.
@@ -3233,8 +3302,10 @@ With other elements (9 interact):
 - **Lightning:** Lightning (3,000 °C) is hot enough to melt wire into molten copper.
 - **Plasma:** Plasma (3,000 °C) is hot enough to melt wire into molten copper.
 - **Corium:** Corium (1,400 °C) is hot enough to melt wire into molten copper.
+- **Sulfuric acid:** Sulfuric acid eats wire: acidity 0.9 beats hardness 0.45, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats wire: acidity 0.85 beats hardness 0.45, giving off hydrogen. Nitric acid dissolves copper, giving off brown nitrogen dioxide.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Battery
 
@@ -3245,7 +3316,7 @@ A power cell. Stays put. Painted into a loop of wire, it drives current round th
 - **Powers:** 1.5 V for each cell along the wire, round a closed loop; turns itself round to help other batteries; runs flat with use
 - **Hardness:** 0.6 (acid stronger than this eats it)
 
-With other elements (27 interact):
+With other elements (29 interact):
 
 - **Air:** Battery burns: it catches fire at 200 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set battery on fire (it ignites at 200 °C).
@@ -3273,9 +3344,11 @@ With other elements (27 interact):
 - **Corium:** Corium (1,400 °C) can set battery on fire (it ignites at 200 °C).
 - **Neutron:** Battery catches from the flame touching it.
 - **Potassium permanganate:** Battery burns: it catches fire at 200 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning battery hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats battery: acidity 0.9 beats hardness 0.6, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats battery: acidity 0.85 beats hardness 0.6, giving off hydrogen. Nitric acid makes burning battery hotter and faster.
 - **Ammonium nitrate:** Battery burns: it catches fire at 200 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning battery hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Mercury
 
@@ -3286,7 +3359,7 @@ A liquid metal, very heavy. Flows and sinks through almost everything. Carries c
 - **Falls:** up to 170 cells/s
 - **Conducts:** current with almost no resistance
 
-With other elements (78 interact):
+With other elements (81 interact):
 
 - **Water:** Mercury sinks through water (13,534 vs 1,000 kg/m³).
 - **Oil:** Mercury sinks through oil (13,534 vs 900 kg/m³).
@@ -3365,6 +3438,9 @@ With other elements (78 interact):
 - **Hydrogen chloride:** Mercury falls through hydrogen chloride.
 - **Milk:** Mercury sinks through milk (13,534 vs 1,030 kg/m³).
 - **Lemon juice:** Mercury sinks through lemon juice (13,534 vs 1,030 kg/m³).
+- **Sulfuric acid:** Mercury sinks through sulfuric acid (13,534 vs 1,830 kg/m³).
+- **Nitric acid:** Mercury sinks through nitric acid (13,534 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Mercury falls through nitrogen dioxide.
 - **Glue:** Mercury sinks through glue (13,534 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -3379,7 +3455,7 @@ A small seed, a light powder. Falls, sinks in water and rests. On damp soil (wet
 - **Burns:** from 250 °C in air, 1 s per cell, leaves ash
 - **Grows:** into plant on damp soil (wet dirt or sand), even under a puddle
 
-With other elements (65 interact):
+With other elements (67 interact):
 
 - **Air:** Seed burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Water:** Seed sinks through water (1,100 vs 1,000 kg/m³).
@@ -3445,9 +3521,11 @@ With other elements (65 interact):
 - **Hydrogen chloride:** Seed falls through hydrogen chloride.
 - **Milk:** Seed sinks through milk (1,100 vs 1,030 kg/m³).
 - **Lemon juice:** Seed sinks through lemon juice (1,100 vs 1,030 kg/m³).
+- **Nitric acid:** Seed burns: it catches fire at 250 °C next to nitric acid (oxidiser 0.6). Nitric acid makes burning seed hotter and faster.
+- **Nitrogen dioxide:** Seed falls through nitrogen dioxide.
 - **Ammonium nitrate:** Seed burns: it catches fire at 250 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning seed hotter and faster.
 
-No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Sulfuric acid, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Plant
 
@@ -3459,7 +3537,7 @@ A living green plant. Its roots drink from damp soil or water and pass it up the
 - **Lives:** on water drawn from damp soil; dried out, it withers into dry plant
 - **Hardness:** 0.15 (acid stronger than this eats it)
 
-With other elements (36 interact):
+With other elements (39 interact):
 
 - **Air:** Plant burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set plant on fire (it ignites at 250 °C).
@@ -3496,6 +3574,9 @@ With other elements (36 interact):
 - **Copper sulfate:** Copper sulfate is toxic: plant touching it withers.
 - **Potassium permanganate:** Plant burns: it catches fire at 250 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning plant hotter and faster.
 - **Hydrogen chloride:** Hydrogen chloride is toxic: plant touching it withers.
+- **Sulfuric acid:** Sulfuric acid eats plant: acidity 0.9 beats hardness 0.15.
+- **Nitric acid:** Nitric acid eats plant: acidity 0.85 beats hardness 0.15. Nitric acid makes burning plant hotter and faster.
+- **Nitrogen dioxide:** Nitrogen dioxide is toxic: plant touching it withers.
 - **Ammonium nitrate:** Plant burns: it catches fire at 250 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning plant hotter and faster.
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -3511,7 +3592,7 @@ Melted wire, bright and very hot. Flows and sinks through lighter liquids. Carri
 - **Freezes:** below 1,085 °C, into wire
 - **Conducts:** current with almost no resistance
 
-With other elements (157 interact):
+With other elements (160 interact):
 
 - **Water:** Molten copper sinks through water (8,020 vs 1,000 kg/m³). Molten copper (1,200 °C) is hot enough to boil water into steam.
 - **Oil:** Molten copper sinks through oil (8,020 vs 900 kg/m³). Molten copper (1,200 °C) can set oil on fire (it ignites at 250 °C).
@@ -3666,6 +3747,9 @@ With other elements (157 interact):
 - **Milk:** Molten copper sinks through milk (8,020 vs 1,030 kg/m³).
 - **Lemon juice:** Molten copper sinks through lemon juice (8,020 vs 1,030 kg/m³).
 - **Steel wool:** Molten copper (1,200 °C) can set steel wool on fire (it ignites at 350 °C).
+- **Sulfuric acid:** Molten copper sinks through sulfuric acid (8,020 vs 1,830 kg/m³).
+- **Nitric acid:** Molten copper sinks through nitric acid (8,020 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Molten copper falls through nitrogen dioxide.
 - **Rope:** Molten copper (1,200 °C) can set rope on fire (it ignites at 250 °C).
 - **Glue:** Molten copper sinks through glue (8,020 vs 1,100 kg/m³).
 - **Dried glue:** Molten copper (1,200 °C) can set dried glue on fire (it ignites at 350 °C).
@@ -3682,7 +3766,7 @@ A plant that ran out of water, dry and brown. Stays put. Catches fire very easil
 - **Rots:** slowly into dirt where water touches it
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (28 interact):
+With other elements (30 interact):
 
 - **Air:** Dry plant burns: it catches fire at 200 °C next to air (oxidiser 0.21).
 - **Water:** Dry plant slowly rots into dirt where water touches it.
@@ -3711,9 +3795,11 @@ With other elements (28 interact):
 - **Corium:** Corium (1,400 °C) can set dry plant on fire (it ignites at 200 °C).
 - **Neutron:** Dry plant catches from the flame touching it.
 - **Potassium permanganate:** Dry plant burns: it catches fire at 200 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning dry plant hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats dry plant: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats dry plant: acidity 0.85 beats hardness 0.1. Nitric acid makes burning dry plant hotter and faster.
 - **Ammonium nitrate:** Dry plant burns: it catches fire at 200 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning dry plant hotter and faster.
 
-No direct interaction with: Wall, Sand, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Clay
 
@@ -3726,7 +3812,7 @@ Fine, sticky earth, a heavy powder. Falls and piles, and soaks up water. Fired i
 - **Soaks up:** water, up to 40% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (66 interact):
+With other elements (69 interact):
 
 - **Water:** Clay soaks up water: it is porous and holds up to 40% water. Clay sinks through water (1,700 vs 1,000 kg/m³).
 - **Oil:** Clay sinks through oil (1,700 vs 900 kg/m³).
@@ -3793,6 +3879,9 @@ With other elements (66 interact):
 - **Hydrogen chloride:** Clay falls through hydrogen chloride.
 - **Milk:** Clay sinks through milk (1,700 vs 1,030 kg/m³).
 - **Lemon juice:** Clay sinks through lemon juice (1,700 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats clay: acidity 0.9 beats hardness 0.3.
+- **Nitric acid:** Nitric acid eats clay: acidity 0.85 beats hardness 0.3. Clay sinks through nitric acid (1,700 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Clay falls through nitrogen dioxide.
 - **Glue:** Clay sinks through glue (1,700 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -3806,10 +3895,11 @@ Fired clay, a solid block. Stays put and shrugs off heat. A strong blast breaks 
 - **Shatters:** into gravel when a blast hits it
 - **Hardness:** 0.85 (acid stronger than this eats it)
 
-With other elements (0 interact):
+With other elements (1 interact):
 
+- **Sulfuric acid:** Sulfuric acid eats brick: acidity 0.9 beats hardness 0.85.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Cement
 
@@ -3821,7 +3911,7 @@ Grey building powder. Falls and piles. Water touching it is taken in, and it set
 - **Sets:** with water into concrete
 - **Hardness:** 0.4 (acid stronger than this eats it)
 
-With other elements (64 interact):
+With other elements (67 interact):
 
 - **Water:** Cement takes in the water and sets into concrete. Cement sinks through water (1,440 vs 1,000 kg/m³).
 - **Oil:** Cement sinks through oil (1,440 vs 900 kg/m³).
@@ -3886,6 +3976,9 @@ With other elements (64 interact):
 - **Hydrogen chloride:** Cement falls through hydrogen chloride.
 - **Milk:** Cement sinks through milk (1,440 vs 1,030 kg/m³).
 - **Lemon juice:** Cement sinks through lemon juice (1,440 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats cement: acidity 0.9 beats hardness 0.4.
+- **Nitric acid:** Nitric acid eats cement: acidity 0.85 beats hardness 0.4.
+- **Nitrogen dioxide:** Cement falls through nitrogen dioxide.
 - **Glue:** Cement sinks through glue (1,440 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -3900,11 +3993,13 @@ Set cement, a hard grey solid. Stays put. Acid eats it slowly, and a big blast c
 - **Shatters:** into gravel when a blast hits it
 - **Hardness:** 0.6 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats concrete: acidity 0.8 beats hardness 0.6.
+- **Sulfuric acid:** Sulfuric acid eats concrete: acidity 0.9 beats hardness 0.6.
+- **Nitric acid:** Nitric acid eats concrete: acidity 0.85 beats hardness 0.6.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Limestone
 
@@ -3916,11 +4011,13 @@ Pale sedimentary rock. Stays put. Acid fizzes it away into carbon dioxide, and g
 - **Fizzes:** into carbon dioxide when acid eats or neutralises it
 - **Hardness:** 0.4 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats limestone: acidity 0.8 beats hardness 0.4, fizzing out carbon dioxide.
+- **Sulfuric acid:** Sulfuric acid eats limestone: acidity 0.9 beats hardness 0.4, fizzing out carbon dioxide.
+- **Nitric acid:** Nitric acid eats limestone: acidity 0.85 beats hardness 0.4, fizzing out carbon dioxide.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Quicklime
 
@@ -3932,7 +4029,7 @@ Burnt lime, a white caustic powder and a strong base. Falls and piles. Water mak
 - **Sets:** with water into slaked lime, getting very hot
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (58 interact):
+With other elements (61 interact):
 
 - **Water:** Quicklime takes in the water and sets into slaked lime, getting very hot. Quicklime sinks through water (1,200 vs 1,000 kg/m³).
 - **Oil:** Quicklime sinks through oil (1,200 vs 900 kg/m³).
@@ -3991,6 +4088,9 @@ With other elements (58 interact):
 - **Hydrogen chloride:** Quicklime falls through hydrogen chloride.
 - **Milk:** Quicklime sinks through milk (1,200 vs 1,030 kg/m³).
 - **Lemon juice:** Quicklime and lemon juice neutralise each other into water, and warm up. Quicklime sinks through lemon juice (1,200 vs 1,030 kg/m³). Lemon juice and quicklime neutralise each other into water, and warm up.
+- **Sulfuric acid:** Sulfuric acid eats quicklime: acidity 0.9 beats hardness 0.3.
+- **Nitric acid:** Nitric acid eats quicklime: acidity 0.85 beats hardness 0.3.
+- **Nitrogen dioxide:** Quicklime falls through nitrogen dioxide.
 - **Glue:** Quicklime sinks through glue (1,200 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -4004,7 +4104,7 @@ A soft white powder and a base. Falls and piles. It neutralises acids into water
 - **Falls:** up to 140 cells/s
 - **Hardness:** 0.25 (acid stronger than this eats it)
 
-With other elements (50 interact):
+With other elements (53 interact):
 
 - **Water:** Slaked lime sinks through water (1,100 vs 1,000 kg/m³).
 - **Oil:** Slaked lime sinks through oil (1,100 vs 900 kg/m³).
@@ -4056,6 +4156,9 @@ With other elements (50 interact):
 - **Hydrogen chloride:** Slaked lime falls through hydrogen chloride.
 - **Milk:** Slaked lime sinks through milk (1,100 vs 1,030 kg/m³).
 - **Lemon juice:** Slaked lime and lemon juice neutralise each other into water, and warm up. Slaked lime sinks through lemon juice (1,100 vs 1,030 kg/m³). Lemon juice and slaked lime neutralise each other into water, and warm up.
+- **Sulfuric acid:** Sulfuric acid eats slaked lime: acidity 0.9 beats hardness 0.25.
+- **Nitric acid:** Nitric acid eats slaked lime: acidity 0.85 beats hardness 0.25.
+- **Nitrogen dioxide:** Slaked lime falls through nitrogen dioxide.
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -4079,7 +4182,7 @@ With other elements (8 interact):
 - **Plasma:** Plasma (3,000 °C) is hot enough to melt gold into molten gold.
 - **Corium:** Corium (1,400 °C) is hot enough to melt gold into molten gold.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten gold
 
@@ -4092,7 +4195,7 @@ Melted gold, glowing and very heavy. Flows and sinks through almost everything. 
 - **Freezes:** below 1,064 °C, into gold
 - **Conducts:** current with almost no resistance
 
-With other elements (157 interact):
+With other elements (160 interact):
 
 - **Water:** Molten gold sinks through water (17,300 vs 1,000 kg/m³). Molten gold (1,150 °C) is hot enough to boil water into steam.
 - **Oil:** Molten gold sinks through oil (17,300 vs 900 kg/m³). Molten gold (1,150 °C) can set oil on fire (it ignites at 250 °C).
@@ -4247,6 +4350,9 @@ With other elements (157 interact):
 - **Milk:** Molten gold sinks through milk (17,300 vs 1,030 kg/m³).
 - **Lemon juice:** Molten gold sinks through lemon juice (17,300 vs 1,030 kg/m³).
 - **Steel wool:** Molten gold (1,150 °C) can set steel wool on fire (it ignites at 350 °C).
+- **Sulfuric acid:** Molten gold sinks through sulfuric acid (17,300 vs 1,830 kg/m³).
+- **Nitric acid:** Molten gold sinks through nitric acid (17,300 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Molten gold falls through nitrogen dioxide.
 - **Rope:** Molten gold (1,150 °C) can set rope on fire (it ignites at 250 °C).
 - **Glue:** Molten gold sinks through glue (17,300 vs 1,100 kg/m³).
 - **Dried glue:** Molten gold (1,150 °C) can set dried glue on fire (it ignites at 350 °C).
@@ -4263,7 +4369,7 @@ A light silvery metal. Stays put. Acid eats it, giving off hydrogen, and it melt
 - **Conducts:** current with almost no resistance
 - **Hardness:** 0.4 (acid stronger than this eats it)
 
-With other elements (14 interact):
+With other elements (16 interact):
 
 - **Lava:** Lava (1,200 °C) is hot enough to melt aluminium into molten aluminium.
 - **Fire:** Fire (850 °C) is hot enough to melt aluminium into molten aluminium.
@@ -4279,8 +4385,10 @@ With other elements (14 interact):
 - **Rocket:** Rocket (900 °C) is hot enough to melt aluminium into molten aluminium.
 - **Ember:** Ember (700 °C) is hot enough to melt aluminium into molten aluminium.
 - **Corium:** Corium (1,400 °C) is hot enough to melt aluminium into molten aluminium.
+- **Sulfuric acid:** Sulfuric acid eats aluminium: acidity 0.9 beats hardness 0.4, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats aluminium: acidity 0.85 beats hardness 0.4, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten aluminium
 
@@ -4293,7 +4401,7 @@ Melted aluminium, dull red and runny. Flows and sinks through water. Sets back i
 - **Freezes:** below 660 °C, into aluminium
 - **Conducts:** current with almost no resistance
 
-With other elements (151 interact):
+With other elements (154 interact):
 
 - **Water:** Molten aluminium sinks through water (2,375 vs 1,000 kg/m³). Molten aluminium (750 °C) is hot enough to boil water into steam.
 - **Oil:** Molten aluminium sinks through oil (2,375 vs 900 kg/m³). Molten aluminium (750 °C) can set oil on fire (it ignites at 250 °C).
@@ -4439,6 +4547,9 @@ With other elements (151 interact):
 - **Milk:** Molten aluminium sinks through milk (2,375 vs 1,030 kg/m³).
 - **Lemon juice:** Molten aluminium sinks through lemon juice (2,375 vs 1,030 kg/m³).
 - **Steel wool:** Molten aluminium (750 °C) can set steel wool on fire (it ignites at 350 °C).
+- **Sulfuric acid:** Molten aluminium sinks through sulfuric acid (2,375 vs 1,830 kg/m³).
+- **Nitric acid:** Molten aluminium sinks through nitric acid (2,375 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Molten aluminium falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through molten aluminium (5,560 vs 2,375 kg/m³).
 - **Exposed silver:** Exposed silver sinks through molten aluminium (5,560 vs 2,375 kg/m³).
 - **Rope:** Molten aluminium (750 °C) can set rope on fire (it ignites at 250 °C).
@@ -4459,7 +4570,7 @@ A dull, very heavy grey metal. Stays put. It melts easily into molten lead, and 
 - **Absorbs:** neutrons, slowing a chain reaction nearby
 - **Hardness:** 0.6 (acid stronger than this eats it)
 
-With other elements (15 interact):
+With other elements (17 interact):
 
 - **Lava:** Lava (1,200 °C) is hot enough to melt lead into molten lead.
 - **Fire:** Fire (850 °C) is hot enough to melt lead into molten lead.
@@ -4476,8 +4587,10 @@ With other elements (15 interact):
 - **Rocket:** Rocket (900 °C) is hot enough to melt lead into molten lead.
 - **Ember:** Ember (700 °C) is hot enough to melt lead into molten lead.
 - **Corium:** Corium (1,400 °C) is hot enough to melt lead into molten lead.
+- **Sulfuric acid:** Sulfuric acid eats lead: acidity 0.9 beats hardness 0.6, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats lead: acidity 0.85 beats hardness 0.6, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten lead
 
@@ -4490,7 +4603,7 @@ Melted lead, hot and very heavy. Flows and sinks through almost everything. Sets
 - **Freezes:** below 327 °C, into lead
 - **Conducts:** current with almost no resistance
 
-With other elements (139 interact):
+With other elements (142 interact):
 
 - **Water:** Molten lead sinks through water (10,660 vs 1,000 kg/m³). Molten lead (400 °C) is hot enough to boil water into steam.
 - **Oil:** Molten lead sinks through oil (10,660 vs 900 kg/m³). Molten lead (400 °C) can set oil on fire (it ignites at 250 °C).
@@ -4627,6 +4740,9 @@ With other elements (139 interact):
 - **Milk:** Molten lead sinks through milk (10,660 vs 1,030 kg/m³).
 - **Lemon juice:** Molten lead sinks through lemon juice (10,660 vs 1,030 kg/m³).
 - **Steel wool:** Molten lead (400 °C) can set steel wool on fire (it ignites at 350 °C).
+- **Sulfuric acid:** Molten lead sinks through sulfuric acid (10,660 vs 1,830 kg/m³).
+- **Nitric acid:** Molten lead sinks through nitric acid (10,660 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Molten lead falls through nitrogen dioxide.
 - **Rope:** Molten lead (400 °C) can set rope on fire (it ignites at 250 °C).
 - **Glue:** Molten lead sinks through glue (10,660 vs 1,100 kg/m³).
 - **Dried glue:** Molten lead (400 °C) can set dried glue on fire (it ignites at 350 °C).
@@ -4643,7 +4759,7 @@ Flaky red iron oxide, a powder. Falls and piles. It forms where water or oxygen 
 - **Falls:** up to 160 cells/s
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (66 interact):
+With other elements (69 interact):
 
 - **Water:** Rust sinks through water (2,000 vs 1,000 kg/m³).
 - **Oil:** Rust sinks through oil (2,000 vs 900 kg/m³).
@@ -4710,6 +4826,9 @@ With other elements (66 interact):
 - **Hydrogen chloride:** Rust falls through hydrogen chloride.
 - **Milk:** Rust sinks through milk (2,000 vs 1,030 kg/m³).
 - **Lemon juice:** Rust sinks through lemon juice (2,000 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats rust: acidity 0.9 beats hardness 0.3. Rust sinks through sulfuric acid (2,000 vs 1,830 kg/m³).
+- **Nitric acid:** Nitric acid eats rust: acidity 0.85 beats hardness 0.3. Rust sinks through nitric acid (2,000 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Rust falls through nitrogen dioxide.
 - **Glue:** Rust sinks through glue (2,000 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -4722,12 +4841,14 @@ A soft, light silvery metal. Stays put. Water touching it makes it fizz violentl
 - **Conducts:** current with almost no resistance
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (2 interact):
+With other elements (4 interact):
 
 - **Water:** Sodium reacts violently with water: it becomes lye and hydrogen, hot enough to set the hydrogen alight.
 - **Acid:** Acid eats sodium: acidity 0.8 beats hardness 0.1, giving off hydrogen.
+- **Sulfuric acid:** Sulfuric acid eats sodium: acidity 0.9 beats hardness 0.1, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats sodium: acidity 0.85 beats hardness 0.1, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Coal
 
@@ -4739,7 +4860,7 @@ Black lumps of fossil fuel, a heavy powder. Falls and piles. Hard to light, but 
 - **Burns:** from 450 °C in air, 15 s per cell, leaves ash
 - **Hardness:** 0.85 (acid stronger than this eats it)
 
-With other elements (76 interact):
+With other elements (79 interact):
 
 - **Air:** Coal burns: it catches fire at 450 °C next to air (oxidiser 0.21).
 - **Water:** Coal sinks through water (1,350 vs 1,000 kg/m³).
@@ -4815,6 +4936,9 @@ With other elements (76 interact):
 - **Hydrogen chloride:** Coal falls through hydrogen chloride.
 - **Milk:** Coal sinks through milk (1,350 vs 1,030 kg/m³).
 - **Lemon juice:** Coal sinks through lemon juice (1,350 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats coal: acidity 0.9 beats hardness 0.85.
+- **Nitric acid:** Coal burns: it catches fire at 450 °C next to nitric acid (oxidiser 0.6). Nitric acid makes burning coal hotter and faster.
+- **Nitrogen dioxide:** Coal falls through nitrogen dioxide.
 - **Glue:** Coal sinks through glue (1,350 vs 1,100 kg/m³).
 - **Ammonium nitrate:** Coal burns: it catches fire at 450 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning coal hotter and faster.
 
@@ -4830,7 +4954,7 @@ Charred wood, a light black powder. Falls and piles. It catches more easily than
 - **Burns:** from 350 °C in air, 8.33 s per cell, leaves ash
 - **Hardness:** 0.85 (acid stronger than this eats it)
 
-With other elements (44 interact):
+With other elements (47 interact):
 
 - **Air:** Charcoal burns: it catches fire at 350 °C next to air (oxidiser 0.21).
 - **Steam:** Charcoal falls through steam.
@@ -4875,6 +4999,9 @@ With other elements (44 interact):
 - **Fog:** Charcoal falls through fog.
 - **Potassium permanganate:** Charcoal burns: it catches fire at 350 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning charcoal hotter and faster.
 - **Hydrogen chloride:** Charcoal falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid eats charcoal: acidity 0.9 beats hardness 0.85.
+- **Nitric acid:** Charcoal burns: it catches fire at 350 °C next to nitric acid (oxidiser 0.6). Nitric acid makes burning charcoal hotter and faster.
+- **Nitrogen dioxide:** Charcoal falls through nitrogen dioxide.
 - **Ammonium nitrate:** Charcoal burns: it catches fire at 350 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning charcoal hotter and faster.
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -4889,7 +5016,7 @@ Yellow crystals, a powder. Falls and piles. It burns with a blue flame into chok
 - **Burns:** from 232 °C in air, 1.5 s per cell, leaves sulfur dioxide
 - **Hardness:** 0.9 (acid stronger than this eats it)
 
-With other elements (80 interact):
+With other elements (83 interact):
 
 - **Air:** Sulfur burns: it catches fire at 232 °C next to air (oxidiser 0.21).
 - **Water:** Sulfur sinks through water (2,000 vs 1,000 kg/m³).
@@ -4969,6 +5096,9 @@ With other elements (80 interact):
 - **Hydrogen chloride:** Sulfur falls through hydrogen chloride.
 - **Milk:** Sulfur sinks through milk (2,000 vs 1,030 kg/m³).
 - **Lemon juice:** Sulfur sinks through lemon juice (2,000 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfur sinks through sulfuric acid (2,000 vs 1,830 kg/m³).
+- **Nitric acid:** Sulfur burns: it catches fire at 232 °C next to nitric acid (oxidiser 0.6). Sulfur sinks through nitric acid (2,000 vs 1,510 kg/m³). Nitric acid makes burning sulfur hotter and faster.
+- **Nitrogen dioxide:** Sulfur falls through nitrogen dioxide.
 - **Glue:** Sulfur sinks through glue (2,000 vs 1,100 kg/m³).
 - **Ammonium nitrate:** Sulfur burns: it catches fire at 232 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning sulfur hotter and faster.
 
@@ -4984,7 +5114,7 @@ A thin, volatile fuel. Flows freely and floats on water. Its vapour catches from
 - **Burns:** from 280 °C in air, 1 s per cell
 - **Flash point:** -43 °C: above it, flames spread across it
 
-With other elements (124 interact):
+With other elements (127 interact):
 
 - **Air:** Petrol burns: it catches fire at 280 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through petrol (1,600 vs 740 kg/m³).
@@ -5104,6 +5234,9 @@ With other elements (124 interact):
 - **Lemon juice:** Lemon juice sinks through petrol (1,030 vs 740 kg/m³).
 - **Red dye:** Red dye sinks through petrol (1,500 vs 740 kg/m³).
 - **Blue dye:** Blue dye sinks through petrol (1,500 vs 740 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through petrol (1,830 vs 740 kg/m³).
+- **Nitric acid:** Petrol burns: it catches fire at 280 °C next to nitric acid (oxidiser 0.6). Nitric acid sinks through petrol (1,510 vs 740 kg/m³). Nitric acid makes burning petrol hotter and faster.
+- **Nitrogen dioxide:** Petrol falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through petrol (5,560 vs 740 kg/m³).
 - **Exposed silver:** Exposed silver sinks through petrol (5,560 vs 740 kg/m³).
 - **Iron filings:** Iron filings sinks through petrol (3,500 vs 740 kg/m³).
@@ -5122,7 +5255,7 @@ Soft, pale wax. Stays put. It melts at a gentle heat into molten wax and burns s
 - **Burns:** from 300 °C in air, 5 s per cell
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (33 interact):
+With other elements (35 interact):
 
 - **Air:** Wax burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Steam:** Steam (150 °C) is hot enough to melt wax into molten wax.
@@ -5156,9 +5289,11 @@ With other elements (33 interact):
 - **Corium:** Corium (1,400 °C) is hot enough to melt wax into molten wax. Corium (1,400 °C) can set wax on fire (it ignites at 300 °C).
 - **Neutron:** Wax catches from the flame touching it.
 - **Potassium permanganate:** Wax burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning wax hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats wax: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats wax: acidity 0.85 beats hardness 0.2. Nitric acid makes burning wax hotter and faster.
 - **Ammonium nitrate:** Wax burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning wax hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten wax
 
@@ -5172,7 +5307,7 @@ Melted wax, warm and runny. Flows and floats on water. It sets back into wax as 
 - **Burns:** from 300 °C in air, 3.33 s per cell
 - **Flash point:** 200 °C: above it, flames spread across it
 
-With other elements (131 interact):
+With other elements (134 interact):
 
 - **Air:** Molten wax burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through molten wax (1,600 vs 800 kg/m³).
@@ -5299,6 +5434,9 @@ With other elements (131 interact):
 - **Lemon juice:** Lemon juice sinks through molten wax (1,030 vs 800 kg/m³).
 - **Red dye:** Red dye sinks through molten wax (1,500 vs 800 kg/m³).
 - **Blue dye:** Blue dye sinks through molten wax (1,500 vs 800 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through molten wax (1,830 vs 800 kg/m³).
+- **Nitric acid:** Molten wax burns: it catches fire at 300 °C next to nitric acid (oxidiser 0.6). Nitric acid sinks through molten wax (1,510 vs 800 kg/m³). Nitric acid makes burning molten wax hotter and faster.
+- **Nitrogen dioxide:** Molten wax falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through molten wax (5,560 vs 800 kg/m³).
 - **Exposed silver:** Exposed silver sinks through molten wax (5,560 vs 800 kg/m³).
 - **Iron filings:** Iron filings sinks through molten wax (3,500 vs 800 kg/m³).
@@ -5317,7 +5455,7 @@ Thin sheets of wood pulp. Stays put. It catches at the lightest flame and burns 
 - **Rots:** slowly into dirt where water touches it
 - **Hardness:** 0.05 (acid stronger than this eats it)
 
-With other elements (27 interact):
+With other elements (29 interact):
 
 - **Air:** Paper burns: it catches fire at 233 °C next to air (oxidiser 0.21).
 - **Water:** Paper slowly rots into dirt where water touches it.
@@ -5345,9 +5483,11 @@ With other elements (27 interact):
 - **Corium:** Corium (1,400 °C) can set paper on fire (it ignites at 233 °C).
 - **Neutron:** Paper catches from the flame touching it.
 - **Potassium permanganate:** Paper burns: it catches fire at 233 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning paper hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats paper: acidity 0.9 beats hardness 0.05.
+- **Nitric acid:** Nitric acid eats paper: acidity 0.85 beats hardness 0.05. Nitric acid makes burning paper hotter and faster.
 - **Ammonium nitrate:** Paper burns: it catches fire at 233 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning paper hotter and faster.
 
-No direct interaction with: Wall, Sand, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Rubber
 
@@ -5357,7 +5497,7 @@ Tough black rubber. Stays put and never carries charge. Hard to light, but it bu
 - **Burns:** from 400 °C in air, 6.67 s per cell, leaves ash
 - **Hardness:** 0.4 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Air:** Rubber burns: it catches fire at 400 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set rubber on fire (it ignites at 400 °C).
@@ -5383,9 +5523,11 @@ With other elements (25 interact):
 - **Corium:** Corium (1,400 °C) can set rubber on fire (it ignites at 400 °C).
 - **Neutron:** Rubber catches from the flame touching it.
 - **Potassium permanganate:** Rubber burns: it catches fire at 400 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning rubber hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats rubber: acidity 0.9 beats hardness 0.4.
+- **Nitric acid:** Nitric acid eats rubber: acidity 0.85 beats hardness 0.4. Nitric acid makes burning rubber hotter and faster.
 - **Ammonium nitrate:** Rubber burns: it catches fire at 400 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning rubber hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Flour
 
@@ -5399,7 +5541,7 @@ Fine white powder, very light. Drifts as it falls. It catches easily and burns f
 - **Soaks up:** water, up to 30% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (46 interact):
+With other elements (49 interact):
 
 - **Air:** Flour burns: it catches fire at 380 °C next to air (oxidiser 0.21).
 - **Water:** Flour and water knead into dough. Flour soaks up water: it is porous and holds up to 30% water.
@@ -5446,6 +5588,9 @@ With other elements (46 interact):
 - **Fog:** Flour falls through fog.
 - **Potassium permanganate:** Flour burns: it catches fire at 380 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning flour hotter and faster.
 - **Hydrogen chloride:** Flour falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid eats flour: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats flour: acidity 0.85 beats hardness 0.1. Nitric acid makes burning flour hotter and faster.
+- **Nitrogen dioxide:** Flour falls through nitrogen dioxide.
 - **Ammonium nitrate:** Flour burns: it catches fire at 380 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning flour hotter and faster.
 
 No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -5462,7 +5607,7 @@ A grey-red metal powder that carries its own oxygen. Falls and piles. A flame wi
 - **A flame:** will not light it; it needs 900 °C
 - **Hardness:** 0.9 (acid stronger than this eats it)
 
-With other elements (76 interact):
+With other elements (78 interact):
 
 - **Air:** Thermite burns: it catches fire at 900 °C next to air (oxidiser 0.21).
 - **Water:** Thermite sinks through water (1,500 vs 1,000 kg/m³).
@@ -5538,10 +5683,12 @@ With other elements (76 interact):
 - **Hydrogen chloride:** Thermite falls through hydrogen chloride.
 - **Milk:** Thermite sinks through milk (1,500 vs 1,030 kg/m³).
 - **Lemon juice:** Thermite sinks through lemon juice (1,500 vs 1,030 kg/m³).
+- **Nitric acid:** Thermite burns: it catches fire at 900 °C next to nitric acid (oxidiser 0.6). Nitric acid makes burning thermite hotter and faster.
+- **Nitrogen dioxide:** Thermite falls through nitrogen dioxide.
 - **Glue:** Thermite sinks through glue (1,500 vs 1,100 kg/m³).
 - **Ammonium nitrate:** Thermite burns: it catches fire at 900 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning thermite hotter and faster.
 
-No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Sulfuric acid, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Honey
 
@@ -5551,7 +5698,7 @@ Thick golden syrup. Oozes very slowly and sinks through water. Sticky and sweet;
 - **In liquids:** Sinks through liquids lighter than 1,420 kg/m³, floats on heavier ones
 - **Falls:** up to 40 cells/s
 
-With other elements (105 interact):
+With other elements (108 interact):
 
 - **Sand:** Sand sinks through honey (1,600 vs 1,420 kg/m³).
 - **Water:** Honey sinks through water (1,420 vs 1,000 kg/m³).
@@ -5653,6 +5800,9 @@ With other elements (105 interact):
 - **Lemon juice:** Honey sinks through lemon juice (1,420 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through honey (1,500 vs 1,420 kg/m³).
 - **Blue dye:** Blue dye sinks through honey (1,500 vs 1,420 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through honey (1,830 vs 1,420 kg/m³).
+- **Nitric acid:** Nitric acid sinks through honey (1,510 vs 1,420 kg/m³).
+- **Nitrogen dioxide:** Honey falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through honey (5,560 vs 1,420 kg/m³).
 - **Exposed silver:** Exposed silver sinks through honey (5,560 vs 1,420 kg/m³).
 - **Iron filings:** Iron filings sinks through honey (3,500 vs 1,420 kg/m³).
@@ -5669,7 +5819,7 @@ A weak acid, mostly water. Flows like water. Too weak to eat metal, but it fizze
 - **In liquids:** Sinks through liquids lighter than 1,010 kg/m³, floats on heavier ones
 - **Falls:** up to 165 cells/s
 
-With other elements (115 interact):
+With other elements (118 interact):
 
 - **Sand:** Sand sinks through vinegar (1,600 vs 1,010 kg/m³).
 - **Water:** Vinegar sinks through water (1,010 vs 1,000 kg/m³).
@@ -5780,6 +5930,9 @@ With other elements (115 interact):
 - **Lemon juice:** Lemon juice sinks through vinegar (1,030 vs 1,010 kg/m³).
 - **Red dye:** Red dye sinks through vinegar (1,500 vs 1,010 kg/m³).
 - **Blue dye:** Blue dye sinks through vinegar (1,500 vs 1,010 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through vinegar (1,830 vs 1,010 kg/m³).
+- **Nitric acid:** Nitric acid sinks through vinegar (1,510 vs 1,010 kg/m³).
+- **Nitrogen dioxide:** Vinegar falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through vinegar (5,560 vs 1,010 kg/m³).
 - **Exposed silver:** Exposed silver sinks through vinegar (5,560 vs 1,010 kg/m³).
 - **Iron filings:** Iron filings sinks through vinegar (3,500 vs 1,010 kg/m³).
@@ -5798,7 +5951,7 @@ A strong cleaning base. Flows like water. Mixed with any acid it gives off poiso
 - **Falls:** up to 165 cells/s
 - **Poisons:** living things it touches: they wither
 
-With other elements (113 interact):
+With other elements (116 interact):
 
 - **Sand:** Sand sinks through bleach (1,600 vs 1,100 kg/m³).
 - **Water:** Bleach sinks through water (1,100 vs 1,000 kg/m³).
@@ -5909,6 +6062,9 @@ With other elements (113 interact):
 - **Lemon juice:** Bleach and lemon juice neutralise each other into water, and warm up. Bleach sinks through lemon juice (1,100 vs 1,030 kg/m³). Lemon juice and bleach neutralise each other into water, and warm up.
 - **Red dye:** Red dye sinks through bleach (1,500 vs 1,100 kg/m³).
 - **Blue dye:** Blue dye sinks through bleach (1,500 vs 1,100 kg/m³).
+- **Sulfuric acid:** Bleach and sulfuric acid neutralise each other into water, and warm up. Sulfuric acid and bleach neutralise each other into water, and warm up. Sulfuric acid sinks through bleach (1,830 vs 1,100 kg/m³).
+- **Nitric acid:** Bleach and nitric acid neutralise each other into water, and warm up. Nitric acid and bleach neutralise each other into water, and warm up. Nitric acid sinks through bleach (1,510 vs 1,100 kg/m³).
+- **Nitrogen dioxide:** Bleach falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through bleach (5,560 vs 1,100 kg/m³).
 - **Exposed silver:** Exposed silver sinks through bleach (5,560 vs 1,100 kg/m³).
 - **Iron filings:** Iron filings sinks through bleach (3,500 vs 1,100 kg/m³).
@@ -5924,7 +6080,7 @@ A caustic alkaline liquid. Flows like water. It neutralises acid into water, war
 - **In liquids:** Sinks through liquids lighter than 1,100 kg/m³, floats on heavier ones
 - **Falls:** up to 160 cells/s
 
-With other elements (106 interact):
+With other elements (109 interact):
 
 - **Sand:** Sand sinks through lye (1,600 vs 1,100 kg/m³).
 - **Water:** Lye sinks through water (1,100 vs 1,000 kg/m³).
@@ -6028,6 +6184,9 @@ With other elements (106 interact):
 - **Lemon juice:** Lye and lemon juice neutralise each other into water, and warm up. Lye sinks through lemon juice (1,100 vs 1,030 kg/m³). Lemon juice and lye neutralise each other into water, and warm up.
 - **Red dye:** Red dye sinks through lye (1,500 vs 1,100 kg/m³).
 - **Blue dye:** Blue dye sinks through lye (1,500 vs 1,100 kg/m³).
+- **Sulfuric acid:** Lye and sulfuric acid neutralise each other into water, and warm up. Sulfuric acid and lye neutralise each other into water, and warm up. Sulfuric acid sinks through lye (1,830 vs 1,100 kg/m³).
+- **Nitric acid:** Lye and nitric acid neutralise each other into water, and warm up. Nitric acid and lye neutralise each other into water, and warm up. Nitric acid sinks through lye (1,510 vs 1,100 kg/m³).
+- **Nitrogen dioxide:** Lye falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through lye (5,560 vs 1,100 kg/m³).
 - **Exposed silver:** Exposed silver sinks through lye (5,560 vs 1,100 kg/m³).
 - **Iron filings:** Iron filings sinks through lye (3,500 vs 1,100 kg/m³).
@@ -6045,7 +6204,7 @@ Nitrogen cooled to a liquid, bitterly cold. Flows and boils away fast into nitro
 - **Falls:** up to 165 cells/s
 - **Boils:** at -196 °C, into nitrogen
 
-With other elements (122 interact):
+With other elements (125 interact):
 
 - **Sand:** Sand sinks through liquid nitrogen (1,600 vs 808 kg/m³).
 - **Water:** Liquid nitrogen (-196 °C) is cold enough to freeze water into ice. Water sinks through liquid nitrogen (1,000 vs 808 kg/m³).
@@ -6163,6 +6322,9 @@ With other elements (122 interact):
 - **Lemon juice:** Lemon juice sinks through liquid nitrogen (1,030 vs 808 kg/m³).
 - **Red dye:** Red dye sinks through liquid nitrogen (1,500 vs 808 kg/m³).
 - **Blue dye:** Blue dye sinks through liquid nitrogen (1,500 vs 808 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through liquid nitrogen (1,830 vs 808 kg/m³).
+- **Nitric acid:** Nitric acid sinks through liquid nitrogen (1,510 vs 808 kg/m³).
+- **Nitrogen dioxide:** Liquid nitrogen falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through liquid nitrogen (5,560 vs 808 kg/m³).
 - **Exposed silver:** Exposed silver sinks through liquid nitrogen (5,560 vs 808 kg/m³).
 - **Iron filings:** Iron filings sinks through liquid nitrogen (3,500 vs 808 kg/m³).
@@ -6180,7 +6342,7 @@ The inert gas that makes up most of air. Drifts slowly upwards. It feeds no fire
 - **In air:** Rises (lighter than air)
 - **Condenses:** below -196 °C, into liquid nitrogen
 
-With other elements (105 interact):
+With other elements (107 interact):
 
 - **Sand:** Sand falls through nitrogen.
 - **Water:** Water falls through nitrogen.
@@ -6281,6 +6443,8 @@ With other elements (105 interact):
 - **Lemon juice:** Lemon juice falls through nitrogen.
 - **Red dye:** Red dye falls through nitrogen.
 - **Blue dye:** Blue dye falls through nitrogen.
+- **Sulfuric acid:** Sulfuric acid falls through nitrogen.
+- **Nitric acid:** Nitric acid falls through nitrogen.
 - **Silver chloride:** Silver chloride falls through nitrogen.
 - **Exposed silver:** Exposed silver falls through nitrogen.
 - **Iron filings:** Iron filings falls through nitrogen.
@@ -6288,7 +6452,7 @@ With other elements (105 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through nitrogen.
 - **Yeast:** Yeast falls through nitrogen.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Carbon dioxide
 
@@ -6298,7 +6462,7 @@ A heavy, colourless gas. Sinks and pools low like water. It feeds no fire, so it
 - **In air:** Sinks slowly (heavier than air)
 - **Condenses:** below -78 °C, into dry ice
 
-With other elements (105 interact):
+With other elements (107 interact):
 
 - **Sand:** Sand falls through carbon dioxide.
 - **Water:** Water falls through carbon dioxide.
@@ -6399,6 +6563,8 @@ With other elements (105 interact):
 - **Lemon juice:** Lemon juice falls through carbon dioxide.
 - **Red dye:** Red dye falls through carbon dioxide.
 - **Blue dye:** Blue dye falls through carbon dioxide.
+- **Sulfuric acid:** Sulfuric acid falls through carbon dioxide.
+- **Nitric acid:** Nitric acid falls through carbon dioxide.
 - **Silver chloride:** Silver chloride falls through carbon dioxide.
 - **Exposed silver:** Exposed silver falls through carbon dioxide.
 - **Iron filings:** Iron filings falls through carbon dioxide.
@@ -6406,7 +6572,7 @@ With other elements (105 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through carbon dioxide.
 - **Yeast:** Yeast falls through carbon dioxide.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Helium
 
@@ -6415,7 +6581,7 @@ A very light, inert gas. Rises fast and gathers at the top. It never burns or re
 - **State:** Gas, 0.18 kg/m³
 - **In air:** Rises (lighter than air)
 
-With other elements (105 interact):
+With other elements (107 interact):
 
 - **Sand:** Sand falls through helium.
 - **Water:** Water falls through helium.
@@ -6516,6 +6682,8 @@ With other elements (105 interact):
 - **Lemon juice:** Lemon juice falls through helium.
 - **Red dye:** Red dye falls through helium.
 - **Blue dye:** Blue dye falls through helium.
+- **Sulfuric acid:** Sulfuric acid falls through helium.
+- **Nitric acid:** Nitric acid falls through helium.
 - **Silver chloride:** Silver chloride falls through helium.
 - **Exposed silver:** Exposed silver falls through helium.
 - **Iron filings:** Iron filings falls through helium.
@@ -6523,7 +6691,7 @@ With other elements (105 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through helium.
 - **Yeast:** Yeast falls through helium.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Propane
 
@@ -6534,7 +6702,7 @@ A fuel gas, heavier than air. Sinks and pools in low places. Its vapour catches 
 - **Burns:** from 470 °C in air, 0.2 s per cell, leaves steam
 - **Flash point:** -104 °C: above it, flames spread across it
 
-With other elements (115 interact):
+With other elements (117 interact):
 
 - **Air:** Propane burns: it catches fire at 470 °C next to air (oxidiser 0.21).
 - **Sand:** Sand falls through propane.
@@ -6645,6 +6813,8 @@ With other elements (115 interact):
 - **Lemon juice:** Lemon juice falls through propane.
 - **Red dye:** Red dye falls through propane.
 - **Blue dye:** Blue dye falls through propane.
+- **Sulfuric acid:** Sulfuric acid falls through propane.
+- **Nitric acid:** Propane burns: it catches fire at 470 °C next to nitric acid (oxidiser 0.6). Nitric acid falls through propane. Nitric acid makes burning propane hotter and faster.
 - **Silver chloride:** Silver chloride falls through propane.
 - **Exposed silver:** Exposed silver falls through propane.
 - **Iron filings:** Iron filings falls through propane.
@@ -6652,7 +6822,7 @@ With other elements (115 interact):
 - **Ammonium nitrate:** Propane burns: it catches fire at 470 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate falls through propane. Ammonium nitrate makes burning propane hotter and faster.
 - **Yeast:** Yeast falls through propane.
 
-No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, Methane, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, Methane, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Chlorine
 
@@ -6663,7 +6833,7 @@ A poisonous yellow-green gas, very heavy. Sinks and pools low. It kills plants a
 - **In water:** dissolves and turns the water into acid
 - **Poisons:** living things it touches: they wither
 
-With other elements (113 interact):
+With other elements (115 interact):
 
 - **Sand:** Sand falls through chlorine.
 - **Water:** Chlorine dissolves in water and turns it into acid. Water falls through chlorine.
@@ -6772,6 +6942,8 @@ With other elements (113 interact):
 - **Lemon juice:** Lemon juice falls through chlorine.
 - **Red dye:** Red dye falls through chlorine.
 - **Blue dye:** Blue dye falls through chlorine.
+- **Sulfuric acid:** Sulfuric acid falls through chlorine.
+- **Nitric acid:** Nitric acid falls through chlorine.
 - **Silver chloride:** Silver chloride falls through chlorine.
 - **Exposed silver:** Exposed silver falls through chlorine.
 - **Iron filings:** Iron filings falls through chlorine.
@@ -6779,7 +6951,7 @@ With other elements (113 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through chlorine.
 - **Yeast:** Yeast falls through chlorine.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Sulfur dioxide, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Sulfur dioxide, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sulfur dioxide
 
@@ -6790,7 +6962,7 @@ A choking gas, much heavier than air. Sinks and pools low. It turns water it tou
 - **In water:** dissolves and turns the water into acid
 - **Poisons:** living things it touches: they wither
 
-With other elements (112 interact):
+With other elements (114 interact):
 
 - **Sand:** Sand falls through sulfur dioxide.
 - **Water:** Sulfur dioxide dissolves in water and turns it into acid. Water falls through sulfur dioxide.
@@ -6898,6 +7070,8 @@ With other elements (112 interact):
 - **Lemon juice:** Lemon juice falls through sulfur dioxide.
 - **Red dye:** Red dye falls through sulfur dioxide.
 - **Blue dye:** Blue dye falls through sulfur dioxide.
+- **Sulfuric acid:** Sulfuric acid falls through sulfur dioxide.
+- **Nitric acid:** Nitric acid falls through sulfur dioxide.
 - **Silver chloride:** Silver chloride falls through sulfur dioxide.
 - **Exposed silver:** Exposed silver falls through sulfur dioxide.
 - **Iron filings:** Iron filings falls through sulfur dioxide.
@@ -6905,7 +7079,7 @@ With other elements (112 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through sulfur dioxide.
 - **Yeast:** Yeast falls through sulfur dioxide.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Dry ice
 
@@ -6945,7 +7119,7 @@ With other elements (26 interact):
 - **Liquid gallium:** Dry ice (-79 °C) is cold enough to freeze liquid gallium into gallium. Liquid gallium (35 °C) is hot enough to turn dry ice into carbon dioxide.
 - **Corium:** Dry ice (-79 °C) is cold enough to freeze corium into uranium. Corium (1,400 °C) is hot enough to turn dry ice into carbon dioxide.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Baking soda
 
@@ -6957,7 +7131,7 @@ A mild white powder and a base. Falls and piles. Acid makes it fizz into carbon 
 - **Fizzes:** into carbon dioxide when acid eats or neutralises it
 - **Dissolves in:** water, up to 20% of a cell; boiling leaves it as crystals
 
-With other elements (53 interact):
+With other elements (56 interact):
 
 - **Water:** Baking soda dissolves into water: water is a solvent and each cell holds up to 20% baking soda. Baking soda sinks through water (1,100 vs 1,000 kg/m³).
 - **Oil:** Baking soda sinks through oil (1,100 vs 900 kg/m³).
@@ -7012,6 +7186,9 @@ With other elements (53 interact):
 - **Hydrogen chloride:** Baking soda falls through hydrogen chloride.
 - **Milk:** Baking soda sinks through milk (1,100 vs 1,030 kg/m³).
 - **Lemon juice:** Baking soda and lemon juice neutralise each other into water, fizzing out carbon dioxide, and warm up. Baking soda sinks through lemon juice (1,100 vs 1,030 kg/m³). Lemon juice and baking soda neutralise each other into water, fizzing out carbon dioxide, and warm up.
+- **Sulfuric acid:** Baking soda and sulfuric acid neutralise each other into water, fizzing out carbon dioxide, and warm up. Sulfuric acid and baking soda neutralise each other into water, fizzing out carbon dioxide, and warm up.
+- **Nitric acid:** Baking soda and nitric acid neutralise each other into water, fizzing out carbon dioxide, and warm up. Nitric acid and baking soda neutralise each other into water, fizzing out carbon dioxide, and warm up.
+- **Nitrogen dioxide:** Baking soda falls through nitrogen dioxide.
 
 No direct interaction with: Air, Wall, Sand, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -7024,7 +7201,7 @@ A putty-like plastic explosive. Stays put. A flame alone will not set it off, bu
 - **A flame:** will not light it; it needs 900 °C or a spark
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (16 interact):
+With other elements (18 interact):
 
 - **Air:** C4 explodes at 900 °C; it needs no air.
 - **Lava:** Lava (1,200 °C) can set c4 on fire (it ignites at 900 °C).
@@ -7041,9 +7218,11 @@ With other elements (16 interact):
 - **Ozone:** C4 explodes at 900 °C; it needs no air. Ozone makes burning c4 hotter and faster.
 - **Corium:** Corium (1,400 °C) can set c4 on fire (it ignites at 900 °C).
 - **Potassium permanganate:** C4 explodes at 900 °C; it needs no air. Potassium permanganate makes burning c4 hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats c4: acidity 0.9 beats hardness 0.3.
+- **Nitric acid:** Nitric acid eats c4: acidity 0.85 beats hardness 0.3. Nitric acid makes burning c4 hotter and faster.
 - **Ammonium nitrate:** C4 explodes at 900 °C; it needs no air. Ammonium nitrate makes burning c4 hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Grass seed
 
@@ -7055,7 +7234,7 @@ Tiny pale seeds, a light powder. Falls and sinks in water. On damp soil it sprou
 - **Burns:** from 250 °C in air, 0.67 s per cell, leaves ash
 - **Grows:** into grass on damp soil (wet dirt or sand), even under a puddle
 
-With other elements (65 interact):
+With other elements (67 interact):
 
 - **Air:** Grass seed burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Water:** Grass seed sinks through water (1,100 vs 1,000 kg/m³).
@@ -7121,9 +7300,11 @@ With other elements (65 interact):
 - **Hydrogen chloride:** Grass seed falls through hydrogen chloride.
 - **Milk:** Grass seed sinks through milk (1,100 vs 1,030 kg/m³).
 - **Lemon juice:** Grass seed sinks through lemon juice (1,100 vs 1,030 kg/m³).
+- **Nitric acid:** Grass seed burns: it catches fire at 250 °C next to nitric acid (oxidiser 0.6). Nitric acid makes burning grass seed hotter and faster.
+- **Nitrogen dioxide:** Grass seed falls through nitrogen dioxide.
 - **Ammonium nitrate:** Grass seed burns: it catches fire at 250 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning grass seed hotter and faster.
 
-No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Sulfuric acid, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Grass
 
@@ -7134,7 +7315,7 @@ Short living blades. Stays put and drinks from damp soil. Dried out it withers i
 - **Lives:** on water drawn from damp soil; dried out, it withers into dry plant
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (36 interact):
+With other elements (39 interact):
 
 - **Air:** Grass burns: it catches fire at 220 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set grass on fire (it ignites at 220 °C).
@@ -7171,6 +7352,9 @@ With other elements (36 interact):
 - **Copper sulfate:** Copper sulfate is toxic: grass touching it withers.
 - **Potassium permanganate:** Grass burns: it catches fire at 220 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning grass hotter and faster.
 - **Hydrogen chloride:** Hydrogen chloride is toxic: grass touching it withers.
+- **Sulfuric acid:** Sulfuric acid eats grass: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats grass: acidity 0.85 beats hardness 0.1. Nitric acid makes burning grass hotter and faster.
+- **Nitrogen dioxide:** Nitrogen dioxide is toxic: grass touching it withers.
 - **Ammonium nitrate:** Grass burns: it catches fire at 220 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning grass hotter and faster.
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4, Grass seed, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -7185,7 +7369,7 @@ A heavy brown seed, a powder. Falls and sinks in water. On damp soil it sprouts 
 - **Burns:** from 260 °C in air, 1 s per cell, leaves ash
 - **Grows:** into tree on damp soil (wet dirt or sand), even under a puddle
 
-With other elements (65 interact):
+With other elements (67 interact):
 
 - **Air:** Acorn burns: it catches fire at 260 °C next to air (oxidiser 0.21).
 - **Water:** Acorn sinks through water (1,100 vs 1,000 kg/m³).
@@ -7251,9 +7435,11 @@ With other elements (65 interact):
 - **Hydrogen chloride:** Acorn falls through hydrogen chloride.
 - **Milk:** Acorn sinks through milk (1,100 vs 1,030 kg/m³).
 - **Lemon juice:** Acorn sinks through lemon juice (1,100 vs 1,030 kg/m³).
+- **Nitric acid:** Acorn burns: it catches fire at 260 °C next to nitric acid (oxidiser 0.6). Nitric acid makes burning acorn hotter and faster.
+- **Nitrogen dioxide:** Acorn falls through nitrogen dioxide.
 - **Ammonium nitrate:** Acorn burns: it catches fire at 260 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning acorn hotter and faster.
 
-No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Sulfuric acid, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Tree
 
@@ -7265,7 +7451,7 @@ A living woody trunk. Grows tall and branches, drinking from damp soil and putti
 - **Lives:** on water drawn from damp soil; dried out, it withers into wood
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (35 interact):
+With other elements (38 interact):
 
 - **Air:** Tree burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set tree on fire (it ignites at 300 °C).
@@ -7301,6 +7487,9 @@ With other elements (35 interact):
 - **Copper sulfate:** Copper sulfate is toxic: tree touching it withers.
 - **Potassium permanganate:** Tree burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning tree hotter and faster.
 - **Hydrogen chloride:** Hydrogen chloride is toxic: tree touching it withers.
+- **Sulfuric acid:** Sulfuric acid eats tree: acidity 0.9 beats hardness 0.3.
+- **Nitric acid:** Nitric acid eats tree: acidity 0.85 beats hardness 0.3. Nitric acid makes burning tree hotter and faster.
+- **Nitrogen dioxide:** Nitrogen dioxide is toxic: tree touching it withers.
 - **Ammonium nitrate:** Tree burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning tree hotter and faster.
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -7314,7 +7503,7 @@ Living green leaves on a tree. Stay put and take water from the branch. Dried ou
 - **Lives:** on water drawn from damp soil; dried out, it withers into dry plant
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (36 interact):
+With other elements (39 interact):
 
 - **Air:** Leaves burns: it catches fire at 230 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set leaves on fire (it ignites at 230 °C).
@@ -7351,6 +7540,9 @@ With other elements (36 interact):
 - **Copper sulfate:** Copper sulfate is toxic: leaves touching it withers.
 - **Potassium permanganate:** Leaves burns: it catches fire at 230 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning leaves hotter and faster.
 - **Hydrogen chloride:** Hydrogen chloride is toxic: leaves touching it withers.
+- **Sulfuric acid:** Sulfuric acid eats leaves: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats leaves: acidity 0.85 beats hardness 0.1. Nitric acid makes burning leaves hotter and faster.
+- **Nitrogen dioxide:** Nitrogen dioxide is toxic: leaves touching it withers.
 - **Ammonium nitrate:** Leaves burns: it catches fire at 230 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning leaves hotter and faster.
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -7364,7 +7556,7 @@ A bright bloom at the tip of a plant. Stays put and takes water from the stem. D
 - **Lives:** on water drawn from damp soil; dried out, it withers into dry plant
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (36 interact):
+With other elements (39 interact):
 
 - **Air:** Flower burns: it catches fire at 220 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set flower on fire (it ignites at 220 °C).
@@ -7401,6 +7593,9 @@ With other elements (36 interact):
 - **Copper sulfate:** Copper sulfate is toxic: flower touching it withers.
 - **Potassium permanganate:** Flower burns: it catches fire at 220 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning flower hotter and faster.
 - **Hydrogen chloride:** Hydrogen chloride is toxic: flower touching it withers.
+- **Sulfuric acid:** Sulfuric acid eats flower: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats flower: acidity 0.85 beats hardness 0.1. Nitric acid makes burning flower hotter and faster.
+- **Nitrogen dioxide:** Nitrogen dioxide is toxic: flower touching it withers.
 - **Ammonium nitrate:** Flower burns: it catches fire at 220 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning flower hotter and faster.
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -7413,7 +7608,7 @@ A drifting mass of droplets, a gas. Rises slowly and spreads. It rains, or snows
 - **In air:** Rises (lighter than air)
 - **Rains:** water, or snow below 0 °C, until it runs dry
 
-With other elements (105 interact):
+With other elements (107 interact):
 
 - **Sand:** Sand falls through cloud.
 - **Water:** Water falls through cloud.
@@ -7514,6 +7709,8 @@ With other elements (105 interact):
 - **Lemon juice:** Lemon juice falls through cloud.
 - **Red dye:** Red dye falls through cloud.
 - **Blue dye:** Blue dye falls through cloud.
+- **Sulfuric acid:** Sulfuric acid falls through cloud.
+- **Nitric acid:** Nitric acid falls through cloud.
 - **Silver chloride:** Silver chloride falls through cloud.
 - **Exposed silver:** Exposed silver falls through cloud.
 - **Iron filings:** Iron filings falls through cloud.
@@ -7521,7 +7718,7 @@ With other elements (105 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through cloud.
 - **Yeast:** Yeast falls through cloud.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Heater
 
@@ -7534,7 +7731,7 @@ A hot plate. Stays put and holds itself at a steady high heat, warming whatever 
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Cooler
 
@@ -7547,7 +7744,7 @@ A cold plate. Stays put and holds itself far below freezing, chilling whatever t
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Clone
 
@@ -7560,7 +7757,7 @@ A copying block. Stays put. It learns the first element that touches it and keep
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Void
 
@@ -7573,7 +7770,7 @@ A hole in the world. Stays put and deletes anything that touches it, except wall
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Fan
 
@@ -7586,7 +7783,7 @@ A blower. Stays put and pushes a steady stream of air upwards, lifting gases, fl
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Bulb
 
@@ -7601,7 +7798,7 @@ A light bulb filament. Stays put and carries current, which heats it until it gl
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Switch
 
@@ -7613,11 +7810,13 @@ A knife switch. Stays put. Click it to open or close the circuit: closed (bright
 - **Bakes:** at 1,085 °C into molten copper; there is no way back
 - **Hardness:** 0.6 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats switch: acidity 0.8 beats hardness 0.6, giving off hydrogen.
+- **Sulfuric acid:** Sulfuric acid eats switch: acidity 0.9 beats hardness 0.6, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats switch: acidity 0.85 beats hardness 0.6, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Pressure plate
 
@@ -7629,11 +7828,13 @@ A sprung contact plate. Stays put. It closes the circuit while anything heavier 
 - **Bakes:** at 1,400 °C into molten iron; there is no way back
 - **Hardness:** 0.7 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats pressure plate: acidity 0.8 beats hardness 0.7, giving off hydrogen.
+- **Sulfuric acid:** Sulfuric acid eats pressure plate: acidity 0.9 beats hardness 0.7, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats pressure plate: acidity 0.85 beats hardness 0.7, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Thermostat
 
@@ -7645,11 +7846,13 @@ A bimetal strip. Stays put and lets current through while cool; above 60 °C it 
 - **Bakes:** at 1,000 °C into molten copper; there is no way back
 - **Hardness:** 0.6 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats thermostat: acidity 0.8 beats hardness 0.6, giving off hydrogen.
+- **Sulfuric acid:** Sulfuric acid eats thermostat: acidity 0.9 beats hardness 0.6, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats thermostat: acidity 0.85 beats hardness 0.6, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Resistor
 
@@ -7660,7 +7863,7 @@ Carbon film that resists current, turning it into heat. Stays put. One cell keep
 - **Conducts:** current, resisting it (100 Ω a cell) and heating as it passes
 - **Hardness:** 0.7 (acid stronger than this eats it)
 
-With other elements (23 interact):
+With other elements (25 interact):
 
 - **Air:** Resistor burns: it catches fire at 900 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set resistor on fire (it ignites at 900 °C).
@@ -7684,9 +7887,11 @@ With other elements (23 interact):
 - **Corium:** Corium (1,400 °C) can set resistor on fire (it ignites at 900 °C).
 - **Neutron:** Resistor catches from the flame touching it.
 - **Potassium permanganate:** Resistor burns: it catches fire at 900 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning resistor hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats resistor: acidity 0.9 beats hardness 0.7.
+- **Nitric acid:** Nitric acid eats resistor: acidity 0.85 beats hardness 0.7. Nitric acid makes burning resistor hotter and faster.
 - **Ammonium nitrate:** Resistor burns: it catches fire at 900 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning resistor hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Diode
 
@@ -7698,10 +7903,12 @@ A one-way valve for current. Stays put and lets current through only rightwards 
 - **Bakes:** at 1,414 °C into molten glass; there is no way back
 - **Hardness:** 0.8 (acid stronger than this eats it)
 
-With other elements (0 interact):
+With other elements (2 interact):
 
+- **Sulfuric acid:** Sulfuric acid eats diode: acidity 0.9 beats hardness 0.8.
+- **Nitric acid:** Nitric acid eats diode: acidity 0.85 beats hardness 0.8.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### LED
 
@@ -7714,10 +7921,12 @@ A red light-emitting diode. Lets current through only rightwards or upwards and 
 - **Burns out:** above 0.6 A
 - **Hardness:** 0.8 (acid stronger than this eats it)
 
-With other elements (0 interact):
+With other elements (2 interact):
 
+- **Sulfuric acid:** Sulfuric acid eats led: acidity 0.9 beats hardness 0.8.
+- **Nitric acid:** Nitric acid eats led: acidity 0.85 beats hardness 0.8.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Capacitor
 
@@ -7728,11 +7937,13 @@ Stores charge. Stays put. It charges while current flows through it and gives th
 - **Stores:** charge while current flows through it, and gives it back; pops past 12 V
 - **Hardness:** 0.6 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats capacitor: acidity 0.8 beats hardness 0.6, giving off hydrogen.
+- **Sulfuric acid:** Sulfuric acid eats capacitor: acidity 0.9 beats hardness 0.6, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats capacitor: acidity 0.85 beats hardness 0.6, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Motor
 
@@ -7744,11 +7955,13 @@ An electric motor. Stays put. While current runs through it, it turns and carrie
 - **Bakes:** at 1,400 °C into molten iron; there is no way back
 - **Hardness:** 0.7 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats motor: acidity 0.8 beats hardness 0.7, giving off hydrogen.
+- **Sulfuric acid:** Sulfuric acid eats motor: acidity 0.9 beats hardness 0.7, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats motor: acidity 0.85 beats hardness 0.7, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Electromagnet
 
@@ -7760,11 +7973,13 @@ Copper wire coiled round an iron core. Stays put. While current runs through it,
 - **Bakes:** at 1,085 °C into molten copper; there is no way back
 - **Hardness:** 0.7 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats electromagnet: acidity 0.8 beats hardness 0.7, giving off hydrogen.
+- **Sulfuric acid:** Sulfuric acid eats electromagnet: acidity 0.9 beats hardness 0.7, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats electromagnet: acidity 0.85 beats hardness 0.7, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Graphite
 
@@ -7777,7 +7992,7 @@ Soft grey carbon, a powder. Falls and piles, and carries current where its grain
 - **A flame:** will not light it; it needs 750 °C
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (78 interact):
+With other elements (81 interact):
 
 - **Air:** Graphite burns: it catches fire at 750 °C next to air (oxidiser 0.21).
 - **Water:** Graphite sinks through water (2,200 vs 1,000 kg/m³).
@@ -7855,6 +8070,9 @@ With other elements (78 interact):
 - **Hydrogen chloride:** Graphite falls through hydrogen chloride.
 - **Milk:** Graphite sinks through milk (2,200 vs 1,030 kg/m³).
 - **Lemon juice:** Graphite sinks through lemon juice (2,200 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats graphite: acidity 0.9 beats hardness 0.3. Graphite sinks through sulfuric acid (2,200 vs 1,830 kg/m³).
+- **Nitric acid:** Nitric acid eats graphite: acidity 0.85 beats hardness 0.3. Graphite sinks through nitric acid (2,200 vs 1,510 kg/m³). Nitric acid makes burning graphite hotter and faster.
+- **Nitrogen dioxide:** Graphite falls through nitrogen dioxide.
 - **Glue:** Graphite sinks through glue (2,200 vs 1,100 kg/m³).
 - **Ammonium nitrate:** Graphite burns: it catches fire at 750 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning graphite hotter and faster.
 
@@ -7869,7 +8087,7 @@ A rare inert gas, a little lighter than air. Rises slowly. Current through it ma
 - **Conducts:** current, resisting it (25 Ω a cell) and heating as it passes
 - **Lights:** up while current flows through it
 
-With other elements (105 interact):
+With other elements (107 interact):
 
 - **Sand:** Sand falls through neon.
 - **Water:** Water falls through neon.
@@ -7970,6 +8188,8 @@ With other elements (105 interact):
 - **Lemon juice:** Lemon juice falls through neon.
 - **Red dye:** Red dye falls through neon.
 - **Blue dye:** Blue dye falls through neon.
+- **Sulfuric acid:** Sulfuric acid falls through neon.
+- **Nitric acid:** Nitric acid falls through neon.
 - **Silver chloride:** Silver chloride falls through neon.
 - **Exposed silver:** Exposed silver falls through neon.
 - **Iron filings:** Iron filings falls through neon.
@@ -7977,7 +8197,7 @@ With other elements (105 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through neon.
 - **Yeast:** Yeast falls through neon.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Magnesium
 
@@ -7988,7 +8208,7 @@ A light silvery metal. Stays put. Once very hot it burns with a blinding white f
 - **Conducts:** current with almost no resistance
 - **Hardness:** 0.35 (acid stronger than this eats it)
 
-With other elements (24 interact):
+With other elements (26 interact):
 
 - **Air:** Magnesium burns: it catches fire at 650 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set magnesium on fire (it ignites at 650 °C).
@@ -8013,9 +8233,11 @@ With other elements (24 interact):
 - **Corium:** Corium (1,400 °C) can set magnesium on fire (it ignites at 650 °C).
 - **Neutron:** Magnesium catches from the flame touching it.
 - **Potassium permanganate:** Magnesium burns: it catches fire at 650 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning magnesium hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats magnesium: acidity 0.9 beats hardness 0.35, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats magnesium: acidity 0.85 beats hardness 0.35, giving off hydrogen. Nitric acid makes burning magnesium hotter and faster.
 - **Ammonium nitrate:** Magnesium burns: it catches fire at 650 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning magnesium hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Potassium
 
@@ -8025,12 +8247,14 @@ A very soft, light metal. Stays put. Water touching it makes it burst into lye a
 - **Conducts:** current with almost no resistance
 - **Hardness:** 0.05 (acid stronger than this eats it)
 
-With other elements (2 interact):
+With other elements (4 interact):
 
 - **Water:** Potassium bursts in water: it becomes lye and hydrogen, hot enough to set the hydrogen alight.
 - **Acid:** Acid eats potassium: acidity 0.8 beats hardness 0.05, giving off hydrogen.
+- **Sulfuric acid:** Sulfuric acid eats potassium: acidity 0.9 beats hardness 0.05, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats potassium: acidity 0.85 beats hardness 0.05, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Caramel
 
@@ -8042,7 +8266,7 @@ Melted, browned sugar. Oozes very slowly. It burns once it gets very hot.
 - **Falls:** up to 30 cells/s
 - **Burns:** from 400 °C in air, 3.33 s per cell, leaves ash
 
-With other elements (119 interact):
+With other elements (122 interact):
 
 - **Air:** Caramel burns: it catches fire at 400 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through caramel (1,600 vs 1,300 kg/m³).
@@ -8158,6 +8382,9 @@ With other elements (119 interact):
 - **Lemon juice:** Caramel sinks through lemon juice (1,300 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through caramel (1,500 vs 1,300 kg/m³).
 - **Blue dye:** Blue dye sinks through caramel (1,500 vs 1,300 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through caramel (1,830 vs 1,300 kg/m³).
+- **Nitric acid:** Caramel burns: it catches fire at 400 °C next to nitric acid (oxidiser 0.6). Nitric acid sinks through caramel (1,510 vs 1,300 kg/m³). Nitric acid makes burning caramel hotter and faster.
+- **Nitrogen dioxide:** Caramel falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through caramel (5,560 vs 1,300 kg/m³).
 - **Exposed silver:** Exposed silver sinks through caramel (5,560 vs 1,300 kg/m³).
 - **Iron filings:** Iron filings sinks through caramel (3,500 vs 1,300 kg/m³).
@@ -8176,11 +8403,13 @@ Polished white rock, a carbonate. Stays put. Acid fizzes it away into carbon dio
 - **Fizzes:** into carbon dioxide when acid eats or neutralises it
 - **Hardness:** 0.5 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats marble: acidity 0.8 beats hardness 0.5, fizzing out carbon dioxide.
+- **Sulfuric acid:** Sulfuric acid eats marble: acidity 0.9 beats hardness 0.5, fizzing out carbon dioxide.
+- **Nitric acid:** Nitric acid eats marble: acidity 0.85 beats hardness 0.5, fizzing out carbon dioxide.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Chalk
 
@@ -8192,7 +8421,7 @@ Soft white carbonate, a powder. Falls and piles. Acid fizzes it away into carbon
 - **Fizzes:** into carbon dioxide when acid eats or neutralises it
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (65 interact):
+With other elements (68 interact):
 
 - **Water:** Chalk sinks through water (1,500 vs 1,000 kg/m³).
 - **Oil:** Chalk sinks through oil (1,500 vs 900 kg/m³).
@@ -8258,6 +8487,9 @@ With other elements (65 interact):
 - **Hydrogen chloride:** Chalk falls through hydrogen chloride.
 - **Milk:** Chalk sinks through milk (1,500 vs 1,030 kg/m³).
 - **Lemon juice:** Chalk sinks through lemon juice (1,500 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats chalk: acidity 0.9 beats hardness 0.2, fizzing out carbon dioxide.
+- **Nitric acid:** Nitric acid eats chalk: acidity 0.85 beats hardness 0.2, fizzing out carbon dioxide.
+- **Nitrogen dioxide:** Chalk falls through nitrogen dioxide.
 - **Glue:** Chalk sinks through glue (1,500 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -8273,7 +8505,7 @@ Oxygen cooled to a pale blue liquid, bitterly cold. Flows and boils away into ox
 - **Boils:** at -183 °C, into oxygen
 - **Feeds fire:** strength 1 (air is 0.21)
 
-With other elements (164 interact):
+With other elements (167 interact):
 
 - **Sand:** Sand sinks through liquid oxygen (1,600 vs 1,141 kg/m³).
 - **Water:** Liquid oxygen sinks through water (1,141 vs 1,000 kg/m³). Liquid oxygen (-183 °C) is cold enough to freeze water into ice.
@@ -8432,6 +8664,9 @@ With other elements (164 interact):
 - **Red dye:** Red dye sinks through liquid oxygen (1,500 vs 1,141 kg/m³).
 - **Blue dye:** Blue dye sinks through liquid oxygen (1,500 vs 1,141 kg/m³).
 - **Steel wool:** Steel wool burns: it catches fire at 350 °C next to liquid oxygen (oxidiser 1).
+- **Sulfuric acid:** Sulfuric acid sinks through liquid oxygen (1,830 vs 1,141 kg/m³).
+- **Nitric acid:** Nitric acid sinks through liquid oxygen (1,510 vs 1,141 kg/m³).
+- **Nitrogen dioxide:** Liquid oxygen falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through liquid oxygen (5,560 vs 1,141 kg/m³).
 - **Exposed silver:** Exposed silver sinks through liquid oxygen (5,560 vs 1,141 kg/m³).
 - **Rope:** Rope burns: it catches fire at 250 °C next to liquid oxygen (oxidiser 1).
@@ -8453,7 +8688,7 @@ Melted iron, white-hot and heavy. Flows and sinks through water and rock. Sets b
 - **Freezes:** below 1,538 °C, into iron
 - **Conducts:** current with almost no resistance
 
-With other elements (161 interact):
+With other elements (164 interact):
 
 - **Water:** Molten iron sinks through water (6,980 vs 1,000 kg/m³). Molten iron (1,600 °C) is hot enough to boil water into steam.
 - **Oil:** Molten iron sinks through oil (6,980 vs 900 kg/m³). Molten iron (1,600 °C) can set oil on fire (it ignites at 250 °C).
@@ -8612,6 +8847,9 @@ With other elements (161 interact):
 - **Milk:** Molten iron sinks through milk (6,980 vs 1,030 kg/m³).
 - **Lemon juice:** Molten iron sinks through lemon juice (6,980 vs 1,030 kg/m³).
 - **Steel wool:** Molten iron (1,600 °C) can set steel wool on fire (it ignites at 350 °C).
+- **Sulfuric acid:** Molten iron sinks through sulfuric acid (6,980 vs 1,830 kg/m³).
+- **Nitric acid:** Molten iron sinks through nitric acid (6,980 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Molten iron falls through nitrogen dioxide.
 - **Rope:** Molten iron (1,600 °C) can set rope on fire (it ignites at 250 °C).
 - **Glue:** Molten iron sinks through glue (6,980 vs 1,100 kg/m³).
 - **Dried glue:** Molten iron (1,600 °C) can set dried glue on fire (it ignites at 350 °C).
@@ -8629,7 +8867,7 @@ Melted sand, glowing and thick. Oozes slowly. As it cools it sets into clear gla
 - **Falls:** up to 40 cells/s
 - **Freezes:** below 1,400 °C, into glass
 
-With other elements (165 interact):
+With other elements (168 interact):
 
 - **Water:** Molten glass sinks through water (2,400 vs 1,000 kg/m³). Molten glass (1,450 °C) is hot enough to boil water into steam.
 - **Oil:** Molten glass sinks through oil (2,400 vs 900 kg/m³). Molten glass (1,450 °C) can set oil on fire (it ignites at 250 °C).
@@ -8789,6 +9027,9 @@ With other elements (165 interact):
 - **Milk:** Molten glass sinks through milk (2,400 vs 1,030 kg/m³).
 - **Lemon juice:** Molten glass sinks through lemon juice (2,400 vs 1,030 kg/m³).
 - **Steel wool:** Molten glass (1,450 °C) can set steel wool on fire (it ignites at 350 °C).
+- **Sulfuric acid:** Molten glass sinks through sulfuric acid (2,400 vs 1,830 kg/m³).
+- **Nitric acid:** Molten glass sinks through nitric acid (2,400 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Molten glass falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through molten glass (5,560 vs 2,400 kg/m³).
 - **Exposed silver:** Exposed silver sinks through molten glass (5,560 vs 2,400 kg/m³).
 - **Rope:** Molten glass (1,450 °C) can set rope on fire (it ignites at 250 °C).
@@ -8820,7 +9061,7 @@ With other elements (9 interact):
 - **Plasma:** Plasma (3,000 °C) is hot enough to melt silver into molten silver.
 - **Corium:** Corium (1,400 °C) is hot enough to melt silver into molten silver.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten silver
 
@@ -8833,7 +9074,7 @@ Melted silver, glowing and heavy. Flows and sinks through almost everything. Set
 - **Freezes:** below 962 °C, into silver
 - **Conducts:** current with almost no resistance
 
-With other elements (150 interact):
+With other elements (153 interact):
 
 - **Water:** Molten silver sinks through water (9,320 vs 1,000 kg/m³). Molten silver (1,000 °C) is hot enough to boil water into steam.
 - **Oil:** Molten silver sinks through oil (9,320 vs 900 kg/m³). Molten silver (1,000 °C) can set oil on fire (it ignites at 250 °C).
@@ -8981,6 +9222,9 @@ With other elements (150 interact):
 - **Milk:** Molten silver sinks through milk (9,320 vs 1,030 kg/m³).
 - **Lemon juice:** Molten silver sinks through lemon juice (9,320 vs 1,030 kg/m³).
 - **Steel wool:** Molten silver (1,000 °C) can set steel wool on fire (it ignites at 350 °C).
+- **Sulfuric acid:** Molten silver sinks through sulfuric acid (9,320 vs 1,830 kg/m³).
+- **Nitric acid:** Molten silver sinks through nitric acid (9,320 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Molten silver falls through nitrogen dioxide.
 - **Rope:** Molten silver (1,000 °C) can set rope on fire (it ignites at 250 °C).
 - **Glue:** Molten silver sinks through glue (9,320 vs 1,100 kg/m³).
 - **Dried glue:** Molten silver (1,000 °C) can set dried glue on fire (it ignites at 350 °C).
@@ -8997,12 +9241,14 @@ Raw red meat. Stays put. Warm it and it cooks; left in water it slowly rots.
 - **Rots:** slowly into dirt where water touches it
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (2 interact):
+With other elements (4 interact):
 
 - **Water:** Meat slowly rots into dirt where water touches it.
 - **Acid:** Acid eats meat: acidity 0.8 beats hardness 0.2.
+- **Sulfuric acid:** Sulfuric acid eats meat: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats meat: acidity 0.85 beats hardness 0.2.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Cooked meat
 
@@ -9014,7 +9260,7 @@ Browned, cooked meat. Stays put. Overdone it chars into charcoal, and in open ai
 - **Rots:** slowly into dirt where water touches it
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (26 interact):
+With other elements (28 interact):
 
 - **Air:** Cooked meat burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Water:** Cooked meat slowly rots into dirt where water touches it.
@@ -9041,9 +9287,11 @@ With other elements (26 interact):
 - **Corium:** Corium (1,400 °C) can set cooked meat on fire (it ignites at 300 °C).
 - **Neutron:** Cooked meat catches from the flame touching it.
 - **Potassium permanganate:** Cooked meat burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning cooked meat hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats cooked meat: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats cooked meat: acidity 0.85 beats hardness 0.2. Nitric acid makes burning cooked meat hotter and faster.
 - **Ammonium nitrate:** Cooked meat burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning cooked meat hotter and faster.
 
-No direct interaction with: Wall, Sand, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Popcorn kernel
 
@@ -9055,7 +9303,7 @@ Hard yellow kernels, a powder. Falls and piles. Heat them and they pop into ligh
 - **Bakes:** at 180 °C into popcorn; there is no way back
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (58 interact):
+With other elements (61 interact):
 
 - **Water:** Popcorn kernel sinks through water (1,200 vs 1,000 kg/m³).
 - **Oil:** Popcorn kernel sinks through oil (1,200 vs 900 kg/m³).
@@ -9114,6 +9362,9 @@ With other elements (58 interact):
 - **Hydrogen chloride:** Popcorn kernel falls through hydrogen chloride.
 - **Milk:** Popcorn kernel sinks through milk (1,200 vs 1,030 kg/m³).
 - **Lemon juice:** Popcorn kernel sinks through lemon juice (1,200 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats popcorn kernel: acidity 0.9 beats hardness 0.3.
+- **Nitric acid:** Nitric acid eats popcorn kernel: acidity 0.85 beats hardness 0.3.
+- **Nitrogen dioxide:** Popcorn kernel falls through nitrogen dioxide.
 - **Glue:** Popcorn kernel sinks through glue (1,200 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn, Plastic, Pumice, Obsidian, Diamond, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -9128,7 +9379,7 @@ Popped corn, a very light powder. Drifts down softly and floats on water. It bur
 - **Burns:** from 300 °C in air, 0.5 s per cell, leaves ash
 - **Hardness:** 0.05 (acid stronger than this eats it)
 
-With other elements (45 interact):
+With other elements (48 interact):
 
 - **Air:** Popcorn burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Steam:** Popcorn falls through steam.
@@ -9174,6 +9425,9 @@ With other elements (45 interact):
 - **Fog:** Popcorn falls through fog.
 - **Potassium permanganate:** Popcorn burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning popcorn hotter and faster.
 - **Hydrogen chloride:** Popcorn falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid eats popcorn: acidity 0.9 beats hardness 0.05.
+- **Nitric acid:** Nitric acid eats popcorn: acidity 0.85 beats hardness 0.05. Nitric acid makes burning popcorn hotter and faster.
+- **Nitrogen dioxide:** Popcorn falls through nitrogen dioxide.
 - **Ammonium nitrate:** Popcorn burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning popcorn hotter and faster.
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -9188,7 +9442,7 @@ Thick black pitch. Creeps along very slowly and sinks through water. Hard to lig
 - **Burns:** from 320 °C in air, 10 s per cell, leaves ash
 - **Flash point:** 200 °C: above it, flames spread across it
 
-With other elements (110 interact):
+With other elements (113 interact):
 
 - **Air:** Tar burns: it catches fire at 320 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through tar (1,600 vs 1,150 kg/m³).
@@ -9295,6 +9549,9 @@ With other elements (110 interact):
 - **Lemon juice:** Tar sinks through lemon juice (1,150 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through tar (1,500 vs 1,150 kg/m³).
 - **Blue dye:** Blue dye sinks through tar (1,500 vs 1,150 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through tar (1,830 vs 1,150 kg/m³).
+- **Nitric acid:** Tar burns: it catches fire at 320 °C next to nitric acid (oxidiser 0.6). Nitric acid sinks through tar (1,510 vs 1,150 kg/m³). Nitric acid makes burning tar hotter and faster.
+- **Nitrogen dioxide:** Tar falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through tar (5,560 vs 1,150 kg/m³).
 - **Exposed silver:** Exposed silver sinks through tar (5,560 vs 1,150 kg/m³).
 - **Iron filings:** Iron filings sinks through tar (3,500 vs 1,150 kg/m³).
@@ -9313,7 +9570,7 @@ A hard, bright synthetic. Stays put and shrugs off acid. It melts at a modest he
 - **Span:** reaches 10 cells past its support; beyond that, or with nothing under it, it breaks off and falls
 - **Hardness:** 0.9 (acid stronger than this eats it)
 
-With other elements (28 interact):
+With other elements (29 interact):
 
 - **Air:** Plastic burns: it catches fire at 350 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) is hot enough to melt plastic into molten plastic. Lava (1,200 °C) can set plastic on fire (it ignites at 350 °C).
@@ -9342,9 +9599,10 @@ With other elements (28 interact):
 - **Corium:** Corium (1,400 °C) is hot enough to melt plastic into molten plastic. Corium (1,400 °C) can set plastic on fire (it ignites at 350 °C).
 - **Neutron:** Plastic catches from the flame touching it.
 - **Potassium permanganate:** Plastic burns: it catches fire at 350 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning plastic hotter and faster.
+- **Nitric acid:** Plastic burns: it catches fire at 350 °C next to nitric acid (oxidiser 0.6). Nitric acid makes burning plastic hotter and faster.
 - **Ammonium nitrate:** Plastic burns: it catches fire at 350 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning plastic hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten plastic
 
@@ -9357,7 +9615,7 @@ Melted plastic, a hot sticky goo. Oozes slowly and floats on water. Sets back in
 - **Freezes:** below 160 °C, into plastic
 - **Burns:** from 350 °C in air, 3.33 s per cell, leaves ash
 
-With other elements (137 interact):
+With other elements (140 interact):
 
 - **Air:** Molten plastic burns: it catches fire at 350 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through molten plastic (1,600 vs 900 kg/m³).
@@ -9490,6 +9748,9 @@ With other elements (137 interact):
 - **Lemon juice:** Lemon juice sinks through molten plastic (1,030 vs 900 kg/m³).
 - **Red dye:** Red dye sinks through molten plastic (1,500 vs 900 kg/m³).
 - **Blue dye:** Blue dye sinks through molten plastic (1,500 vs 900 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through molten plastic (1,830 vs 900 kg/m³).
+- **Nitric acid:** Molten plastic burns: it catches fire at 350 °C next to nitric acid (oxidiser 0.6). Nitric acid sinks through molten plastic (1,510 vs 900 kg/m³). Nitric acid makes burning molten plastic hotter and faster.
+- **Nitrogen dioxide:** Molten plastic falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through molten plastic (5,560 vs 900 kg/m³).
 - **Exposed silver:** Exposed silver sinks through molten plastic (5,560 vs 900 kg/m³).
 - **Iron filings:** Iron filings sinks through molten plastic (3,500 vs 900 kg/m³).
@@ -9509,7 +9770,7 @@ Light, bubbly volcanic rock, a powder. Falls and piles, yet floats on water. It 
 - **Soaks up:** water, up to 30% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.6 (acid stronger than this eats it)
 
-With other elements (31 interact):
+With other elements (34 interact):
 
 - **Water:** Pumice soaks up water: it is porous and holds up to 30% water.
 - **Steam:** Pumice falls through steam.
@@ -9542,6 +9803,9 @@ With other elements (31 interact):
 - **Neutron:** Pumice falls through neutron.
 - **Fog:** Pumice falls through fog.
 - **Hydrogen chloride:** Pumice falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid eats pumice: acidity 0.9 beats hardness 0.6.
+- **Nitric acid:** Nitric acid eats pumice: acidity 0.85 beats hardness 0.6.
+- **Nitrogen dioxide:** Pumice falls through nitrogen dioxide.
 
 No direct interaction with: Air, Wall, Sand, Oil, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -9566,7 +9830,7 @@ With other elements (8 interact):
 - **Plasma:** Plasma (3,000 °C) is hot enough to melt obsidian into lava.
 - **Corium:** Corium (1,400 °C) is hot enough to melt obsidian into lava.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Diamond
 
@@ -9577,7 +9841,7 @@ Pure crystal carbon, the hardest thing there is. Stays put and moves heat superb
 - **A flame:** will not light it; it needs 900 °C
 - **Hardness:** 1 (acid stronger than this eats it)
 
-With other elements (15 interact):
+With other elements (16 interact):
 
 - **Air:** Diamond burns: it catches fire at 900 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set diamond on fire (it ignites at 900 °C).
@@ -9593,9 +9857,10 @@ With other elements (15 interact):
 - **Ozone:** Diamond burns: it catches fire at 900 °C next to ozone (oxidiser 1). Ozone makes burning diamond hotter and faster.
 - **Corium:** Corium (1,400 °C) can set diamond on fire (it ignites at 900 °C).
 - **Potassium permanganate:** Diamond burns: it catches fire at 900 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning diamond hotter and faster.
+- **Nitric acid:** Diamond burns: it catches fire at 900 °C next to nitric acid (oxidiser 0.6). Nitric acid makes burning diamond hotter and faster.
 - **Ammonium nitrate:** Diamond burns: it catches fire at 900 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning diamond hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Napalm, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Napalm, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Napalm
 
@@ -9607,7 +9872,7 @@ A sticky fuel gel. Oozes slowly and floats on water. Its vapour catches at once,
 - **Burns:** from 250 °C in air, 15 s per cell, leaves ash
 - **Flash point:** -10 °C: above it, flames spread across it
 
-With other elements (119 interact):
+With other elements (122 interact):
 
 - **Air:** Napalm burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through napalm (1,600 vs 900 kg/m³).
@@ -9722,6 +9987,9 @@ With other elements (119 interact):
 - **Lemon juice:** Lemon juice sinks through napalm (1,030 vs 900 kg/m³).
 - **Red dye:** Red dye sinks through napalm (1,500 vs 900 kg/m³).
 - **Blue dye:** Blue dye sinks through napalm (1,500 vs 900 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through napalm (1,830 vs 900 kg/m³).
+- **Nitric acid:** Napalm burns: it catches fire at 250 °C next to nitric acid (oxidiser 0.6). Nitric acid sinks through napalm (1,510 vs 900 kg/m³). Nitric acid makes burning napalm hotter and faster.
+- **Nitrogen dioxide:** Napalm falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through napalm (5,560 vs 900 kg/m³).
 - **Exposed silver:** Exposed silver sinks through napalm (5,560 vs 900 kg/m³).
 - **Iron filings:** Iron filings sinks through napalm (3,500 vs 900 kg/m³).
@@ -9741,7 +10009,7 @@ A pale blue liquid that carries spare oxygen. Flows and sinks through water. It 
 - **Bakes:** at 150 °C into water, giving off oxygen; there is no way back
 - **Feeds fire:** strength 0.8 (air is 0.21)
 
-With other elements (161 interact):
+With other elements (164 interact):
 
 - **Sand:** Sand sinks through hydrogen peroxide (1,600 vs 1,450 kg/m³).
 - **Water:** Hydrogen peroxide sinks through water (1,450 vs 1,000 kg/m³).
@@ -9897,6 +10165,9 @@ With other elements (161 interact):
 - **Red dye:** Red dye sinks through hydrogen peroxide (1,500 vs 1,450 kg/m³).
 - **Blue dye:** Blue dye sinks through hydrogen peroxide (1,500 vs 1,450 kg/m³).
 - **Steel wool:** Hydrogen peroxide makes burning steel wool hotter and faster. Steel wool burns: it catches fire at 350 °C next to hydrogen peroxide (oxidiser 0.8).
+- **Sulfuric acid:** Sulfuric acid sinks through hydrogen peroxide (1,830 vs 1,450 kg/m³).
+- **Nitric acid:** Nitric acid sinks through hydrogen peroxide (1,510 vs 1,450 kg/m³).
+- **Nitrogen dioxide:** Hydrogen peroxide falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through hydrogen peroxide (5,560 vs 1,450 kg/m³).
 - **Exposed silver:** Exposed silver sinks through hydrogen peroxide (5,560 vs 1,450 kg/m³).
 - **Rope:** Hydrogen peroxide makes burning rope hotter and faster. Rope burns: it catches fire at 250 °C next to hydrogen peroxide (oxidiser 0.8).
@@ -9918,7 +10189,7 @@ A small fish. Swims about in water, eating seeds that sink to it and breeding wh
 - **Dies:** of heat over 55 °C or cold below −5 °C, into meat
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Air:** Fish burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set fish on fire (it ignites at 300 °C).
@@ -9944,9 +10215,11 @@ With other elements (25 interact):
 - **Corium:** Corium (1,400 °C) can set fish on fire (it ignites at 300 °C).
 - **Neutron:** Fish catches from the flame touching it.
 - **Potassium permanganate:** Fish burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning fish hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats fish: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats fish: acidity 0.85 beats hardness 0.1. Nitric acid makes burning fish hotter and faster.
 - **Ammonium nitrate:** Fish burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning fish hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Ant
 
@@ -9959,7 +10232,7 @@ A busy little ant. Walks over the ground and climbs steps, eating anything sweet
 - **Dies:** of heat over 55 °C or cold below −5 °C, into dirt
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (27 interact):
+With other elements (29 interact):
 
 - **Air:** Ant burns: it catches fire at 200 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set ant on fire (it ignites at 200 °C).
@@ -9987,9 +10260,11 @@ With other elements (27 interact):
 - **Corium:** Corium (1,400 °C) can set ant on fire (it ignites at 200 °C).
 - **Neutron:** Ant catches from the flame touching it.
 - **Potassium permanganate:** Ant burns: it catches fire at 200 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning ant hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats ant: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats ant: acidity 0.85 beats hardness 0.1. Nitric acid makes burning ant hotter and faster.
 - **Ammonium nitrate:** Ant burns: it catches fire at 200 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning ant hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Worm
 
@@ -10001,11 +10276,13 @@ An earthworm. Digs through soil, turning dead plants, paper and ash into rich di
 - **Dies:** of heat over 55 °C or cold below −5 °C, into dirt
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats worm: acidity 0.8 beats hardness 0.1.
+- **Sulfuric acid:** Sulfuric acid eats worm: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats worm: acidity 0.85 beats hardness 0.1.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Bird
 
@@ -10018,7 +10295,7 @@ A small bird. Flies about in the open air, eating seeds and ants and breeding wh
 - **Dies:** of heat over 55 °C or cold below −5 °C, into meat
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Air:** Bird burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set bird on fire (it ignites at 300 °C).
@@ -10044,9 +10321,11 @@ With other elements (25 interact):
 - **Corium:** Corium (1,400 °C) can set bird on fire (it ignites at 300 °C).
 - **Neutron:** Bird catches from the flame touching it.
 - **Potassium permanganate:** Bird burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning bird hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats bird: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats bird: acidity 0.85 beats hardness 0.1. Nitric acid makes burning bird hotter and faster.
 - **Ammonium nitrate:** Bird burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning bird hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Lightning
 
@@ -10055,7 +10334,7 @@ A bolt of lightning. Strikes straight down at once in a jagged line. Where it la
 - **State:** Energy, 0.1 kg/m³
 - **Starts at:** 3,000 °C
 
-With other elements (164 interact):
+With other elements (166 interact):
 
 - **Sand:** Sand falls through lightning.
 - **Water:** Lightning (3,000 °C) is hot enough to boil water into steam. Water falls through lightning.
@@ -10213,6 +10492,8 @@ With other elements (164 interact):
 - **Red dye:** Red dye falls through lightning.
 - **Blue dye:** Blue dye falls through lightning.
 - **Steel wool:** Steel wool catches from the flame touching it.
+- **Sulfuric acid:** Sulfuric acid falls through lightning.
+- **Nitric acid:** Nitric acid falls through lightning.
 - **Silver chloride:** Silver chloride falls through lightning.
 - **Exposed silver:** Exposed silver falls through lightning.
 - **Rope:** Rope catches from the flame touching it.
@@ -10222,7 +10503,7 @@ With other elements (164 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through lightning.
 - **Yeast:** Yeast falls through lightning.
 
-No direct interaction with: Air, Wall, Steam, Fire, Smoke, Oxygen, Spark, Brick, Concrete, Limestone, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Meat, Diamond, Worm, Plasma, Rocket, Ember, Zinc, Snail, Ammonia, Ozone, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Fire, Smoke, Oxygen, Spark, Brick, Concrete, Limestone, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Meat, Diamond, Worm, Plasma, Rocket, Ember, Zinc, Snail, Ammonia, Ozone, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Plasma
 
@@ -10231,7 +10512,7 @@ Glowing, electrified air left by lightning. Flickers out in a moment. It lights 
 - **State:** Energy, 0.1 kg/m³
 - **Starts at:** 3,000 °C
 
-With other elements (164 interact):
+With other elements (166 interact):
 
 - **Sand:** Sand falls through plasma.
 - **Water:** Plasma (3,000 °C) is hot enough to boil water into steam. Water falls through plasma.
@@ -10389,6 +10670,8 @@ With other elements (164 interact):
 - **Red dye:** Red dye falls through plasma.
 - **Blue dye:** Blue dye falls through plasma.
 - **Steel wool:** Steel wool catches from the flame touching it.
+- **Sulfuric acid:** Sulfuric acid falls through plasma.
+- **Nitric acid:** Nitric acid falls through plasma.
 - **Silver chloride:** Silver chloride falls through plasma.
 - **Exposed silver:** Exposed silver falls through plasma.
 - **Rope:** Rope catches from the flame touching it.
@@ -10398,7 +10681,7 @@ With other elements (164 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through plasma.
 - **Yeast:** Yeast falls through plasma.
 
-No direct interaction with: Air, Wall, Steam, Fire, Smoke, Oxygen, Spark, Brick, Concrete, Limestone, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Meat, Diamond, Worm, Lightning, Rocket, Ember, Zinc, Snail, Ammonia, Ozone, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Fire, Smoke, Oxygen, Spark, Brick, Concrete, Limestone, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Meat, Diamond, Worm, Lightning, Rocket, Ember, Zinc, Snail, Ammonia, Ozone, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Firework
 
@@ -10410,7 +10693,7 @@ A packed firework powder. Falls and piles. A flame or heat launches each grain a
 - **Burns:** from 250 °C in air, 0.17 s per cell
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (78 interact):
+With other elements (81 interact):
 
 - **Air:** Firework burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Water:** Firework sinks through water (1,400 vs 1,000 kg/m³).
@@ -10488,6 +10771,9 @@ With other elements (78 interact):
 - **Hydrogen chloride:** Firework falls through hydrogen chloride.
 - **Milk:** Firework sinks through milk (1,400 vs 1,030 kg/m³).
 - **Lemon juice:** Firework sinks through lemon juice (1,400 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats firework: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats firework: acidity 0.85 beats hardness 0.2. Nitric acid makes burning firework hotter and faster.
+- **Nitrogen dioxide:** Firework falls through nitrogen dioxide.
 - **Glue:** Firework sinks through glue (1,400 vs 1,100 kg/m³).
 - **Ammonium nitrate:** Firework burns: it catches fire at 250 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning firework hotter and faster.
 
@@ -10500,7 +10786,7 @@ A lit firework climbing fast. Rises in a straight line, trailing sparks, then bu
 - **State:** Energy, 0.5 kg/m³
 - **Starts at:** 900 °C
 
-With other elements (153 interact):
+With other elements (155 interact):
 
 - **Sand:** Sand falls through rocket.
 - **Water:** Rocket (900 °C) is hot enough to boil water into steam. Water falls through rocket.
@@ -10647,6 +10933,8 @@ With other elements (153 interact):
 - **Red dye:** Red dye falls through rocket.
 - **Blue dye:** Blue dye falls through rocket.
 - **Steel wool:** Steel wool catches from the flame touching it.
+- **Sulfuric acid:** Sulfuric acid falls through rocket.
+- **Nitric acid:** Nitric acid falls through rocket.
 - **Silver chloride:** Silver chloride falls through rocket.
 - **Exposed silver:** Exposed silver falls through rocket.
 - **Rope:** Rope catches from the flame touching it.
@@ -10656,7 +10944,7 @@ With other elements (153 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through rocket.
 - **Yeast:** Yeast falls through rocket.
 
-No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Spark, Wire, Brick, Concrete, Limestone, Gold, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Diamond, Worm, Lightning, Plasma, Ember, Steel, Zinc, Uranium, Snail, Ammonia, Ozone, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Spark, Wire, Brick, Concrete, Limestone, Gold, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Diamond, Worm, Lightning, Plasma, Ember, Steel, Zinc, Uranium, Snail, Ammonia, Ozone, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Ember
 
@@ -10665,7 +10953,7 @@ A bright burning fleck from a firework. Drifts down, swaying, and burns out. It 
 - **State:** Energy, 0.3 kg/m³
 - **Starts at:** 700 °C
 
-With other elements (153 interact):
+With other elements (155 interact):
 
 - **Sand:** Sand falls through ember.
 - **Water:** Ember (700 °C) is hot enough to boil water into steam. Water falls through ember.
@@ -10812,6 +11100,8 @@ With other elements (153 interact):
 - **Red dye:** Red dye falls through ember.
 - **Blue dye:** Blue dye falls through ember.
 - **Steel wool:** Steel wool catches from the flame touching it.
+- **Sulfuric acid:** Sulfuric acid falls through ember.
+- **Nitric acid:** Nitric acid falls through ember.
 - **Silver chloride:** Silver chloride falls through ember.
 - **Exposed silver:** Exposed silver falls through ember.
 - **Rope:** Rope catches from the flame touching it.
@@ -10821,7 +11111,7 @@ With other elements (153 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through ember.
 - **Yeast:** Yeast falls through ember.
 
-No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Spark, Wire, Brick, Concrete, Limestone, Gold, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Diamond, Worm, Lightning, Plasma, Rocket, Steel, Zinc, Uranium, Snail, Ammonia, Ozone, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Spark, Wire, Brick, Concrete, Limestone, Gold, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Diamond, Worm, Lightning, Plasma, Rocket, Steel, Zinc, Uranium, Snail, Ammonia, Ozone, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Saltpeter
 
@@ -10833,7 +11123,7 @@ White crystals that carry oxygen, a powder. Falls and piles, and dissolves in wa
 - **Feeds fire:** strength 0.9 (air is 0.21)
 - **Dissolves in:** water, up to 30% of a cell; boiling leaves it as crystals
 
-With other elements (133 interact):
+With other elements (136 interact):
 
 - **Water:** Saltpeter dissolves into water: water is a solvent and each cell holds up to 30% saltpeter. Saltpeter sinks through water (2,100 vs 1,000 kg/m³).
 - **Oil:** Saltpeter sinks through oil (2,100 vs 900 kg/m³). Saltpeter makes burning oil hotter and faster. Oil burns: it catches fire at 250 °C next to saltpeter (oxidiser 0.9).
@@ -10963,6 +11253,9 @@ With other elements (133 interact):
 - **Milk:** Saltpeter sinks through milk (2,100 vs 1,030 kg/m³).
 - **Lemon juice:** Saltpeter sinks through lemon juice (2,100 vs 1,030 kg/m³).
 - **Steel wool:** Saltpeter makes burning steel wool hotter and faster. Steel wool burns: it catches fire at 350 °C next to saltpeter (oxidiser 0.9).
+- **Sulfuric acid:** Saltpeter sinks through sulfuric acid (2,100 vs 1,830 kg/m³).
+- **Nitric acid:** Saltpeter sinks through nitric acid (2,100 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Saltpeter falls through nitrogen dioxide.
 - **Rope:** Saltpeter makes burning rope hotter and faster. Rope burns: it catches fire at 250 °C next to saltpeter (oxidiser 0.9).
 - **Iron filings:** Iron filings slowly rusts into rust where saltpeter touches it.
 - **Glue:** Saltpeter sinks through glue (2,100 vs 1,100 kg/m³).
@@ -10980,7 +11273,7 @@ A soft silvery metal. Stays put. It melts at a low heat into molten tin, and aci
 - **Conducts:** current with almost no resistance
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (17 interact):
+With other elements (19 interact):
 
 - **Lava:** Lava (1,200 °C) is hot enough to melt tin into molten tin.
 - **Fire:** Fire (850 °C) is hot enough to melt tin into molten tin.
@@ -10999,8 +11292,10 @@ With other elements (17 interact):
 - **Ember:** Ember (700 °C) is hot enough to melt tin into molten tin.
 - **Molten tin:** Molten tin (260 °C) is hot enough to melt tin into molten tin.
 - **Corium:** Corium (1,400 °C) is hot enough to melt tin into molten tin.
+- **Sulfuric acid:** Sulfuric acid eats tin: acidity 0.9 beats hardness 0.3, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats tin: acidity 0.85 beats hardness 0.3, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten tin
 
@@ -11013,7 +11308,7 @@ Melted tin, bright and runny. Flows and sinks through water. Sets back into tin 
 - **Freezes:** below 232 °C, into tin
 - **Conducts:** current with almost no resistance
 
-With other elements (115 interact):
+With other elements (118 interact):
 
 - **Water:** Molten tin sinks through water (6,990 vs 1,000 kg/m³). Molten tin (260 °C) is hot enough to boil water into steam.
 - **Oil:** Molten tin sinks through oil (6,990 vs 900 kg/m³). Molten tin (260 °C) can set oil on fire (it ignites at 250 °C).
@@ -11128,6 +11423,9 @@ With other elements (115 interact):
 - **Hydrogen chloride:** Molten tin falls through hydrogen chloride.
 - **Milk:** Molten tin sinks through milk (6,990 vs 1,030 kg/m³).
 - **Lemon juice:** Molten tin sinks through lemon juice (6,990 vs 1,030 kg/m³).
+- **Sulfuric acid:** Molten tin sinks through sulfuric acid (6,990 vs 1,830 kg/m³).
+- **Nitric acid:** Molten tin sinks through nitric acid (6,990 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Molten tin falls through nitrogen dioxide.
 - **Rope:** Molten tin (260 °C) can set rope on fire (it ignites at 250 °C).
 - **Glue:** Molten tin sinks through glue (6,990 vs 1,100 kg/m³).
 
@@ -11143,7 +11441,7 @@ Hard iron alloy. Stays put. Acid eats it slowly and water rusts it; in great hea
 - **Rusts:** slowly into rust where water or oxygen touches it
 - **Hardness:** 0.75 (acid stronger than this eats it)
 
-With other elements (12 interact):
+With other elements (14 interact):
 
 - **Water:** Steel slowly rusts into rust where water touches it.
 - **Acid:** Acid eats steel: acidity 0.8 beats hardness 0.75, giving off hydrogen.
@@ -11156,9 +11454,11 @@ With other elements (12 interact):
 - **Saltpeter:** Steel slowly rusts into rust where saltpeter touches it.
 - **Ozone:** Steel slowly rusts into rust where ozone touches it.
 - **Potassium permanganate:** Steel slowly rusts into rust where potassium permanganate touches it.
+- **Sulfuric acid:** Sulfuric acid eats steel: acidity 0.9 beats hardness 0.75, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats steel: acidity 0.85 beats hardness 0.75, giving off hydrogen.
 - **Ammonium nitrate:** Steel slowly rusts into rust where ammonium nitrate touches it.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Tin, Molten tin, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Tin, Molten tin, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Zinc
 
@@ -11168,11 +11468,13 @@ A bluish-grey metal. Stays put and carries charge. Acid fizzes it away, giving o
 - **Conducts:** current with almost no resistance
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats zinc: acidity 0.8 beats hardness 0.3, giving off hydrogen.
+- **Sulfuric acid:** Sulfuric acid eats zinc: acidity 0.9 beats hardness 0.3, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats zinc: acidity 0.85 beats hardness 0.3, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Kerosene
 
@@ -11184,7 +11486,7 @@ A clear lamp fuel. Flows and floats on water. Once warm its vapour catches easil
 - **Burns:** from 220 °C in air, 2 s per cell
 - **Flash point:** 38 °C: above it, flames spread across it
 
-With other elements (122 interact):
+With other elements (125 interact):
 
 - **Air:** Kerosene burns: it catches fire at 220 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through kerosene (1,600 vs 800 kg/m³).
@@ -11302,6 +11604,9 @@ With other elements (122 interact):
 - **Lemon juice:** Lemon juice sinks through kerosene (1,030 vs 800 kg/m³).
 - **Red dye:** Red dye sinks through kerosene (1,500 vs 800 kg/m³).
 - **Blue dye:** Blue dye sinks through kerosene (1,500 vs 800 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through kerosene (1,830 vs 800 kg/m³).
+- **Nitric acid:** Kerosene burns: it catches fire at 220 °C next to nitric acid (oxidiser 0.6). Nitric acid sinks through kerosene (1,510 vs 800 kg/m³). Nitric acid makes burning kerosene hotter and faster.
+- **Nitrogen dioxide:** Kerosene falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through kerosene (5,560 vs 800 kg/m³).
 - **Exposed silver:** Exposed silver sinks through kerosene (5,560 vs 800 kg/m³).
 - **Iron filings:** Iron filings sinks through kerosene (3,500 vs 800 kg/m³).
@@ -11321,7 +11626,7 @@ A sharp-smelling solvent. Flows thin and floats on water. It dissolves plastic, 
 - **Burns:** from 465 °C in air, 0.67 s per cell
 - **Flash point:** -20 °C: above it, flames spread across it
 
-With other elements (125 interact):
+With other elements (128 interact):
 
 - **Air:** Acetone burns: it catches fire at 465 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through acetone (1,600 vs 784 kg/m³).
@@ -11442,6 +11747,9 @@ With other elements (125 interact):
 - **Lemon juice:** Lemon juice sinks through acetone (1,030 vs 784 kg/m³).
 - **Red dye:** Red dye sinks through acetone (1,500 vs 784 kg/m³).
 - **Blue dye:** Blue dye sinks through acetone (1,500 vs 784 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through acetone (1,830 vs 784 kg/m³).
+- **Nitric acid:** Acetone burns: it catches fire at 465 °C next to nitric acid (oxidiser 0.6). Nitric acid sinks through acetone (1,510 vs 784 kg/m³). Nitric acid makes burning acetone hotter and faster.
+- **Nitrogen dioxide:** Acetone falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through acetone (5,560 vs 784 kg/m³).
 - **Exposed silver:** Exposed silver sinks through acetone (5,560 vs 784 kg/m³).
 - **Iron filings:** Iron filings sinks through acetone (3,500 vs 784 kg/m³).
@@ -11461,7 +11769,7 @@ Hard balls of ice, a heavy powder. Falls fast and bounces into piles. Melts into
 - **Falls:** up to 180 cells/s
 - **Melts:** at 0 °C, into water
 
-With other elements (60 interact):
+With other elements (61 interact):
 
 - **Water:** Hail (-5 °C) is cold enough to freeze water into ice.
 - **Steam:** Hail falls through steam. Hail (-5 °C) is cold enough to condense steam into water. Steam (150 °C) is hot enough to melt hail into water.
@@ -11522,9 +11830,10 @@ With other elements (60 interact):
 - **Hydrogen chloride:** Hail falls through hydrogen chloride.
 - **Red dye:** Red dye melts hail: dissolved, it lowers the freezing point.
 - **Blue dye:** Blue dye melts hail: dissolved, it lowers the freezing point.
+- **Nitrogen dioxide:** Hail falls through nitrogen dioxide.
 - **Ammonium nitrate:** Ammonium nitrate melts hail: dissolved, it lowers the freezing point.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Dry ice, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Dry ice, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Steel wool, Sulfuric acid, Nitric acid, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Uranium
 
@@ -11537,7 +11846,7 @@ A dense, radioactive metal. Stays put and keeps itself warm from its own decay, 
 - **Poisons:** living things it touches: they wither
 - **Hardness:** 0.6 (acid stronger than this eats it)
 
-With other elements (16 interact):
+With other elements (18 interact):
 
 - **Lava:** Lava (1,200 °C) is hot enough to melt uranium into corium.
 - **Acid:** Acid eats uranium: acidity 0.8 beats hardness 0.6, giving off hydrogen.
@@ -11555,8 +11864,10 @@ With other elements (16 interact):
 - **Cactus:** Uranium is toxic: cactus touching it withers.
 - **Mushroom:** Uranium is toxic: mushroom touching it withers.
 - **Corium:** Corium (1,400 °C) is hot enough to melt uranium into corium.
+- **Sulfuric acid:** Sulfuric acid eats uranium: acidity 0.9 beats hardness 0.6, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats uranium: acidity 0.85 beats hardness 0.6, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Acorn, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Acorn, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Bee
 
@@ -11569,7 +11880,7 @@ A buzzing bee. Flies about, visiting flowers and turning them into seeds, and br
 - **Dies:** of heat over 55 °C or cold below −5 °C, into dirt
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (27 interact):
+With other elements (29 interact):
 
 - **Air:** Bee burns: it catches fire at 200 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set bee on fire (it ignites at 200 °C).
@@ -11597,9 +11908,11 @@ With other elements (27 interact):
 - **Corium:** Corium (1,400 °C) can set bee on fire (it ignites at 200 °C).
 - **Neutron:** Bee catches from the flame touching it.
 - **Potassium permanganate:** Bee burns: it catches fire at 200 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning bee hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats bee: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats bee: acidity 0.85 beats hardness 0.1. Nitric acid makes burning bee hotter and faster.
 - **Ammonium nitrate:** Bee burns: it catches fire at 200 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning bee hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Spider
 
@@ -11612,7 +11925,7 @@ A hunting spider. Walks over the ground and climbs steps, catching ants, bees an
 - **Dies:** of heat over 55 °C or cold below −5 °C, into dirt
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (27 interact):
+With other elements (29 interact):
 
 - **Air:** Spider burns: it catches fire at 200 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set spider on fire (it ignites at 200 °C).
@@ -11640,9 +11953,11 @@ With other elements (27 interact):
 - **Corium:** Corium (1,400 °C) can set spider on fire (it ignites at 200 °C).
 - **Neutron:** Spider catches from the flame touching it.
 - **Potassium permanganate:** Spider burns: it catches fire at 200 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning spider hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats spider: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats spider: acidity 0.85 beats hardness 0.1. Nitric acid makes burning spider hotter and faster.
 - **Ammonium nitrate:** Spider burns: it catches fire at 200 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning spider hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Termite
 
@@ -11655,7 +11970,7 @@ A pale wood-eating insect. Walks over the ground, chewing wood and trees into sa
 - **Dies:** of heat over 55 °C or cold below −5 °C, into dirt
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (27 interact):
+With other elements (29 interact):
 
 - **Air:** Termite burns: it catches fire at 200 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set termite on fire (it ignites at 200 °C).
@@ -11683,9 +11998,11 @@ With other elements (27 interact):
 - **Corium:** Corium (1,400 °C) can set termite on fire (it ignites at 200 °C).
 - **Neutron:** Termite catches from the flame touching it.
 - **Potassium permanganate:** Termite burns: it catches fire at 200 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning termite hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats termite: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats termite: acidity 0.85 beats hardness 0.1. Nitric acid makes burning termite hotter and faster.
 - **Ammonium nitrate:** Termite burns: it catches fire at 200 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning termite hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Snail
 
@@ -11697,11 +12014,13 @@ A slow garden snail. Creeps over the ground, grazing plants, leaves, grass and f
 - **Dies:** of heat over 55 °C or cold below −5 °C, into dirt
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats snail: acidity 0.8 beats hardness 0.2.
+- **Sulfuric acid:** Sulfuric acid eats snail: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats snail: acidity 0.85 beats hardness 0.2.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Frog
 
@@ -11714,7 +12033,7 @@ A small green frog. Hops over the ground catching ants, bees, spiders, termites 
 - **Dies:** of heat over 55 °C or cold below −5 °C, into meat
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Air:** Frog burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set frog on fire (it ignites at 300 °C).
@@ -11740,9 +12059,11 @@ With other elements (25 interact):
 - **Corium:** Corium (1,400 °C) can set frog on fire (it ignites at 300 °C).
 - **Neutron:** Frog catches from the flame touching it.
 - **Potassium permanganate:** Frog burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning frog hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats frog: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats frog: acidity 0.85 beats hardness 0.1. Nitric acid makes burning frog hotter and faster.
 - **Ammonium nitrate:** Frog burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning frog hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Mouse
 
@@ -11755,7 +12076,7 @@ A quick little mouse. Runs over the ground eating seeds, flour, popcorn, chocola
 - **Dies:** of heat over 55 °C or cold below −5 °C, into meat
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Air:** Mouse burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set mouse on fire (it ignites at 300 °C).
@@ -11781,9 +12102,11 @@ With other elements (25 interact):
 - **Corium:** Corium (1,400 °C) can set mouse on fire (it ignites at 300 °C).
 - **Neutron:** Mouse catches from the flame touching it.
 - **Potassium permanganate:** Mouse burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning mouse hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats mouse: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats mouse: acidity 0.85 beats hardness 0.1. Nitric acid makes burning mouse hotter and faster.
 - **Ammonium nitrate:** Mouse burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning mouse hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Snake
 
@@ -11796,7 +12119,7 @@ A hunting snake. Slides over the ground catching mice and frogs, and breeds when
 - **Dies:** of heat over 55 °C or cold below −5 °C, into meat
 - **Hardness:** 0.15 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Air:** Snake burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set snake on fire (it ignites at 300 °C).
@@ -11822,9 +12145,11 @@ With other elements (25 interact):
 - **Corium:** Corium (1,400 °C) can set snake on fire (it ignites at 300 °C).
 - **Neutron:** Snake catches from the flame touching it.
 - **Potassium permanganate:** Snake burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning snake hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats snake: acidity 0.9 beats hardness 0.15.
+- **Nitric acid:** Nitric acid eats snake: acidity 0.85 beats hardness 0.15. Nitric acid makes burning snake hotter and faster.
 - **Ammonium nitrate:** Snake burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning snake hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Ammonia
 
@@ -11834,7 +12159,7 @@ A sharp, choking gas and a base, lighter than air. Rises and spreads. It neutral
 - **In air:** Rises (lighter than air)
 - **Poisons:** living things it touches: they wither
 
-With other elements (112 interact):
+With other elements (114 interact):
 
 - **Sand:** Sand falls through ammonia.
 - **Water:** Water falls through ammonia.
@@ -11942,6 +12267,8 @@ With other elements (112 interact):
 - **Lemon juice:** Ammonia and lemon juice neutralise each other into water, and warm up. Lemon juice and ammonia neutralise each other into water, and warm up. Lemon juice falls through ammonia.
 - **Red dye:** Red dye falls through ammonia.
 - **Blue dye:** Blue dye falls through ammonia.
+- **Sulfuric acid:** Ammonia and sulfuric acid neutralise each other into water, and warm up. Sulfuric acid and ammonia neutralise each other into water, and warm up. Sulfuric acid falls through ammonia.
+- **Nitric acid:** Ammonia and nitric acid neutralise each other into water, and warm up. Nitric acid and ammonia neutralise each other into water, and warm up. Nitric acid falls through ammonia.
 - **Silver chloride:** Silver chloride falls through ammonia.
 - **Exposed silver:** Exposed silver falls through ammonia.
 - **Iron filings:** Iron filings falls through ammonia.
@@ -11949,7 +12276,7 @@ With other elements (112 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through ammonia.
 - **Yeast:** Yeast falls through ammonia.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Ozone
 
@@ -11960,7 +12287,7 @@ A pale blue gas of energised oxygen, heavier than air. Sinks slowly. It feeds fi
 - **Poisons:** living things it touches: they wither
 - **Feeds fire:** strength 1 (air is 0.21)
 
-With other elements (152 interact):
+With other elements (154 interact):
 
 - **Sand:** Sand falls through ozone.
 - **Water:** Water falls through ozone.
@@ -12106,6 +12433,8 @@ With other elements (152 interact):
 - **Red dye:** Red dye falls through ozone.
 - **Blue dye:** Blue dye falls through ozone.
 - **Steel wool:** Ozone makes burning steel wool hotter and faster. Steel wool burns: it catches fire at 350 °C next to ozone (oxidiser 1).
+- **Sulfuric acid:** Sulfuric acid falls through ozone.
+- **Nitric acid:** Nitric acid falls through ozone.
 - **Silver chloride:** Silver chloride falls through ozone.
 - **Exposed silver:** Exposed silver falls through ozone.
 - **Rope:** Ozone makes burning rope hotter and faster. Rope burns: it catches fire at 250 °C next to ozone (oxidiser 1).
@@ -12115,7 +12444,7 @@ With other elements (152 interact):
 - **Ammonium nitrate:** Ozone makes burning ammonium nitrate hotter and faster. Ammonium nitrate explodes at 400 °C; it needs no air. Ammonium nitrate falls through ozone.
 - **Yeast:** Yeast falls through ozone.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Oxygen, Glass, Spark, Wire, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, Dry ice, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Worm, Lightning, Plasma, Rocket, Ember, Tin, Zinc, Uranium, Snail, Ammonia, Chocolate, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Blue crystal, Sodium acetate, Fog, Hydrogen chloride, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Oxygen, Glass, Spark, Wire, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, Dry ice, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Worm, Lightning, Plasma, Rocket, Ember, Tin, Zinc, Uranium, Snail, Ammonia, Chocolate, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Neutron, Control rod, Bread, Blue crystal, Sodium acetate, Fog, Hydrogen chloride, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Cotton
 
@@ -12129,7 +12458,7 @@ Soft white fibre, a very light powder. Drifts as it falls and soaks up a lot of 
 - **Soaks up:** water, up to 60% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.05 (acid stronger than this eats it)
 
-With other elements (47 interact):
+With other elements (50 interact):
 
 - **Air:** Cotton burns: it catches fire at 255 °C next to air (oxidiser 0.21).
 - **Water:** Cotton soaks up water: it is porous and holds up to 60% water.
@@ -12177,6 +12506,9 @@ With other elements (47 interact):
 - **Fog:** Cotton falls through fog.
 - **Potassium permanganate:** Cotton burns: it catches fire at 255 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning cotton hotter and faster.
 - **Hydrogen chloride:** Cotton falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid eats cotton: acidity 0.9 beats hardness 0.05.
+- **Nitric acid:** Nitric acid eats cotton: acidity 0.85 beats hardness 0.05. Nitric acid makes burning cotton hotter and faster.
+- **Nitrogen dioxide:** Cotton falls through nitrogen dioxide.
 - **Ammonium nitrate:** Cotton burns: it catches fire at 255 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning cotton hotter and faster.
 
 No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -12189,7 +12521,7 @@ A dark, sweet block. Stays put. A little warmth melts it into molten chocolate.
 - **Melts:** at 35 °C, into molten chocolate
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Steam:** Steam (150 °C) is hot enough to melt chocolate into molten chocolate.
 - **Lava:** Lava (1,200 °C) is hot enough to melt chocolate into molten chocolate.
@@ -12216,8 +12548,10 @@ With other elements (25 interact):
 - **Iodine vapour:** Iodine vapour (130 °C) is hot enough to melt chocolate into molten chocolate.
 - **Bromine vapour:** Bromine vapour (70 °C) is hot enough to melt chocolate into molten chocolate.
 - **Corium:** Corium (1,400 °C) is hot enough to melt chocolate into molten chocolate.
+- **Sulfuric acid:** Sulfuric acid eats chocolate: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats chocolate: acidity 0.85 beats hardness 0.2.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Molten chocolate
 
@@ -12229,7 +12563,7 @@ Melted chocolate, a thick sweet sauce. Oozes slowly and sinks through water. Set
 - **Falls:** up to 40 cells/s
 - **Freezes:** below 35 °C, into chocolate
 
-With other elements (115 interact):
+With other elements (118 interact):
 
 - **Sand:** Sand sinks through molten chocolate (1,600 vs 1,250 kg/m³).
 - **Water:** Molten chocolate sinks through water (1,250 vs 1,000 kg/m³).
@@ -12341,6 +12675,9 @@ With other elements (115 interact):
 - **Lemon juice:** Molten chocolate sinks through lemon juice (1,250 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through molten chocolate (1,500 vs 1,250 kg/m³).
 - **Blue dye:** Blue dye sinks through molten chocolate (1,500 vs 1,250 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through molten chocolate (1,830 vs 1,250 kg/m³).
+- **Nitric acid:** Nitric acid sinks through molten chocolate (1,510 vs 1,250 kg/m³).
+- **Nitrogen dioxide:** Molten chocolate falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through molten chocolate (5,560 vs 1,250 kg/m³).
 - **Exposed silver:** Exposed silver sinks through molten chocolate (5,560 vs 1,250 kg/m³).
 - **Iron filings:** Iron filings sinks through molten chocolate (3,500 vs 1,250 kg/m³).
@@ -12358,12 +12695,14 @@ A raw egg. Stays put. Warm it and it cooks; left in water it slowly rots.
 - **Rots:** slowly into dirt where water touches it
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (2 interact):
+With other elements (4 interact):
 
 - **Water:** Egg slowly rots into dirt where water touches it.
 - **Acid:** Acid eats egg: acidity 0.8 beats hardness 0.2.
+- **Sulfuric acid:** Sulfuric acid eats egg: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats egg: acidity 0.85 beats hardness 0.2.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Cooked egg
 
@@ -12374,12 +12713,14 @@ A cooked egg, white and yellow. Stays put. Overdone it chars into charcoal; left
 - **Rots:** slowly into dirt where water touches it
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (2 interact):
+With other elements (4 interact):
 
 - **Water:** Cooked egg slowly rots into dirt where water touches it.
 - **Acid:** Acid eats cooked egg: acidity 0.8 beats hardness 0.2.
+- **Sulfuric acid:** Sulfuric acid eats cooked egg: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats cooked egg: acidity 0.85 beats hardness 0.2.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Phosphorus
 
@@ -12389,7 +12730,7 @@ Waxy white phosphorus. Stays put. In barely warm air it bursts into flame by its
 - **Burns:** from 30 °C in air, 1 s per cell, leaves smoke
 - **Hardness:** 0.9 (acid stronger than this eats it)
 
-With other elements (34 interact):
+With other elements (35 interact):
 
 - **Air:** Phosphorus burns: it catches fire at 30 °C next to air (oxidiser 0.21).
 - **Steam:** Steam (150 °C) can set phosphorus on fire (it ignites at 30 °C).
@@ -12424,9 +12765,10 @@ With other elements (34 interact):
 - **Corium:** Corium (1,400 °C) can set phosphorus on fire (it ignites at 30 °C).
 - **Neutron:** Phosphorus catches from the flame touching it.
 - **Potassium permanganate:** Phosphorus burns: it catches fire at 30 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning phosphorus hotter and faster.
+- **Nitric acid:** Phosphorus burns: it catches fire at 30 °C next to nitric acid (oxidiser 0.6). Nitric acid makes burning phosphorus hotter and faster.
 - **Ammonium nitrate:** Phosphorus burns: it catches fire at 30 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning phosphorus hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Egg, Cooked egg, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Egg, Cooked egg, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Lithium
 
@@ -12436,12 +12778,14 @@ The lightest metal, soft and silvery. Stays put. Water touching it fizzes steadi
 - **Conducts:** current with almost no resistance
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (2 interact):
+With other elements (4 interact):
 
 - **Water:** Lithium reacts steadily with water, making lye and hydrogen.
 - **Acid:** Acid eats lithium: acidity 0.8 beats hardness 0.1, giving off hydrogen.
+- **Sulfuric acid:** Sulfuric acid eats lithium: acidity 0.9 beats hardness 0.1, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats lithium: acidity 0.85 beats hardness 0.1, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Calcium carbide
 
@@ -12452,7 +12796,7 @@ Grey-black lumps, a heavy powder. Falls and piles. Water makes it hiss out acety
 - **Falls:** up to 160 cells/s
 - **Hardness:** 0.9 (acid stronger than this eats it)
 
-With other elements (66 interact):
+With other elements (69 interact):
 
 - **Water:** Calcium carbide and water make acetylene gas, leaving slaked lime. Calcium carbide sinks through water (2,220 vs 1,000 kg/m³).
 - **Oil:** Calcium carbide sinks through oil (2,220 vs 900 kg/m³).
@@ -12519,6 +12863,9 @@ With other elements (66 interact):
 - **Hydrogen chloride:** Calcium carbide falls through hydrogen chloride.
 - **Milk:** Calcium carbide sinks through milk (2,220 vs 1,030 kg/m³).
 - **Lemon juice:** Calcium carbide sinks through lemon juice (2,220 vs 1,030 kg/m³).
+- **Sulfuric acid:** Calcium carbide sinks through sulfuric acid (2,220 vs 1,830 kg/m³).
+- **Nitric acid:** Calcium carbide sinks through nitric acid (2,220 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Calcium carbide falls through nitrogen dioxide.
 - **Glue:** Calcium carbide sinks through glue (2,220 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -12532,7 +12879,7 @@ A fuel gas, about as heavy as air. Drifts and spreads. It catches from any flame
 - **Burns:** from 305 °C in air, 0.17 s per cell, leaves steam
 - **Flash point:** -18 °C: above it, flames spread across it
 
-With other elements (115 interact):
+With other elements (117 interact):
 
 - **Air:** Acetylene burns: it catches fire at 305 °C next to air (oxidiser 0.21).
 - **Sand:** Sand falls through acetylene.
@@ -12643,6 +12990,8 @@ With other elements (115 interact):
 - **Lemon juice:** Lemon juice falls through acetylene.
 - **Red dye:** Red dye falls through acetylene.
 - **Blue dye:** Blue dye falls through acetylene.
+- **Sulfuric acid:** Sulfuric acid falls through acetylene.
+- **Nitric acid:** Acetylene burns: it catches fire at 305 °C next to nitric acid (oxidiser 0.6). Nitric acid falls through acetylene. Nitric acid makes burning acetylene hotter and faster.
 - **Silver chloride:** Silver chloride falls through acetylene.
 - **Exposed silver:** Exposed silver falls through acetylene.
 - **Iron filings:** Iron filings falls through acetylene.
@@ -12650,7 +12999,7 @@ With other elements (115 interact):
 - **Ammonium nitrate:** Acetylene burns: it catches fire at 305 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate falls through acetylene. Ammonium nitrate makes burning acetylene hotter and faster.
 - **Yeast:** Yeast falls through acetylene.
 
-No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, Methane, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Ice, Steam, Stone, Smoke, Wood, Iron, Hydrogen, Methane, TNT, Glass, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Iodine
 
@@ -12662,7 +13011,7 @@ Dark violet crystals, a heavy powder. Falls and piles. Gently heated it turns st
 - **Sublimes:** at 114 °C, into iodine vapour
 - **Hardness:** 0.9 (acid stronger than this eats it)
 
-With other elements (77 interact):
+With other elements (80 interact):
 
 - **Water:** Iodine sinks through water (4,930 vs 1,000 kg/m³).
 - **Oil:** Iodine sinks through oil (4,930 vs 900 kg/m³).
@@ -12740,6 +13089,9 @@ With other elements (77 interact):
 - **Hydrogen chloride:** Iodine falls through hydrogen chloride.
 - **Milk:** Iodine sinks through milk (4,930 vs 1,030 kg/m³).
 - **Lemon juice:** Iodine sinks through lemon juice (4,930 vs 1,030 kg/m³).
+- **Sulfuric acid:** Iodine sinks through sulfuric acid (4,930 vs 1,830 kg/m³).
+- **Nitric acid:** Iodine sinks through nitric acid (4,930 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Iodine falls through nitrogen dioxide.
 - **Glue:** Iodine sinks through glue (4,930 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Titanium, Platinum, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -12753,7 +13105,7 @@ A heavy violet vapour. Sinks and pools low. As it cools it settles back into iod
 - **In air:** Sinks slowly (heavier than air)
 - **Condenses:** below 114 °C, into iodine
 
-With other elements (114 interact):
+With other elements (116 interact):
 
 - **Sand:** Sand falls through iodine vapour.
 - **Water:** Iodine vapour (130 °C) is hot enough to boil water into steam. Water falls through iodine vapour.
@@ -12863,6 +13215,8 @@ With other elements (114 interact):
 - **Lemon juice:** Lemon juice falls through iodine vapour.
 - **Red dye:** Red dye falls through iodine vapour.
 - **Blue dye:** Blue dye falls through iodine vapour.
+- **Sulfuric acid:** Sulfuric acid falls through iodine vapour.
+- **Nitric acid:** Nitric acid falls through iodine vapour.
 - **Silver chloride:** Silver chloride falls through iodine vapour.
 - **Exposed silver:** Exposed silver falls through iodine vapour.
 - **Iron filings:** Iron filings falls through iodine vapour.
@@ -12870,7 +13224,7 @@ With other elements (114 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through iodine vapour.
 - **Yeast:** Yeast falls through iodine vapour.
 
-No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Egg, Cooked egg, Lithium, Acetylene, Titanium, Platinum, Argon, Bromine vapour, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Cured resin, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Egg, Cooked egg, Lithium, Acetylene, Titanium, Platinum, Argon, Bromine vapour, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Cured resin, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Titanium
 
@@ -12883,7 +13237,7 @@ A light, very strong grey metal. Stays put. Acid cannot eat it, and it barely co
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Platinum
 
@@ -12897,7 +13251,7 @@ With other elements (1 interact):
 
 - **Hydrogen:** Platinum makes hydrogen catch and burn into steam on its surface.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Argon
 
@@ -12906,7 +13260,7 @@ A heavy inert gas. Sinks and pools low. It never reacts, and it smothers flames 
 - **State:** Gas, 1.66 kg/m³
 - **In air:** Sinks slowly (heavier than air)
 
-With other elements (105 interact):
+With other elements (107 interact):
 
 - **Sand:** Sand falls through argon.
 - **Water:** Water falls through argon.
@@ -13007,6 +13361,8 @@ With other elements (105 interact):
 - **Lemon juice:** Lemon juice falls through argon.
 - **Red dye:** Red dye falls through argon.
 - **Blue dye:** Blue dye falls through argon.
+- **Sulfuric acid:** Sulfuric acid falls through argon.
+- **Nitric acid:** Nitric acid falls through argon.
 - **Silver chloride:** Silver chloride falls through argon.
 - **Exposed silver:** Exposed silver falls through argon.
 - **Iron filings:** Iron filings falls through argon.
@@ -13014,7 +13370,7 @@ With other elements (105 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through argon.
 - **Yeast:** Yeast falls through argon.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Bromine
 
@@ -13026,7 +13382,7 @@ A dark red, poisonous liquid, very heavy. Flows and sinks through water. Warmed,
 - **Boils:** at 59 °C, into bromine vapour
 - **Poisons:** living things it touches: they wither
 
-With other elements (90 interact):
+With other elements (93 interact):
 
 - **Water:** Bromine sinks through water (3,100 vs 1,000 kg/m³).
 - **Oil:** Bromine sinks through oil (3,100 vs 900 kg/m³).
@@ -13114,6 +13470,9 @@ With other elements (90 interact):
 - **Hydrogen chloride:** Bromine falls through hydrogen chloride.
 - **Milk:** Bromine sinks through milk (3,100 vs 1,030 kg/m³).
 - **Lemon juice:** Bromine sinks through lemon juice (3,100 vs 1,030 kg/m³).
+- **Sulfuric acid:** Bromine sinks through sulfuric acid (3,100 vs 1,830 kg/m³).
+- **Nitric acid:** Bromine sinks through nitric acid (3,100 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Bromine falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through bromine (5,560 vs 3,100 kg/m³).
 - **Exposed silver:** Exposed silver sinks through bromine (5,560 vs 3,100 kg/m³).
 - **Iron filings:** Iron filings sinks through bromine (3,500 vs 3,100 kg/m³).
@@ -13131,7 +13490,7 @@ A choking red-brown vapour, very heavy. Sinks and pools low, kills plants, and c
 - **Condenses:** below 59 °C, into bromine
 - **Poisons:** living things it touches: they wither
 
-With other elements (121 interact):
+With other elements (123 interact):
 
 - **Sand:** Sand falls through bromine vapour.
 - **Water:** Water falls through bromine vapour.
@@ -13248,6 +13607,8 @@ With other elements (121 interact):
 - **Lemon juice:** Lemon juice falls through bromine vapour.
 - **Red dye:** Red dye falls through bromine vapour.
 - **Blue dye:** Blue dye falls through bromine vapour.
+- **Sulfuric acid:** Sulfuric acid falls through bromine vapour.
+- **Nitric acid:** Nitric acid falls through bromine vapour.
 - **Silver chloride:** Silver chloride falls through bromine vapour.
 - **Exposed silver:** Exposed silver falls through bromine vapour.
 - **Iron filings:** Iron filings falls through bromine vapour.
@@ -13255,7 +13616,7 @@ With other elements (121 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through bromine vapour.
 - **Yeast:** Yeast falls through bromine vapour.
 
-No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Egg, Cooked egg, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Cured resin, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Egg, Cooked egg, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Cured resin, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Gallium
 
@@ -13266,7 +13627,7 @@ A soft silvery metal. Stays put, but the warmth of a hand melts it into liquid g
 - **Conducts:** current with almost no resistance
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (26 interact):
+With other elements (28 interact):
 
 - **Steam:** Steam (150 °C) is hot enough to melt gallium into liquid gallium.
 - **Lava:** Lava (1,200 °C) is hot enough to melt gallium into liquid gallium.
@@ -13294,8 +13655,10 @@ With other elements (26 interact):
 - **Bromine vapour:** Bromine vapour (70 °C) is hot enough to melt gallium into liquid gallium.
 - **Liquid gallium:** Liquid gallium (35 °C) is hot enough to melt gallium into liquid gallium.
 - **Corium:** Corium (1,400 °C) is hot enough to melt gallium into liquid gallium.
+- **Sulfuric acid:** Sulfuric acid eats gallium: acidity 0.9 beats hardness 0.3, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats gallium: acidity 0.85 beats hardness 0.3, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Liquid oxygen, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Liquid gallium
 
@@ -13308,7 +13671,7 @@ Melted gallium, a cool silvery liquid. Flows and sinks through water. Sets back 
 - **Freezes:** below 30 °C, into gallium
 - **Conducts:** current with almost no resistance
 
-With other elements (85 interact):
+With other elements (88 interact):
 
 - **Water:** Liquid gallium sinks through water (6,095 vs 1,000 kg/m³).
 - **Oil:** Liquid gallium sinks through oil (6,095 vs 900 kg/m³).
@@ -13394,6 +13757,9 @@ With other elements (85 interact):
 - **Hydrogen chloride:** Liquid gallium falls through hydrogen chloride.
 - **Milk:** Liquid gallium sinks through milk (6,095 vs 1,030 kg/m³).
 - **Lemon juice:** Liquid gallium sinks through lemon juice (6,095 vs 1,030 kg/m³).
+- **Sulfuric acid:** Liquid gallium sinks through sulfuric acid (6,095 vs 1,830 kg/m³).
+- **Nitric acid:** Liquid gallium sinks through nitric acid (6,095 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Liquid gallium falls through nitrogen dioxide.
 - **Glue:** Liquid gallium sinks through glue (6,095 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Glass, Shards, Wire, Battery, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -13408,7 +13774,7 @@ Tiny dark seeds, a powder. Falls and sinks in water. On damp soil or sand it spr
 - **Burns:** from 250 °C in air, 0.67 s per cell, leaves ash
 - **Grows:** into cactus on damp soil (wet dirt or sand), even under a puddle
 
-With other elements (65 interact):
+With other elements (67 interact):
 
 - **Air:** Cactus seed burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Water:** Cactus seed sinks through water (1,100 vs 1,000 kg/m³).
@@ -13474,9 +13840,11 @@ With other elements (65 interact):
 - **Hydrogen chloride:** Cactus seed falls through hydrogen chloride.
 - **Milk:** Cactus seed sinks through milk (1,100 vs 1,030 kg/m³).
 - **Lemon juice:** Cactus seed sinks through lemon juice (1,100 vs 1,030 kg/m³).
+- **Nitric acid:** Cactus seed burns: it catches fire at 250 °C next to nitric acid (oxidiser 0.6). Nitric acid makes burning cactus seed hotter and faster.
+- **Nitrogen dioxide:** Cactus seed falls through nitrogen dioxide.
 - **Ammonium nitrate:** Cactus seed burns: it catches fire at 250 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning cactus seed hotter and faster.
 
-No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Acid, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Sulfuric acid, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Cactus
 
@@ -13489,7 +13857,7 @@ A fat, spiny desert plant. Grows slowly and stores water, losing it so slowly th
 - **Lives:** on water drawn from damp soil; dried out, it withers into dry plant
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (35 interact):
+With other elements (38 interact):
 
 - **Air:** Cactus burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set cactus on fire (it ignites at 300 °C).
@@ -13525,6 +13893,9 @@ With other elements (35 interact):
 - **Copper sulfate:** Copper sulfate is toxic: cactus touching it withers.
 - **Potassium permanganate:** Cactus burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning cactus hotter and faster.
 - **Hydrogen chloride:** Hydrogen chloride is toxic: cactus touching it withers.
+- **Sulfuric acid:** Sulfuric acid eats cactus: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats cactus: acidity 0.85 beats hardness 0.2. Nitric acid makes burning cactus hotter and faster.
+- **Nitrogen dioxide:** Nitrogen dioxide is toxic: cactus touching it withers.
 - **Ammonium nitrate:** Cactus burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning cactus hotter and faster.
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Gallium, Liquid gallium, Cactus seed, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -13539,7 +13910,7 @@ A packed grey powder. Falls and piles. Lit, it smoulders slowly at a low heat, p
 - **Burns:** from 200 °C in air, 6.67 s per cell, leaves smoke
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (73 interact):
+With other elements (76 interact):
 
 - **Air:** Smoke bomb burns: it catches fire at 200 °C next to air (oxidiser 0.21).
 - **Water:** Smoke bomb sinks through water (1,200 vs 1,000 kg/m³).
@@ -13612,6 +13983,9 @@ With other elements (73 interact):
 - **Hydrogen chloride:** Smoke bomb falls through hydrogen chloride.
 - **Milk:** Smoke bomb sinks through milk (1,200 vs 1,030 kg/m³).
 - **Lemon juice:** Smoke bomb sinks through lemon juice (1,200 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats smoke bomb: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats smoke bomb: acidity 0.85 beats hardness 0.2. Nitric acid makes burning smoke bomb hotter and faster.
+- **Nitrogen dioxide:** Smoke bomb falls through nitrogen dioxide.
 - **Glue:** Smoke bomb sinks through glue (1,200 vs 1,100 kg/m³).
 - **Ammonium nitrate:** Smoke bomb burns: it catches fire at 200 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning smoke bomb hotter and faster.
 
@@ -13628,7 +14002,7 @@ Dark, fibrous bog soil, a powder. Falls and piles and soaks up a lot of water. D
 - **Soaks up:** water, up to 50% of a cell; wet, it holds steeper slopes and will not burn
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (52 interact):
+With other elements (55 interact):
 
 - **Air:** Peat burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Water:** Peat soaks up water: it is porous and holds up to 50% water.
@@ -13681,6 +14055,9 @@ With other elements (52 interact):
 - **Fog:** Peat falls through fog.
 - **Potassium permanganate:** Peat burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning peat hotter and faster.
 - **Hydrogen chloride:** Peat falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid eats peat: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats peat: acidity 0.85 beats hardness 0.2. Nitric acid makes burning peat hotter and faster.
+- **Nitrogen dioxide:** Peat falls through nitrogen dioxide.
 - **Ammonium nitrate:** Peat burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning peat hotter and faster.
 
 No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -13705,7 +14082,7 @@ With other elements (8 interact):
 - **Plasma:** Plasma (3,000 °C) is hot enough to melt basalt into lava.
 - **Corium:** Corium (1,400 °C) is hot enough to melt basalt into lava.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Granite
 
@@ -13724,7 +14101,7 @@ With other elements (5 interact):
 - **Plasma:** Plasma (3,000 °C) is hot enough to melt granite into lava.
 - **Corium:** Corium (1,400 °C) is hot enough to melt granite into lava.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sandstone
 
@@ -13735,11 +14112,13 @@ Sand pressed into soft rock. Stays put. A blast crumbles it back into sand.
 - **Shatters:** into sand when a blast hits it
 - **Hardness:** 0.6 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats sandstone: acidity 0.8 beats hardness 0.6.
+- **Sulfuric acid:** Sulfuric acid eats sandstone: acidity 0.9 beats hardness 0.6.
+- **Nitric acid:** Nitric acid eats sandstone: acidity 0.85 beats hardness 0.6.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Soda
 
@@ -13750,7 +14129,7 @@ Fizzy water full of dissolved carbon dioxide. Flows like water. Warmed, it fizze
 - **Falls:** up to 165 cells/s
 - **Bakes:** at 35 °C into water, giving off carbon dioxide; there is no way back
 
-With other elements (115 interact):
+With other elements (118 interact):
 
 - **Sand:** Sand sinks through soda (1,600 vs 1,010 kg/m³).
 - **Water:** Soda sinks through water (1,010 vs 1,000 kg/m³).
@@ -13861,6 +14240,9 @@ With other elements (115 interact):
 - **Lemon juice:** Lemon juice sinks through soda (1,030 vs 1,010 kg/m³).
 - **Red dye:** Red dye sinks through soda (1,500 vs 1,010 kg/m³).
 - **Blue dye:** Blue dye sinks through soda (1,500 vs 1,010 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through soda (1,830 vs 1,010 kg/m³).
+- **Nitric acid:** Nitric acid sinks through soda (1,510 vs 1,010 kg/m³).
+- **Nitrogen dioxide:** Soda falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through soda (5,560 vs 1,010 kg/m³).
 - **Exposed silver:** Exposed silver sinks through soda (5,560 vs 1,010 kg/m³).
 - **Iron filings:** Iron filings sinks through soda (3,500 vs 1,010 kg/m³).
@@ -13878,7 +14260,7 @@ A slow-burning cord. Stays put. Lit at one end, it burns steadily along its whol
 - **Burns:** from 150 °C in air, 0.4 s per cell, leaves ash
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (30 interact):
+With other elements (32 interact):
 
 - **Air:** Fuse burns: it catches fire at 150 °C next to air (oxidiser 0.21).
 - **Steam:** Steam (150 °C) can set fuse on fire (it ignites at 150 °C).
@@ -13909,9 +14291,11 @@ With other elements (30 interact):
 - **Corium:** Corium (1,400 °C) can set fuse on fire (it ignites at 150 °C).
 - **Neutron:** Fuse catches from the flame touching it.
 - **Potassium permanganate:** Fuse burns: it catches fire at 150 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning fuse hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats fuse: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats fuse: acidity 0.85 beats hardness 0.2. Nitric acid makes burning fuse hotter and faster.
 - **Ammonium nitrate:** Fuse burns: it catches fire at 150 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning fuse hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Magnet
 
@@ -13925,7 +14309,7 @@ A strong permanent magnet. Stays put and pulls iron filings towards it from a sh
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Plague
 
@@ -13936,7 +14320,7 @@ A drifting green mist of germs. Sinks slowly and fades. Any animal it touches fa
 - **Infects:** animals it touches: fever, spreading, death unless cured
 - **Bakes:** at 80 °C into air; there is no way back
 
-With other elements (105 interact):
+With other elements (107 interact):
 
 - **Sand:** Sand falls through plague.
 - **Water:** Water falls through plague.
@@ -14037,6 +14421,8 @@ With other elements (105 interact):
 - **Lemon juice:** Lemon juice falls through plague.
 - **Red dye:** Red dye falls through plague.
 - **Blue dye:** Blue dye falls through plague.
+- **Sulfuric acid:** Sulfuric acid falls through plague.
+- **Nitric acid:** Nitric acid falls through plague.
 - **Silver chloride:** Silver chloride falls through plague.
 - **Exposed silver:** Exposed silver falls through plague.
 - **Iron filings:** Iron filings falls through plague.
@@ -14044,7 +14430,7 @@ With other elements (105 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through plague.
 - **Yeast:** Yeast falls through plague.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Medicine
 
@@ -14056,7 +14442,7 @@ Crushed pink tablets, a light powder. Falls and piles. A sick animal it touches 
 - **Dissolves in:** water, up to 30% of a cell; boiling leaves it as crystals
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (37 interact):
+With other elements (40 interact):
 
 - **Water:** Medicine dissolves into water: water is a solvent and each cell holds up to 30% medicine.
 - **Ice:** Medicine melts ice: dissolved, it lowers the freezing point.
@@ -14095,6 +14481,9 @@ With other elements (37 interact):
 - **Neutron:** Medicine falls through neutron.
 - **Fog:** Medicine falls through fog.
 - **Hydrogen chloride:** Medicine falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid eats medicine: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats medicine: acidity 0.85 beats hardness 0.2.
+- **Nitrogen dioxide:** Medicine falls through nitrogen dioxide.
 
 No direct interaction with: Air, Wall, Sand, Oil, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -14107,11 +14496,13 @@ A fuzzy grey-green mould. Stays put and spreads slowly over damp food (meat, egg
 - **Bakes:** at 70 °C into ash; there is no way back
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats mould: acidity 0.8 beats hardness 0.2.
+- **Sulfuric acid:** Sulfuric acid eats mould: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats mould: acidity 0.85 beats hardness 0.2.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Spores
 
@@ -14125,7 +14516,7 @@ Fine brown fungus spores, a very light powder. Drifts down and settles. On damp 
 - **Grows:** into mushroom on damp soil (wet dirt or sand), even under a puddle
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (45 interact):
+With other elements (48 interact):
 
 - **Air:** Spores burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Steam:** Spores falls through steam.
@@ -14171,6 +14562,9 @@ With other elements (45 interact):
 - **Fog:** Spores falls through fog.
 - **Potassium permanganate:** Spores burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning spores hotter and faster.
 - **Hydrogen chloride:** Spores falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid eats spores: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats spores: acidity 0.85 beats hardness 0.1. Nitric acid makes burning spores hotter and faster.
+- **Nitrogen dioxide:** Spores falls through nitrogen dioxide.
 - **Ammonium nitrate:** Spores burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning spores hotter and faster.
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Medicine, Mould, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -14186,7 +14580,7 @@ A pale living mushroom. Grows a short stalk from damp soil, but only in the dark
 - **Lives:** on water drawn from damp soil; dried out, it withers into dry plant
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (35 interact):
+With other elements (38 interact):
 
 - **Air:** Mushroom burns: it catches fire at 300 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set mushroom on fire (it ignites at 300 °C).
@@ -14222,6 +14616,9 @@ With other elements (35 interact):
 - **Copper sulfate:** Copper sulfate is toxic: mushroom touching it withers.
 - **Potassium permanganate:** Mushroom burns: it catches fire at 300 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning mushroom hotter and faster.
 - **Hydrogen chloride:** Hydrogen chloride is toxic: mushroom touching it withers.
+- **Sulfuric acid:** Sulfuric acid eats mushroom: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats mushroom: acidity 0.85 beats hardness 0.2. Nitric acid makes burning mushroom hotter and faster.
+- **Nitrogen dioxide:** Nitrogen dioxide is toxic: mushroom touching it withers.
 - **Ammonium nitrate:** Mushroom burns: it catches fire at 300 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning mushroom hotter and faster.
 
 No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -14237,7 +14634,7 @@ Molten nuclear fuel from a meltdown, white-hot and very heavy. Oozes slowly and 
 - **Chain reaction:** about 45 fuel cells within 5 cells make it critical: it heats, melts down and can blow apart
 - **Poisons:** living things it touches: they wither
 
-With other elements (158 interact):
+With other elements (161 interact):
 
 - **Water:** Corium sinks through water (17,000 vs 1,000 kg/m³). Corium (1,400 °C) is hot enough to boil water into steam.
 - **Oil:** Corium sinks through oil (17,000 vs 900 kg/m³). Corium (1,400 °C) can set oil on fire (it ignites at 250 °C).
@@ -14393,6 +14790,9 @@ With other elements (158 interact):
 - **Milk:** Corium sinks through milk (17,000 vs 1,030 kg/m³).
 - **Lemon juice:** Corium sinks through lemon juice (17,000 vs 1,030 kg/m³).
 - **Steel wool:** Corium (1,400 °C) can set steel wool on fire (it ignites at 350 °C).
+- **Sulfuric acid:** Corium sinks through sulfuric acid (17,000 vs 1,830 kg/m³).
+- **Nitric acid:** Corium sinks through nitric acid (17,000 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Corium falls through nitrogen dioxide.
 - **Rope:** Corium (1,400 °C) can set rope on fire (it ignites at 250 °C).
 - **Glue:** Corium sinks through glue (17,000 vs 1,100 kg/m³).
 - **Dried glue:** Corium (1,400 °C) can set dried glue on fire (it ignites at 350 °C).
@@ -14406,7 +14806,7 @@ A fast neutron, flung out when uranium splits. Flies straight until it hits some
 
 - **State:** Energy, 0.1 kg/m³
 
-With other elements (146 interact):
+With other elements (148 interact):
 
 - **Sand:** Sand falls through neutron.
 - **Water:** Water falls through neutron.
@@ -14546,6 +14946,8 @@ With other elements (146 interact):
 - **Red dye:** Red dye falls through neutron.
 - **Blue dye:** Blue dye falls through neutron.
 - **Steel wool:** Steel wool catches from the flame touching it.
+- **Sulfuric acid:** Sulfuric acid falls through neutron.
+- **Nitric acid:** Nitric acid falls through neutron.
 - **Silver chloride:** Silver chloride falls through neutron.
 - **Exposed silver:** Exposed silver falls through neutron.
 - **Rope:** Rope catches from the flame touching it.
@@ -14555,7 +14957,7 @@ With other elements (146 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through neutron.
 - **Yeast:** Yeast falls through neutron.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Spark, Wire, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Diamond, Worm, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Snail, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Iron, Oxygen, Glass, Spark, Wire, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Nitrogen, Carbon dioxide, Helium, Chlorine, Sulfur dioxide, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Potassium, Marble, Silver, Meat, Obsidian, Diamond, Worm, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Snail, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Lithium, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Magnet, Plague, Mould, Control rod, Bread, Epoxy, Blue crystal, Sodium acetate, Fog, Cured resin, Hydrogen chloride, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Control rod
 
@@ -14568,7 +14970,7 @@ A boron carbide rod that soaks up neutrons. Stays put. Set among uranium, it slo
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Dough
 
@@ -14579,7 +14981,7 @@ Flour mixed with water, a soft sticky lump. Falls and slumps. Baked past 180 °C
 - **Bakes:** at 180 °C into bread, giving off steam; there is no way back
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (50 interact):
+With other elements (53 interact):
 
 - **Water:** Dough sinks through water (1,100 vs 1,000 kg/m³).
 - **Oil:** Dough sinks through oil (1,100 vs 900 kg/m³).
@@ -14631,6 +15033,9 @@ With other elements (50 interact):
 - **Hydrogen chloride:** Dough falls through hydrogen chloride.
 - **Milk:** Dough sinks through milk (1,100 vs 1,030 kg/m³).
 - **Lemon juice:** Dough sinks through lemon juice (1,100 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats dough: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats dough: acidity 0.85 beats hardness 0.2.
+- **Nitrogen dioxide:** Dough falls through nitrogen dioxide.
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -14642,11 +15047,13 @@ A golden loaf. Stays put. Heated past 260 °C it toasts dark; mould loves it whe
 - **Bakes:** at 260 °C into toast; there is no way back
 - **Hardness:** 0.2 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats bread: acidity 0.8 beats hardness 0.2.
+- **Sulfuric acid:** Sulfuric acid eats bread: acidity 0.9 beats hardness 0.2.
+- **Nitric acid:** Nitric acid eats bread: acidity 0.85 beats hardness 0.2.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Toast
 
@@ -14656,7 +15063,7 @@ Bread browned by heat, crisp and dark. Stays put. A little more heat and it catc
 - **Burns:** from 330 °C in air, 2 s per cell, leaves charcoal
 - **Hardness:** 0.25 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Air:** Toast burns: it catches fire at 330 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set toast on fire (it ignites at 330 °C).
@@ -14682,9 +15089,11 @@ With other elements (25 interact):
 - **Corium:** Corium (1,400 °C) can set toast on fire (it ignites at 330 °C).
 - **Neutron:** Toast catches from the flame touching it.
 - **Potassium permanganate:** Toast burns: it catches fire at 330 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning toast hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats toast: acidity 0.9 beats hardness 0.25.
+- **Nitric acid:** Nitric acid eats toast: acidity 0.85 beats hardness 0.25. Nitric acid makes burning toast hotter and faster.
 - **Ammonium nitrate:** Toast burns: it catches fire at 330 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning toast hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Manganese dioxide
 
@@ -14694,7 +15103,7 @@ A black powder and a catalyst. Falls and piles. Hydrogen peroxide touching it te
 - **In liquids:** Sinks through liquids lighter than 5,030 kg/m³, rests on heavier ones
 - **Hardness:** 0.5 (acid stronger than this eats it)
 
-With other elements (70 interact):
+With other elements (73 interact):
 
 - **Water:** Manganese dioxide sinks through water (5,030 vs 1,000 kg/m³).
 - **Oil:** Manganese dioxide sinks through oil (5,030 vs 900 kg/m³).
@@ -14765,6 +15174,9 @@ With other elements (70 interact):
 - **Hydrogen chloride:** Manganese dioxide falls through hydrogen chloride.
 - **Milk:** Manganese dioxide sinks through milk (5,030 vs 1,030 kg/m³).
 - **Lemon juice:** Manganese dioxide sinks through lemon juice (5,030 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats manganese dioxide: acidity 0.9 beats hardness 0.5. Manganese dioxide sinks through sulfuric acid (5,030 vs 1,830 kg/m³).
+- **Nitric acid:** Nitric acid eats manganese dioxide: acidity 0.85 beats hardness 0.5. Manganese dioxide sinks through nitric acid (5,030 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Manganese dioxide falls through nitrogen dioxide.
 - **Glue:** Manganese dioxide sinks through glue (5,030 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -14777,7 +15189,7 @@ Liquid soap. Flows like water and floats on it. Gas bubbling through it (oxygen,
 - **In liquids:** Sinks through liquids lighter than 980 kg/m³, floats on heavier ones
 - **Bakes:** at 105 °C into steam; there is no way back
 
-With other elements (120 interact):
+With other elements (123 interact):
 
 - **Sand:** Sand sinks through soap (1,600 vs 980 kg/m³).
 - **Water:** Water sinks through soap (1,000 vs 980 kg/m³).
@@ -14893,6 +15305,9 @@ With other elements (120 interact):
 - **Lemon juice:** Lemon juice sinks through soap (1,030 vs 980 kg/m³).
 - **Red dye:** Red dye sinks through soap (1,500 vs 980 kg/m³).
 - **Blue dye:** Blue dye sinks through soap (1,500 vs 980 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through soap (1,830 vs 980 kg/m³).
+- **Nitric acid:** Nitric acid sinks through soap (1,510 vs 980 kg/m³).
+- **Nitrogen dioxide:** Soap falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through soap (5,560 vs 980 kg/m³).
 - **Exposed silver:** Exposed silver sinks through soap (5,560 vs 980 kg/m³).
 - **Iron filings:** Iron filings sinks through soap (3,500 vs 980 kg/m³).
@@ -14912,7 +15327,7 @@ A pile of soap bubbles, very light. Heaps up, floats on everything and slowly po
 - **Fades:** away on its own into nothing
 - **Hardness:** 0 (acid stronger than this eats it)
 
-With other elements (30 interact):
+With other elements (33 interact):
 
 - **Steam:** Foam falls through steam.
 - **Fire:** Foam falls through fire.
@@ -14944,6 +15359,9 @@ With other elements (30 interact):
 - **Neutron:** Foam falls through neutron.
 - **Fog:** Foam falls through fog.
 - **Hydrogen chloride:** Foam falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid eats foam: acidity 0.9 beats hardness 0.
+- **Nitric acid:** Nitric acid eats foam: acidity 0.85 beats hardness 0.
+- **Nitrogen dioxide:** Foam falls through nitrogen dioxide.
 
 No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -14954,7 +15372,7 @@ Part one of a two-part glue: a clear syrup. Oozes slowly. On its own it stays ru
 - **State:** Liquid, 1,150 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,150 kg/m³, floats on heavier ones
 
-With other elements (109 interact):
+With other elements (112 interact):
 
 - **Sand:** Sand sinks through epoxy resin (1,600 vs 1,150 kg/m³).
 - **Water:** Epoxy resin sinks through water (1,150 vs 1,000 kg/m³).
@@ -15060,6 +15478,9 @@ With other elements (109 interact):
 - **Lemon juice:** Epoxy resin sinks through lemon juice (1,150 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through epoxy resin (1,500 vs 1,150 kg/m³).
 - **Blue dye:** Blue dye sinks through epoxy resin (1,500 vs 1,150 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through epoxy resin (1,830 vs 1,150 kg/m³).
+- **Nitric acid:** Nitric acid sinks through epoxy resin (1,510 vs 1,150 kg/m³).
+- **Nitrogen dioxide:** Epoxy resin falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through epoxy resin (5,560 vs 1,150 kg/m³).
 - **Exposed silver:** Exposed silver sinks through epoxy resin (5,560 vs 1,150 kg/m³).
 - **Iron filings:** Iron filings sinks through epoxy resin (3,500 vs 1,150 kg/m³).
@@ -15075,7 +15496,7 @@ Part two of a two-part glue: an amber syrup. Oozes slowly. Touching resin, both 
 - **State:** Liquid, 1,100 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,100 kg/m³, floats on heavier ones
 
-With other elements (105 interact):
+With other elements (108 interact):
 
 - **Sand:** Sand sinks through epoxy hardener (1,600 vs 1,100 kg/m³).
 - **Water:** Epoxy hardener sinks through water (1,100 vs 1,000 kg/m³).
@@ -15178,6 +15599,9 @@ With other elements (105 interact):
 - **Lemon juice:** Epoxy hardener sinks through lemon juice (1,100 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through epoxy hardener (1,500 vs 1,100 kg/m³).
 - **Blue dye:** Blue dye sinks through epoxy hardener (1,500 vs 1,100 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through epoxy hardener (1,830 vs 1,100 kg/m³).
+- **Nitric acid:** Nitric acid sinks through epoxy hardener (1,510 vs 1,100 kg/m³).
+- **Nitrogen dioxide:** Epoxy hardener falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through epoxy hardener (5,560 vs 1,100 kg/m³).
 - **Exposed silver:** Exposed silver sinks through epoxy hardener (5,560 vs 1,100 kg/m³).
 - **Iron filings:** Iron filings sinks through epoxy hardener (3,500 vs 1,100 kg/m³).
@@ -15195,7 +15619,7 @@ Set two-part epoxy, a tough clear amber solid. Stays put and reaches far past it
 - **A flame:** will not light it; it needs 450 °C
 - **Hardness:** 0.6 (acid stronger than this eats it)
 
-With other elements (17 interact):
+With other elements (19 interact):
 
 - **Air:** Epoxy burns: it catches fire at 450 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set epoxy on fire (it ignites at 450 °C).
@@ -15213,9 +15637,11 @@ With other elements (17 interact):
 - **Ozone:** Epoxy burns: it catches fire at 450 °C next to ozone (oxidiser 1). Ozone makes burning epoxy hotter and faster.
 - **Corium:** Corium (1,400 °C) can set epoxy on fire (it ignites at 450 °C).
 - **Potassium permanganate:** Epoxy burns: it catches fire at 450 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning epoxy hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats epoxy: acidity 0.9 beats hardness 0.6.
+- **Nitric acid:** Nitric acid eats epoxy: acidity 0.85 beats hardness 0.6. Nitric acid makes burning epoxy hotter and faster.
 - **Ammonium nitrate:** Epoxy burns: it catches fire at 450 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning epoxy hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Copper sulfate
 
@@ -15226,7 +15652,7 @@ Bright blue crystals, a powder. Falls and piles, and dissolves into water, turni
 - **Poisons:** living things it touches: they wither
 - **Dissolves in:** water, up to 60% of a cell; boiling leaves it as crystals
 
-With other elements (76 interact):
+With other elements (79 interact):
 
 - **Water:** Copper sulfate dissolves into water: water is a solvent and each cell holds up to 60% copper sulfate. Copper sulfate sinks through water (2,280 vs 1,000 kg/m³).
 - **Oil:** Copper sulfate sinks through oil (2,280 vs 900 kg/m³).
@@ -15303,6 +15729,9 @@ With other elements (76 interact):
 - **Hydrogen chloride:** Copper sulfate falls through hydrogen chloride.
 - **Milk:** Copper sulfate sinks through milk (2,280 vs 1,030 kg/m³).
 - **Lemon juice:** Copper sulfate sinks through lemon juice (2,280 vs 1,030 kg/m³).
+- **Sulfuric acid:** Copper sulfate sinks through sulfuric acid (2,280 vs 1,830 kg/m³).
+- **Nitric acid:** Copper sulfate sinks through nitric acid (2,280 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Copper sulfate falls through nitrogen dioxide.
 - **Glue:** Copper sulfate sinks through glue (2,280 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Acorn, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -15318,7 +15747,7 @@ A clear blue crystal of copper sulfate. Stays put, and grows into touching water
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Cabbage juice
 
@@ -15329,7 +15758,7 @@ Red cabbage juice, a purple pH indicator. Flows like water. Touching an acid (vi
 - **Changes:** to pink juice in acid, green juice in a base
 - **Bakes:** at 101 °C into steam; there is no way back
 
-With other elements (115 interact):
+With other elements (118 interact):
 
 - **Sand:** Sand sinks through cabbage juice (1,600 vs 1,010 kg/m³).
 - **Water:** Cabbage juice sinks through water (1,010 vs 1,000 kg/m³).
@@ -15440,6 +15869,9 @@ With other elements (115 interact):
 - **Lemon juice:** Lemon juice sinks through cabbage juice (1,030 vs 1,010 kg/m³).
 - **Red dye:** Red dye sinks through cabbage juice (1,500 vs 1,010 kg/m³).
 - **Blue dye:** Blue dye sinks through cabbage juice (1,500 vs 1,010 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through cabbage juice (1,830 vs 1,010 kg/m³).
+- **Nitric acid:** Nitric acid sinks through cabbage juice (1,510 vs 1,010 kg/m³).
+- **Nitrogen dioxide:** Cabbage juice falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through cabbage juice (5,560 vs 1,010 kg/m³).
 - **Exposed silver:** Exposed silver sinks through cabbage juice (5,560 vs 1,010 kg/m³).
 - **Iron filings:** Iron filings sinks through cabbage juice (3,500 vs 1,010 kg/m³).
@@ -15458,7 +15890,7 @@ Cabbage juice turned pink by an acid. Flows like water; a base turns it green.
 - **Changes:** to pink juice in acid, green juice in a base
 - **Bakes:** at 101 °C into steam; there is no way back
 
-With other elements (115 interact):
+With other elements (118 interact):
 
 - **Sand:** Sand sinks through pink juice (1,600 vs 1,010 kg/m³).
 - **Water:** Pink juice sinks through water (1,010 vs 1,000 kg/m³).
@@ -15569,6 +16001,9 @@ With other elements (115 interact):
 - **Lemon juice:** Lemon juice sinks through pink juice (1,030 vs 1,010 kg/m³).
 - **Red dye:** Red dye sinks through pink juice (1,500 vs 1,010 kg/m³).
 - **Blue dye:** Blue dye sinks through pink juice (1,500 vs 1,010 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through pink juice (1,830 vs 1,010 kg/m³).
+- **Nitric acid:** Nitric acid sinks through pink juice (1,510 vs 1,010 kg/m³).
+- **Nitrogen dioxide:** Pink juice falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through pink juice (5,560 vs 1,010 kg/m³).
 - **Exposed silver:** Exposed silver sinks through pink juice (5,560 vs 1,010 kg/m³).
 - **Iron filings:** Iron filings sinks through pink juice (3,500 vs 1,010 kg/m³).
@@ -15587,7 +16022,7 @@ Cabbage juice turned green by a base. Flows like water; an acid turns it pink.
 - **Changes:** to pink juice in acid, green juice in a base
 - **Bakes:** at 101 °C into steam; there is no way back
 
-With other elements (115 interact):
+With other elements (118 interact):
 
 - **Sand:** Sand sinks through green juice (1,600 vs 1,010 kg/m³).
 - **Water:** Green juice sinks through water (1,010 vs 1,000 kg/m³).
@@ -15698,6 +16133,9 @@ With other elements (115 interact):
 - **Lemon juice:** Lemon juice sinks through green juice (1,030 vs 1,010 kg/m³).
 - **Red dye:** Red dye sinks through green juice (1,500 vs 1,010 kg/m³).
 - **Blue dye:** Blue dye sinks through green juice (1,500 vs 1,010 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through green juice (1,830 vs 1,010 kg/m³).
+- **Nitric acid:** Nitric acid sinks through green juice (1,510 vs 1,010 kg/m³).
+- **Nitrogen dioxide:** Green juice falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through green juice (5,560 vs 1,010 kg/m³).
 - **Exposed silver:** Exposed silver sinks through green juice (5,560 vs 1,010 kg/m³).
 - **Iron filings:** Iron filings sinks through green juice (3,500 vs 1,010 kg/m³).
@@ -15718,7 +16156,7 @@ Green pond scum, a light living powder. Floats on water and spreads through it w
 - **Bakes:** at 70 °C into dry plant; there is no way back
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (40 interact):
+With other elements (43 interact):
 
 - **Oil:** Algae sinks through oil (990 vs 900 kg/m³).
 - **Steam:** Algae falls through steam.
@@ -15760,6 +16198,9 @@ With other elements (40 interact):
 - **Soap:** Algae sinks through soap (990 vs 980 kg/m³).
 - **Fog:** Algae falls through fog.
 - **Hydrogen chloride:** Algae falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid eats algae: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats algae: acidity 0.85 beats hardness 0.1.
+- **Nitrogen dioxide:** Algae falls through nitrogen dioxide.
 
 No direct interaction with: Air, Wall, Sand, Water, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -15772,7 +16213,7 @@ Soft green moss. Stays put, clinging to stone, brick, concrete and wood, and cre
 - **Spreads:** over damp air
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (26 interact):
+With other elements (28 interact):
 
 - **Air:** Moss burns: it catches fire at 260 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set moss on fire (it ignites at 260 °C).
@@ -15799,9 +16240,11 @@ With other elements (26 interact):
 - **Corium:** Corium (1,400 °C) can set moss on fire (it ignites at 260 °C).
 - **Neutron:** Moss catches from the flame touching it.
 - **Potassium permanganate:** Moss burns: it catches fire at 260 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning moss hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats moss: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats moss: acidity 0.85 beats hardness 0.1. Nitric acid makes burning moss hotter and faster.
 - **Ammonium nitrate:** Moss burns: it catches fire at 260 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning moss hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Ferrofluid
 
@@ -15811,7 +16254,7 @@ Oil thick with tiny iron grains, a black liquid. Flows, and a magnet or a powere
 - **In liquids:** Sinks through liquids lighter than 1,300 kg/m³, floats on heavier ones
 - **Magnetic:** a magnet pulls it in
 
-With other elements (106 interact):
+With other elements (109 interact):
 
 - **Sand:** Sand sinks through ferrofluid (1,600 vs 1,300 kg/m³).
 - **Water:** Ferrofluid sinks through water (1,300 vs 1,000 kg/m³).
@@ -15914,6 +16357,9 @@ With other elements (106 interact):
 - **Lemon juice:** Ferrofluid sinks through lemon juice (1,300 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through ferrofluid (1,500 vs 1,300 kg/m³).
 - **Blue dye:** Blue dye sinks through ferrofluid (1,500 vs 1,300 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through ferrofluid (1,830 vs 1,300 kg/m³).
+- **Nitric acid:** Nitric acid sinks through ferrofluid (1,510 vs 1,300 kg/m³).
+- **Nitrogen dioxide:** Ferrofluid falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through ferrofluid (5,560 vs 1,300 kg/m³).
 - **Exposed silver:** Exposed silver sinks through ferrofluid (5,560 vs 1,300 kg/m³).
 - **Iron filings:** Iron filings sinks through ferrofluid (3,500 vs 1,300 kg/m³).
@@ -15929,7 +16375,7 @@ A supercooled sodium acetate solution, a clear liquid. Flows and stays liquid wh
 - **State:** Liquid, 1,280 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,280 kg/m³, floats on heavier ones
 
-With other elements (108 interact):
+With other elements (111 interact):
 
 - **Sand:** Sand sinks through hot ice (1,600 vs 1,280 kg/m³).
 - **Water:** Hot ice sinks through water (1,280 vs 1,000 kg/m³).
@@ -16034,6 +16480,9 @@ With other elements (108 interact):
 - **Lemon juice:** Hot ice sinks through lemon juice (1,280 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through hot ice (1,500 vs 1,280 kg/m³).
 - **Blue dye:** Blue dye sinks through hot ice (1,500 vs 1,280 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through hot ice (1,830 vs 1,280 kg/m³).
+- **Nitric acid:** Nitric acid sinks through hot ice (1,510 vs 1,280 kg/m³).
+- **Nitrogen dioxide:** Hot ice falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through hot ice (5,560 vs 1,280 kg/m³).
 - **Exposed silver:** Exposed silver sinks through hot ice (5,560 vs 1,280 kg/m³).
 - **Iron filings:** Iron filings sinks through hot ice (3,500 vs 1,280 kg/m³).
@@ -16053,7 +16502,7 @@ With other elements (1 interact):
 
 - **Hot ice:** Supercooled hot ice crystallises on touching a crystal, giving off heat.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Fog
 
@@ -16063,7 +16512,7 @@ Cold white mist, as when dry ice meets warm water. Heavy and cold, it sinks and 
 - **Starts at:** -20 °C
 - **In air:** Sinks slowly (heavier than air)
 
-With other elements (108 interact):
+With other elements (110 interact):
 
 - **Sand:** Sand falls through fog.
 - **Water:** Fog (-20 °C) is cold enough to freeze water into ice. Water falls through fog.
@@ -16167,6 +16616,8 @@ With other elements (108 interact):
 - **Lemon juice:** Lemon juice falls through fog.
 - **Red dye:** Red dye falls through fog.
 - **Blue dye:** Blue dye falls through fog.
+- **Sulfuric acid:** Sulfuric acid falls through fog.
+- **Nitric acid:** Nitric acid falls through fog.
 - **Silver chloride:** Silver chloride falls through fog.
 - **Exposed silver:** Exposed silver falls through fog.
 - **Iron filings:** Iron filings falls through fog.
@@ -16174,7 +16625,7 @@ With other elements (108 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through fog.
 - **Yeast:** Yeast falls through fog.
 
-No direct interaction with: Air, Wall, Ice, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Titanium, Platinum, Argon, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Plant, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Grass, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Titanium, Platinum, Argon, Gallium, Cactus, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Mushroom, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Mints
 
@@ -16184,7 +16635,7 @@ Chalky mint sweets, a powder. Falls and piles. Dropped into soda, their rough su
 - **In liquids:** Sinks through liquids lighter than 1,500 kg/m³, rests on heavier ones
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (65 interact):
+With other elements (68 interact):
 
 - **Water:** Mints sinks through water (1,500 vs 1,000 kg/m³).
 - **Oil:** Mints sinks through oil (1,500 vs 900 kg/m³).
@@ -16250,6 +16701,9 @@ With other elements (65 interact):
 - **Hydrogen chloride:** Mints falls through hydrogen chloride.
 - **Milk:** Mints sinks through milk (1,500 vs 1,030 kg/m³).
 - **Lemon juice:** Mints sinks through lemon juice (1,500 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats mints: acidity 0.9 beats hardness 0.3.
+- **Nitric acid:** Nitric acid eats mints: acidity 0.85 beats hardness 0.3.
+- **Nitrogen dioxide:** Mints falls through nitrogen dioxide.
 - **Glue:** Mints sinks through glue (1,500 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -16262,7 +16716,7 @@ Dark purple-black crystals, the touchiest explosive there is. Stays put where it
 - **Explodes:** from 60 °C or a flame; blast radius 3 cells
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (33 interact):
+With other elements (35 interact):
 
 - **Air:** Nitrogen triiodide explodes at 60 °C; it needs no air.
 - **Steam:** Steam (150 °C) can set nitrogen triiodide on fire (it ignites at 60 °C).
@@ -16296,9 +16750,11 @@ With other elements (33 interact):
 - **Corium:** Corium (1,400 °C) can set nitrogen triiodide on fire (it ignites at 60 °C).
 - **Neutron:** Nitrogen triiodide explodes when a flame touches it.
 - **Potassium permanganate:** Nitrogen triiodide explodes at 60 °C; it needs no air. Potassium permanganate makes burning nitrogen triiodide hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats nitrogen triiodide: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats nitrogen triiodide: acidity 0.85 beats hardness 0.1. Nitric acid makes burning nitrogen triiodide hotter and faster.
 - **Ammonium nitrate:** Nitrogen triiodide explodes at 60 °C; it needs no air. Ammonium nitrate makes burning nitrogen triiodide hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### UV resin
 
@@ -16308,7 +16764,7 @@ A clear liquid resin. Flows slowly, and stays runny in the dark; strong light cu
 - **In liquids:** Sinks through liquids lighter than 1,100 kg/m³, floats on heavier ones
 - **In light:** slowly turns into cured resin
 
-With other elements (105 interact):
+With other elements (108 interact):
 
 - **Sand:** Sand sinks through uv resin (1,600 vs 1,100 kg/m³).
 - **Water:** UV resin sinks through water (1,100 vs 1,000 kg/m³).
@@ -16411,6 +16867,9 @@ With other elements (105 interact):
 - **Lemon juice:** UV resin sinks through lemon juice (1,100 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through uv resin (1,500 vs 1,100 kg/m³).
 - **Blue dye:** Blue dye sinks through uv resin (1,500 vs 1,100 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through uv resin (1,830 vs 1,100 kg/m³).
+- **Nitric acid:** Nitric acid sinks through uv resin (1,510 vs 1,100 kg/m³).
+- **Nitrogen dioxide:** UV resin falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through uv resin (5,560 vs 1,100 kg/m³).
 - **Exposed silver:** Exposed silver sinks through uv resin (5,560 vs 1,100 kg/m³).
 - **Iron filings:** Iron filings sinks through uv resin (3,500 vs 1,100 kg/m³).
@@ -16428,7 +16887,7 @@ UV resin cured hard by light, a clear glassy solid. Stays put and reaches well p
 - **A flame:** will not light it; it needs 420 °C
 - **Hardness:** 0.5 (acid stronger than this eats it)
 
-With other elements (17 interact):
+With other elements (19 interact):
 
 - **Air:** Cured resin burns: it catches fire at 420 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set cured resin on fire (it ignites at 420 °C).
@@ -16446,9 +16905,11 @@ With other elements (17 interact):
 - **Ozone:** Cured resin burns: it catches fire at 420 °C next to ozone (oxidiser 1). Ozone makes burning cured resin hotter and faster.
 - **Corium:** Corium (1,400 °C) can set cured resin on fire (it ignites at 420 °C).
 - **Potassium permanganate:** Cured resin burns: it catches fire at 420 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning cured resin hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats cured resin: acidity 0.9 beats hardness 0.5.
+- **Nitric acid:** Nitric acid eats cured resin: acidity 0.85 beats hardness 0.5. Nitric acid makes burning cured resin hotter and faster.
 - **Ammonium nitrate:** Cured resin burns: it catches fire at 420 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning cured resin hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Glycerin
 
@@ -16458,7 +16919,7 @@ A thick, sweet, clear liquid. Oozes slowly and sinks through water. It burns onc
 - **In liquids:** Sinks through liquids lighter than 1,260 kg/m³, floats on heavier ones
 - **Burns:** from 370 °C in air, 4.33 s per cell
 
-With other elements (108 interact):
+With other elements (111 interact):
 
 - **Air:** Glycerin burns: it catches fire at 370 °C next to air (oxidiser 0.21).
 - **Sand:** Sand sinks through glycerin (1,600 vs 1,260 kg/m³).
@@ -16563,6 +17024,9 @@ With other elements (108 interact):
 - **Lemon juice:** Glycerin sinks through lemon juice (1,260 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through glycerin (1,500 vs 1,260 kg/m³).
 - **Blue dye:** Blue dye sinks through glycerin (1,500 vs 1,260 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through glycerin (1,830 vs 1,260 kg/m³).
+- **Nitric acid:** Glycerin burns: it catches fire at 370 °C next to nitric acid (oxidiser 0.6). Nitric acid sinks through glycerin (1,510 vs 1,260 kg/m³). Nitric acid makes burning glycerin hotter and faster.
+- **Nitrogen dioxide:** Glycerin falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through glycerin (5,560 vs 1,260 kg/m³).
 - **Exposed silver:** Exposed silver sinks through glycerin (5,560 vs 1,260 kg/m³).
 - **Iron filings:** Iron filings sinks through glycerin (3,500 vs 1,260 kg/m³).
@@ -16580,7 +17044,7 @@ Dark purple crystals that carry oxygen, a powder. Falls and piles, and dissolves
 - **Feeds fire:** strength 0.8 (air is 0.21)
 - **Dissolves in:** water, up to 20% of a cell; boiling leaves it as crystals
 
-With other elements (136 interact):
+With other elements (139 interact):
 
 - **Water:** Potassium permanganate dissolves into water: water is a solvent and each cell holds up to 20% potassium permanganate. Potassium permanganate sinks through water (2,700 vs 1,000 kg/m³).
 - **Oil:** Potassium permanganate sinks through oil (2,700 vs 900 kg/m³). Potassium permanganate makes burning oil hotter and faster. Oil burns: it catches fire at 250 °C next to potassium permanganate (oxidiser 0.8).
@@ -16713,6 +17177,9 @@ With other elements (136 interact):
 - **Milk:** Potassium permanganate sinks through milk (2,700 vs 1,030 kg/m³).
 - **Lemon juice:** Potassium permanganate sinks through lemon juice (2,700 vs 1,030 kg/m³).
 - **Steel wool:** Potassium permanganate makes burning steel wool hotter and faster. Steel wool burns: it catches fire at 350 °C next to potassium permanganate (oxidiser 0.8).
+- **Sulfuric acid:** Potassium permanganate sinks through sulfuric acid (2,700 vs 1,830 kg/m³).
+- **Nitric acid:** Potassium permanganate sinks through nitric acid (2,700 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Potassium permanganate falls through nitrogen dioxide.
 - **Rope:** Potassium permanganate makes burning rope hotter and faster. Rope burns: it catches fire at 250 °C next to potassium permanganate (oxidiser 0.8).
 - **Iron filings:** Iron filings slowly rusts into rust where potassium permanganate touches it.
 - **Glue:** Potassium permanganate sinks through glue (2,700 vs 1,100 kg/m³).
@@ -16732,7 +17199,7 @@ Methane hydrate: ice with natural gas locked inside. Stays put and very cold. Wa
 - **Bakes:** at 5 °C into water, giving off methane; there is no way back
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (36 interact):
+With other elements (38 interact):
 
 - **Air:** Fire ice burns: it catches fire at 120 °C next to air (oxidiser 0.21).
 - **Water:** Fire ice (-20 °C) is cold enough to freeze water into ice.
@@ -16769,9 +17236,11 @@ With other elements (36 interact):
 - **Corium:** Fire ice (-20 °C) is cold enough to freeze corium into uranium. Corium (1,400 °C) can set fire ice on fire (it ignites at 120 °C).
 - **Neutron:** Fire ice catches from the flame touching it.
 - **Potassium permanganate:** Fire ice burns: it catches fire at 120 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning fire ice hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats fire ice: acidity 0.9 beats hardness 0.3.
+- **Nitric acid:** Nitric acid eats fire ice: acidity 0.85 beats hardness 0.3. Nitric acid makes burning fire ice hotter and faster.
 - **Ammonium nitrate:** Fire ice burns: it catches fire at 120 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning fire ice hotter and faster.
 
-No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Oil, Ice, Stone, Gravel, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Titanium, Platinum, Argon, Bromine, Gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Sparkler
 
@@ -16781,7 +17250,7 @@ A stick of slow sparkler compound. Stays put. Lit, it burns slowly along, spitti
 - **Burns:** from 280 °C in air, 4 s per cell, leaves ash
 - **Hardness:** 0.4 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Air:** Sparkler burns: it catches fire at 280 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set sparkler on fire (it ignites at 280 °C).
@@ -16807,9 +17276,11 @@ With other elements (25 interact):
 - **Corium:** Corium (1,400 °C) can set sparkler on fire (it ignites at 280 °C).
 - **Neutron:** Sparkler catches from the flame touching it.
 - **Potassium permanganate:** Sparkler burns: it catches fire at 280 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning sparkler hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats sparkler: acidity 0.9 beats hardness 0.4.
+- **Nitric acid:** Nitric acid eats sparkler: acidity 0.85 beats hardness 0.4. Nitric acid makes burning sparkler hotter and faster.
 - **Ammonium nitrate:** Sparkler burns: it catches fire at 280 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning sparkler hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Glowing plankton
 
@@ -16820,7 +17291,7 @@ Sea water full of tiny glowing plankton. Flows like water. Calm, it is dark; sti
 - **Lights:** up while current flows through it
 - **Bakes:** at 60 °C into water; there is no way back
 
-With other elements (119 interact):
+With other elements (122 interact):
 
 - **Sand:** Sand sinks through glowing plankton (1,600 vs 1,025 kg/m³).
 - **Water:** Glowing plankton sinks through water (1,025 vs 1,000 kg/m³).
@@ -16935,6 +17406,9 @@ With other elements (119 interact):
 - **Lemon juice:** Lemon juice sinks through glowing plankton (1,030 vs 1,025 kg/m³).
 - **Red dye:** Red dye sinks through glowing plankton (1,500 vs 1,025 kg/m³).
 - **Blue dye:** Blue dye sinks through glowing plankton (1,500 vs 1,025 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through glowing plankton (1,830 vs 1,025 kg/m³).
+- **Nitric acid:** Nitric acid sinks through glowing plankton (1,510 vs 1,025 kg/m³).
+- **Nitrogen dioxide:** Glowing plankton falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through glowing plankton (5,560 vs 1,025 kg/m³).
 - **Exposed silver:** Exposed silver sinks through glowing plankton (5,560 vs 1,025 kg/m³).
 - **Iron filings:** Iron filings sinks through glowing plankton (3,500 vs 1,025 kg/m³).
@@ -16952,7 +17426,7 @@ A thin, clear glue. Flows freely, and sets hard in a moment on its own; touching
 - **In liquids:** Sinks through liquids lighter than 1,060 kg/m³, floats on heavier ones
 - **Cures:** sets into dried glue after about 3 s
 
-With other elements (119 interact):
+With other elements (122 interact):
 
 - **Sand:** Sand sinks through superglue (1,600 vs 1,060 kg/m³).
 - **Water:** Water sets superglue at once. Superglue sinks through water (1,060 vs 1,000 kg/m³).
@@ -17067,6 +17541,9 @@ With other elements (119 interact):
 - **Lemon juice:** Superglue sinks through lemon juice (1,060 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through superglue (1,500 vs 1,060 kg/m³).
 - **Blue dye:** Blue dye sinks through superglue (1,500 vs 1,060 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through superglue (1,830 vs 1,060 kg/m³).
+- **Nitric acid:** Nitric acid sinks through superglue (1,510 vs 1,060 kg/m³).
+- **Nitrogen dioxide:** Superglue falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through superglue (5,560 vs 1,060 kg/m³).
 - **Exposed silver:** Exposed silver sinks through superglue (5,560 vs 1,060 kg/m³).
 - **Iron filings:** Iron filings sinks through superglue (3,500 vs 1,060 kg/m³).
@@ -17085,7 +17562,7 @@ A sharp, choking gas, heavier than air. Sinks and pools low. It turns water it t
 - **In water:** dissolves and turns the water into acid
 - **Poisons:** living things it touches: they wither
 
-With other elements (112 interact):
+With other elements (114 interact):
 
 - **Sand:** Sand falls through hydrogen chloride.
 - **Water:** Hydrogen chloride dissolves in water and turns it into acid. Water falls through hydrogen chloride.
@@ -17193,6 +17670,8 @@ With other elements (112 interact):
 - **Lemon juice:** Lemon juice falls through hydrogen chloride.
 - **Red dye:** Red dye falls through hydrogen chloride.
 - **Blue dye:** Blue dye falls through hydrogen chloride.
+- **Sulfuric acid:** Sulfuric acid falls through hydrogen chloride.
+- **Nitric acid:** Nitric acid falls through hydrogen chloride.
 - **Silver chloride:** Silver chloride falls through hydrogen chloride.
 - **Exposed silver:** Exposed silver falls through hydrogen chloride.
 - **Iron filings:** Iron filings falls through hydrogen chloride.
@@ -17200,7 +17679,7 @@ With other elements (112 interact):
 - **Ammonium nitrate:** Ammonium nitrate falls through hydrogen chloride.
 - **Yeast:** Yeast falls through hydrogen chloride.
 
-No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Milk
 
@@ -17210,7 +17689,7 @@ Fresh milk, a white liquid. Flows like water and sinks just below it. An acid (l
 - **In liquids:** Sinks through liquids lighter than 1,030 kg/m³, floats on heavier ones
 - **Bakes:** at 101 °C into steam; there is no way back
 
-With other elements (119 interact):
+With other elements (122 interact):
 
 - **Sand:** Sand sinks through milk (1,600 vs 1,030 kg/m³).
 - **Water:** Milk sinks through water (1,030 vs 1,000 kg/m³).
@@ -17325,6 +17804,9 @@ With other elements (119 interact):
 - **Lemon juice:** Acid curdles milk into curds.
 - **Red dye:** Red dye sinks through milk (1,500 vs 1,030 kg/m³).
 - **Blue dye:** Blue dye sinks through milk (1,500 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through milk (1,830 vs 1,030 kg/m³).
+- **Nitric acid:** Nitric acid sinks through milk (1,510 vs 1,030 kg/m³).
+- **Nitrogen dioxide:** Milk falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through milk (5,560 vs 1,030 kg/m³).
 - **Exposed silver:** Exposed silver sinks through milk (5,560 vs 1,030 kg/m³).
 - **Iron filings:** Iron filings sinks through milk (3,500 vs 1,030 kg/m³).
@@ -17343,7 +17825,7 @@ Soft white lumps of curdled milk, a powder. Falls and settles. Mice love them; l
 - **Rots:** slowly into dirt where water touches it
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (50 interact):
+With other elements (53 interact):
 
 - **Water:** Curds slowly rots into dirt where water touches it. Curds sinks through water (1,080 vs 1,000 kg/m³).
 - **Oil:** Curds sinks through oil (1,080 vs 900 kg/m³).
@@ -17395,6 +17877,9 @@ With other elements (50 interact):
 - **Hydrogen chloride:** Curds falls through hydrogen chloride.
 - **Milk:** Curds sinks through milk (1,080 vs 1,030 kg/m³).
 - **Lemon juice:** Curds sinks through lemon juice (1,080 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats curds: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats curds: acidity 0.85 beats hardness 0.1.
+- **Nitrogen dioxide:** Curds falls through nitrogen dioxide.
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
@@ -17406,7 +17891,7 @@ Sour lemon juice, a weak acid. Flows like water. Too weak to eat metal, but it f
 - **In liquids:** Sinks through liquids lighter than 1,030 kg/m³, floats on heavier ones
 - **Bakes:** at 101 °C into steam; there is no way back
 
-With other elements (119 interact):
+With other elements (122 interact):
 
 - **Sand:** Sand sinks through lemon juice (1,600 vs 1,030 kg/m³).
 - **Water:** Lemon juice sinks through water (1,030 vs 1,000 kg/m³).
@@ -17521,6 +18006,9 @@ With other elements (119 interact):
 - **Curds:** Curds sinks through lemon juice (1,080 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through lemon juice (1,500 vs 1,030 kg/m³).
 - **Blue dye:** Blue dye sinks through lemon juice (1,500 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through lemon juice (1,830 vs 1,030 kg/m³).
+- **Nitric acid:** Nitric acid sinks through lemon juice (1,510 vs 1,030 kg/m³).
+- **Nitrogen dioxide:** Lemon juice falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through lemon juice (5,560 vs 1,030 kg/m³).
 - **Exposed silver:** Exposed silver sinks through lemon juice (5,560 vs 1,030 kg/m³).
 - **Iron filings:** Iron filings sinks through lemon juice (3,500 vs 1,030 kg/m³).
@@ -17538,7 +18026,7 @@ Bright red dye powder. Falls and piles, and dissolves into water, tinting it red
 - **In liquids:** Sinks through liquids lighter than 1,500 kg/m³, rests on heavier ones
 - **Dissolves in:** water, up to 50% of a cell; boiling leaves it as crystals
 
-With other elements (68 interact):
+With other elements (69 interact):
 
 - **Water:** Red dye dissolves into water: water is a solvent and each cell holds up to 50% red dye. Red dye sinks through water (1,500 vs 1,000 kg/m³).
 - **Oil:** Red dye sinks through oil (1,500 vs 900 kg/m³).
@@ -17607,9 +18095,10 @@ With other elements (68 interact):
 - **Hydrogen chloride:** Red dye falls through hydrogen chloride.
 - **Milk:** Red dye sinks through milk (1,500 vs 1,030 kg/m³).
 - **Lemon juice:** Red dye sinks through lemon juice (1,500 vs 1,030 kg/m³).
+- **Nitrogen dioxide:** Red dye falls through nitrogen dioxide.
 - **Glue:** Red dye sinks through glue (1,500 vs 1,100 kg/m³).
 
-No direct interaction with: Air, Wall, Sand, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Blue dye
 
@@ -17619,7 +18108,7 @@ Deep blue dye powder. Falls and piles, and dissolves into water, tinting it blue
 - **In liquids:** Sinks through liquids lighter than 1,500 kg/m³, rests on heavier ones
 - **Dissolves in:** water, up to 50% of a cell; boiling leaves it as crystals
 
-With other elements (68 interact):
+With other elements (69 interact):
 
 - **Water:** Blue dye dissolves into water: water is a solvent and each cell holds up to 50% blue dye. Blue dye sinks through water (1,500 vs 1,000 kg/m³).
 - **Oil:** Blue dye sinks through oil (1,500 vs 900 kg/m³).
@@ -17688,9 +18177,10 @@ With other elements (68 interact):
 - **Hydrogen chloride:** Blue dye falls through hydrogen chloride.
 - **Milk:** Blue dye sinks through milk (1,500 vs 1,030 kg/m³).
 - **Lemon juice:** Blue dye sinks through lemon juice (1,500 vs 1,030 kg/m³).
+- **Nitrogen dioxide:** Blue dye falls through nitrogen dioxide.
 - **Glue:** Blue dye sinks through glue (1,500 vs 1,100 kg/m³).
 
-No direct interaction with: Air, Wall, Sand, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Steel wool, Sulfuric acid, Nitric acid, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Steel wool
 
@@ -17701,7 +18191,7 @@ A tangle of fine steel threads. Stays put. So thin it heats fast: a battery acro
 - **Conducts:** current with almost no resistance
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Air:** Steel wool burns: it catches fire at 350 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set steel wool on fire (it ignites at 350 °C).
@@ -17727,9 +18217,573 @@ With other elements (25 interact):
 - **Corium:** Corium (1,400 °C) can set steel wool on fire (it ignites at 350 °C).
 - **Neutron:** Steel wool catches from the flame touching it.
 - **Potassium permanganate:** Steel wool burns: it catches fire at 350 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning steel wool hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats steel wool: acidity 0.9 beats hardness 0.3, giving off hydrogen.
+- **Nitric acid:** Nitric acid eats steel wool: acidity 0.85 beats hardness 0.3, giving off hydrogen. Nitric acid makes burning steel wool hotter and faster.
 - **Ammonium nitrate:** Steel wool burns: it catches fire at 350 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning steel wool hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Sulfuric acid
+
+A heavy, oily, very strong acid. Flows and sinks through water, heating it fiercely as it mixes. It eats metal and rock, and tears the water out of sugar, leaving a black column of carbon.
+
+- **State:** Liquid, 1,830 kg/m³
+- **In liquids:** Sinks through liquids lighter than 1,830 kg/m³, floats on heavier ones
+- **Eats:** metal, rock and wood softer than 0.9, weakening as it fills
+
+With other elements (200 interact):
+
+- **Water:** Sulfuric acid mixing into water gives off a lot of heat. Sulfuric acid sinks through water (1,830 vs 1,000 kg/m³).
+- **Oil:** Sulfuric acid sinks through oil (1,830 vs 900 kg/m³).
+- **Steam:** Sulfuric acid falls through steam.
+- **Lava:** Lava sinks through sulfuric acid (2,600 vs 1,830 kg/m³).
+- **Stone:** Sulfuric acid eats stone: acidity 0.9 beats hardness 0.85.
+- **Gravel:** Sulfuric acid eats gravel: acidity 0.9 beats hardness 0.8. Gravel sinks through sulfuric acid (2,000 vs 1,830 kg/m³).
+- **Fire:** Sulfuric acid falls through fire.
+- **Smoke:** Sulfuric acid falls through smoke.
+- **Wood:** Sulfuric acid eats wood: acidity 0.9 beats hardness 0.3.
+- **Ash:** Sulfuric acid eats ash: acidity 0.9 beats hardness 0.2.
+- **Acid:** Sulfuric acid sinks through acid (1,830 vs 1,100 kg/m³).
+- **Iron:** Sulfuric acid eats iron: acidity 0.9 beats hardness 0.55, giving off hydrogen.
+- **Hydrogen:** Sulfuric acid falls through hydrogen.
+- **Oxygen:** Sulfuric acid falls through oxygen.
+- **Methane:** Sulfuric acid falls through methane.
+- **Alcohol:** Sulfuric acid sinks through alcohol (1,830 vs 789 kg/m³).
+- **Sawdust:** Sulfuric acid eats sawdust: acidity 0.9 beats hardness 0.1.
+- **Salt:** Salt sinks through sulfuric acid (2,160 vs 1,830 kg/m³).
+- **Sugar:** Sulfuric acid tears the water out of sugar, leaving carbon and a puff of steam. Sulfuric acid eats sugar: acidity 0.9 beats hardness 0.2.
+- **Dirt:** Sulfuric acid eats dirt: acidity 0.9 beats hardness 0.3.
+- **TNT:** Sulfuric acid eats tnt: acidity 0.9 beats hardness 0.3.
+- **Gunpowder:** Sulfuric acid eats gunpowder: acidity 0.9 beats hardness 0.2.
+- **Nitro:** Sulfuric acid sinks through nitro (1,830 vs 1,600 kg/m³).
+- **Shards:** Shards sinks through sulfuric acid (2,500 vs 1,830 kg/m³).
+- **Spark:** Sulfuric acid falls through spark.
+- **Wire:** Sulfuric acid eats wire: acidity 0.9 beats hardness 0.45, giving off hydrogen.
+- **Battery:** Sulfuric acid eats battery: acidity 0.9 beats hardness 0.6, giving off hydrogen.
+- **Mercury:** Mercury sinks through sulfuric acid (13,534 vs 1,830 kg/m³).
+- **Plant:** Sulfuric acid eats plant: acidity 0.9 beats hardness 0.15.
+- **Molten copper:** Molten copper sinks through sulfuric acid (8,020 vs 1,830 kg/m³).
+- **Dry plant:** Sulfuric acid eats dry plant: acidity 0.9 beats hardness 0.1.
+- **Clay:** Sulfuric acid eats clay: acidity 0.9 beats hardness 0.3.
+- **Brick:** Sulfuric acid eats brick: acidity 0.9 beats hardness 0.85.
+- **Cement:** Sulfuric acid eats cement: acidity 0.9 beats hardness 0.4.
+- **Concrete:** Sulfuric acid eats concrete: acidity 0.9 beats hardness 0.6.
+- **Limestone:** Sulfuric acid eats limestone: acidity 0.9 beats hardness 0.4, fizzing out carbon dioxide.
+- **Quicklime:** Sulfuric acid eats quicklime: acidity 0.9 beats hardness 0.3.
+- **Slaked lime:** Sulfuric acid eats slaked lime: acidity 0.9 beats hardness 0.25.
+- **Molten gold:** Molten gold sinks through sulfuric acid (17,300 vs 1,830 kg/m³).
+- **Aluminium:** Sulfuric acid eats aluminium: acidity 0.9 beats hardness 0.4, giving off hydrogen.
+- **Molten aluminium:** Molten aluminium sinks through sulfuric acid (2,375 vs 1,830 kg/m³).
+- **Lead:** Sulfuric acid eats lead: acidity 0.9 beats hardness 0.6, giving off hydrogen.
+- **Molten lead:** Molten lead sinks through sulfuric acid (10,660 vs 1,830 kg/m³).
+- **Rust:** Sulfuric acid eats rust: acidity 0.9 beats hardness 0.3. Rust sinks through sulfuric acid (2,000 vs 1,830 kg/m³).
+- **Sodium:** Sulfuric acid eats sodium: acidity 0.9 beats hardness 0.1, giving off hydrogen.
+- **Coal:** Sulfuric acid eats coal: acidity 0.9 beats hardness 0.85.
+- **Charcoal:** Sulfuric acid eats charcoal: acidity 0.9 beats hardness 0.85.
+- **Sulfur:** Sulfur sinks through sulfuric acid (2,000 vs 1,830 kg/m³).
+- **Petrol:** Sulfuric acid sinks through petrol (1,830 vs 740 kg/m³).
+- **Wax:** Sulfuric acid eats wax: acidity 0.9 beats hardness 0.2.
+- **Molten wax:** Sulfuric acid sinks through molten wax (1,830 vs 800 kg/m³).
+- **Paper:** Sulfuric acid eats paper: acidity 0.9 beats hardness 0.05.
+- **Rubber:** Sulfuric acid eats rubber: acidity 0.9 beats hardness 0.4.
+- **Flour:** Sulfuric acid eats flour: acidity 0.9 beats hardness 0.1.
+- **Honey:** Sulfuric acid sinks through honey (1,830 vs 1,420 kg/m³).
+- **Vinegar:** Sulfuric acid sinks through vinegar (1,830 vs 1,010 kg/m³).
+- **Bleach:** Sulfuric acid and bleach neutralise each other into water, and warm up. Sulfuric acid sinks through bleach (1,830 vs 1,100 kg/m³). Bleach and sulfuric acid neutralise each other into water, and warm up.
+- **Lye:** Sulfuric acid and lye neutralise each other into water, and warm up. Sulfuric acid sinks through lye (1,830 vs 1,100 kg/m³). Lye and sulfuric acid neutralise each other into water, and warm up.
+- **Liquid nitrogen:** Sulfuric acid sinks through liquid nitrogen (1,830 vs 808 kg/m³).
+- **Nitrogen:** Sulfuric acid falls through nitrogen.
+- **Carbon dioxide:** Sulfuric acid falls through carbon dioxide.
+- **Helium:** Sulfuric acid falls through helium.
+- **Propane:** Sulfuric acid falls through propane.
+- **Chlorine:** Sulfuric acid falls through chlorine.
+- **Sulfur dioxide:** Sulfuric acid falls through sulfur dioxide.
+- **Baking soda:** Sulfuric acid and baking soda neutralise each other into water, fizzing out carbon dioxide, and warm up. Baking soda and sulfuric acid neutralise each other into water, fizzing out carbon dioxide, and warm up.
+- **C4:** Sulfuric acid eats c4: acidity 0.9 beats hardness 0.3.
+- **Grass:** Sulfuric acid eats grass: acidity 0.9 beats hardness 0.1.
+- **Tree:** Sulfuric acid eats tree: acidity 0.9 beats hardness 0.3.
+- **Leaves:** Sulfuric acid eats leaves: acidity 0.9 beats hardness 0.1.
+- **Flower:** Sulfuric acid eats flower: acidity 0.9 beats hardness 0.1.
+- **Cloud:** Sulfuric acid falls through cloud.
+- **Switch:** Sulfuric acid eats switch: acidity 0.9 beats hardness 0.6, giving off hydrogen.
+- **Pressure plate:** Sulfuric acid eats pressure plate: acidity 0.9 beats hardness 0.7, giving off hydrogen.
+- **Thermostat:** Sulfuric acid eats thermostat: acidity 0.9 beats hardness 0.6, giving off hydrogen.
+- **Resistor:** Sulfuric acid eats resistor: acidity 0.9 beats hardness 0.7.
+- **Diode:** Sulfuric acid eats diode: acidity 0.9 beats hardness 0.8.
+- **LED:** Sulfuric acid eats led: acidity 0.9 beats hardness 0.8.
+- **Capacitor:** Sulfuric acid eats capacitor: acidity 0.9 beats hardness 0.6, giving off hydrogen.
+- **Motor:** Sulfuric acid eats motor: acidity 0.9 beats hardness 0.7, giving off hydrogen.
+- **Electromagnet:** Sulfuric acid eats electromagnet: acidity 0.9 beats hardness 0.7, giving off hydrogen.
+- **Graphite:** Sulfuric acid eats graphite: acidity 0.9 beats hardness 0.3. Graphite sinks through sulfuric acid (2,200 vs 1,830 kg/m³).
+- **Neon:** Sulfuric acid falls through neon.
+- **Magnesium:** Sulfuric acid eats magnesium: acidity 0.9 beats hardness 0.35, giving off hydrogen.
+- **Potassium:** Sulfuric acid eats potassium: acidity 0.9 beats hardness 0.05, giving off hydrogen.
+- **Caramel:** Sulfuric acid sinks through caramel (1,830 vs 1,300 kg/m³).
+- **Marble:** Sulfuric acid eats marble: acidity 0.9 beats hardness 0.5, fizzing out carbon dioxide.
+- **Chalk:** Sulfuric acid eats chalk: acidity 0.9 beats hardness 0.2, fizzing out carbon dioxide.
+- **Liquid oxygen:** Sulfuric acid sinks through liquid oxygen (1,830 vs 1,141 kg/m³).
+- **Molten iron:** Molten iron sinks through sulfuric acid (6,980 vs 1,830 kg/m³).
+- **Molten glass:** Molten glass sinks through sulfuric acid (2,400 vs 1,830 kg/m³).
+- **Molten silver:** Molten silver sinks through sulfuric acid (9,320 vs 1,830 kg/m³).
+- **Meat:** Sulfuric acid eats meat: acidity 0.9 beats hardness 0.2.
+- **Cooked meat:** Sulfuric acid eats cooked meat: acidity 0.9 beats hardness 0.2.
+- **Popcorn kernel:** Sulfuric acid eats popcorn kernel: acidity 0.9 beats hardness 0.3.
+- **Popcorn:** Sulfuric acid eats popcorn: acidity 0.9 beats hardness 0.05.
+- **Tar:** Sulfuric acid sinks through tar (1,830 vs 1,150 kg/m³).
+- **Molten plastic:** Sulfuric acid sinks through molten plastic (1,830 vs 900 kg/m³).
+- **Pumice:** Sulfuric acid eats pumice: acidity 0.9 beats hardness 0.6.
+- **Napalm:** Sulfuric acid sinks through napalm (1,830 vs 900 kg/m³).
+- **Hydrogen peroxide:** Sulfuric acid sinks through hydrogen peroxide (1,830 vs 1,450 kg/m³).
+- **Fish:** Sulfuric acid eats fish: acidity 0.9 beats hardness 0.1.
+- **Ant:** Sulfuric acid eats ant: acidity 0.9 beats hardness 0.1.
+- **Worm:** Sulfuric acid eats worm: acidity 0.9 beats hardness 0.1.
+- **Bird:** Sulfuric acid eats bird: acidity 0.9 beats hardness 0.1.
+- **Lightning:** Sulfuric acid falls through lightning.
+- **Plasma:** Sulfuric acid falls through plasma.
+- **Firework:** Sulfuric acid eats firework: acidity 0.9 beats hardness 0.2.
+- **Rocket:** Sulfuric acid falls through rocket.
+- **Ember:** Sulfuric acid falls through ember.
+- **Saltpeter:** Saltpeter sinks through sulfuric acid (2,100 vs 1,830 kg/m³).
+- **Tin:** Sulfuric acid eats tin: acidity 0.9 beats hardness 0.3, giving off hydrogen.
+- **Molten tin:** Molten tin sinks through sulfuric acid (6,990 vs 1,830 kg/m³).
+- **Steel:** Sulfuric acid eats steel: acidity 0.9 beats hardness 0.75, giving off hydrogen.
+- **Zinc:** Sulfuric acid eats zinc: acidity 0.9 beats hardness 0.3, giving off hydrogen.
+- **Kerosene:** Sulfuric acid sinks through kerosene (1,830 vs 800 kg/m³).
+- **Acetone:** Sulfuric acid sinks through acetone (1,830 vs 784 kg/m³).
+- **Uranium:** Sulfuric acid eats uranium: acidity 0.9 beats hardness 0.6, giving off hydrogen.
+- **Bee:** Sulfuric acid eats bee: acidity 0.9 beats hardness 0.1.
+- **Spider:** Sulfuric acid eats spider: acidity 0.9 beats hardness 0.1.
+- **Termite:** Sulfuric acid eats termite: acidity 0.9 beats hardness 0.1.
+- **Snail:** Sulfuric acid eats snail: acidity 0.9 beats hardness 0.2.
+- **Frog:** Sulfuric acid eats frog: acidity 0.9 beats hardness 0.1.
+- **Mouse:** Sulfuric acid eats mouse: acidity 0.9 beats hardness 0.1.
+- **Snake:** Sulfuric acid eats snake: acidity 0.9 beats hardness 0.15.
+- **Ammonia:** Sulfuric acid and ammonia neutralise each other into water, and warm up. Sulfuric acid falls through ammonia. Ammonia and sulfuric acid neutralise each other into water, and warm up.
+- **Ozone:** Sulfuric acid falls through ozone.
+- **Cotton:** Sulfuric acid eats cotton: acidity 0.9 beats hardness 0.05.
+- **Chocolate:** Sulfuric acid eats chocolate: acidity 0.9 beats hardness 0.2.
+- **Molten chocolate:** Sulfuric acid sinks through molten chocolate (1,830 vs 1,250 kg/m³).
+- **Egg:** Sulfuric acid eats egg: acidity 0.9 beats hardness 0.2.
+- **Cooked egg:** Sulfuric acid eats cooked egg: acidity 0.9 beats hardness 0.2.
+- **Lithium:** Sulfuric acid eats lithium: acidity 0.9 beats hardness 0.1, giving off hydrogen.
+- **Calcium carbide:** Calcium carbide sinks through sulfuric acid (2,220 vs 1,830 kg/m³).
+- **Acetylene:** Sulfuric acid falls through acetylene.
+- **Iodine:** Iodine sinks through sulfuric acid (4,930 vs 1,830 kg/m³).
+- **Iodine vapour:** Sulfuric acid falls through iodine vapour.
+- **Argon:** Sulfuric acid falls through argon.
+- **Bromine:** Bromine sinks through sulfuric acid (3,100 vs 1,830 kg/m³).
+- **Bromine vapour:** Sulfuric acid falls through bromine vapour.
+- **Gallium:** Sulfuric acid eats gallium: acidity 0.9 beats hardness 0.3, giving off hydrogen.
+- **Liquid gallium:** Liquid gallium sinks through sulfuric acid (6,095 vs 1,830 kg/m³).
+- **Cactus:** Sulfuric acid eats cactus: acidity 0.9 beats hardness 0.2.
+- **Smoke bomb:** Sulfuric acid eats smoke bomb: acidity 0.9 beats hardness 0.2.
+- **Peat:** Sulfuric acid eats peat: acidity 0.9 beats hardness 0.2.
+- **Sandstone:** Sulfuric acid eats sandstone: acidity 0.9 beats hardness 0.6.
+- **Soda:** Sulfuric acid sinks through soda (1,830 vs 1,010 kg/m³).
+- **Fuse:** Sulfuric acid eats fuse: acidity 0.9 beats hardness 0.2.
+- **Plague:** Sulfuric acid falls through plague.
+- **Medicine:** Sulfuric acid eats medicine: acidity 0.9 beats hardness 0.2.
+- **Mould:** Sulfuric acid eats mould: acidity 0.9 beats hardness 0.2.
+- **Spores:** Sulfuric acid eats spores: acidity 0.9 beats hardness 0.1.
+- **Mushroom:** Sulfuric acid eats mushroom: acidity 0.9 beats hardness 0.2.
+- **Corium:** Corium sinks through sulfuric acid (17,000 vs 1,830 kg/m³).
+- **Neutron:** Sulfuric acid falls through neutron.
+- **Dough:** Sulfuric acid eats dough: acidity 0.9 beats hardness 0.2.
+- **Bread:** Sulfuric acid eats bread: acidity 0.9 beats hardness 0.2.
+- **Toast:** Sulfuric acid eats toast: acidity 0.9 beats hardness 0.25.
+- **Manganese dioxide:** Sulfuric acid eats manganese dioxide: acidity 0.9 beats hardness 0.5. Manganese dioxide sinks through sulfuric acid (5,030 vs 1,830 kg/m³).
+- **Soap:** Sulfuric acid sinks through soap (1,830 vs 980 kg/m³).
+- **Foam:** Sulfuric acid eats foam: acidity 0.9 beats hardness 0.
+- **Epoxy resin:** Sulfuric acid sinks through epoxy resin (1,830 vs 1,150 kg/m³).
+- **Epoxy hardener:** Sulfuric acid sinks through epoxy hardener (1,830 vs 1,100 kg/m³).
+- **Epoxy:** Sulfuric acid eats epoxy: acidity 0.9 beats hardness 0.6.
+- **Copper sulfate:** Copper sulfate sinks through sulfuric acid (2,280 vs 1,830 kg/m³).
+- **Cabbage juice:** Sulfuric acid sinks through cabbage juice (1,830 vs 1,010 kg/m³).
+- **Pink juice:** Sulfuric acid sinks through pink juice (1,830 vs 1,010 kg/m³).
+- **Green juice:** Sulfuric acid sinks through green juice (1,830 vs 1,010 kg/m³).
+- **Algae:** Sulfuric acid eats algae: acidity 0.9 beats hardness 0.1.
+- **Moss:** Sulfuric acid eats moss: acidity 0.9 beats hardness 0.1.
+- **Ferrofluid:** Sulfuric acid sinks through ferrofluid (1,830 vs 1,300 kg/m³).
+- **Hot ice:** Sulfuric acid sinks through hot ice (1,830 vs 1,280 kg/m³).
+- **Fog:** Sulfuric acid falls through fog.
+- **Mints:** Sulfuric acid eats mints: acidity 0.9 beats hardness 0.3.
+- **Nitrogen triiodide:** Sulfuric acid eats nitrogen triiodide: acidity 0.9 beats hardness 0.1.
+- **UV resin:** Sulfuric acid sinks through uv resin (1,830 vs 1,100 kg/m³).
+- **Cured resin:** Sulfuric acid eats cured resin: acidity 0.9 beats hardness 0.5.
+- **Glycerin:** Sulfuric acid sinks through glycerin (1,830 vs 1,260 kg/m³).
+- **Potassium permanganate:** Potassium permanganate sinks through sulfuric acid (2,700 vs 1,830 kg/m³).
+- **Fire ice:** Sulfuric acid eats fire ice: acidity 0.9 beats hardness 0.3.
+- **Sparkler:** Sulfuric acid eats sparkler: acidity 0.9 beats hardness 0.4.
+- **Glowing plankton:** Sulfuric acid sinks through glowing plankton (1,830 vs 1,025 kg/m³).
+- **Superglue:** Sulfuric acid sinks through superglue (1,830 vs 1,060 kg/m³).
+- **Hydrogen chloride:** Sulfuric acid falls through hydrogen chloride.
+- **Milk:** Sulfuric acid sinks through milk (1,830 vs 1,030 kg/m³).
+- **Curds:** Sulfuric acid eats curds: acidity 0.9 beats hardness 0.1.
+- **Lemon juice:** Sulfuric acid sinks through lemon juice (1,830 vs 1,030 kg/m³).
+- **Steel wool:** Sulfuric acid eats steel wool: acidity 0.9 beats hardness 0.3, giving off hydrogen.
+- **Nitric acid:** Sulfuric acid sinks through nitric acid (1,830 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Sulfuric acid falls through nitrogen dioxide.
+- **Solar panel:** Sulfuric acid eats solar panel: acidity 0.9 beats hardness 0.7.
+- **Glow paint:** Sulfuric acid eats glow paint: acidity 0.9 beats hardness 0.5.
+- **Silver chloride:** Silver chloride sinks through sulfuric acid (5,560 vs 1,830 kg/m³).
+- **Exposed silver:** Sulfuric acid eats exposed silver: acidity 0.9 beats hardness 0.3, giving off hydrogen. Exposed silver sinks through sulfuric acid (5,560 vs 1,830 kg/m³).
+- **Rope:** Sulfuric acid eats rope: acidity 0.9 beats hardness 0.3.
+- **Chain:** Sulfuric acid eats chain: acidity 0.9 beats hardness 0.85, giving off hydrogen.
+- **Iron filings:** Sulfuric acid eats iron filings: acidity 0.9 beats hardness 0.5, giving off hydrogen. Iron filings sinks through sulfuric acid (3,500 vs 1,830 kg/m³).
+- **Glue:** Sulfuric acid sinks through glue (1,830 vs 1,100 kg/m³).
+- **Dried glue:** Sulfuric acid eats dried glue: acidity 0.9 beats hardness 0.4.
+- **Yeast:** Sulfuric acid eats yeast: acidity 0.9 beats hardness 0.1.
+
+No direct interaction with: Air, Wall, Sand, Ice, Snow, Glass, Seed, Gold, Thermite, Dry ice, Grass seed, Acorn, Heater, Cooler, Clone, Void, Fan, Bulb, Silver, Plastic, Obsidian, Diamond, Hail, Phosphorus, Titanium, Platinum, Cactus seed, Basalt, Granite, Magnet, Control rod, Blue crystal, Sodium acetate, Red dye, Blue dye, Steel beam, Valve, Propane tank, Air tank, Ammonium nitrate. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Nitric acid
+
+A fuming, very strong acid that carries oxygen. Flows like water. It eats metal and rock; copper it dissolves in a cloud of brown, poisonous nitrogen dioxide. Fuel soaked in it burns fiercely.
+
+- **State:** Liquid, 1,510 kg/m³
+- **In liquids:** Sinks through liquids lighter than 1,510 kg/m³, floats on heavier ones
+- **Feeds fire:** strength 0.6 (air is 0.21)
+- **Eats:** metal, rock and wood softer than 0.85, weakening as it fills
+
+With other elements (207 interact):
+
+- **Sand:** Sand sinks through nitric acid (1,600 vs 1,510 kg/m³).
+- **Water:** Nitric acid sinks through water (1,510 vs 1,000 kg/m³).
+- **Oil:** Nitric acid sinks through oil (1,510 vs 900 kg/m³). Nitric acid makes burning oil hotter and faster. Oil burns: it catches fire at 250 °C next to nitric acid (oxidiser 0.6).
+- **Steam:** Nitric acid falls through steam.
+- **Lava:** Lava sinks through nitric acid (2,600 vs 1,510 kg/m³).
+- **Gravel:** Nitric acid eats gravel: acidity 0.85 beats hardness 0.8. Gravel sinks through nitric acid (2,000 vs 1,510 kg/m³).
+- **Fire:** Nitric acid falls through fire.
+- **Smoke:** Nitric acid falls through smoke.
+- **Wood:** Nitric acid eats wood: acidity 0.85 beats hardness 0.3. Nitric acid makes burning wood hotter and faster.
+- **Ash:** Nitric acid eats ash: acidity 0.85 beats hardness 0.2.
+- **Acid:** Nitric acid sinks through acid (1,510 vs 1,100 kg/m³).
+- **Iron:** Nitric acid eats iron: acidity 0.85 beats hardness 0.55, giving off hydrogen.
+- **Hydrogen:** Nitric acid falls through hydrogen. Nitric acid makes burning hydrogen hotter and faster. Hydrogen burns: it catches fire at 500 °C next to nitric acid (oxidiser 0.6).
+- **Oxygen:** Nitric acid falls through oxygen.
+- **Methane:** Nitric acid falls through methane. Nitric acid makes burning methane hotter and faster. Methane burns: it catches fire at 540 °C next to nitric acid (oxidiser 0.6).
+- **Alcohol:** Nitric acid sinks through alcohol (1,510 vs 789 kg/m³). Nitric acid makes burning alcohol hotter and faster. Alcohol burns: it catches fire at 365 °C next to nitric acid (oxidiser 0.6).
+- **Sawdust:** Nitric acid eats sawdust: acidity 0.85 beats hardness 0.1. Nitric acid makes burning sawdust hotter and faster.
+- **Salt:** Salt sinks through nitric acid (2,160 vs 1,510 kg/m³).
+- **Sugar:** Nitric acid eats sugar: acidity 0.85 beats hardness 0.2. Nitric acid makes burning sugar hotter and faster. Sugar sinks through nitric acid (1,590 vs 1,510 kg/m³).
+- **Dirt:** Nitric acid eats dirt: acidity 0.85 beats hardness 0.3.
+- **TNT:** Nitric acid eats tnt: acidity 0.85 beats hardness 0.3. Nitric acid makes burning tnt hotter and faster.
+- **Gunpowder:** Nitric acid eats gunpowder: acidity 0.85 beats hardness 0.2. Nitric acid makes burning gunpowder hotter and faster. Gunpowder sinks through nitric acid (1,700 vs 1,510 kg/m³).
+- **Nitro:** Nitric acid makes burning nitro hotter and faster. Nitro explodes at 200 °C; it needs no air. Nitro sinks through nitric acid (1,600 vs 1,510 kg/m³).
+- **Shards:** Shards sinks through nitric acid (2,500 vs 1,510 kg/m³).
+- **Spark:** Nitric acid falls through spark.
+- **Wire:** Nitric acid dissolves copper, giving off brown nitrogen dioxide. Nitric acid eats wire: acidity 0.85 beats hardness 0.45, giving off hydrogen.
+- **Battery:** Nitric acid eats battery: acidity 0.85 beats hardness 0.6, giving off hydrogen. Nitric acid makes burning battery hotter and faster.
+- **Mercury:** Mercury sinks through nitric acid (13,534 vs 1,510 kg/m³).
+- **Seed:** Nitric acid makes burning seed hotter and faster. Seed burns: it catches fire at 250 °C next to nitric acid (oxidiser 0.6).
+- **Plant:** Nitric acid eats plant: acidity 0.85 beats hardness 0.15. Nitric acid makes burning plant hotter and faster.
+- **Molten copper:** Molten copper sinks through nitric acid (8,020 vs 1,510 kg/m³).
+- **Dry plant:** Nitric acid eats dry plant: acidity 0.85 beats hardness 0.1. Nitric acid makes burning dry plant hotter and faster.
+- **Clay:** Nitric acid eats clay: acidity 0.85 beats hardness 0.3. Clay sinks through nitric acid (1,700 vs 1,510 kg/m³).
+- **Cement:** Nitric acid eats cement: acidity 0.85 beats hardness 0.4.
+- **Concrete:** Nitric acid eats concrete: acidity 0.85 beats hardness 0.6.
+- **Limestone:** Nitric acid eats limestone: acidity 0.85 beats hardness 0.4, fizzing out carbon dioxide.
+- **Quicklime:** Nitric acid eats quicklime: acidity 0.85 beats hardness 0.3.
+- **Slaked lime:** Nitric acid eats slaked lime: acidity 0.85 beats hardness 0.25.
+- **Molten gold:** Molten gold sinks through nitric acid (17,300 vs 1,510 kg/m³).
+- **Aluminium:** Nitric acid eats aluminium: acidity 0.85 beats hardness 0.4, giving off hydrogen.
+- **Molten aluminium:** Molten aluminium sinks through nitric acid (2,375 vs 1,510 kg/m³).
+- **Lead:** Nitric acid eats lead: acidity 0.85 beats hardness 0.6, giving off hydrogen.
+- **Molten lead:** Molten lead sinks through nitric acid (10,660 vs 1,510 kg/m³).
+- **Rust:** Nitric acid eats rust: acidity 0.85 beats hardness 0.3. Rust sinks through nitric acid (2,000 vs 1,510 kg/m³).
+- **Sodium:** Nitric acid eats sodium: acidity 0.85 beats hardness 0.1, giving off hydrogen.
+- **Coal:** Nitric acid makes burning coal hotter and faster. Coal burns: it catches fire at 450 °C next to nitric acid (oxidiser 0.6).
+- **Charcoal:** Nitric acid makes burning charcoal hotter and faster. Charcoal burns: it catches fire at 350 °C next to nitric acid (oxidiser 0.6).
+- **Sulfur:** Nitric acid makes burning sulfur hotter and faster. Sulfur burns: it catches fire at 232 °C next to nitric acid (oxidiser 0.6). Sulfur sinks through nitric acid (2,000 vs 1,510 kg/m³).
+- **Petrol:** Nitric acid sinks through petrol (1,510 vs 740 kg/m³). Nitric acid makes burning petrol hotter and faster. Petrol burns: it catches fire at 280 °C next to nitric acid (oxidiser 0.6).
+- **Wax:** Nitric acid eats wax: acidity 0.85 beats hardness 0.2. Nitric acid makes burning wax hotter and faster.
+- **Molten wax:** Nitric acid sinks through molten wax (1,510 vs 800 kg/m³). Nitric acid makes burning molten wax hotter and faster. Molten wax burns: it catches fire at 300 °C next to nitric acid (oxidiser 0.6).
+- **Paper:** Nitric acid eats paper: acidity 0.85 beats hardness 0.05. Nitric acid makes burning paper hotter and faster.
+- **Rubber:** Nitric acid eats rubber: acidity 0.85 beats hardness 0.4. Nitric acid makes burning rubber hotter and faster.
+- **Flour:** Nitric acid eats flour: acidity 0.85 beats hardness 0.1. Nitric acid makes burning flour hotter and faster.
+- **Thermite:** Nitric acid makes burning thermite hotter and faster. Thermite burns: it catches fire at 900 °C next to nitric acid (oxidiser 0.6).
+- **Honey:** Nitric acid sinks through honey (1,510 vs 1,420 kg/m³).
+- **Vinegar:** Nitric acid sinks through vinegar (1,510 vs 1,010 kg/m³).
+- **Bleach:** Nitric acid and bleach neutralise each other into water, and warm up. Nitric acid sinks through bleach (1,510 vs 1,100 kg/m³). Bleach and nitric acid neutralise each other into water, and warm up.
+- **Lye:** Nitric acid and lye neutralise each other into water, and warm up. Nitric acid sinks through lye (1,510 vs 1,100 kg/m³). Lye and nitric acid neutralise each other into water, and warm up.
+- **Liquid nitrogen:** Nitric acid sinks through liquid nitrogen (1,510 vs 808 kg/m³).
+- **Nitrogen:** Nitric acid falls through nitrogen.
+- **Carbon dioxide:** Nitric acid falls through carbon dioxide.
+- **Helium:** Nitric acid falls through helium.
+- **Propane:** Nitric acid falls through propane. Nitric acid makes burning propane hotter and faster. Propane burns: it catches fire at 470 °C next to nitric acid (oxidiser 0.6).
+- **Chlorine:** Nitric acid falls through chlorine.
+- **Sulfur dioxide:** Nitric acid falls through sulfur dioxide.
+- **Baking soda:** Nitric acid and baking soda neutralise each other into water, fizzing out carbon dioxide, and warm up. Baking soda and nitric acid neutralise each other into water, fizzing out carbon dioxide, and warm up.
+- **C4:** Nitric acid eats c4: acidity 0.85 beats hardness 0.3. Nitric acid makes burning c4 hotter and faster.
+- **Grass seed:** Nitric acid makes burning grass seed hotter and faster. Grass seed burns: it catches fire at 250 °C next to nitric acid (oxidiser 0.6).
+- **Grass:** Nitric acid eats grass: acidity 0.85 beats hardness 0.1. Nitric acid makes burning grass hotter and faster.
+- **Acorn:** Nitric acid makes burning acorn hotter and faster. Acorn burns: it catches fire at 260 °C next to nitric acid (oxidiser 0.6).
+- **Tree:** Nitric acid eats tree: acidity 0.85 beats hardness 0.3. Nitric acid makes burning tree hotter and faster.
+- **Leaves:** Nitric acid eats leaves: acidity 0.85 beats hardness 0.1. Nitric acid makes burning leaves hotter and faster.
+- **Flower:** Nitric acid eats flower: acidity 0.85 beats hardness 0.1. Nitric acid makes burning flower hotter and faster.
+- **Cloud:** Nitric acid falls through cloud.
+- **Switch:** Nitric acid eats switch: acidity 0.85 beats hardness 0.6, giving off hydrogen.
+- **Pressure plate:** Nitric acid eats pressure plate: acidity 0.85 beats hardness 0.7, giving off hydrogen.
+- **Thermostat:** Nitric acid eats thermostat: acidity 0.85 beats hardness 0.6, giving off hydrogen.
+- **Resistor:** Nitric acid eats resistor: acidity 0.85 beats hardness 0.7. Nitric acid makes burning resistor hotter and faster.
+- **Diode:** Nitric acid eats diode: acidity 0.85 beats hardness 0.8.
+- **LED:** Nitric acid eats led: acidity 0.85 beats hardness 0.8.
+- **Capacitor:** Nitric acid eats capacitor: acidity 0.85 beats hardness 0.6, giving off hydrogen.
+- **Motor:** Nitric acid eats motor: acidity 0.85 beats hardness 0.7, giving off hydrogen.
+- **Electromagnet:** Nitric acid eats electromagnet: acidity 0.85 beats hardness 0.7, giving off hydrogen.
+- **Graphite:** Nitric acid eats graphite: acidity 0.85 beats hardness 0.3. Nitric acid makes burning graphite hotter and faster. Graphite sinks through nitric acid (2,200 vs 1,510 kg/m³).
+- **Neon:** Nitric acid falls through neon.
+- **Magnesium:** Nitric acid eats magnesium: acidity 0.85 beats hardness 0.35, giving off hydrogen. Nitric acid makes burning magnesium hotter and faster.
+- **Potassium:** Nitric acid eats potassium: acidity 0.85 beats hardness 0.05, giving off hydrogen.
+- **Caramel:** Nitric acid sinks through caramel (1,510 vs 1,300 kg/m³). Nitric acid makes burning caramel hotter and faster. Caramel burns: it catches fire at 400 °C next to nitric acid (oxidiser 0.6).
+- **Marble:** Nitric acid eats marble: acidity 0.85 beats hardness 0.5, fizzing out carbon dioxide.
+- **Chalk:** Nitric acid eats chalk: acidity 0.85 beats hardness 0.2, fizzing out carbon dioxide.
+- **Liquid oxygen:** Nitric acid sinks through liquid oxygen (1,510 vs 1,141 kg/m³).
+- **Molten iron:** Molten iron sinks through nitric acid (6,980 vs 1,510 kg/m³).
+- **Molten glass:** Molten glass sinks through nitric acid (2,400 vs 1,510 kg/m³).
+- **Molten silver:** Molten silver sinks through nitric acid (9,320 vs 1,510 kg/m³).
+- **Meat:** Nitric acid eats meat: acidity 0.85 beats hardness 0.2.
+- **Cooked meat:** Nitric acid eats cooked meat: acidity 0.85 beats hardness 0.2. Nitric acid makes burning cooked meat hotter and faster.
+- **Popcorn kernel:** Nitric acid eats popcorn kernel: acidity 0.85 beats hardness 0.3.
+- **Popcorn:** Nitric acid eats popcorn: acidity 0.85 beats hardness 0.05. Nitric acid makes burning popcorn hotter and faster.
+- **Tar:** Nitric acid sinks through tar (1,510 vs 1,150 kg/m³). Nitric acid makes burning tar hotter and faster. Tar burns: it catches fire at 320 °C next to nitric acid (oxidiser 0.6).
+- **Plastic:** Nitric acid makes burning plastic hotter and faster. Plastic burns: it catches fire at 350 °C next to nitric acid (oxidiser 0.6).
+- **Molten plastic:** Nitric acid sinks through molten plastic (1,510 vs 900 kg/m³). Nitric acid makes burning molten plastic hotter and faster. Molten plastic burns: it catches fire at 350 °C next to nitric acid (oxidiser 0.6).
+- **Pumice:** Nitric acid eats pumice: acidity 0.85 beats hardness 0.6.
+- **Diamond:** Nitric acid makes burning diamond hotter and faster. Diamond burns: it catches fire at 900 °C next to nitric acid (oxidiser 0.6).
+- **Napalm:** Nitric acid sinks through napalm (1,510 vs 900 kg/m³). Nitric acid makes burning napalm hotter and faster. Napalm burns: it catches fire at 250 °C next to nitric acid (oxidiser 0.6).
+- **Hydrogen peroxide:** Nitric acid sinks through hydrogen peroxide (1,510 vs 1,450 kg/m³).
+- **Fish:** Nitric acid eats fish: acidity 0.85 beats hardness 0.1. Nitric acid makes burning fish hotter and faster.
+- **Ant:** Nitric acid eats ant: acidity 0.85 beats hardness 0.1. Nitric acid makes burning ant hotter and faster.
+- **Worm:** Nitric acid eats worm: acidity 0.85 beats hardness 0.1.
+- **Bird:** Nitric acid eats bird: acidity 0.85 beats hardness 0.1. Nitric acid makes burning bird hotter and faster.
+- **Lightning:** Nitric acid falls through lightning.
+- **Plasma:** Nitric acid falls through plasma.
+- **Firework:** Nitric acid eats firework: acidity 0.85 beats hardness 0.2. Nitric acid makes burning firework hotter and faster.
+- **Rocket:** Nitric acid falls through rocket.
+- **Ember:** Nitric acid falls through ember.
+- **Saltpeter:** Saltpeter sinks through nitric acid (2,100 vs 1,510 kg/m³).
+- **Tin:** Nitric acid eats tin: acidity 0.85 beats hardness 0.3, giving off hydrogen.
+- **Molten tin:** Molten tin sinks through nitric acid (6,990 vs 1,510 kg/m³).
+- **Steel:** Nitric acid eats steel: acidity 0.85 beats hardness 0.75, giving off hydrogen.
+- **Zinc:** Nitric acid eats zinc: acidity 0.85 beats hardness 0.3, giving off hydrogen.
+- **Kerosene:** Nitric acid sinks through kerosene (1,510 vs 800 kg/m³). Nitric acid makes burning kerosene hotter and faster. Kerosene burns: it catches fire at 220 °C next to nitric acid (oxidiser 0.6).
+- **Acetone:** Nitric acid sinks through acetone (1,510 vs 784 kg/m³). Nitric acid makes burning acetone hotter and faster. Acetone burns: it catches fire at 465 °C next to nitric acid (oxidiser 0.6).
+- **Uranium:** Nitric acid eats uranium: acidity 0.85 beats hardness 0.6, giving off hydrogen.
+- **Bee:** Nitric acid eats bee: acidity 0.85 beats hardness 0.1. Nitric acid makes burning bee hotter and faster.
+- **Spider:** Nitric acid eats spider: acidity 0.85 beats hardness 0.1. Nitric acid makes burning spider hotter and faster.
+- **Termite:** Nitric acid eats termite: acidity 0.85 beats hardness 0.1. Nitric acid makes burning termite hotter and faster.
+- **Snail:** Nitric acid eats snail: acidity 0.85 beats hardness 0.2.
+- **Frog:** Nitric acid eats frog: acidity 0.85 beats hardness 0.1. Nitric acid makes burning frog hotter and faster.
+- **Mouse:** Nitric acid eats mouse: acidity 0.85 beats hardness 0.1. Nitric acid makes burning mouse hotter and faster.
+- **Snake:** Nitric acid eats snake: acidity 0.85 beats hardness 0.15. Nitric acid makes burning snake hotter and faster.
+- **Ammonia:** Nitric acid and ammonia neutralise each other into water, and warm up. Nitric acid falls through ammonia. Ammonia and nitric acid neutralise each other into water, and warm up.
+- **Ozone:** Nitric acid falls through ozone.
+- **Cotton:** Nitric acid eats cotton: acidity 0.85 beats hardness 0.05. Nitric acid makes burning cotton hotter and faster.
+- **Chocolate:** Nitric acid eats chocolate: acidity 0.85 beats hardness 0.2.
+- **Molten chocolate:** Nitric acid sinks through molten chocolate (1,510 vs 1,250 kg/m³).
+- **Egg:** Nitric acid eats egg: acidity 0.85 beats hardness 0.2.
+- **Cooked egg:** Nitric acid eats cooked egg: acidity 0.85 beats hardness 0.2.
+- **Phosphorus:** Nitric acid makes burning phosphorus hotter and faster. Phosphorus burns: it catches fire at 30 °C next to nitric acid (oxidiser 0.6).
+- **Lithium:** Nitric acid eats lithium: acidity 0.85 beats hardness 0.1, giving off hydrogen.
+- **Calcium carbide:** Calcium carbide sinks through nitric acid (2,220 vs 1,510 kg/m³).
+- **Acetylene:** Nitric acid falls through acetylene. Nitric acid makes burning acetylene hotter and faster. Acetylene burns: it catches fire at 305 °C next to nitric acid (oxidiser 0.6).
+- **Iodine:** Iodine sinks through nitric acid (4,930 vs 1,510 kg/m³).
+- **Iodine vapour:** Nitric acid falls through iodine vapour.
+- **Argon:** Nitric acid falls through argon.
+- **Bromine:** Bromine sinks through nitric acid (3,100 vs 1,510 kg/m³).
+- **Bromine vapour:** Nitric acid falls through bromine vapour.
+- **Gallium:** Nitric acid eats gallium: acidity 0.85 beats hardness 0.3, giving off hydrogen.
+- **Liquid gallium:** Liquid gallium sinks through nitric acid (6,095 vs 1,510 kg/m³).
+- **Cactus seed:** Nitric acid makes burning cactus seed hotter and faster. Cactus seed burns: it catches fire at 250 °C next to nitric acid (oxidiser 0.6).
+- **Cactus:** Nitric acid eats cactus: acidity 0.85 beats hardness 0.2. Nitric acid makes burning cactus hotter and faster.
+- **Smoke bomb:** Nitric acid eats smoke bomb: acidity 0.85 beats hardness 0.2. Nitric acid makes burning smoke bomb hotter and faster.
+- **Peat:** Nitric acid eats peat: acidity 0.85 beats hardness 0.2. Nitric acid makes burning peat hotter and faster.
+- **Sandstone:** Nitric acid eats sandstone: acidity 0.85 beats hardness 0.6.
+- **Soda:** Nitric acid sinks through soda (1,510 vs 1,010 kg/m³).
+- **Fuse:** Nitric acid eats fuse: acidity 0.85 beats hardness 0.2. Nitric acid makes burning fuse hotter and faster.
+- **Plague:** Nitric acid falls through plague.
+- **Medicine:** Nitric acid eats medicine: acidity 0.85 beats hardness 0.2.
+- **Mould:** Nitric acid eats mould: acidity 0.85 beats hardness 0.2.
+- **Spores:** Nitric acid eats spores: acidity 0.85 beats hardness 0.1. Nitric acid makes burning spores hotter and faster.
+- **Mushroom:** Nitric acid eats mushroom: acidity 0.85 beats hardness 0.2. Nitric acid makes burning mushroom hotter and faster.
+- **Corium:** Corium sinks through nitric acid (17,000 vs 1,510 kg/m³).
+- **Neutron:** Nitric acid falls through neutron.
+- **Dough:** Nitric acid eats dough: acidity 0.85 beats hardness 0.2.
+- **Bread:** Nitric acid eats bread: acidity 0.85 beats hardness 0.2.
+- **Toast:** Nitric acid eats toast: acidity 0.85 beats hardness 0.25. Nitric acid makes burning toast hotter and faster.
+- **Manganese dioxide:** Nitric acid eats manganese dioxide: acidity 0.85 beats hardness 0.5. Manganese dioxide sinks through nitric acid (5,030 vs 1,510 kg/m³).
+- **Soap:** Nitric acid sinks through soap (1,510 vs 980 kg/m³).
+- **Foam:** Nitric acid eats foam: acidity 0.85 beats hardness 0.
+- **Epoxy resin:** Nitric acid sinks through epoxy resin (1,510 vs 1,150 kg/m³).
+- **Epoxy hardener:** Nitric acid sinks through epoxy hardener (1,510 vs 1,100 kg/m³).
+- **Epoxy:** Nitric acid eats epoxy: acidity 0.85 beats hardness 0.6. Nitric acid makes burning epoxy hotter and faster.
+- **Copper sulfate:** Copper sulfate sinks through nitric acid (2,280 vs 1,510 kg/m³).
+- **Cabbage juice:** Nitric acid sinks through cabbage juice (1,510 vs 1,010 kg/m³).
+- **Pink juice:** Nitric acid sinks through pink juice (1,510 vs 1,010 kg/m³).
+- **Green juice:** Nitric acid sinks through green juice (1,510 vs 1,010 kg/m³).
+- **Algae:** Nitric acid eats algae: acidity 0.85 beats hardness 0.1.
+- **Moss:** Nitric acid eats moss: acidity 0.85 beats hardness 0.1. Nitric acid makes burning moss hotter and faster.
+- **Ferrofluid:** Nitric acid sinks through ferrofluid (1,510 vs 1,300 kg/m³).
+- **Hot ice:** Nitric acid sinks through hot ice (1,510 vs 1,280 kg/m³).
+- **Fog:** Nitric acid falls through fog.
+- **Mints:** Nitric acid eats mints: acidity 0.85 beats hardness 0.3.
+- **Nitrogen triiodide:** Nitric acid eats nitrogen triiodide: acidity 0.85 beats hardness 0.1. Nitric acid makes burning nitrogen triiodide hotter and faster.
+- **UV resin:** Nitric acid sinks through uv resin (1,510 vs 1,100 kg/m³).
+- **Cured resin:** Nitric acid eats cured resin: acidity 0.85 beats hardness 0.5. Nitric acid makes burning cured resin hotter and faster.
+- **Glycerin:** Nitric acid sinks through glycerin (1,510 vs 1,260 kg/m³). Nitric acid makes burning glycerin hotter and faster. Glycerin burns: it catches fire at 370 °C next to nitric acid (oxidiser 0.6).
+- **Potassium permanganate:** Potassium permanganate sinks through nitric acid (2,700 vs 1,510 kg/m³).
+- **Fire ice:** Nitric acid eats fire ice: acidity 0.85 beats hardness 0.3. Nitric acid makes burning fire ice hotter and faster.
+- **Sparkler:** Nitric acid eats sparkler: acidity 0.85 beats hardness 0.4. Nitric acid makes burning sparkler hotter and faster.
+- **Glowing plankton:** Nitric acid sinks through glowing plankton (1,510 vs 1,025 kg/m³).
+- **Superglue:** Nitric acid sinks through superglue (1,510 vs 1,060 kg/m³).
+- **Hydrogen chloride:** Nitric acid falls through hydrogen chloride.
+- **Milk:** Nitric acid sinks through milk (1,510 vs 1,030 kg/m³).
+- **Curds:** Nitric acid eats curds: acidity 0.85 beats hardness 0.1.
+- **Lemon juice:** Nitric acid sinks through lemon juice (1,510 vs 1,030 kg/m³).
+- **Steel wool:** Nitric acid eats steel wool: acidity 0.85 beats hardness 0.3, giving off hydrogen. Nitric acid makes burning steel wool hotter and faster.
+- **Sulfuric acid:** Sulfuric acid sinks through nitric acid (1,830 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Nitric acid falls through nitrogen dioxide.
+- **Solar panel:** Nitric acid eats solar panel: acidity 0.85 beats hardness 0.7.
+- **Glow paint:** Nitric acid eats glow paint: acidity 0.85 beats hardness 0.5.
+- **Silver chloride:** Silver chloride sinks through nitric acid (5,560 vs 1,510 kg/m³).
+- **Exposed silver:** Nitric acid eats exposed silver: acidity 0.85 beats hardness 0.3, giving off hydrogen. Exposed silver sinks through nitric acid (5,560 vs 1,510 kg/m³).
+- **Rope:** Nitric acid eats rope: acidity 0.85 beats hardness 0.3. Nitric acid makes burning rope hotter and faster.
+- **Iron filings:** Nitric acid eats iron filings: acidity 0.85 beats hardness 0.5, giving off hydrogen. Iron filings sinks through nitric acid (3,500 vs 1,510 kg/m³).
+- **Glue:** Nitric acid sinks through glue (1,510 vs 1,100 kg/m³).
+- **Dried glue:** Nitric acid eats dried glue: acidity 0.85 beats hardness 0.4. Nitric acid makes burning dried glue hotter and faster.
+- **Ammonium nitrate:** Nitric acid makes burning ammonium nitrate hotter and faster. Ammonium nitrate explodes at 400 °C; it needs no air. Ammonium nitrate sinks through nitric acid (1,720 vs 1,510 kg/m³).
+- **Yeast:** Nitric acid eats yeast: acidity 0.85 beats hardness 0.1.
+
+No direct interaction with: Air, Wall, Ice, Stone, Snow, Glass, Brick, Gold, Dry ice, Heater, Cooler, Clone, Void, Fan, Bulb, Silver, Obsidian, Hail, Titanium, Platinum, Basalt, Granite, Magnet, Control rod, Blue crystal, Sodium acetate, Red dye, Blue dye, Steel beam, Chain, Valve, Propane tank, Air tank. They still exchange heat by touch, and the heavier one ends up below when they can move.
+
+### Nitrogen dioxide
+
+A choking red-brown gas, heavier than air. Sinks and pools low. It poisons living things, and turns water it touches into nitric acid.
+
+- **State:** Gas, 1.88 kg/m³
+- **In air:** Sinks slowly (heavier than air)
+- **In water:** dissolves and turns the water into nitric acid
+- **Poisons:** living things it touches: they wither
+
+With other elements (114 interact):
+
+- **Sand:** Sand falls through nitrogen dioxide.
+- **Water:** Nitrogen dioxide dissolves in water and turns it into nitric acid. Water falls through nitrogen dioxide.
+- **Oil:** Oil falls through nitrogen dioxide.
+- **Lava:** Lava falls through nitrogen dioxide.
+- **Gravel:** Gravel falls through nitrogen dioxide.
+- **Ash:** Ash falls through nitrogen dioxide.
+- **Acid:** Acid falls through nitrogen dioxide.
+- **Alcohol:** Alcohol falls through nitrogen dioxide.
+- **Sawdust:** Sawdust falls through nitrogen dioxide.
+- **Salt:** Salt falls through nitrogen dioxide.
+- **Sugar:** Sugar falls through nitrogen dioxide.
+- **Dirt:** Dirt falls through nitrogen dioxide.
+- **Snow:** Snow falls through nitrogen dioxide.
+- **Gunpowder:** Gunpowder falls through nitrogen dioxide.
+- **Nitro:** Nitro falls through nitrogen dioxide.
+- **Shards:** Shards falls through nitrogen dioxide.
+- **Mercury:** Mercury falls through nitrogen dioxide.
+- **Seed:** Seed falls through nitrogen dioxide.
+- **Plant:** Nitrogen dioxide is toxic: plant touching it withers.
+- **Molten copper:** Molten copper falls through nitrogen dioxide.
+- **Clay:** Clay falls through nitrogen dioxide.
+- **Cement:** Cement falls through nitrogen dioxide.
+- **Quicklime:** Quicklime falls through nitrogen dioxide.
+- **Slaked lime:** Slaked lime falls through nitrogen dioxide.
+- **Molten gold:** Molten gold falls through nitrogen dioxide.
+- **Molten aluminium:** Molten aluminium falls through nitrogen dioxide.
+- **Molten lead:** Molten lead falls through nitrogen dioxide.
+- **Rust:** Rust falls through nitrogen dioxide.
+- **Coal:** Coal falls through nitrogen dioxide.
+- **Charcoal:** Charcoal falls through nitrogen dioxide.
+- **Sulfur:** Sulfur falls through nitrogen dioxide.
+- **Petrol:** Petrol falls through nitrogen dioxide.
+- **Molten wax:** Molten wax falls through nitrogen dioxide.
+- **Flour:** Flour falls through nitrogen dioxide.
+- **Thermite:** Thermite falls through nitrogen dioxide.
+- **Honey:** Honey falls through nitrogen dioxide.
+- **Vinegar:** Vinegar falls through nitrogen dioxide.
+- **Bleach:** Bleach falls through nitrogen dioxide.
+- **Lye:** Lye falls through nitrogen dioxide.
+- **Liquid nitrogen:** Liquid nitrogen falls through nitrogen dioxide.
+- **Baking soda:** Baking soda falls through nitrogen dioxide.
+- **Grass seed:** Grass seed falls through nitrogen dioxide.
+- **Grass:** Nitrogen dioxide is toxic: grass touching it withers.
+- **Acorn:** Acorn falls through nitrogen dioxide.
+- **Tree:** Nitrogen dioxide is toxic: tree touching it withers.
+- **Leaves:** Nitrogen dioxide is toxic: leaves touching it withers.
+- **Flower:** Nitrogen dioxide is toxic: flower touching it withers.
+- **Graphite:** Graphite falls through nitrogen dioxide.
+- **Caramel:** Caramel falls through nitrogen dioxide.
+- **Chalk:** Chalk falls through nitrogen dioxide.
+- **Liquid oxygen:** Liquid oxygen falls through nitrogen dioxide.
+- **Molten iron:** Molten iron falls through nitrogen dioxide.
+- **Molten glass:** Molten glass falls through nitrogen dioxide.
+- **Molten silver:** Molten silver falls through nitrogen dioxide.
+- **Popcorn kernel:** Popcorn kernel falls through nitrogen dioxide.
+- **Popcorn:** Popcorn falls through nitrogen dioxide.
+- **Tar:** Tar falls through nitrogen dioxide.
+- **Molten plastic:** Molten plastic falls through nitrogen dioxide.
+- **Pumice:** Pumice falls through nitrogen dioxide.
+- **Napalm:** Napalm falls through nitrogen dioxide.
+- **Hydrogen peroxide:** Hydrogen peroxide falls through nitrogen dioxide.
+- **Firework:** Firework falls through nitrogen dioxide.
+- **Saltpeter:** Saltpeter falls through nitrogen dioxide.
+- **Molten tin:** Molten tin falls through nitrogen dioxide.
+- **Kerosene:** Kerosene falls through nitrogen dioxide.
+- **Acetone:** Acetone falls through nitrogen dioxide.
+- **Hail:** Hail falls through nitrogen dioxide.
+- **Cotton:** Cotton falls through nitrogen dioxide.
+- **Molten chocolate:** Molten chocolate falls through nitrogen dioxide.
+- **Calcium carbide:** Calcium carbide falls through nitrogen dioxide.
+- **Iodine:** Iodine falls through nitrogen dioxide.
+- **Bromine:** Bromine falls through nitrogen dioxide.
+- **Liquid gallium:** Liquid gallium falls through nitrogen dioxide.
+- **Cactus seed:** Cactus seed falls through nitrogen dioxide.
+- **Cactus:** Nitrogen dioxide is toxic: cactus touching it withers.
+- **Smoke bomb:** Smoke bomb falls through nitrogen dioxide.
+- **Peat:** Peat falls through nitrogen dioxide.
+- **Soda:** Soda falls through nitrogen dioxide.
+- **Medicine:** Medicine falls through nitrogen dioxide.
+- **Spores:** Spores falls through nitrogen dioxide.
+- **Mushroom:** Nitrogen dioxide is toxic: mushroom touching it withers.
+- **Corium:** Corium falls through nitrogen dioxide.
+- **Dough:** Dough falls through nitrogen dioxide.
+- **Manganese dioxide:** Manganese dioxide falls through nitrogen dioxide.
+- **Soap:** Soap falls through nitrogen dioxide.
+- **Foam:** Foam falls through nitrogen dioxide.
+- **Epoxy resin:** Epoxy resin falls through nitrogen dioxide.
+- **Epoxy hardener:** Epoxy hardener falls through nitrogen dioxide.
+- **Copper sulfate:** Copper sulfate falls through nitrogen dioxide.
+- **Cabbage juice:** Cabbage juice falls through nitrogen dioxide.
+- **Pink juice:** Pink juice falls through nitrogen dioxide.
+- **Green juice:** Green juice falls through nitrogen dioxide.
+- **Algae:** Algae falls through nitrogen dioxide.
+- **Ferrofluid:** Ferrofluid falls through nitrogen dioxide.
+- **Hot ice:** Hot ice falls through nitrogen dioxide.
+- **Mints:** Mints falls through nitrogen dioxide.
+- **UV resin:** UV resin falls through nitrogen dioxide.
+- **Glycerin:** Glycerin falls through nitrogen dioxide.
+- **Potassium permanganate:** Potassium permanganate falls through nitrogen dioxide.
+- **Glowing plankton:** Glowing plankton falls through nitrogen dioxide.
+- **Superglue:** Superglue falls through nitrogen dioxide.
+- **Milk:** Milk falls through nitrogen dioxide.
+- **Curds:** Curds falls through nitrogen dioxide.
+- **Lemon juice:** Lemon juice falls through nitrogen dioxide.
+- **Red dye:** Red dye falls through nitrogen dioxide.
+- **Blue dye:** Blue dye falls through nitrogen dioxide.
+- **Sulfuric acid:** Sulfuric acid falls through nitrogen dioxide.
+- **Nitric acid:** Nitric acid falls through nitrogen dioxide.
+- **Silver chloride:** Silver chloride falls through nitrogen dioxide.
+- **Exposed silver:** Exposed silver falls through nitrogen dioxide.
+- **Iron filings:** Iron filings falls through nitrogen dioxide.
+- **Glue:** Glue falls through nitrogen dioxide.
+- **Ammonium nitrate:** Ammonium nitrate falls through nitrogen dioxide.
+- **Yeast:** Yeast falls through nitrogen dioxide.
+
+No direct interaction with: Air, Wall, Ice, Steam, Stone, Fire, Smoke, Wood, Iron, Hydrogen, Oxygen, Methane, TNT, Glass, Spark, Wire, Battery, Dry plant, Brick, Concrete, Limestone, Gold, Aluminium, Lead, Sodium, Wax, Paper, Rubber, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, C4, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Neon, Magnesium, Potassium, Marble, Silver, Meat, Cooked meat, Plastic, Obsidian, Diamond, Fish, Ant, Worm, Bird, Lightning, Plasma, Rocket, Ember, Tin, Steel, Zinc, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Acetylene, Iodine vapour, Titanium, Platinum, Argon, Bromine vapour, Gallium, Basalt, Granite, Sandstone, Fuse, Magnet, Plague, Mould, Neutron, Control rod, Bread, Toast, Epoxy, Blue crystal, Moss, Sodium acetate, Fog, Nitrogen triiodide, Cured resin, Fire ice, Sparkler, Hydrogen chloride, Steel wool, Solar panel, Glow paint, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Dried glue. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Solar panel
 
@@ -17740,11 +18794,13 @@ A photovoltaic cell. Stays put and works like a battery that never runs flat, bu
 - **Powers:** 0.6 V a cell in full daylight, less in shade
 - **Hardness:** 0.7 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats solar panel: acidity 0.8 beats hardness 0.7.
+- **Sulfuric acid:** Sulfuric acid eats solar panel: acidity 0.9 beats hardness 0.7.
+- **Nitric acid:** Nitric acid eats solar panel: acidity 0.85 beats hardness 0.7.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Glow paint
 
@@ -17755,11 +18811,13 @@ Paint full of glow-in-the-dark crystals. Stays put. It soaks up light while lit,
 - **Lights:** up while current flows through it
 - **Hardness:** 0.5 (acid stronger than this eats it)
 
-With other elements (1 interact):
+With other elements (3 interact):
 
 - **Acid:** Acid eats glow paint: acidity 0.8 beats hardness 0.5.
+- **Sulfuric acid:** Sulfuric acid eats glow paint: acidity 0.9 beats hardness 0.5.
+- **Nitric acid:** Nitric acid eats glow paint: acidity 0.85 beats hardness 0.5.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Silver chloride
 
@@ -17769,7 +18827,7 @@ A white light-sensitive powder, the stuff of old photographs. Falls and piles. I
 - **In liquids:** Sinks through liquids lighter than 5,560 kg/m³, rests on heavier ones
 - **In light:** slowly turns into exposed silver
 
-With other elements (70 interact):
+With other elements (73 interact):
 
 - **Water:** Silver chloride sinks through water (5,560 vs 1,000 kg/m³).
 - **Oil:** Silver chloride sinks through oil (5,560 vs 900 kg/m³).
@@ -17840,6 +18898,9 @@ With other elements (70 interact):
 - **Hydrogen chloride:** Silver chloride falls through hydrogen chloride.
 - **Milk:** Silver chloride sinks through milk (5,560 vs 1,030 kg/m³).
 - **Lemon juice:** Silver chloride sinks through lemon juice (5,560 vs 1,030 kg/m³).
+- **Sulfuric acid:** Silver chloride sinks through sulfuric acid (5,560 vs 1,830 kg/m³).
+- **Nitric acid:** Silver chloride sinks through nitric acid (5,560 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Silver chloride falls through nitrogen dioxide.
 - **Glue:** Silver chloride sinks through glue (5,560 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -17852,7 +18913,7 @@ Silver chloride darkened by light: fine grains of silver, grey-black. Falls and 
 - **In liquids:** Sinks through liquids lighter than 5,560 kg/m³, rests on heavier ones
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (70 interact):
+With other elements (73 interact):
 
 - **Water:** Exposed silver sinks through water (5,560 vs 1,000 kg/m³).
 - **Oil:** Exposed silver sinks through oil (5,560 vs 900 kg/m³).
@@ -17923,6 +18984,9 @@ With other elements (70 interact):
 - **Hydrogen chloride:** Exposed silver falls through hydrogen chloride.
 - **Milk:** Exposed silver sinks through milk (5,560 vs 1,030 kg/m³).
 - **Lemon juice:** Exposed silver sinks through lemon juice (5,560 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats exposed silver: acidity 0.9 beats hardness 0.3, giving off hydrogen. Exposed silver sinks through sulfuric acid (5,560 vs 1,830 kg/m³).
+- **Nitric acid:** Nitric acid eats exposed silver: acidity 0.85 beats hardness 0.3, giving off hydrogen. Exposed silver sinks through nitric acid (5,560 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Exposed silver falls through nitrogen dioxide.
 - **Glue:** Exposed silver sinks through glue (5,560 vs 1,100 kg/m³).
 
 No direct interaction with: Air, Wall, Sand, Ice, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Marble, Chalk, Molten iron, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Plastic, Pumice, Obsidian, Diamond, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Sodium acetate, Mints, Nitrogen triiodide, Cured resin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
@@ -17940,7 +19004,7 @@ A rolled steel girder. Stays put and holds itself out a very long way from its s
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Rope
 
@@ -17951,7 +19015,7 @@ Twisted hemp rope. Hangs from whatever it is tied to and holds up what hangs bel
 - **Hangs:** holds up what hangs below it, but nothing sideways
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
-With other elements (26 interact):
+With other elements (28 interact):
 
 - **Air:** Rope burns: it catches fire at 250 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set rope on fire (it ignites at 250 °C).
@@ -17978,9 +19042,11 @@ With other elements (26 interact):
 - **Corium:** Corium (1,400 °C) can set rope on fire (it ignites at 250 °C).
 - **Neutron:** Rope catches from the flame touching it.
 - **Potassium permanganate:** Rope burns: it catches fire at 250 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning rope hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats rope: acidity 0.9 beats hardness 0.3.
+- **Nitric acid:** Nitric acid eats rope: acidity 0.85 beats hardness 0.3. Nitric acid makes burning rope hotter and faster.
 - **Ammonium nitrate:** Rope burns: it catches fire at 250 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning rope hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Chain
 
@@ -17992,10 +19058,11 @@ Iron chain. Hangs from whatever it is fixed to and holds up what hangs below it,
 - **Bakes:** at 1,500 °C into molten iron; there is no way back
 - **Hardness:** 0.85 (acid stronger than this eats it)
 
-With other elements (0 interact):
+With other elements (1 interact):
 
+- **Sulfuric acid:** Sulfuric acid eats chain: acidity 0.9 beats hardness 0.85, giving off hydrogen.
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Valve
 
@@ -18007,7 +19074,7 @@ A pressure relief valve. Stays put and seals like a wall until the air pressure 
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Propane tank
 
@@ -18020,7 +19087,7 @@ A steel tank full of propane. Stays put. Heated past 250 °C or hit by a strong 
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Air tank
 
@@ -18033,7 +19100,7 @@ A cylinder of compressed air. Stays put. Heated past 300 °C or hit by a blast, 
 With other elements (0 interact):
 
 
-No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Air, Wall, Sand, Water, Oil, Ice, Steam, Lava, Stone, Gravel, Fire, Smoke, Wood, Ash, Acid, Iron, Hydrogen, Oxygen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Spark, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Hydrogen peroxide, Fish, Ant, Worm, Bird, Lightning, Plasma, Firework, Rocket, Ember, Saltpeter, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Ozone, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Corium, Neutron, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Sulfuric acid, Nitric acid, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Iron filings, Glue, Dried glue, Ammonium nitrate, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Iron filings
 
@@ -18046,7 +19113,7 @@ Fine iron dust, a heavy powder. Falls and piles, and a magnet pulls it in. It ru
 - **Magnetic:** a magnet pulls it in
 - **Hardness:** 0.5 (acid stronger than this eats it)
 
-With other elements (73 interact):
+With other elements (76 interact):
 
 - **Water:** Iron filings slowly rusts into rust where water touches it. Iron filings sinks through water (3,500 vs 1,000 kg/m³).
 - **Oil:** Iron filings sinks through oil (3,500 vs 900 kg/m³).
@@ -18119,6 +19186,9 @@ With other elements (73 interact):
 - **Hydrogen chloride:** Iron filings falls through hydrogen chloride.
 - **Milk:** Iron filings sinks through milk (3,500 vs 1,030 kg/m³).
 - **Lemon juice:** Iron filings sinks through lemon juice (3,500 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats iron filings: acidity 0.9 beats hardness 0.5, giving off hydrogen. Iron filings sinks through sulfuric acid (3,500 vs 1,830 kg/m³).
+- **Nitric acid:** Nitric acid eats iron filings: acidity 0.85 beats hardness 0.5, giving off hydrogen. Iron filings sinks through nitric acid (3,500 vs 1,510 kg/m³).
+- **Nitrogen dioxide:** Iron filings falls through nitrogen dioxide.
 - **Glue:** Iron filings sinks through glue (3,500 vs 1,100 kg/m³).
 - **Ammonium nitrate:** Iron filings slowly rusts into rust where ammonium nitrate touches it.
 
@@ -18133,7 +19203,7 @@ A thick white glue. Oozes slowly, then after a few seconds it sets hard into dri
 - **Falls:** up to 40 cells/s
 - **Cures:** sets into dried glue after about 4 s
 
-With other elements (105 interact):
+With other elements (108 interact):
 
 - **Sand:** Sand sinks through glue (1,600 vs 1,100 kg/m³).
 - **Water:** Glue sinks through water (1,100 vs 1,000 kg/m³).
@@ -18236,6 +19306,9 @@ With other elements (105 interact):
 - **Lemon juice:** Glue sinks through lemon juice (1,100 vs 1,030 kg/m³).
 - **Red dye:** Red dye sinks through glue (1,500 vs 1,100 kg/m³).
 - **Blue dye:** Blue dye sinks through glue (1,500 vs 1,100 kg/m³).
+- **Sulfuric acid:** Sulfuric acid sinks through glue (1,830 vs 1,100 kg/m³).
+- **Nitric acid:** Nitric acid sinks through glue (1,510 vs 1,100 kg/m³).
+- **Nitrogen dioxide:** Glue falls through nitrogen dioxide.
 - **Silver chloride:** Silver chloride sinks through glue (5,560 vs 1,100 kg/m³).
 - **Exposed silver:** Exposed silver sinks through glue (5,560 vs 1,100 kg/m³).
 - **Iron filings:** Iron filings sinks through glue (3,500 vs 1,100 kg/m³).
@@ -18251,7 +19324,7 @@ Glue that has set into a clear, hard solid. Stays put. It burns in strong heat.
 - **Burns:** from 350 °C in air, 2 s per cell, leaves ash
 - **Hardness:** 0.4 (acid stronger than this eats it)
 
-With other elements (25 interact):
+With other elements (27 interact):
 
 - **Air:** Dried glue burns: it catches fire at 350 °C next to air (oxidiser 0.21).
 - **Lava:** Lava (1,200 °C) can set dried glue on fire (it ignites at 350 °C).
@@ -18277,9 +19350,11 @@ With other elements (25 interact):
 - **Corium:** Corium (1,400 °C) can set dried glue on fire (it ignites at 350 °C).
 - **Neutron:** Dried glue catches from the flame touching it.
 - **Potassium permanganate:** Dried glue burns: it catches fire at 350 °C next to potassium permanganate (oxidiser 0.8). Potassium permanganate makes burning dried glue hotter and faster.
+- **Sulfuric acid:** Sulfuric acid eats dried glue: acidity 0.9 beats hardness 0.4.
+- **Nitric acid:** Nitric acid eats dried glue: acidity 0.85 beats hardness 0.4. Nitric acid makes burning dried glue hotter and faster.
 - **Ammonium nitrate:** Dried glue burns: it catches fire at 350 °C next to ammonium nitrate (oxidiser 0.6). Ammonium nitrate makes burning dried glue hotter and faster.
 
-No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Water, Oil, Ice, Steam, Stone, Gravel, Smoke, Wood, Ash, Iron, Hydrogen, Methane, Alcohol, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Coal, Charcoal, Sulfur, Petrol, Wax, Molten wax, Paper, Rubber, Flour, Thermite, Honey, Vinegar, Bleach, Lye, Liquid nitrogen, Nitrogen, Carbon dioxide, Helium, Propane, Chlorine, Sulfur dioxide, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Cloud, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Neon, Magnesium, Potassium, Caramel, Marble, Chalk, Silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Molten plastic, Pumice, Obsidian, Diamond, Napalm, Fish, Ant, Worm, Bird, Firework, Tin, Molten tin, Steel, Zinc, Kerosene, Acetone, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Ammonia, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Acetylene, Iodine, Iodine vapour, Titanium, Platinum, Argon, Bromine, Bromine vapour, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Soda, Fuse, Magnet, Plague, Medicine, Mould, Spores, Mushroom, Control rod, Dough, Bread, Toast, Manganese dioxide, Soap, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Cabbage juice, Pink juice, Green juice, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Fog, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Fire ice, Sparkler, Glowing plankton, Superglue, Hydrogen chloride, Milk, Curds, Lemon juice, Red dye, Blue dye, Steel wool, Nitrogen dioxide, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Ammonium nitrate
 
@@ -18294,7 +19369,7 @@ White fertiliser crystals, a powder. Dissolving in water, it makes the water ice
 - **Feeds fire:** strength 0.6 (air is 0.21)
 - **Dissolves in:** water, up to 60% of a cell; boiling leaves it as crystals
 
-With other elements (144 interact):
+With other elements (146 interact):
 
 - **Air:** Ammonium nitrate explodes at 400 °C; it needs no air.
 - **Water:** Ammonium nitrate dissolves into water: water is a solvent and each cell holds up to 60% ammonium nitrate. Ammonium nitrate sinks through water (1,720 vs 1,000 kg/m³).
@@ -18436,12 +19511,14 @@ With other elements (144 interact):
 - **Milk:** Ammonium nitrate sinks through milk (1,720 vs 1,030 kg/m³).
 - **Lemon juice:** Ammonium nitrate sinks through lemon juice (1,720 vs 1,030 kg/m³).
 - **Steel wool:** Ammonium nitrate makes burning steel wool hotter and faster. Steel wool burns: it catches fire at 350 °C next to ammonium nitrate (oxidiser 0.6).
+- **Nitric acid:** Ammonium nitrate explodes at 400 °C; it needs no air. Ammonium nitrate sinks through nitric acid (1,720 vs 1,510 kg/m³). Nitric acid makes burning ammonium nitrate hotter and faster.
+- **Nitrogen dioxide:** Ammonium nitrate falls through nitrogen dioxide.
 - **Rope:** Ammonium nitrate makes burning rope hotter and faster. Rope burns: it catches fire at 250 °C next to ammonium nitrate (oxidiser 0.6).
 - **Iron filings:** Iron filings slowly rusts into rust where ammonium nitrate touches it.
 - **Glue:** Ammonium nitrate sinks through glue (1,720 vs 1,100 kg/m³).
 - **Dried glue:** Ammonium nitrate makes burning dried glue hotter and faster. Dried glue burns: it catches fire at 350 °C next to ammonium nitrate (oxidiser 0.6).
 
-No direct interaction with: Wall, Sand, Stone, Gravel, Ash, Salt, Dirt, Glass, Shards, Wire, Mercury, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Dry ice, Baking soda, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Potassium, Marble, Chalk, Silver, Meat, Popcorn kernel, Pumice, Obsidian, Worm, Tin, Molten tin, Zinc, Uranium, Snail, Chocolate, Egg, Cooked egg, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Basalt, Granite, Sandstone, Magnet, Medicine, Mould, Control rod, Dough, Bread, Manganese dioxide, Foam, Copper sulfate, Blue crystal, Algae, Sodium acetate, Mints, Curds, Red dye, Blue dye, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Chain, Valve, Propane tank, Air tank, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
+No direct interaction with: Wall, Sand, Stone, Gravel, Ash, Salt, Dirt, Glass, Shards, Wire, Mercury, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Aluminium, Lead, Rust, Sodium, Dry ice, Baking soda, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Diode, LED, Capacitor, Motor, Electromagnet, Potassium, Marble, Chalk, Silver, Meat, Popcorn kernel, Pumice, Obsidian, Worm, Tin, Molten tin, Zinc, Uranium, Snail, Chocolate, Egg, Cooked egg, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Basalt, Granite, Sandstone, Magnet, Medicine, Mould, Control rod, Dough, Bread, Manganese dioxide, Foam, Copper sulfate, Blue crystal, Algae, Sodium acetate, Mints, Curds, Red dye, Blue dye, Sulfuric acid, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Chain, Valve, Propane tank, Air tank, Yeast. They still exchange heat by touch, and the heavier one ends up below when they can move.
 
 ### Yeast
 
@@ -18453,7 +19530,7 @@ Living baker's yeast, a light powder. Falls and piles. In sugary water it fermen
 - **Ferments:** sugar in water into alcohol, bubbling out carbon dioxide
 - **Hardness:** 0.1 (acid stronger than this eats it)
 
-With other elements (50 interact):
+With other elements (53 interact):
 
 - **Water:** Yeast ferments the sugar in water into alcohol, bubbling out carbon dioxide. Yeast sinks through water (1,100 vs 1,000 kg/m³).
 - **Oil:** Yeast sinks through oil (1,100 vs 900 kg/m³).
@@ -18505,5 +19582,8 @@ With other elements (50 interact):
 - **Hydrogen chloride:** Yeast falls through hydrogen chloride.
 - **Milk:** Yeast sinks through milk (1,100 vs 1,030 kg/m³).
 - **Lemon juice:** Yeast sinks through lemon juice (1,100 vs 1,030 kg/m³).
+- **Sulfuric acid:** Sulfuric acid eats yeast: acidity 0.9 beats hardness 0.1.
+- **Nitric acid:** Nitric acid eats yeast: acidity 0.85 beats hardness 0.1.
+- **Nitrogen dioxide:** Yeast falls through nitrogen dioxide.
 
 No direct interaction with: Air, Wall, Sand, Ice, Lava, Stone, Gravel, Wood, Ash, Iron, Sawdust, Salt, Sugar, Dirt, Snow, TNT, Gunpowder, Nitro, Glass, Shards, Wire, Battery, Mercury, Seed, Plant, Molten copper, Dry plant, Clay, Brick, Cement, Concrete, Limestone, Quicklime, Slaked lime, Gold, Molten gold, Aluminium, Molten aluminium, Lead, Molten lead, Rust, Sodium, Coal, Charcoal, Sulfur, Wax, Paper, Rubber, Flour, Thermite, Honey, Bleach, Lye, Dry ice, Baking soda, C4, Grass seed, Grass, Acorn, Tree, Leaves, Flower, Heater, Cooler, Clone, Void, Fan, Bulb, Switch, Pressure plate, Thermostat, Resistor, Diode, LED, Capacitor, Motor, Electromagnet, Graphite, Magnesium, Potassium, Caramel, Marble, Chalk, Liquid oxygen, Molten iron, Molten glass, Silver, Molten silver, Meat, Cooked meat, Popcorn kernel, Popcorn, Tar, Plastic, Pumice, Obsidian, Diamond, Hydrogen peroxide, Fish, Ant, Worm, Bird, Firework, Saltpeter, Tin, Molten tin, Steel, Zinc, Hail, Uranium, Bee, Spider, Termite, Snail, Frog, Mouse, Snake, Cotton, Chocolate, Molten chocolate, Egg, Cooked egg, Phosphorus, Lithium, Calcium carbide, Iodine, Titanium, Platinum, Bromine, Gallium, Liquid gallium, Cactus seed, Cactus, Smoke bomb, Peat, Basalt, Granite, Sandstone, Fuse, Magnet, Medicine, Mould, Spores, Mushroom, Corium, Control rod, Dough, Bread, Toast, Manganese dioxide, Foam, Epoxy resin, Epoxy hardener, Epoxy, Copper sulfate, Blue crystal, Algae, Moss, Ferrofluid, Hot ice, Sodium acetate, Mints, Nitrogen triiodide, UV resin, Cured resin, Glycerin, Potassium permanganate, Fire ice, Sparkler, Curds, Red dye, Blue dye, Steel wool, Solar panel, Glow paint, Silver chloride, Exposed silver, Steel beam, Rope, Chain, Valve, Propane tank, Air tank, Iron filings, Glue, Dried glue, Ammonium nitrate. They still exchange heat by touch, and the heavier one ends up below when they can move.

@@ -1,6 +1,6 @@
 # Sandglass element guide
 
-Generated from the game data by `npm run guide`. 237 elements, by group. For each: what it is, what it does, and what to try.
+Generated from the game data by `npm run guide`. 240 elements, by group. For each: what it is, what it does, and what to try.
 
 ## Powders (25)
 
@@ -103,7 +103,7 @@ Falls and piles. There is no way back.
 Dissolving in water, it makes the water ice cold, as in a cold pack. It feeds fire, and great heat makes it explode.
 *Try:* Stir it into water, then point at the water to see how cold it gets.
 
-## Liquids (22)
+## Liquids (24)
 
 **Water.** A runny liquid.
 Flows and settles flat. Boils into steam when hot, freezes into ice when cold, and cools what it touches.
@@ -190,7 +190,15 @@ Flows, and a magnet or a powered electromagnet pulls it in, so it climbs towards
 Flows and stays liquid when cold, until it touches a sodium acetate crystal: then it sets into crystal in a spreading wave, giving off heat like a hand warmer.
 *Try:* Pour a pool, then drop one sodium acetate crystal into it.
 
-## Gases (21)
+**Sulfuric acid.** A heavy, oily, very strong acid.
+Flows and sinks through water, heating it fiercely as it mixes. It eats metal and rock, and tears the water out of sugar, leaving a black column of carbon.
+*Try:* Pour it onto a heap of sugar, then stand back as the black snake rises.
+
+**Nitric acid.** A fuming, very strong acid that carries oxygen.
+Flows like water. It eats metal and rock; copper it dissolves in a cloud of brown, poisonous nitrogen dioxide. Fuel soaked in it burns fiercely.
+*Try:* Pour a little onto copper wire and watch the brown gas.
+
+## Gases (22)
 
 **Steam.** Hot water vapour.
 Rises and spreads. Turns back into water as it cools, so it rains.
@@ -273,6 +281,9 @@ Heavy and cold, it sinks and creeps along the ground, then thins away.
 
 **Hydrogen chloride.** A sharp, choking gas, heavier than air.
 Sinks and pools low. It turns water it touches into acid. It forms with a flash where hydrogen and chlorine meet in light.
+
+**Nitrogen dioxide.** A choking red-brown gas, heavier than air.
+Sinks and pools low. It poisons living things, and turns water it touches into nitric acid.
 
 ## Solids (13)
 
