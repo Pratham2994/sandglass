@@ -5,19 +5,23 @@ import {
   BREAKS_INTO_OF,
   BRITTLE_OF,
   EMPTY,
+  FALLOUT,
   FIRE,
   IGNITION_OF,
+  NUKE,
   PHASE_OF,
   PH_ENERGY,
   PH_GAS,
   PH_LIQUID,
   PH_POWDER,
   PH_SOLID,
+  PLASMA,
   SMOKE,
   RUPTURE_BURST_OF,
   RUPTURE_INTO_OF,
   RUPTURE_P_OF,
   VALVE_OF,
+  WALL,
 } from './elements';
 import type { World } from './world';
 
@@ -37,8 +41,90 @@ const PUSH_MIN = 0.25;
  */
 export function explode(world: World, x: number, y: number): void {
   const id = world.type[y * world.w + x];
+  if (id === NUKE) {
+    nuke(world, x, y);
+    return;
+  }
   const r = BLAST_RADIUS_OF[id];
   if (r !== 0) burst(world, x, y, id, r, -1);
+}
+
+/**
+ * A nuke goes off at (x, y). Inside the fireball (radius R) everything but
+ * wall is vaporised into plasma and flame. Out to 3R the heat falls off,
+ * setting fires, melting and shattering brittle solids; the air shock throws
+ * what is loose. Above it a mushroom cloud of hot smoke and flame forms, with
+ * fallout in it that drifts down after. The whole view flashes white. Other
+ * nukes inside the fireball are used up; further ones are heated and go off next.
+ */
+function nuke(world: World, x: number, y: number): void {
+  const { w, h, type, temp, rng } = world;
+  const R = BLAST_RADIUS_OF[NUKE];
+  const F = 3 * R;
+  for (let j = Math.max(0, y - F); j <= Math.min(h - 1, y + F); j++)
+    for (let i = Math.max(0, x - F); i <= Math.min(w - 1, x + F); i++) {
+      const d = Math.hypot(i - x, j - y) / R;
+      if (d > 3) continue;
+      const k = j * w + i;
+      const t = type[k];
+      if (t === WALL) continue;
+      if (d < 1) {
+        // The fireball: vaporised (the core into plasma, the rim into flame), whatever it was.
+        if (d < 0.55 || t !== EMPTY || rng.next() < 0.7) {
+          world.place(k, d < 0.55 ? PLASMA : FIRE);
+          world.life[k] = 20 + (rng.nextU32() & 63);
+        }
+        temp[k] = 3500 * (1 - d * 0.5);
+        continue;
+      }
+      const f = (3 - d) / 2;
+      if (t === NUKE) {
+        temp[k] = Math.max(temp[k], IGNITION_OF[NUKE] + 150);
+        world.life[k] = world.currentStamp();
+        continue;
+      }
+      // Beyond the fireball: heat falling off with distance; brittle solids shatter near it; flame in the air close in.
+      temp[k] += 1600 * f * f;
+      if (BRITTLE_OF[t] > 0 && BREAKS_INTO_OF[t] !== 0 && rng.next() < f) world.place(k, BREAKS_INTO_OF[t]);
+      else if (t === EMPTY && rng.next() < 0.25 * f * f) {
+        world.place(k, FIRE);
+        world.life[k] = 10 + (rng.nextU32() & 31);
+      }
+    }
+  // The air carries this far: it flattens brick out to about 5R and leaves the rest of the world standing.
+  world.air.addPressure(x, y, 12, 2 * R);
+  cloud(world, x, y, R);
+  world.flash = 1;
+  world.wakeAll();
+}
+
+/** The mushroom cloud: a stem of flame and smoke rising from the blast to a wide cap, with fallout in the cap. */
+function cloud(world: World, x: number, y: number, R: number): void {
+  const { w, h, rng } = world;
+  const cy = Math.max(Math.round(R * 0.6), y - Math.round(R * 2.6));
+  const rx = R * 1.5;
+  const ry = R * 0.6;
+  const sw = Math.max(2, Math.round(R / 4));
+  // Stem.
+  for (let j = Math.max(0, cy); j <= Math.min(h - 1, y - R); j++)
+    for (let i = Math.max(0, x - sw); i <= Math.min(w - 1, x + sw); i++)
+      if (rng.next() < 0.75) puff(world, j * w + i, Math.abs(i - x) < sw / 2);
+  // Cap: a flattened ellipse, flame inside, smoke round the edge.
+  for (let j = Math.max(0, Math.floor(cy - ry)); j <= Math.min(h - 1, Math.ceil(cy + ry)); j++)
+    for (let i = Math.max(0, Math.floor(x - rx)); i <= Math.min(w - 1, Math.ceil(x + rx)); i++) {
+      const e = ((i - x) / rx) ** 2 + ((j - cy) / ry) ** 2;
+      if (e <= 1 && rng.next() < 0.85) puff(world, j * w + i, e < 0.35);
+    }
+}
+
+/** One cell of the mushroom cloud, if the air there is free: mostly smoke, flame near the middle, a little fallout. */
+function puff(world: World, k: number, inner: boolean): void {
+  if (world.type[k] !== EMPTY) return;
+  const u = world.rng.next();
+  const id = u < 0.06 ? FALLOUT : inner && u < 0.5 ? FIRE : SMOKE;
+  world.place(k, id);
+  if (id === FIRE) world.life[k] = 30 + (world.rng.nextU32() & 63);
+  world.temp[k] = inner ? 900 : 400;
 }
 
 /** One cell of a charge goes up: a short-lived flame or puff of smoke, very hot. */

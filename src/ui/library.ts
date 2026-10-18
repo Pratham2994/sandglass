@@ -35,6 +35,7 @@ const CATEGORY_ORDER: Category[] = ['powders', 'liquids', 'gases', 'solids', 'bu
  * hovered or picked once (remembered in this browser).
  */
 const RECENT_KEYS = [
+  'nuke', 'fallout',
   'switch', 'pressure_plate', 'thermostat', 'resistor', 'diode', 'led', 'capacitor', 'motor', 'electromagnet', 'graphite', 'neon',
   'valve', 'propane_tank', 'air_tank', 'steel_beam', 'rope', 'chain', 'solar_panel', 'glow_paint', 'silver_chloride',
   'plague', 'medicine', 'mould', 'spores', 'mushroom', 'corium', 'control_rod', 'dough', 'bread', 'toast',

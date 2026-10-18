@@ -1874,6 +1874,46 @@ export const ELEMENTS: readonly ElementDef[] = [
     noFlame: true,
     explosive: { power: 14, radius: 6 },
   },
+  {
+    key: 'nuke',
+    name: 'Nuke',
+    blurb: 'A nuclear bomb, a heavy dark powder. Falls and piles. A hard landing, a flame or a spark sets it off: a blinding flash, a fireball that vaporises everything near, a shockwave that throws and shatters what is further out, a rising mushroom cloud, then fallout drifting down.',
+    tip: 'Paint a dab of it high up over a town of brick, wood and trees: it falls, lands, and goes off. If it is already on the floor, touch it with fire.',
+    category: 'explosives',
+    colours: ['#4a4f3a', '#555b42', '#3f4432', '#c9b23a'],
+    texture: 'stone',
+    phase: 'powder',
+    cls: 'mineral',
+    hardness: 0.4,
+    density: 4000,
+    fallAccel: 230,
+    fallMax: 160,
+    heatCapacity: 0.8,
+    conductivity: 0.2,
+    ignition: 400,
+    explosive: { power: 40, radius: 22 },
+    impact: 80,
+  },
+  {
+    key: 'fallout',
+    name: 'Fallout',
+    blurb: 'Grey radioactive dust left by a nuke. Drifts down slowly and settles. Any animal it touches falls sick, as with plague. It loses its harm and turns to ash after a while.',
+    tip: 'Set off a nuke near some mice or birds: the dust that drifts down afterwards makes them sick. Sprinkle medicine to save them.',
+    category: 'explosives',
+    colours: ['#7d8072', '#8a8d7c', '#6f7266', '#9a9d86'],
+    phase: 'powder',
+    cls: 'mineral',
+    hardness: 0.1,
+    density: 900,
+    fallAccel: 30,
+    fallMax: 20,
+    heatCapacity: 0.6,
+    conductivity: 0.1,
+    drift: 0.3,
+    infects: true,
+    decaysInto: 'ash',
+    decayChance: 0.0012,
+  },
   // ---- Life pack -------------------------------------------------------------------
   {
     key: 'grass_seed',
@@ -5428,5 +5468,7 @@ export const EMBER = elementId('ember');
 /** Neutrons, flung out by a chain reaction. */
 export const NEUTRON = elementId('neutron');
 export const PLASMA = elementId('plasma');
+export const NUKE = elementId('nuke');
+export const FALLOUT = elementId('fallout');
 /** Circuit parts (everything in Electronics but wire itself): painted onto wire, they replace it, so they sit in the circuit. */
 export const PART_OF = Uint8Array.from(ELEMENTS, (e) => (e.category === 'electronics' && e.key !== 'wire' ? 1 : 0));

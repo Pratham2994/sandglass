@@ -1,4 +1,4 @@
-import { BODY_OF, EMPTY, GATE_OF, GATE_SWITCH, HABITAT_OF, PART_OF, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER, WIRE } from './elements';
+import { BODY_OF, EMPTY, GATE_OF, GATE_SWITCH, GROWS_INTO_OF, HABITAT_OF, PART_OF, PHASE_OF, PH_GAS, PH_LIQUID, PH_POWDER, WIRE } from './elements';
 import { placeBody } from './step';
 import type { World } from './world';
 
@@ -43,8 +43,12 @@ const TOOL_MIN = -100;
 const POWDER_FILL = 0.3;
 /** Same for liquids and gases: separate drops that merge as they land. */
 const LIQUID_FILL = 0.45;
-/** Creatures: a few per stroke, not a swarm (each is one cell, so a full disc would be hundreds). */
-const CREATURE_FILL = 0.015;
+/** Animals and seeds per brush stamp, whatever the brush size: a big brush gives a flock or a scatter, not a solid block. */
+const CREATURE_PER_STAMP = 0.5;
+const SEED_PER_STAMP = 1;
+/** Free space kept round each new animal or seed (cells), so they come out spaced. */
+const CREATURE_GAP = 4;
+const SEED_GAP = 3;
 
 export function applyOp(world: World, op: Op): void {
   if (op.kind === OP_CLEAR) {
@@ -96,6 +100,15 @@ function toggleSwitch(world: World, x: number, y: number): void {
   }
 }
 
+/** True if element t is already within `gap` cells of (x, y). */
+function crowded(world: World, x: number, y: number, t: number, gap: number): boolean {
+  if (gap === 0) return false;
+  const { w, h, type } = world;
+  for (let yy = Math.max(0, y - gap); yy <= Math.min(h - 1, y + gap); yy++)
+    for (let xx = Math.max(0, x - gap); xx <= Math.min(w - 1, x + gap); xx++) if (type[yy * w + xx] === t) return true;
+  return false;
+}
+
 /**
  * One disc of the brush centred on (cx, cy): place, erase, heat or cool.
  * A circuit part painted onto wire replaces the wire under it, so it sits
@@ -106,7 +119,19 @@ function stamp(world: World, cx: number, cy: number, r: number, mode: number): v
   const intoWire = mode >= 0 && PART_OF[mode] !== 0;
   const r2 = r * r + r;
   const ph = mode < 0 ? 0 : PHASE_OF[mode];
-  const p = mode >= 0 && HABITAT_OF[mode] !== 0 ? CREATURE_FILL : ph === PH_POWDER ? POWDER_FILL : ph === PH_LIQUID || ph === PH_GAS ? LIQUID_FILL : 1;
+  const animal = mode >= 0 && HABITAT_OF[mode] !== 0;
+  const seed = mode >= 0 && GROWS_INTO_OF[mode] !== 0;
+  const gap = animal ? CREATURE_GAP : seed ? SEED_GAP : 0;
+  const area = Math.max(1, Math.PI * r2);
+  const p = animal
+    ? Math.min(1, CREATURE_PER_STAMP / area)
+    : seed
+      ? Math.min(1, SEED_PER_STAMP / area)
+      : ph === PH_POWDER
+        ? POWDER_FILL
+        : ph === PH_LIQUID || ph === PH_GAS
+          ? LIQUID_FILL
+          : 1;
   const y0 = Math.max(0, cy - r);
   const y1 = Math.min(h - 1, cy + r);
   const x0 = Math.max(0, cx - r);
@@ -128,8 +153,12 @@ function stamp(world: World, cx: number, cy: number, r: number, mode: number): v
         world.wake(x, y);
       } else if (mode >= 0 && BODY_OF[mode] !== null) {
         // Animals with a body are placed whole, wherever there is room for them (fish into water too).
-        if (world.rng.next() < p) placeBody(world, x, y, mode);
-      } else if ((type[i] === EMPTY || (intoWire && type[i] === WIRE)) && (p >= 1 || world.rng.next() < p)) {
+        if (world.rng.next() < p && !crowded(world, x, y, mode, gap)) placeBody(world, x, y, mode);
+      } else if (
+        (type[i] === EMPTY || (intoWire && type[i] === WIRE)) &&
+        (p >= 1 || world.rng.next() < p) &&
+        (gap === 0 || !crowded(world, x, y, mode, gap))
+      ) {
         world.place(i, mode);
       }
     }

@@ -242,6 +242,7 @@ uniform vec2 uCanvas;
 uniform float uTime;
 uniform int uChunks;
 uniform int uView;
+uniform float uFlash;
 out vec4 o;
 
 /** Temperature to colour: blue cold, grey room, orange warm, red hot, yellow-white very hot. */
@@ -281,6 +282,8 @@ void main() {
     float sp = length(v);
     c = c * 0.35 + hsv(atan(v.y, v.x) / 6.2832 + 0.5, 0.75, min(1.0, sp * 0.9));
   }
+  // A nuke's flash washes the whole view white, then fades.
+  c = mix(c, vec3(1.0, 0.97, 0.9), uFlash * 0.9);
   if (uChunks == 1) {
     ivec2 local = ivec2(cellF) % ${CHUNK};
     if (local.x == 0 || local.y == 0) {
@@ -546,6 +549,7 @@ export class WebGLRenderer implements Renderer {
     gl.uniform1f(gl.getUniformLocation(this.comp, 'uTime'), (performance.now() - this.t0) / 1000);
     gl.uniform1i(gl.getUniformLocation(this.comp, 'uChunks'), this.showChunks ? 1 : 0);
     gl.uniform1i(gl.getUniformLocation(this.comp, 'uView'), viewCode);
+    gl.uniform1f(gl.getUniformLocation(this.comp, 'uFlash'), world.flash);
     this.bind(this.comp, 'uPress', this.pressTex, 5);
     this.bind(this.comp, 'uVel', this.velTex, 6);
     gl.drawArrays(gl.TRIANGLES, 0, 3);

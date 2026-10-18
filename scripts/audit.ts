@@ -71,6 +71,8 @@ import {
   INDICATOR_ACID_OF,
   INDICATOR_BASE_OF,
   NEUTRON,
+  NUKE,
+  FALLOUT,
   PLASMA,
   RUPTURE_T_OF,
   BAKE_T_OF,
@@ -144,6 +146,11 @@ function allowed(start: number[]): Set<number> {
       if (INDICATOR_ACID_OF[e]) grew = add(INDICATOR_ACID_OF[e]) || grew;
       if (INDICATOR_BASE_OF[e]) grew = add(INDICATOR_BASE_OF[e]) || grew;
       // A chain reaction flings neutrons, and a runaway one leaves plasma and flame.
+      // A nuke vaporises into plasma and drops fallout from its cloud.
+      if (e === NUKE) {
+        grew = add(PLASMA) || grew;
+        grew = add(FALLOUT) || grew;
+      }
       if (FISSILE_OF[e]) {
         grew = add(NEUTRON) || grew;
         grew = add(PLASMA) || grew;

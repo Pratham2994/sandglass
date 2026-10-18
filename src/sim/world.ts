@@ -50,6 +50,8 @@ export class World {
   seed: number;
   /** Number of steps run since the last reset. */
   frame = 0;
+  /** Brightness of a nuke's white flash over the whole view (0 to 1), fading each step. Only drawn, never saved. */
+  flash = 0;
 
   constructor(w: number, h: number, seed: number) {
     this.w = w;

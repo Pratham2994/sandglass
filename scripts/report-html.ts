@@ -229,6 +229,7 @@ const HIGHLIGHTS: { theme: string; items: [string, string[]][] }[] = [
       ['A fuse burns along like a rope and sets off any explosive at its end, even C4; a long charge goes off as a fast wave from where it was lit.', ['fuse', 'c4', 'gunpowder', 'tnt']],
       ['A magnet pulls iron filings in from a distance, and pulls ferrofluid up into a peak.', ['magnet', 'iron_filings', 'ferrofluid']],
       ['Nitrogen triiodide goes off when a single grain lands on it; UV resin cures hard in daylight and stays runny in the dark.', ['nitrogen_triiodide', 'uv_resin', 'cured_resin']],
+      ['A nuke flashes the whole sky white, vaporises everything near in a fireball, throws and shatters what is further out, raises a mushroom cloud and drops fallout that makes animals sick.', ['nuke', 'fallout', 'plasma']],
       ['Uranium packed tightly enough goes critical: it heats, flings neutrons, melts down into corium and can blow apart; control rods, lead and concrete slow it.', ['uranium', 'corium', 'neutron', 'control_rod', 'lead']],
       ['Water boiling in a sealed box builds pressure until the box bursts; a valve vents it; propane tanks rupture in a fire into a cloud of propane, air tanks burst with a pure shock.', ['water', 'valve', 'propane_tank', 'air_tank', 'glass']],
       ['Real circuits: paint a battery onto a wire loop and current flows round it; a longer battery gives more volts, a thicker one more current, and batteries in one loop turn round to help each other.', ['battery', 'wire', 'mercury', 'graphite']],

@@ -176,6 +176,7 @@ export function step(world: World): void {
   circuitStep(world);
   heatStep(world);
   airPass(world, st);
+  world.flash = world.flash > 0.01 ? world.flash * 0.95 : 0;
   world.frame++;
 }
 
