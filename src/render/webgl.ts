@@ -349,7 +349,7 @@ export class WebGLRenderer implements Renderer {
   /** Uniform locations by program and name; a miss still asks the driver, so the cache never hides a location. */
   private readonly locs = new Map<WebGLProgram, Map<string, WebGLUniformLocation | null>>();
   /** Grid of zeros, standing in for absent level textures so a dropped array reads as nothing. */
-  private zeroTex!: WebGLTexture;
+  private zeroTex: WebGLTexture | null = null;
   private readonly palTex: WebGLTexture;
   private readonly glowTex: WebGLTexture;
   private readonly texTex: WebGLTexture;
@@ -470,6 +470,8 @@ export class WebGLRenderer implements Renderer {
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
     }
     // A null upload leaves the texture zeroed, so this is an all-zero grid to bind when there is nothing.
+    // Made again at the new size; the old one is freed, or each resize would leak a texture.
+    if (this.zeroTex) gl.deleteTexture(this.zeroTex);
     this.zeroTex = this.texture();
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
 
@@ -545,10 +547,10 @@ export class WebGLRenderer implements Renderer {
     this.bind(this.dataTex.solute, 8);
     this.bind(this.dataTex.conc, 9);
     this.bind(this.dataTex.charge, 10);
-    this.bind(lit ? this.dataTex.lit : this.zeroTex, 11);
+    this.bind(lit ? this.dataTex.lit : this.zeroTex!, 11);
     this.bind(this.litColTex, 12);
-    this.bind(fx ? this.dataTex.fx : this.zeroTex, 13);
-    this.bind(fx ? this.dataTex.fxKind : this.zeroTex, 14);
+    this.bind(fx ? this.dataTex.fx : this.zeroTex!, 13);
+    this.bind(fx ? this.dataTex.fxKind : this.zeroTex!, 14);
     this.bind(this.fxColTex, 15);
     gl.uniform2i(this.uniformLoc(this.scene, 'uSize'), w, h);
     gl.uniform1i(this.uniformLoc(this.scene, 'uMoved'), world.frame === 0 ? -1 : 1 + ((world.frame - 1) % 255));
