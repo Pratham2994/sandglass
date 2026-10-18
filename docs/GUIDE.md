@@ -162,7 +162,7 @@ Falls and piles, and dissolves into water, turning it blue. Blue crystals grow f
 
 **Sodium acetate.** White needle crystals of sodium acetate.
 Stays put. Warmed past 58 °C they melt back into hot ice, which stays liquid as it cools.
-*Try:* Drop a single cell into a pool of hot ice: the pool turns to crystal. Heat crystals past 58 °C to make hot ice again.
+*Try:* Paint a dab touching a pool of hot ice (it stays where you paint it, so paint it right on the surface): the pool turns to crystal. Heat crystals past 58 °C to make hot ice again.
 
 **Potassium permanganate.** Dark purple crystals that carry oxygen, a powder.
 Falls and piles, and dissolves into water, turning it purple. Glycerin touching it heats up by itself until it bursts into flame.
@@ -272,7 +272,7 @@ Flows, and a magnet or a powered electromagnet pulls it in, so it climbs towards
 
 **Hot ice.** A supercooled sodium acetate solution, a clear liquid.
 Flows and stays liquid when cold, until it touches a sodium acetate crystal: then it sets into crystal in a spreading wave, giving off heat like a hand warmer.
-*Try:* Pour a pool of hot ice, then drop one cell of sodium acetate into it: white crystal spreads through the whole pool and it warms up.
+*Try:* Pour a pool of hot ice, then paint a dab of sodium acetate touching it (it stays where you paint it): white crystal spreads through the whole pool and it warms up.
 
 **Sulfuric acid.** A heavy, oily, very strong acid.
 Flows and sinks through water, heating it fiercely as it mixes. It eats metal and rock, and tears the water out of sugar, leaving a black column of carbon.
@@ -806,11 +806,11 @@ Stays put. One cell keeps an LED from burning out; a long run makes a heating el
 *Try:* Paint a small piece into a loop that has an LED: the LED lights without burning out. A big resistor on a long battery glows like a heater.
 
 **Diode.** A one-way valve for current.
-Stays put and lets current through only rightwards or upwards; with the current flowing the other way round the loop, everything stays dark.
+Stays put and lets current through one way only: in at its left end and out at its right end (bottom to top if it is drawn upright), however thick or bent it is painted. With the current flowing the other way round the loop, everything stays dark.
 *Try:* Paint it into a loop together with a second diode further round: the bulb stays dark, because the two face opposite ways round the loop.
 
 **LED.** A red light-emitting diode.
-Lets current through only rightwards or upwards and glows bright red without getting hot. More than 0.6 amps burns it out, so put a resistor in line.
+Lets current through one way only, in at its left (or bottom) end and out at its right (or top) end, and glows bright red without getting hot, painted thin or thick, straight or scribbled. More than 0.6 amps burns it out, so put a resistor in line.
 *Try:* Paint an LED and a small resistor onto a wire loop with a battery: the LED glows red. Without the resistor it burns out at once.
 
 **Capacitor.** Stores charge.

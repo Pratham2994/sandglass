@@ -2,6 +2,13 @@
 export const STEP_MS = 1000 / 60;
 /** Most sim steps per animation frame; past this the loop drops time instead of spiralling. */
 const MAX_STEPS_PER_TICK = 8;
+/**
+ * Sim time allowed per animation frame. When steps are slow (several nukes at
+ * once), the loop stops stepping at this budget and drops the time it owes, so
+ * the picture keeps moving and the world runs in brief slow motion instead of
+ * the screen stalling while it catches up.
+ */
+const STEP_BUDGET_MS = 10;
 /** Longest gap counted between two ticks, e.g. after the tab was hidden. */
 const MAX_DT_MS = 250;
 
@@ -25,11 +32,14 @@ export class FixedLoop {
   speed = 1;
   /** Sim steps in the last full second. */
   stepsPerSecond = 0;
+  /** Frames drawn in the last full second while running. */
+  framesPerSecond = 0;
 
   private readonly cb: LoopCallbacks;
   private acc = 0;
   private last = -1;
   private stepCount = 0;
+  private frameCount = 0;
   private windowStart = 0;
   private dirty = true;
 
@@ -68,26 +78,35 @@ export class FixedLoop {
     } else {
       this.acc += dt * this.speed;
       let steps = 0;
+      const t0 = performance.now();
+      let over = false;
       while (this.acc >= STEP_MS && steps < MAX_STEPS_PER_TICK) {
         this.cb.input();
         this.cb.step();
         this.acc -= STEP_MS;
         steps++;
+        if (performance.now() - t0 > STEP_BUDGET_MS) {
+          over = true;
+          break;
+        }
       }
-      if (steps === MAX_STEPS_PER_TICK) this.acc = 0;
+      if (steps === MAX_STEPS_PER_TICK || over) this.acc = 0;
       if (steps > 0) this.dirty = true;
       this.stepCount += steps;
     }
 
     if (now - this.windowStart >= 1000) {
       this.stepsPerSecond = Math.round((this.stepCount * 1000) / (now - this.windowStart));
+      this.framesPerSecond = Math.round((this.frameCount * 1000) / (now - this.windowStart));
       this.stepCount = 0;
+      this.frameCount = 0;
       this.windowStart = now;
     }
 
     if (this.dirty) {
       this.cb.render();
       this.dirty = false;
+      if (!this.paused) this.frameCount++;
     }
   };
 }

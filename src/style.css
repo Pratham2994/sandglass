@@ -138,7 +138,7 @@ kbd {
 /* Element card across the bar: preview, name and description, then every property in a scrolling column. */
 .info-bar .detail {
   grid-template-columns: 148px minmax(0, 1fr) minmax(0, 1.1fr);
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr) minmax(0, 1.3fr);
   column-gap: 18px;
 }
 
@@ -163,17 +163,52 @@ kbd {
   overflow-y: auto;
 }
 
-/* How to see it act, under the description: quiet, one or two lines. */
+/* How to see it act, under the description: the main hint, then more to try, scrolling. */
 .info-bar .detail-tip {
   grid-column: 2;
   grid-row: 3;
+  min-height: 0;
   margin: 0;
   padding-top: 6px;
   border-top: 1px solid var(--line);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   font-size: 12px;
   line-height: 1.4;
   color: var(--text);
   text-wrap: pretty;
+}
+
+.detail-tip-main {
+  margin: 0;
+}
+
+.detail-tip .more-label {
+  display: block;
+  margin: 8px 0 2px;
+  font-size: 11px;
+}
+
+.detail-tips {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+}
+
+.detail-tips li {
+  position: relative;
+  padding: 2px 0 2px 12px;
+}
+
+.detail-tips li::before {
+  content: '';
+  position: absolute;
+  top: 0.75em;
+  left: 2px;
+  width: 4px;
+  height: 1px;
+  background: var(--faint);
 }
 
 .detail-tip[hidden] {

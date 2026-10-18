@@ -36,6 +36,7 @@ import {
   DIES_INTO_OF,
   BOLT_OF,
   CURES_INTO_OF,
+  GROWS_UP_INTO_OF,
   BURSTS_INTO_OF,
   LAUNCHES_AS_OF,
   LIGHTNING,
@@ -126,6 +127,8 @@ function allowed(start: number[]): Set<number> {
       if (DIES_INTO_OF[e]) grew = add(DIES_INTO_OF[e]) || grew;
       if (BOLT_OF[e]) grew = add(BOLT_OF[e]) || grew;
       if (CURES_INTO_OF[e]) grew = add(CURES_INTO_OF[e]) || grew;
+      // Metamorphosis: a caterpillar spins a cocoon.
+      if (GROWS_UP_INTO_OF[e]) grew = add(GROWS_UP_INTO_OF[e]) || grew;
       if (LAUNCHES_AS_OF[e]) grew = add(LAUNCHES_AS_OF[e]) || grew;
       if (BURSTS_INTO_OF[e]) grew = add(BURSTS_INTO_OF[e]) || grew;
       if (LIGHTNING_FROM_OF[e]) grew = add(LIGHTNING) || grew;
@@ -214,7 +217,19 @@ for (let e = 1; e < N; e++) {
 // A product of burning or a reaction that condenses or freezes back must turn
 // into the thing it really is, or smoke from a fire rains out as mercury.
 // The listed pairs have been checked by hand.
-const CONDENSE_OK = new Set(['steam>water', 'water>ice', 'nitrogen>liquid_nitrogen', 'carbon_dioxide>dry_ice', 'oxygen>liquid_oxygen', 'bromine_vapour>bromine']);
+const CONDENSE_OK = new Set([
+  'steam>water',
+  'water>ice',
+  'nitrogen>liquid_nitrogen',
+  'carbon_dioxide>dry_ice',
+  'oxygen>liquid_oxygen',
+  'bromine_vapour>bromine',
+  'molten_glass>glass',
+  'molten_iron>iron',
+  'molten_wax>wax',
+  'iodine_vapour>iodine',
+  'molten_chocolate>chocolate',
+]);
 const made = new Set<number>([SMOKE]);
 for (let e = 1; e < N; e++) {
   if (BURN_INTO_OF[e]) made.add(BURN_INTO_OF[e]);

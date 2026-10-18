@@ -3,7 +3,7 @@ import { onView, view, zoomStep, zoomTo } from '../render/view';
 import { MAX_RADIUS, type Brush, type Tool } from '../input/brush';
 import { ELEMENTS, EMPTY, PHASE_OF, PH_LIQUID, PH_POWDER, type Category } from '../sim/elements';
 import type { World } from '../sim/world';
-import { elementFacts, tipFor } from '../sim/describe';
+import { elementFacts, moreTips, tipFor } from '../sim/describe';
 import { inspectCell } from '../sim/inspect';
 import type { View } from '../render/renderer';
 import { icon } from './icons';
@@ -446,7 +446,7 @@ export function mountLibrary(
   titleRow.append(title, tag);
   const blurb = el('p', 'detail-blurb');
   // How to see it act: "Try: ...".
-  const tryLine = el('p', 'detail-tip');
+  const tryLine = el('div', 'detail-tip');
   const dl = el('dl', 'facts');
   // Two key facts always; the rest behind a toggle, so the card stays small
   // and the library keeps most of the column. The choice is remembered.
@@ -694,8 +694,15 @@ export function mountLibrary(
     tag.textContent = CATEGORY_NAMES[e.category];
     blurb.textContent = e.blurb;
     const how = tipFor(id);
-    tryLine.hidden = how === null;
-    tryLine.replaceChildren(el('span', 'detail-tip-label', 'Try'), document.createTextNode(how ?? ''));
+    // The main hint, then more to try (from what it reacts with), in a list that scrolls.
+    const more = moreTips(id);
+    tryLine.hidden = how === null && more.length === 0;
+    const first = el('p', 'detail-tip-main');
+    first.append(el('span', 'detail-tip-label', 'Try'), document.createTextNode(how ?? ''));
+    const list = el('ul', 'detail-tips');
+    for (const m of more) list.append(el('li', '', m));
+    tryLine.replaceChildren(...(how ? [first] : []), ...(more.length ? [el('p', 'detail-tip-label more-label', 'More to try'), list] : []));
+    tryLine.scrollTop = 0;
     replay(detail, 'enter');
     const facts = elementFacts(id);
     const row = ([k, v]: [string, string]): HTMLElement[] => [el('dt', '', k), el('dd', 'num', v)];
@@ -735,7 +742,8 @@ export function mountLibrary(
   const refreshStatus = (): void => {
     host.classList.toggle('paused', loop.paused);
     if (stats.classList.contains('note')) return;
-    const fps = loop.paused ? 'paused' : `${loop.stepsPerSecond} FPS`;
+    // Frames actually drawn; when the world is too heavy for full speed, say it is running slow.
+    const fps = loop.paused ? 'paused' : `${loop.framesPerSecond} FPS${loop.stepsPerSecond < 50 ? ` · ${Math.round(loop.stepsPerSecond / 0.6)}% speed` : ''}`;
     statsText.textContent = `${fps} · ${fmt.format(world.countFilled())} cells · ${world.w} × ${world.h}`;
     playBtn.replaceChildren(icon(loop.paused ? 'play' : 'pause'));
     playBtn.title = loop.paused ? 'Play (Space)' : 'Pause (Space)';

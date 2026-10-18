@@ -153,7 +153,7 @@ export interface ElementDef {
   ohms?: number;
   /** Batteries: volts per cell along the wire; a blob of battery cells is one battery, its - and + ends where the wire meets it on opposite sides. */
   emf?: number;
-  /** Diodes: current passes through it only rightwards or upwards. */
+  /** Diodes: each blob passes current one way only, in at its left (or bottom) end and out at its right (or top) end. */
   diode?: boolean;
   /** Capacitors: stores charge across it, + on the right and top (kept in `life`, CAP_ZERO = empty). */
   capacitor?: boolean;
@@ -518,6 +518,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 2.5,
     conductivity: 0.25,
     overrides: {
+      sand: { self: 'keep', other: 'molten_glass', chance: 0.04, reason: 'Lava melts sand into glowing molten glass' },
+      ice: { self: 'obsidian', other: 'water', chance: 0.4, reason: 'Ice chills lava into glassy obsidian and melts' },
+      snow: { self: 'keep', other: 'steam', chance: 0.5, reason: 'Lava flashes snow straight into steam' },
       water: { self: 'obsidian', other: 'steam', chance: 0.7, reason: 'Water chills the lava so fast that it sets into glassy obsidian' },
       steam: { self: 'obsidian', other: 'keep', chance: 0.35, reason: 'Lava quenched in a burst of steam sets into glassy obsidian' },
     },
@@ -573,6 +576,10 @@ export const ELEMENTS: readonly ElementDef[] = [
     temp: 850,
     heatCapacity: 0.5,
     conductivity: 0.5,
+    overrides: {
+      ice: { self: 'keep', other: 'water', chance: 0.2, reason: 'Flame melts ice into water' },
+      snow: { self: 'smoke', other: 'water', chance: 0.3, reason: 'Flame melts the snow and is half put out by it' },
+    },
   },
   {
     key: 'smoke',
@@ -592,6 +599,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.03,
     vents: true,
     fades: true,
+    overrides: {
+      water: { self: 'empty', other: 'keep', chance: 0.04, reason: 'Water washes the smoke out of the air' },
+    },
   },
   {
     key: 'wood',
@@ -632,6 +642,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     drift: 0.35,
     heatCapacity: 0.8,
     conductivity: 0.1,
+    overrides: {
+      water: { self: 'empty', other: 'lye', chance: 0.005, reason: 'Water soaking through wood ash turns into lye' },
+    },
   },
   {
     key: 'acid',
@@ -751,6 +764,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     fuel: 120,
     flameTemp: 750,
     burnInto: 'steam',
+    overrides: {
+      plague: { self: 'keep', other: 'empty', chance: 0.5, reason: 'Alcohol kills the germs' },
+    },
   },
   {
     key: 'sawdust',
@@ -791,6 +807,10 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.6,
     conductivity: 0.2,
     toxic: true,
+    overrides: {
+      snail: { self: 'keep', other: 'dirt', chance: 0.1, reason: 'Salt dries the snail out' },
+      mould: { self: 'keep', other: 'empty', chance: 0.05, reason: 'Salt dries mould out and kills it' },
+    },
   },
   {
     key: 'sugar',
@@ -1020,6 +1040,10 @@ export const ELEMENTS: readonly ElementDef[] = [
     dispersion: 5,
     heatCapacity: 0.15,
     conductivity: 0.6,
+    overrides: {
+      aluminium: { self: 'keep', other: 'chalk', chance: 0.02, reason: 'Mercury strips aluminium of its skin: it grows white fur and crumbles' },
+      gold: { self: 'keep', other: 'empty', chance: 0.01, reason: 'Gold dissolves into mercury (an amalgam)' },
+    },
   },
   {
     key: 'seed',
@@ -1085,6 +1109,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     temp: 1200,
     heatCapacity: 0.4,
     conductivity: 0.9,
+    overrides: {
+      water: { self: 'wire', other: 'steam', chance: 0.5, reason: 'Water quenches molten copper solid, hissing into steam' },
+    },
   },
   {
     key: 'dry_plant',
@@ -1277,6 +1304,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     temp: 1150,
     heatCapacity: 0.13,
     conductivity: 1,
+    overrides: {
+      water: { self: 'gold', other: 'steam', chance: 0.5, reason: 'Water quenches molten gold into a solid nugget, hissing into steam' },
+    },
   },
   {
     key: 'aluminium',
@@ -1295,6 +1325,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.9,
     melt: 660,
     meltInto: 'molten_aluminium',
+    overrides: {
+      rust: { self: 'molten_iron', other: 'fire', chance: 0.3, heat: 800, minTemp: 900, reason: 'Red-hot aluminium tears the oxygen out of rust: the thermite reaction' },
+    },
   },
   {
     key: 'molten_aluminium',
@@ -1315,6 +1348,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     temp: 750,
     heatCapacity: 0.9,
     conductivity: 0.9,
+    overrides: {
+      water: { self: 'aluminium', other: 'hydrogen', chance: 0.4, heat: 120, reason: 'Molten aluminium tears water apart: it sets, and the water bursts into hydrogen' },
+    },
   },
   {
     key: 'lead',
@@ -1354,6 +1390,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     temp: 400,
     heatCapacity: 0.13,
     conductivity: 0.35,
+    overrides: {
+      water: { self: 'lead', other: 'steam', chance: 0.5, reason: 'Water quenches molten lead solid, hissing into steam' },
+    },
   },
   {
     key: 'rust',
@@ -1388,6 +1427,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 1.2,
     conductivity: 0.6,
     overrides: {
+      acid: { self: 'salt', other: 'hydrogen', chance: 0.5, heat: 300, reason: 'Sodium reacts violently with acid: a salt, a burst of hydrogen and great heat' },
+      ice: { self: 'lye', other: 'hydrogen', chance: 0.05, heat: 150, reason: 'Even ice makes sodium fizz, giving off hydrogen' },
+      chlorine: { self: 'salt', other: 'empty', chance: 0.4, heat: 300, reason: 'Sodium burns in chlorine with a yellow flash, becoming table salt' },
       water: {
         self: 'hydrogen',
         other: 'lye',
@@ -1481,6 +1523,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 1000,
     burnEnergy: 8,
     burnInto: 'empty',
+    overrides: {
+      rubber: { self: 'keep', other: 'tar', chance: 0.02, reason: 'Petrol swells rubber into sticky tar' },
+    },
   },
   {
     key: 'wax',
@@ -1524,6 +1569,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     fuel: 200,
     flameTemp: 900,
     burnInto: 'empty',
+    overrides: {
+      water: { self: 'wax', other: 'keep', chance: 0.3, reason: 'Water sets molten wax into solid flakes' },
+    },
   },
   {
     key: 'paper',
@@ -1574,6 +1622,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     colours: ['#f3ecdc', '#ebe2cf', '#f8f3e7', '#e2d8c2'],
     phase: 'powder',
     overrides: {
+      iodine: { self: 'blue_dye', other: 'keep', chance: 0.2, reason: 'Iodine turns the starch in flour blue-black' },
       water: { self: 'dough', other: 'empty', chance: 0.08, reason: 'Flour and water knead into dough' },
     },
     cls: 'organic',
@@ -1635,6 +1684,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     dispersion: 1,
     heatCapacity: 0.6,
     conductivity: 0.15,
+    overrides: {
+      yeast: { self: 'alcohol', other: 'keep', gas: 'carbon_dioxide', chance: 0.01, reason: 'Yeast ferments honey into mead' },
+    },
   },
   {
     key: 'vinegar',
@@ -1655,6 +1707,10 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.3,
     acidity: 0.25,
     overrides: {
+      egg: { self: 'keep', other: 'cooked_egg', chance: 0.01, reason: 'Vinegar sets the egg white, as if poached' },
+      mould: { self: 'keep', other: 'empty', chance: 0.1, reason: 'Vinegar kills mould' },
+      steel_wool: { self: 'keep', other: 'rust', chance: 0.02, heat: 10, reason: 'Vinegar strips steel wool, which then rusts fast and warms' },
+      rust: { self: 'water', other: 'iron', chance: 0.04, reason: 'Vinegar dissolves the rust away, leaving bare iron' },
       bleach: { self: 'water', other: 'chlorine', chance: 0.3, reason: 'Vinegar and bleach release poisonous chlorine gas' },
     },
   },
@@ -1677,6 +1733,13 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.3,
     acidity: -0.7,
     overrides: {
+      green_juice: { self: 'keep', other: 'water', chance: 0.2, reason: 'Bleach takes the colour out' },
+      pink_juice: { self: 'keep', other: 'water', chance: 0.2, reason: 'Bleach takes the colour out' },
+      blue_dye: { self: 'keep', other: 'empty', chance: 0.3, reason: 'Bleach takes the colour out of the dye' },
+      red_dye: { self: 'keep', other: 'empty', chance: 0.3, reason: 'Bleach takes the colour out of the dye' },
+      algae: { self: 'keep', other: 'empty', chance: 0.2, reason: 'Bleach kills algae' },
+      mould: { self: 'keep', other: 'empty', chance: 0.2, reason: 'Bleach kills mould' },
+      plague: { self: 'keep', other: 'empty', chance: 0.6, reason: 'Bleach kills the germs' },
       acid: { self: 'chlorine', other: 'water', chance: 0.3, reason: 'Bleach and acid release poisonous chlorine gas' },
       vinegar: { self: 'chlorine', other: 'water', chance: 0.3, reason: 'Bleach and vinegar release poisonous chlorine gas' },
     },
@@ -1699,6 +1762,10 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.9,
     conductivity: 0.3,
     acidity: -0.9,
+    overrides: {
+      aluminium: { self: 'keep', other: 'empty', gas: 'hydrogen', chance: 0.04, heat: 30, reason: 'Lye eats aluminium, fizzing out hydrogen' },
+      oil: { self: 'soap', other: 'soap', chance: 0.05, heat: 20, reason: 'Lye and oil cook into soap (saponification)' },
+    },
   },
   {
     key: 'liquid_nitrogen',
@@ -1720,6 +1787,14 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.15,
     boil: -196,
     boilInto: 'nitrogen',
+    overrides: {
+      meat: { self: 'keep', other: 'ice', chance: 0.02, reason: 'Liquid nitrogen flash-freezes the meat solid' },
+      grass: { self: 'keep', other: 'shards', chance: 0.06, reason: 'Frozen grass shatters like glass' },
+      leaves: { self: 'keep', other: 'shards', chance: 0.06, reason: 'Frozen leaves shatter like glass' },
+      flower: { self: 'keep', other: 'shards', chance: 0.1, reason: 'A flower frozen solid shatters like glass' },
+      rubber: { self: 'keep', other: 'shards', chance: 0.03, reason: 'Frozen rubber turns glass-brittle and shatters' },
+      lava: { self: 'nitrogen', other: 'obsidian', chance: 0.5, reason: 'Liquid nitrogen freezes lava into obsidian in a burst of gas' },
+    },
   },
   // ---- Basics pack: gases ----------------------------------------------------------
   {
@@ -1749,6 +1824,11 @@ export const ELEMENTS: readonly ElementDef[] = [
     density: 1.98,
     heatCapacity: 0.4,
     conductivity: 0.03,
+    overrides: {
+      water: { self: 'empty', other: 'soda', chance: 0.01, reason: 'Carbon dioxide dissolves into water and makes it fizzy' },
+      lye: { self: 'empty', other: 'keep', chance: 0.1, reason: 'Lye soaks up carbon dioxide' },
+      slaked_lime: { self: 'empty', other: 'chalk', chance: 0.1, reason: 'Carbon dioxide turns slaked lime back into chalk' },
+    },
   },
   {
     key: 'helium',
@@ -1843,6 +1923,10 @@ export const ELEMENTS: readonly ElementDef[] = [
     boil: -78,
     boilInto: 'carbon_dioxide',
     shape: ['220', '201', '011'],
+    overrides: {
+      milk: { self: 'carbon_dioxide', other: 'keep', chance: 0.05, heat: -20, reason: 'Dry ice bubbles through the milk, chilling it' },
+      soap: { self: 'carbon_dioxide', other: 'foam', chance: 0.2, reason: 'Dry ice bubbles up through soap into a pile of foggy foam' },
+    },
   },
   {
     key: 'baking_soda',
@@ -1862,6 +1946,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     acidity: -0.3,
     carbonate: true,
     solubility: 0.2,
+    overrides: {
+      fire: { self: 'carbon_dioxide', other: 'empty', chance: 0.4, reason: 'Heat splits baking soda into carbon dioxide, which smothers the flame' },
+    },
   },
   {
     key: 'c4',
@@ -2071,6 +2158,11 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.04,
     rainsInto: 'water',
     rainsColdInto: 'snow',
+    overrides: {
+      iodine: { self: 'snow', other: 'keep', chance: 0.2, reason: 'Iodine seeds the cloud: it snows' },
+      salt: { self: 'water', other: 'keep', chance: 0.1, reason: 'Salt seeds the cloud: it rains' },
+      dry_ice: { self: 'snow', other: 'keep', chance: 0.2, reason: 'Dry ice seeds the cloud: it snows' },
+    },
   },
   {
     key: 'storm_cloud',
@@ -2273,7 +2365,7 @@ export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'diode',
     name: 'Diode',
-    blurb: 'A one-way valve for current. Stays put and lets current through only rightwards or upwards; with the current flowing the other way round the loop, everything stays dark.',
+    blurb: 'A one-way valve for current. Stays put and lets current through one way only: in at its left end and out at its right end (bottom to top if it is drawn upright), however thick or bent it is painted. With the current flowing the other way round the loop, everything stays dark.',
     tip: 'Paint it into a loop together with a second diode further round: the bulb stays dark, because the two face opposite ways round the loop.',
     category: 'electronics',
     colours: ['#2a2a2e', '#34343a', '#2a2a2e', '#c9cdd3'],
@@ -2292,7 +2384,7 @@ export const ELEMENTS: readonly ElementDef[] = [
   {
     key: 'led',
     name: 'LED',
-    blurb: 'A red light-emitting diode. Lets current through only rightwards or upwards and glows bright red without getting hot. More than 0.6 amps burns it out, so put a resistor in line.',
+    blurb: 'A red light-emitting diode. Lets current through one way only, in at its left (or bottom) end and out at its right (or top) end, and glows bright red without getting hot, painted thin or thick, straight or scribbled. More than 0.6 amps burns it out, so put a resistor in line.',
     tip: 'Paint an LED and a small resistor onto a wire loop with a battery: the LED glows red. Without the resistor it burns out at once.',
     category: 'electronics',
     colours: ['#5a1f1c', '#6a2420', '#4e1a18', '#e8dcd0'],
@@ -2429,6 +2521,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     burnEnergy: 30,
     burnInto: 'ash',
     residue: 0.6,
+    overrides: {
+      steam: { self: 'fire', other: 'hydrogen', chance: 0.3, heat: 300, minTemp: 400, reason: 'Hot magnesium burns even in steam, freeing hydrogen' },
+    },
   },
   {
     key: 'potassium',
@@ -2447,6 +2542,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.8,
     conductivity: 0.5,
     overrides: {
+      ice: { self: 'fire', other: 'hydrogen', chance: 0.1, heat: 300, reason: 'Potassium bursts into flame even on ice' },
+      chlorine: { self: 'salt', other: 'empty', chance: 0.5, heat: 300, reason: 'Potassium burns in chlorine, becoming a salt' },
       water: {
         self: 'hydrogen',
         other: 'lye',
@@ -2556,6 +2653,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     temp: 1600,
     heatCapacity: 0.45,
     conductivity: 0.8,
+    overrides: {
+      water: { self: 'iron', other: 'steam', chance: 0.5, reason: 'Water quenches molten iron solid at once, hissing into steam' },
+    },
   },
   {
     key: 'molten_glass',
@@ -2574,6 +2674,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     temp: 1450,
     heatCapacity: 0.8,
     conductivity: 0.15,
+    overrides: {
+      water: { self: 'shards', other: 'steam', chance: 0.5, reason: 'Hot glass cracks to pieces when water chills it (thermal shock)' },
+    },
   },
   {
     key: 'silver',
@@ -2592,6 +2695,10 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 1,
     melt: 962,
     meltInto: 'molten_silver',
+    overrides: {
+      ozone: { self: 'exposed_silver', other: 'keep', chance: 0.02, reason: 'Ozone tarnishes silver black' },
+      sulfur: { self: 'exposed_silver', other: 'keep', chance: 0.01, reason: 'Sulfur tarnishes silver black' },
+    },
   },
   {
     key: 'molten_silver',
@@ -2612,6 +2719,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     temp: 1000,
     heatCapacity: 0.24,
     conductivity: 1,
+    overrides: {
+      water: { self: 'silver', other: 'steam', chance: 0.5, reason: 'Water quenches molten silver solid, hissing into steam' },
+    },
   },
   {
     key: 'meat',
@@ -2714,6 +2824,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 900,
     burnInto: 'ash',
     residue: 0.2,
+    overrides: {
+      gravel: { self: 'keep', other: 'basalt', chance: 0.02, reason: 'Tar binds gravel into dark road stone' },
+    },
   },
   {
     key: 'plastic',
@@ -2758,6 +2871,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 900,
     burnInto: 'ash',
     residue: 0.2,
+    overrides: {
+      water: { self: 'plastic', other: 'keep', chance: 0.3, reason: 'Water sets molten plastic solid' },
+    },
   },
   {
     key: 'pumice',
@@ -2860,6 +2976,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     oxidiser: 0.8,
     bake: { at: 150, into: 'water', gas: 'oxygen' },
     overrides: {
+      bleach: { self: 'water', other: 'water', gas: 'oxygen', chance: 0.3, heat: 20, reason: 'Bleach and peroxide fizz together into oxygen' },
+      yeast: { self: 'foam', other: 'keep', gas: 'oxygen', chance: 0.2, heat: 20, reason: 'Yeast splits hydrogen peroxide into a rising foam of oxygen' },
       manganese_dioxide: { self: 'oxygen', other: 'keep', chance: 0.6, heat: 15, reason: 'Manganese dioxide is a catalyst: peroxide tears apart on it into water and oxygen, and the powder is not used up' },
       rust: { self: 'oxygen', other: 'keep', chance: 0.2, reason: 'Rust speeds up peroxide breaking down: it fizzes into oxygen' },
     },
@@ -2959,6 +3077,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.2,
     conductivity: 0.3,
     bolt: 'plasma',
+    overrides: {
+      water: { self: 'keep', other: 'hydrogen', chance: 0.2, reason: 'Lightning splits water, freeing hydrogen' },
+    },
   },
   {
     key: 'plasma',
@@ -2976,6 +3097,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.2,
     conductivity: 0.3,
     lifetime: 8,
+    overrides: {
+      sand: { self: 'keep', other: 'molten_glass', chance: 0.5, reason: 'Plasma melts sand into molten glass in an instant' },
+    },
   },
   {
     key: 'firework',
@@ -3087,6 +3211,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     temp: 260,
     heatCapacity: 0.23,
     conductivity: 0.6,
+    overrides: {
+      water: { self: 'tin', other: 'steam', chance: 0.5, reason: 'Water quenches molten tin solid, hissing into steam' },
+    },
   },
   {
     key: 'steel',
@@ -3123,6 +3250,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     density: 7140,
     heatCapacity: 0.39,
     conductivity: 0.6,
+    overrides: {
+      sulfur: { self: 'fire', other: 'smoke', chance: 0.4, heat: 500, minTemp: 250, reason: 'Hot zinc and sulfur react in a flash of flame and smoke' },
+    },
   },
   {
     key: 'kerosene',
@@ -3146,6 +3276,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 1000,
     burnEnergy: 7,
     burnInto: 'empty',
+    overrides: {
+      wax: { self: 'keep', other: 'molten_wax', chance: 0.02, reason: 'Kerosene dissolves wax' },
+    },
   },
   {
     key: 'acetone',
@@ -3169,6 +3302,8 @@ export const ELEMENTS: readonly ElementDef[] = [
     flameTemp: 900,
     burnInto: 'empty',
     overrides: {
+      epoxy: { self: 'keep', other: 'empty', chance: 0.01, reason: 'Acetone slowly eats set epoxy' },
+      dried_glue: { self: 'keep', other: 'empty', chance: 0.05, reason: 'Acetone dissolves set glue' },
       plastic: { self: 'keep', other: 'empty', chance: 0.05, reason: 'Acetone dissolves plastic' },
     },
   },
@@ -3354,6 +3489,11 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.03,
     acidity: -0.6,
     toxic: true,
+    overrides: {
+      bleach: { self: 'chlorine', other: 'water', chance: 0.1, reason: 'Never mix them: ammonia and bleach give off poisonous gas' },
+      chlorine: { self: 'nitrogen', other: 'hydrogen_chloride', chance: 0.2, reason: 'Ammonia and chlorine make poisonous fumes' },
+      hydrogen_chloride: { self: 'fog', other: 'salt', chance: 0.5, reason: 'Ammonia meets hydrogen chloride in a thick white smoke of ammonium chloride' },
+    },
   },
   {
     key: 'ozone',
@@ -3371,6 +3511,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.03,
     oxidiser: 1,
     toxic: true,
+    overrides: {
+      mould: { self: 'keep', other: 'empty', chance: 0.2, reason: 'Ozone kills mould' },
+    },
   },
   {
     key: 'cotton',
@@ -3429,6 +3572,10 @@ export const ELEMENTS: readonly ElementDef[] = [
     temp: 45,
     heatCapacity: 1,
     conductivity: 0.1,
+    overrides: {
+      ice: { self: 'chocolate', other: 'water', chance: 0.3, reason: 'Ice sets melted chocolate hard, melting as it does' },
+      snow: { self: 'chocolate', other: 'water', chance: 0.3, reason: 'Snow sets melted chocolate hard, melting as it does' },
+    },
   },
   // ---- Batch 8: reactive chemistry and food ----------------------------------------
   {
@@ -3522,6 +3669,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 0.7,
     conductivity: 0.15,
     overrides: {
+      snow: { self: 'slaked_lime', other: 'acetylene', chance: 0.1, heat: 40, reason: 'Snow is water enough: carbide fizzes out acetylene' },
       water: { self: 'acetylene', other: 'slaked_lime', chance: 0.2, reason: 'Calcium carbide and water make acetylene gas, leaving slaked lime' },
     },
   },
@@ -3561,6 +3709,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.1,
     boil: 114,
     boilInto: 'iodine_vapour',
+    overrides: {
+      aluminium: { self: 'iodine_vapour', other: 'keep', chance: 0.05, heat: 200, reason: 'Iodine attacks aluminium, throwing off clouds of purple vapour' },
+    },
   },
   {
     key: 'iodine_vapour',
@@ -3646,6 +3797,10 @@ export const ELEMENTS: readonly ElementDef[] = [
     boil: 59,
     boilInto: 'bromine_vapour',
     toxic: true,
+    overrides: {
+      potassium: { self: 'fire', other: 'smoke', chance: 0.4, heat: 400, reason: 'Potassium explodes into flame in bromine' },
+      aluminium: { self: 'fire', other: 'smoke', chance: 0.15, heat: 400, reason: 'Aluminium bursts into flame in bromine' },
+    },
   },
   {
     key: 'bromine_vapour',
@@ -3680,6 +3835,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.4,
     melt: 30,
     meltInto: 'liquid_gallium',
+    overrides: {
+      aluminium: { self: 'keep', other: 'shards', chance: 0.01, reason: 'Gallium soaks into aluminium and makes it crumble' },
+    },
   },
   {
     key: 'liquid_gallium',
@@ -3700,6 +3858,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     temp: 35,
     heatCapacity: 0.37,
     conductivity: 0.4,
+    overrides: {
+      aluminium: { self: 'keep', other: 'shards', chance: 0.03, reason: 'Liquid gallium soaks into aluminium and makes it crumble' },
+    },
   },
   {
     key: 'cactus_seed',
@@ -3862,6 +4023,11 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 1,
     conductivity: 0.3,
     bake: { at: 35, into: 'water', gas: 'carbon_dioxide' },
+    overrides: {
+      sand: { self: 'foam', other: 'keep', gas: 'carbon_dioxide', chance: 0.05, reason: 'Grains of sand set the soda fizzing' },
+      sugar: { self: 'foam', other: 'keep', gas: 'carbon_dioxide', chance: 0.2, reason: 'Sugar makes the soda foam over as its gas escapes' },
+      salt: { self: 'foam', other: 'keep', gas: 'carbon_dioxide', chance: 0.3, reason: 'Salt makes the soda foam over as its gas escapes' },
+    },
   },
   {
     key: 'fuse',
@@ -3937,6 +4103,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.2,
     cures: true,
     solubility: 0.3,
+    overrides: {
+      plague: { self: 'keep', other: 'empty', chance: 0.5, reason: 'Medicine kills the germs in the air' },
+    },
   },
   {
     key: 'mould',
@@ -4070,6 +4239,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     heatCapacity: 2,
     conductivity: 0.3,
     bake: { at: 180, into: 'bread', gas: 'steam' },
+    overrides: {
+      iodine: { self: 'blue_dye', other: 'keep', chance: 0.2, reason: 'Iodine turns the starch in dough blue-black' },
+    },
   },
   {
     key: 'bread',
@@ -4138,6 +4310,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.5,
     bake: { at: 105, into: 'steam' },
     overrides: {
+      plague: { self: 'keep', other: 'empty', chance: 0.5, reason: 'Soap kills the germs' },
       oxygen: { self: 'foam', other: 'empty', chance: 0.4, reason: 'Gas bubbling through soap whips it into foam' },
       carbon_dioxide: { self: 'foam', other: 'empty', chance: 0.4, reason: 'Gas bubbling through soap whips it into foam' },
       hydrogen: { self: 'foam', other: 'empty', chance: 0.4, reason: 'Gas bubbling through soap whips it into foam' },
@@ -4160,6 +4333,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     drift: 0.2,
     decaysInto: 'empty',
     decayChance: 0.002,
+    overrides: {
+      fire: { self: 'keep', other: 'smoke', chance: 0.6, reason: 'Foam blankets the flame and smothers it' },
+    },
   },
   {
     key: 'epoxy_resin',
@@ -4231,6 +4407,11 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.2,
     solubility: 0.6,
     toxic: true,
+    overrides: {
+      ammonia: { self: 'blue_dye', other: 'keep', chance: 0.1, reason: 'Ammonia turns copper sulfate a deep royal blue' },
+      zinc: { self: 'keep', other: 'wire', chance: 0.03, reason: 'Copper comes out of the copper sulfate onto the zinc' },
+      iron: { self: 'keep', other: 'wire', chance: 0.02, reason: 'Copper comes out of the copper sulfate and coats the iron' },
+    },
   },
   {
     key: 'copper_sulfate_crystal',
@@ -4504,6 +4685,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     fuel: 260,
     flameTemp: 950,
     burnInto: 'empty',
+    overrides: {
+      nitric_acid: { self: 'nitro', other: 'empty', chance: 0.05, heat: 50, reason: 'Nitric acid turns glycerin into nitroglycerin. Careful.' },
+    },
   },
   {
     key: 'potassium_permanganate',
@@ -4521,6 +4705,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     oxidiser: 0.8,
     solubility: 0.2,
     overrides: {
+      hydrogen_peroxide: { self: 'keep', other: 'water', gas: 'oxygen', chance: 0.3, heat: 40, reason: 'Permanganate tears hydrogen peroxide apart into bubbling oxygen' },
       glycerin: { self: 'keep', other: 'keep', chance: 0.5, heat: 12, runaway: true, reason: 'Permanganate slowly oxidises glycerin, which heats up until it bursts into flame' },
     },
   },
@@ -4640,6 +4825,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.5,
     bake: { at: 101, into: 'steam' },
     overrides: {
+      chocolate: { self: 'keep', other: 'molten_chocolate', chance: 0.05, minTemp: 50, reason: 'Warm milk melts chocolate into hot chocolate' },
       lemon_juice: { self: 'curds', other: 'keep', chance: 0.3, reason: 'Acid curdles milk into curds' },
       vinegar: { self: 'curds', other: 'keep', chance: 0.3, reason: 'Acid curdles milk into curds' },
     },
@@ -4674,6 +4860,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.5,
     acidity: 0.25,
     bake: { at: 101, into: 'steam' },
+    overrides: {
+      rust: { self: 'water', other: 'iron', chance: 0.04, reason: 'Lemon juice dissolves the rust away, leaving bare iron' },
+    },
   },
   {
     key: 'red_dye',
@@ -5029,6 +5218,9 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.4,
     magnetic: true,
     rustsInto: 'rust',
+    overrides: {
+      sulfur: { self: 'gravel', other: 'empty', chance: 0.3, heat: 400, minTemp: 300, reason: 'Heated iron and sulfur combine in a creeping red glow into black iron sulfide' },
+    },
   },
   {
     key: 'glue',
@@ -5049,6 +5241,10 @@ export const ELEMENTS: readonly ElementDef[] = [
     conductivity: 0.1,
     cureFrames: 240,
     curesInto: 'dried_glue',
+    overrides: {
+      paper: { self: 'keep', other: 'wood', chance: 0.02, reason: 'Layers of glued paper set into hard board' },
+      sawdust: { self: 'keep', other: 'wood', chance: 0.05, reason: 'Glue binds sawdust back into solid board' },
+    },
   },
   {
     key: 'dried_glue',

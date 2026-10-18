@@ -1,4 +1,21 @@
-import { explain } from './chem';
+import {
+  P_RULE,
+  R_ABSORB,
+  R_ACIDIFY,
+  R_COMBUST,
+  R_CORRODE,
+  R_DISSOLVE,
+  R_FERMENT,
+  R_NEUTRAL,
+  R_OVERRIDE,
+  R_QUENCH,
+  R_ROT,
+  R_RUST,
+  R_SET,
+  R_THAW,
+  R_TOXIC,
+  explain,
+} from './chem';
 import {
   AMBIENT,
   DOWN_INTO,
@@ -6,9 +23,18 @@ import {
   ELEMENT_COUNT,
   EMPTY,
   ENTER_P,
+  FERMENT_INTO_OF,
+  IGNITION_OF,
+  POROUS_MAX_OF,
+  SETS_INTO_OF,
+  SOLVENT_OF,
+  TOXIC_OF,
   OXIDISER_OF,
   PHASE_OF,
   PH_LIQUID,
+  ROTS_INTO_OF,
+  RUSTS_INTO_OF,
+  SOLUBLE_MAX_OF,
   UP_INTO,
   type ElementDef,
 } from './elements';
@@ -139,7 +165,7 @@ export function elementFacts(id: number): [string, string][] {
   if (e.glowPaint) out.push(['Glows', 'in the dark after soaking up light']);
   if (e.solar) out.push(['Powers', `${num.format(e.emf ?? 0)} V a cell in full daylight, less in shade`]);
   if (e.decaysInto !== undefined) out.push(['Fades', `away on its own into ${e.decaysInto === 'empty' ? 'nothing' : nameOf(e.decaysInto)}`]);
-  if (e.diode) out.push(['One way', 'current passes only rightwards or upwards through it']);
+  if (e.diode) out.push(['One way', 'current passes one way only: in at its left or bottom end, out at its right or top end, whatever shape it is painted in']);
   if (e.capacitor) out.push(['Stores', 'charge while current flows through it, and gives it back; pops past 12 V']);
   if (e.motor) out.push(['Turns', 'while powered, carrying what rests on top along the way the current runs']);
   if (e.coil) out.push(['Pulls', `iron filings within ${e.coil} cells while current runs through it`]);
@@ -229,4 +255,89 @@ export function pairLines(a: number, b: number): string[] {
     lines.push(`${A.name} (${n0.format(Ta)} °C) can set ${B.name.toLowerCase()} on fire (it ignites at ${n0.format(B.ignition)} °C)`);
   }
   return lines;
+}
+
+/** "a", "a or b", "a, b or c": up to three element names. */
+function names(ids: number[]): string {
+  const n = ids.slice(0, 3).map((b) => ELEMENTS[b].name.toLowerCase());
+  return n.length < 2 ? n.join('') : `${n.slice(0, -1).join(', ')} or ${n[n.length - 1]}`;
+}
+
+/**
+ * More things to try with an element, read from the reaction table, in plain
+ * words: its own hand-written reactions first (each says what it meets and
+ * what happens), then one line for each kind of general reaction, naming a
+ * few of the elements it works with. For the scrolling hint list on the card.
+ */
+export function moreTips(id: number): string[] {
+  const N = ELEMENT_COUNT;
+  const own: string[] = [];
+  const seen = new Set<number>();
+  const groups = new Map<string, number[]>();
+  const add = (key: string, b: number): void => {
+    const g = groups.get(key);
+    if (!g) groups.set(key, [b]);
+    else if (!g.includes(b)) g.push(b);
+  };
+  const acidic = (x: number): boolean => (ELEMENTS[x].acidity ?? 0) >= 0.3;
+  for (let b = 1; b < N; b++) {
+    if (b === id) continue;
+    for (const [x, y] of [
+      [id, b],
+      [b, id],
+    ]) {
+      const rule = P_RULE[x * N + y];
+      if (rule === 0) continue;
+      if (rule === R_OVERRIDE) {
+        const why = explain(x, y);
+        if (why && !seen.has(b)) {
+          seen.add(b);
+          own.push(`With ${ELEMENTS[b].name.toLowerCase()}: ${why}.`);
+        }
+        continue;
+      }
+      if (rule === R_CORRODE) add(acidic(id) ? 'eats' : 'eaten', b);
+      else if (rule === R_COMBUST) add(IGNITION_OF[id] !== Infinity ? 'burns' : 'feeds', b);
+      else if (rule === R_NEUTRAL) add('neutral', b);
+      else if (rule === R_DISSOLVE) add(SOLVENT_OF[id] !== 0 ? 'takes' : 'dissolves', b);
+      else if (rule === R_ABSORB) add(POROUS_MAX_OF[id] !== 0 ? 'soaks' : 'soaked', b);
+      else if (rule === R_SET) add(SETS_INTO_OF[id] !== 0 ? 'sets' : 'setsOther', b);
+      else if (rule === R_THAW) add(SOLUBLE_MAX_OF[id] !== 0 ? 'thaws' : 'thawed', b);
+      else if (rule === R_ACIDIFY) add(PHASE_OF[id] === PH_LIQUID ? 'acidified' : 'acidifies', b);
+      else if (rule === R_TOXIC) add(TOXIC_OF[id] !== 0 ? 'poisons' : 'poisoned', b);
+      else if (rule === R_RUST) add(RUSTS_INTO_OF[id] !== 0 ? 'rusts' : 'rustsOther', b);
+      else if (rule === R_ROT) add(ROTS_INTO_OF[id] !== 0 ? 'rots' : 'rotsOther', b);
+      else if (rule === R_FERMENT) add(FERMENT_INTO_OF[id] !== 0 ? 'ferments' : 'fermentedBy', b);
+      else if (rule === R_QUENCH) add(PHASE_OF[id] === PH_LIQUID ? 'quenches' : 'quenched', b);
+    }
+  }
+  const lines: Record<string, (l: string) => string> = {
+    eats: (l) => `Pour it on ${l}: it fizzes and eats them away.`,
+    eaten: (l) => `Pour ${l} on it: it fizzes and is eaten away.`,
+    burns: () => 'Touch it with fire: it catches and burns.',
+    feeds: () => 'Bring it near a small fire: the flames burn brighter.',
+    neutral: (l) => `Mix it with ${l}: they cancel out into warm water.`,
+    takes: (l) => `Stir ${l} into it: they dissolve and colour it.`,
+    dissolves: (l) => `Stir it into ${l}: it disappears into it.`,
+    soaks: (l) => `Pour ${l} on it: it soaks it up and darkens.`,
+    soaked: (l) => `Pour it on ${l}: it soaks in.`,
+    sets: (l) => `Pour ${l} on it: it sets hard.`,
+    setsOther: (l) => `Pour it on ${l}: it sets hard.`,
+    thaws: (l) => `Sprinkle it on ${l}: it melts them.`,
+    thawed: (l) => `Sprinkle ${l} on it: it melts.`,
+    acidifies: (l) => `Let it drift onto ${l}: it turns into acid.`,
+    acidified: (l) => `Let ${l} reach it: it turns into acid.`,
+    poisons: (l) => `Let it touch ${l}: they wither.`,
+    poisoned: (l) => `Keep ${l} away from it: it withers.`,
+    rusts: (l) => `Leave it touching ${l}: it slowly rusts.`,
+    rustsOther: (l) => `Leave ${l} in it: they slowly rust.`,
+    rots: (l) => `Leave it in ${l}: it slowly rots.`,
+    rotsOther: (l) => `Leave ${l} in it: they slowly rot.`,
+    ferments: () => 'Add it to water with sugar stirred in: it bubbles and makes alcohol.',
+    fermentedBy: (l) => `Stir in sugar and add ${l}: it bubbles and turns into alcohol.`,
+    quenches: () => 'Pour it on a fire: it puts it out in a hiss of steam.',
+    quenched: (l) => `Pour ${l} on it: it goes out.`,
+  };
+  const general = [...groups].map(([key, ids]) => lines[key](names(ids)));
+  return [...own.slice(0, 8), ...general];
 }
