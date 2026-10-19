@@ -9806,7 +9806,7 @@ Hard yellow kernels, a powder. Falls and piles. Heat them and they pop into ligh
 - **State:** Powder, 1,200 kg/m³
 - **In liquids:** Sinks through liquids lighter than 1,200 kg/m³, rests on heavier ones
 - **Falls:** up to 150 cells/s
-- **Bakes:** at 180 °C into popcorn; there is no way back
+- **Bakes:** at 180 °C into popcorn, giving off steam; there is no way back
 - **Hardness:** 0.3 (acid stronger than this eats it)
 
 With other elements (62 interact):
