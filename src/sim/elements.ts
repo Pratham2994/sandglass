@@ -245,9 +245,11 @@ export interface ElementDef {
   /**
    * A one-way change by heat, with no reverse: past `at` °C it becomes
    * `into`, giving off `gas` above it if there is room (clay → brick,
-   * limestone → quicklime and carbon dioxide).
+   * limestone → quicklime and carbon dioxide). With `pop` it bursts: it
+   * jumps, throws what lies on it, and swells into up to `pop` more cells of
+   * `into` where there is room (a kernel into popcorn).
    */
-  bake?: { at: number; into: string; gas?: string };
+  bake?: { at: number; into: string; gas?: string; pop?: number };
   /** Gases: dissolving in water turns the water into this (sulfur dioxide → acid). */
   acidGas?: string;
   /** Kills living things it touches (they wither): poisonous gases, salt, bleach. */
@@ -2778,7 +2780,7 @@ export const ELEMENTS: readonly ElementDef[] = [
     fallMax: 150,
     heatCapacity: 0.8,
     conductivity: 0.1,
-    bake: { at: 180, into: 'popcorn' },
+    bake: { at: 180, into: 'popcorn', gas: 'steam', pop: 2 },
   },
   {
     key: 'popcorn',
@@ -5591,6 +5593,7 @@ export const SETS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.setsInto))
 export const BAKE_T_OF = Float32Array.from(ELEMENTS, (e) => e.bake?.at ?? Infinity);
 export const BAKE_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.bake?.into));
 export const BAKE_GAS_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.bake?.gas));
+export const BAKE_POP_OF = Uint8Array.from(ELEMENTS, (e) => e.bake?.pop ?? 0);
 export const ACID_GAS_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.acidGas));
 export const TOXIC_OF = Uint8Array.from(ELEMENTS, (e) => (e.toxic ? 1 : 0));
 export const ROTS_INTO_OF = Uint16Array.from(ELEMENTS, (e) => idOr0(e.rotsInto));

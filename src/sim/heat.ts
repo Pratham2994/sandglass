@@ -24,6 +24,7 @@ import {
   UP_T,
   BAKE_GAS_OF,
   BAKE_INTO_OF,
+  BAKE_POP_OF,
   BAKE_T_OF,
   FIRE,
   FLAME_T_OF,
@@ -221,6 +222,7 @@ function settle(world: World, i: number, x: number, y: number): void {
   // So do self-fed fuels (thermite): past ignition they start burning where they are.
   if (SELF_FED_OF[t] !== 0 && T >= IGNITION_OF[t]) {
     type[i] = FIRE;
+    world.changed(i, t);
     world.solute[i] = t;
     world.life[i] = FUEL_OF[t];
     if (T < FLAME_T_OF[t] * 0.8) temp[i] = FLAME_T_OF[t] * 0.8;
@@ -230,9 +232,11 @@ function settle(world: World, i: number, x: number, y: number): void {
   // Baking: a one-way change by heat (clay → brick), sometimes giving off a gas.
   if (T >= BAKE_T_OF[t]) {
     type[i] = BAKE_INTO_OF[t];
+    world.changed(i, t);
     world.solute[i] = 0;
     world.conc[i] = 0;
     world.vy[i] = 0;
+    if (BAKE_POP_OF[t] !== 0) pop(world, i, x, y, t, T);
     const g = BAKE_GAS_OF[t];
     if (g !== 0 && y > 0 && type[i - world.w] === EMPTY) {
       world.place(i - world.w, g);
@@ -255,6 +259,7 @@ function settle(world: World, i: number, x: number, y: number): void {
     const s = world.solute[i];
     if (SOLVENT_OF[t] !== 0 && s !== 0 && conc[i] >= CONC_UNIT) {
       type[i] = s;
+      world.changed(i, t);
       world.solute[i] = 0;
       conc[i] = 0;
       temp[i] = T - UP_LATENT[t];
@@ -269,6 +274,7 @@ function settle(world: World, i: number, x: number, y: number): void {
       if ((x > 0 && type[i - 1] === wth) || (x + 1 < world.w && type[i + 1] === wth) || (y + 1 < world.h && type[i + world.w] === wth) || (y > 0 && type[i - world.w] === wth)) into = MIST_INTO_OF[t];
     }
     type[i] = into;
+    world.changed(i, t);
     temp[i] = T - UP_LATENT[t];
     world.solute[i] = 0;
     conc[i] = 0;
@@ -286,8 +292,55 @@ function settle(world: World, i: number, x: number, y: number): void {
       if (below !== PH_SOLID && below !== PH_POWDER) into = RUBBLE_OF[into];
     }
     type[i] = into;
+    world.changed(i, t);
     temp[i] = T + DOWN_LATENT[t];
     world.vy[i] = 0;
     world.wake(x, y);
   }
+}
+
+/** Up, up-left, up-right, left, right, then the lower corners: where a popping kernel swells to. */
+const POP_DX = [0, -1, 1, -1, 1, -1, 1];
+const POP_DY = [-1, -1, -1, 0, 0, 1, 1];
+/** Air speed a pop throws upwards and, at most, to the side. */
+const POP_UP = 0.9;
+const POP_SIDE = 0.45;
+/** Cells of loose grains a pop shoves its way up through. */
+const POP_CLIMB = 4;
+
+/**
+ * Cell i (at x, y) has just burst from element `from` (a kernel) into what
+ * it is now: the steam inside blows it open, so it swells into up to
+ * BAKE_POP_OF more cells of itself where there is room, and a puff of air
+ * throws it and what lies round it upwards, a little to one side.
+ */
+function pop(world: World, i: number, x: number, y: number, from: number, T: number): void {
+  const { w, h, type, temp } = world;
+  const into = type[i];
+  // The burst shoves it up through the loose grains on top of it, which drop into its place.
+  for (let s = 0; s < POP_CLIMB && y > 0; s++) {
+    const j = i - w;
+    if (PHASE_OF[type[j]] !== PH_POWDER || type[j] === into) break;
+    world.swapCells(i, j);
+    world.wake(x, y);
+    i = j;
+    y--;
+  }
+  let left = BAKE_POP_OF[from];
+  const start = world.rng.nextU32() % 3;
+  for (let k = 0; k < POP_DX.length && left > 0; k++) {
+    // The three cells above in a random order, so the swell does not lean one way.
+    const d = k < 3 ? (k + start) % 3 : k;
+    const nx = x + POP_DX[d];
+    const ny = y + POP_DY[d];
+    if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+    const j = ny * w + nx;
+    if (type[j] !== EMPTY) continue;
+    world.place(j, into);
+    temp[j] = T;
+    world.changed(j, from);
+    left--;
+  }
+  const side = ((world.rng.nextU32() & 255) - 127.5) / 127.5;
+  world.air.addVelocity(x, y, side * POP_SIDE, -POP_UP, 0);
 }

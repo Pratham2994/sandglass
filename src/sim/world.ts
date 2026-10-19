@@ -1,4 +1,5 @@
-import { AMBIENT, EMPTY, FADES_OF, GATE_OF, GATE_SWITCH, LIFE_OF, TEMP_OF } from './elements';
+import { AMBIENT, ELEMENT_COUNT, EMPTY, FADES_OF, GATE_OF, GATE_SWITCH, LIFE_OF, TEMP_OF } from './elements';
+import { MORPH_FADE, MORPH_STYLE_OF } from './morph';
 import { Air } from './air';
 import { Rng } from './rng';
 
@@ -59,6 +60,18 @@ export class World {
   frame = 0;
   /** Brightness of a nuke's white flash over the whole view (0 to 1), fading each step. Only drawn, never saved. */
   flash = 0;
+  /**
+   * A change of element still showing (see morph.ts): how far it has to go
+   * (255 just changed, 0 done), the element it was, and its style. They move
+   * with the cell. Only drawn, never saved or hashed.
+   */
+  morph: Uint8Array;
+  morphFrom: Uint16Array;
+  morphStyle: Uint8Array;
+  /** Changes still showing somewhere, so fading can skip the grid when there are none. */
+  morphing = false;
+  /** While set, changes are not shown (the player's own brush strokes appear and vanish at once). */
+  quiet = false;
 
   constructor(w: number, h: number, seed: number) {
     this.w = w;
@@ -74,6 +87,9 @@ export class World {
     this.conc = new Uint8Array(this.size);
     this.charge = new Uint8Array(this.size);
     this.volt = new Float32Array(this.size);
+    this.morph = new Uint8Array(this.size);
+    this.morphFrom = new Uint16Array(this.size);
+    this.morphStyle = new Uint8Array(this.size);
     this.cw = Math.ceil(w / CHUNK);
     this.ch = Math.ceil(h / CHUNK);
     this.awake = new Uint8Array(this.cw * this.ch);
@@ -119,6 +135,10 @@ export class World {
     this.conc = new Uint8Array(this.size);
     this.charge = new Uint8Array(this.size);
     this.volt = new Float32Array(this.size);
+    this.morph = new Uint8Array(this.size);
+    this.morphFrom = new Uint16Array(this.size);
+    this.morphStyle = new Uint8Array(this.size);
+    this.morphing = false;
     const dy = h - old.h;
     const cols = Math.min(w, old.w);
     for (let y = 0; y < h; y++) {
@@ -158,6 +178,7 @@ export class World {
     this.volt.reverse();
     this.stamp.fill(0);
     this.vy.fill(0);
+    this.clearMorph();
     this.air.clear();
     this.wakeAll();
   }
@@ -174,6 +195,7 @@ export class World {
     this.conc.fill(0);
     this.charge.fill(0);
     this.volt.fill(0);
+    this.clearMorph();
     this.air.clear();
     this.wakeAll();
   }
@@ -194,6 +216,7 @@ export class World {
     this.awakeNext.fill(1);
     this.warm.fill(0);
     this.warmNext.fill(1);
+    this.clearMorph();
     this.air.clear();
     this.seed = seed;
     this.rng.seed(seed);
@@ -258,9 +281,54 @@ export class World {
     return 1 + (this.frame % 255);
   }
 
+  /** Drops every change still showing (after a rewind, the old ones belong to another time). */
+  clearMorph(): void {
+    this.morph.fill(0);
+    this.morphing = false;
+  }
+
+  /** Cell i has just turned from element `from` into what it is now: show the change. */
+  changed(i: number, from: number): void {
+    if (this.quiet) return;
+    const style = MORPH_STYLE_OF[from * ELEMENT_COUNT + this.type[i]];
+    if (style === 0) return;
+    // A cell changing again mid-way keeps showing the element it started as.
+    if (this.morph[i] === 0) this.morphFrom[i] = from;
+    this.morph[i] = 255;
+    this.morphStyle[i] = style;
+    this.morphing = true;
+  }
+
+  /** One frame of every change still showing. */
+  fadeMorph(): void {
+    if (!this.morphing) return;
+    const { morph, morphStyle } = this;
+    let any = false;
+    for (let i = 0; i < this.size; i++) {
+      const m = morph[i];
+      if (m === 0) continue;
+      const f = MORPH_FADE[morphStyle[i]];
+      morph[i] = m > f ? m - f : 0;
+      any = true;
+    }
+    this.morphing = any;
+  }
+
   /** Swaps every field of cells i and j (movement never creates or destroys). */
   swapCells(i: number, j: number): void {
-    const { type, vy, stamp, shade, temp, life, solute, conc, charge, volt } = this;
+    const { type, vy, stamp, shade, temp, life, solute, conc, charge, volt, morph } = this;
+    // A change still showing moves with its cell.
+    if ((morph[i] | morph[j]) !== 0) {
+      let m: number = morph[i];
+      morph[i] = morph[j];
+      morph[j] = m;
+      m = this.morphFrom[i];
+      this.morphFrom[i] = this.morphFrom[j];
+      this.morphFrom[j] = m;
+      m = this.morphStyle[i];
+      this.morphStyle[i] = this.morphStyle[j];
+      this.morphStyle[j] = m;
+    }
     let v: number = type[i];
     type[i] = type[j];
     type[j] = v;
@@ -295,7 +363,11 @@ export class World {
 
   /** Places a new cell of element `t` at index i, replacing what was there, and wakes it. */
   place(i: number, t: number): void {
+    const from = this.type[i];
     this.type[i] = t;
+    if (from !== t && from !== EMPTY) this.changed(i, from);
+    // Something new in an empty cell: whatever faded out there is gone.
+    else if (from === EMPTY) this.morph[i] = 0;
     this.vy[i] = 0;
     this.stamp[i] = 0;
     this.shade[i] = t === EMPTY ? 0 : this.rng.nextU32() & 255;

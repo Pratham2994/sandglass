@@ -193,6 +193,7 @@ export class Timeline {
     w.conc.set(s.conc);
     w.charge.set(s.charge);
     w.volt.set(s.volt);
+    w.clearMorph();
     w.rng.seed(s.rng);
     w.air.p.set(s.airP);
     w.air.vx.set(s.airVx);

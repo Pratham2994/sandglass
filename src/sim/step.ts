@@ -220,6 +220,7 @@ export function step(world: World): void {
   airPass(world, st);
   world.flash = world.flash > 0.01 ? world.flash * 0.95 : 0;
   fxStep(world);
+  world.fadeMorph();
   world.frame++;
 }
 
@@ -1421,6 +1422,7 @@ function ignite(world: World, i: number, fuel: number): void {
     return;
   }
   world.type[i] = FIRE;
+  world.changed(i, fuel);
   world.solute[i] = fuel;
   world.life[i] = FUEL_OF[fuel] || 30;
   world.vy[i] = 0;
@@ -1786,6 +1788,7 @@ function updateFire(world: World, x: number, y: number, i: number, st: number): 
     // Smothered or cooled: the fire goes out and the fuel is left.
     if (ox === 0 && ((r >>> 8) & 255) >= 10) return;
     type[i] = fuel;
+    world.changed(i, FIRE);
     solute[i] = 0;
     life[i] = 0;
     return;

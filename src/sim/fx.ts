@@ -104,7 +104,7 @@ export function fxStep(world: World): void {
 }
 
 /** Brightness and kind of every cell, for the renderer; null when nothing has flashed yet. */
-export function fxLevels(world: World): { level: Uint8Array; kind: Uint8Array } | null {
+export function fxLevels(world: World): { level: Uint8Array; kind: Uint8Array; n: number } | null {
   const f = fxs.get(world);
   return f && f.size === world.size ? f : null;
 }

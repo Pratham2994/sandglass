@@ -66,7 +66,10 @@ export function applyOp(world: World, op: Op): void {
     world.wake(Math.max(0, Math.min(world.w - 1, op.x)), Math.max(0, Math.min(world.h - 1, op.y)));
     return;
   }
+  // The player's own strokes appear and vanish at once; only what the world does to itself morphs.
+  world.quiet = true;
   stamp(world, op.x, op.y, op.r, op.mode);
+  world.quiet = false;
 }
 
 /** Is there a switch at cell (x, y)? */

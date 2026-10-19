@@ -1,4 +1,5 @@
-import { ELEMENTS, ELEMENT_COUNT, LIT_RGB_OF } from '../sim/elements';
+import { ELEMENTS, ELEMENT_COUNT, LIT_RGB_OF, PHASE_OF, PH_GAS, PH_LIQUID, UP_INTO, UP_T } from '../sim/elements';
+import { MORPH_STYLES } from '../sim/morph';
 import { litLevels } from '../sim/circuit';
 import { FX_RGB, fxLevels } from '../sim/fx';
 import { CHUNK, type World } from '../sim/world';
@@ -20,6 +21,9 @@ void main() {
  * Data textures are in world order (row 0 at the top); fragments count from
  * the bottom, so the cell row is flipped.
  */
+/** °C below its boiling point at which a liquid starts to show bubbles. */
+const SIMMER = 25;
+
 const SCENE = `#version 300 es
 precision highp float;
 precision highp int;
@@ -33,11 +37,18 @@ uniform usampler2D uSolute;
 uniform usampler2D uConc;
 uniform usampler2D uCharge;
 uniform usampler2D uLit;
-uniform sampler2D uLitCol;
-/** Reaction flashes: brightness and kind per cell, and a colour per kind. */
+/**
+ * Small tables, one row each: 0 light colour by element, 1 flash colour by
+ * kind, 2 change tint (alpha: strength) by style, 3 whether that tint lights
+ * its surroundings, 4 boiling point by element (°C + 273 in red and green;
+ * 65535 if it never boils).
+ */
+uniform sampler2D uTable;
+/** Reaction flashes: brightness in the low byte, kind in the high byte. */
 uniform usampler2D uFx;
-uniform usampler2D uFxKind;
-uniform sampler2D uFxCol;
+/** Changes of element still showing: how far to go in the low byte, style in the high byte; and the element each was. */
+uniform usampler2D uMorph;
+uniform usampler2D uMorphFrom;
 uniform sampler2D uTemp;
 uniform sampler2D uPal;
 uniform sampler2D uGlow;
@@ -103,7 +114,7 @@ void body() {
     uint glv = texelFetch(uLit, p, 0).r;
     if (glv > 0u) {
       float k = float(glv) / 255.0;
-      vec3 lc = texelFetch(uLitCol, ivec2(int(t), 0), 0).rgb;
+      vec3 lc = texelFetch(uTable, ivec2(int(t), 0), 0).rgb;
       gc = mix(gc, lc, 0.35 + 0.6 * k);
       oEmit = vec4(lc * (0.3 + 0.9 * k), 1.0);
     }
@@ -165,6 +176,17 @@ void body() {
     else if (p.y - runTop(p, 6) + 1 > 6) level = L_DEEP;
   }
   vec3 c = min(pal(t, s) * LIGHT[level], vec3(1.0));
+  // Close to its boiling point a liquid fills with bubbles that rise through it, more the nearer it gets.
+  if (tex == TEX_LIQUID) {
+    vec4 bt = texelFetch(uTable, ivec2(int(t), 4), 0);
+    float bp = floor(bt.r * 255.0 + 0.5) * 256.0 + floor(bt.g * 255.0 + 0.5) - 273.0;
+    float near = (texelFetch(uTemp, p, 0).r - bp + ${SIMMER.toFixed(1)}) / ${SIMMER.toFixed(1)};
+    if (bp < 65000.0 && near > 0.0) {
+      // The pattern moves up a cell every other frame, so each bubble rises.
+      float b = hash(ivec2(p.x * 3 + 17, p.y + (uFrame >> 1)));
+      if (b < min(near, 1.25) * 0.08) c = mix(c, vec3(1.0), 0.42);
+    }
+  }
   // Solutions: a liquid takes a tint of what it carries; a soaked powder darkens.
   uint cn = texelFetch(uConc, p, 0).r;
   if (cn > 0u) {
@@ -181,7 +203,7 @@ void body() {
   }
   // Lights in a live circuit (LED, neon): their own colour, lighting their surroundings.
   uint lv = texelFetch(uLit, p, 0).r;
-  vec3 lc = texelFetch(uLitCol, ivec2(int(t), 0), 0).rgb;
+  vec3 lc = texelFetch(uTable, ivec2(int(t), 0), 0).rgb;
   if (lv > 0u && lc != vec3(0.0)) {
     float k = float(lv) / 255.0;
     c = mix(c, lc, 0.35 + 0.6 * k);
@@ -198,12 +220,27 @@ void body() {
 }
 void main() {
   body();
-  // A reaction here: the cell flashes its reaction's colour and lights what is round it, fading fast.
   ivec2 p = ivec2(int(gl_FragCoord.x), uSize.y - 1 - int(gl_FragCoord.y));
-  uint fl = texelFetch(uFx, p, 0).r;
+  // A change of element: the old colour gives way to the new, through the tint of its kind.
+  uint mp = texelFetch(uMorph, p, 0).r;
+  if ((mp & 255u) > 0u) {
+    float k = float(mp & 255u) / 255.0;
+    uint style = mp >> 8;
+    uint now = typeAt(p);
+    uint sh = now == 0u ? uint(hash(p) * 255.0) : texelFetch(uShade, p, 0).r;
+    vec3 old = pal(texelFetch(uMorphFrom, p, 0).r, sh);
+    vec3 c = mix(oColor.rgb, old, k * k * (3.0 - 2.0 * k));
+    vec4 tint = texelFetch(uTable, ivec2(int(style), 2), 0);
+    c = mix(c, tint.rgb, tint.a * k);
+    oColor = vec4(c, 1.0);
+    if (texelFetch(uTable, ivec2(int(style), 3), 0).r > 0.5) oEmit = vec4(max(oEmit.rgb, tint.rgb * (tint.a * k)), 1.0);
+  }
+  // A reaction here: the cell flashes its reaction's colour and lights what is round it, fading fast.
+  uint fv = texelFetch(uFx, p, 0).r;
+  uint fl = fv & 255u;
   if (fl > 0u) {
     float k = float(fl) / 255.0;
-    vec3 fc = texelFetch(uFxCol, ivec2(int(texelFetch(uFxKind, p, 0).r), 0), 0).rgb;
+    vec3 fc = texelFetch(uTable, ivec2(int(fv >> 8), 1), 0).rgb;
     oColor = vec4(mix(oColor.rgb, fc, 0.65 * k), 1.0);
     oEmit = vec4(max(oEmit.rgb, fc * (0.9 * k)), 1.0);
   }
@@ -343,9 +380,11 @@ export class WebGLRenderer implements Renderer {
   private readonly comp: WebGLProgram;
   private readonly vao: WebGLVertexArrayObject;
   private readonly floatTargets: boolean;
-  private readonly dataTex: Record<'type' | 'shade' | 'stamp' | 'stone' | 'temp' | 'awake' | 'solute' | 'conc' | 'charge' | 'lit' | 'fx' | 'fxKind', WebGLTexture>;
-  private readonly litColTex: WebGLTexture;
-  private readonly fxColTex: WebGLTexture;
+  private readonly dataTex: Record<'type' | 'shade' | 'stamp' | 'stone' | 'temp' | 'awake' | 'solute' | 'conc' | 'charge' | 'lit' | 'fx' | 'morph' | 'morphFrom', WebGLTexture>;
+  private readonly tableTex: WebGLTexture;
+  /** Packed flash and change levels, made each frame they are showing. */
+  private fxPacked = new Uint16Array(0);
+  private morphPacked = new Uint16Array(0);
   /** Uniform locations by program and name; a miss still asks the driver, so the cache never hides a location. */
   private readonly locs = new Map<WebGLProgram, Map<string, WebGLUniformLocation | null>>();
   /** Grid of zeros, standing in for absent level textures so a dropped array reads as nothing. */
@@ -371,7 +410,7 @@ export class WebGLRenderer implements Renderer {
     this.gl = gl;
     this.canvas = canvas;
     this.floatTargets = gl.getExtension('EXT_color_buffer_float') !== null;
-    this.scene = this.program(SCENE, [['uType', 0], ['uShade', 1], ['uStamp', 2], ['uStone', 3], ['uTex', 4], ['uTemp', 5], ['uPal', 6], ['uGlow', 7], ['uSolute', 8], ['uConc', 9], ['uCharge', 10], ['uLit', 11], ['uLitCol', 12], ['uFx', 13], ['uFxKind', 14], ['uFxCol', 15]]);
+    this.scene = this.program(SCENE, [['uType', 0], ['uShade', 1], ['uStamp', 2], ['uStone', 3], ['uTex', 4], ['uTemp', 5], ['uPal', 6], ['uGlow', 7], ['uSolute', 8], ['uConc', 9], ['uCharge', 10], ['uLit', 11], ['uTable', 12], ['uFx', 13], ['uMorph', 14], ['uMorphFrom', 15]]);
     this.down = this.program(DOWN, [['uSrc', 0]]);
     this.blur = this.program(BLUR, [['uSrc', 0]]);
     this.comp = this.program(COMPOSITE, [['uScene', 0], ['uLight', 1], ['uTemp', 2], ['uType', 3], ['uAwake', 4], ['uPress', 5], ['uVel', 6]]);
@@ -390,7 +429,8 @@ export class WebGLRenderer implements Renderer {
       charge: this.texture(),
       lit: this.texture(),
       fx: this.texture(),
-      fxKind: this.texture(),
+      morph: this.texture(),
+      morphFrom: this.texture(),
     };
 
     // Palette: one row per element, 256 shades, plain light level.
@@ -411,21 +451,26 @@ export class WebGLRenderer implements Renderer {
     this.glowTex = this.texture(gl.LINEAR);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, 256, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, glowBytes);
 
-    // Light colours by element (LED red, neon orange), for lit cells.
-    const litBytes = new Uint8Array(ELEMENT_COUNT * 4);
+    // The small tables (see uTable in the scene shader).
+    const tw = Math.max(ELEMENT_COUNT, FX_RGB.length, MORPH_STYLES.length);
+    const table = new Uint8Array(tw * 5 * 4);
+    const row = (r: number, k: number, a: number, b: number, c: number, d: number): void => table.set([a, b, c, d], (r * tw + k) * 4);
     for (let id = 0; id < ELEMENT_COUNT; id++) {
+      // Light colours by element (LED red, neon orange), for lit cells.
       const c = LIT_RGB_OF[id];
-      litBytes[id * 4] = (c >> 16) & 255;
-      litBytes[id * 4 + 1] = (c >> 8) & 255;
-      litBytes[id * 4 + 2] = c & 255;
-      litBytes[id * 4 + 3] = 255;
+      row(0, id, (c >> 16) & 255, (c >> 8) & 255, c & 255, 255);
+      // Boiling points, for the bubbles: only liquids that boil into a gas.
+      const boils = PHASE_OF[id] === PH_LIQUID && PHASE_OF[UP_INTO[id]] === PH_GAS && UP_T[id] < 65000;
+      const v = boils ? Math.max(0, Math.round(UP_T[id] + 273)) : 65535;
+      row(4, id, v >> 8, v & 255, 0, 255);
     }
-    const fxBytes = new Uint8Array(FX_RGB.length * 4);
-    FX_RGB.forEach(([r, g, b], k) => fxBytes.set([r, g, b, 255], k * 4));
-    this.fxColTex = this.texture();
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, FX_RGB.length, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, fxBytes);
-    this.litColTex = this.texture();
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, ELEMENT_COUNT, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, litBytes);
+    FX_RGB.forEach(([r, g, b], k) => row(1, k, r, g, b, 255));
+    MORPH_STYLES.forEach((s, k) => {
+      row(2, k, s.tint[0], s.tint[1], s.tint[2], Math.round(s.strength * 255));
+      row(3, k, s.emits ? 255 : 0, 0, 0, 255);
+    });
+    this.tableTex = this.texture();
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, tw, 5, 0, gl.RGBA, gl.UNSIGNED_BYTE, table);
 
     this.texTex = this.texture();
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, ELEMENT_COUNT, 1, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, TEXTURE_OF);
@@ -465,10 +510,12 @@ export class WebGLRenderer implements Renderer {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
     gl.bindTexture(gl.TEXTURE_2D, this.dataTex.lit);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
-    for (const tex of [this.dataTex.fx, this.dataTex.fxKind]) {
+    for (const tex of [this.dataTex.fx, this.dataTex.morph, this.dataTex.morphFrom]) {
       gl.bindTexture(gl.TEXTURE_2D, tex);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, null);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16UI, w, h, 0, gl.RED_INTEGER, gl.UNSIGNED_SHORT, null);
     }
+    this.fxPacked = new Uint16Array(w * h);
+    this.morphPacked = new Uint16Array(w * h);
     // A null upload leaves the texture zeroed, so this is an all-zero grid to bind when there is nothing.
     // Made again at the new size; the old one is freed, or each resize would leak a texture.
     if (this.zeroTex) gl.deleteTexture(this.zeroTex);
@@ -519,12 +566,25 @@ export class WebGLRenderer implements Renderer {
       gl.bindTexture(gl.TEXTURE_2D, this.dataTex.lit);
       gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, lit);
     }
-    const fx = fxLevels(world);
+    // Flashes and changes, packed level and kind into one texture each; none showing, nothing is sent.
+    const fxLv = fxLevels(world);
+    const fx = fxLv !== null && fxLv.n > 0 && this.fxPacked.length === w * h;
     if (fx) {
+      const { level, kind } = fxLv;
+      const out = this.fxPacked;
+      for (let i = 0; i < out.length; i++) out[i] = level[i] | (kind[i] << 8);
       gl.bindTexture(gl.TEXTURE_2D, this.dataTex.fx);
-      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, fx.level);
-      gl.bindTexture(gl.TEXTURE_2D, this.dataTex.fxKind);
-      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_BYTE, fx.kind);
+      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_SHORT, out);
+    }
+    const morph = world.morphing && this.morphPacked.length === w * h;
+    if (morph) {
+      const { morph: level, morphStyle } = world;
+      const out = this.morphPacked;
+      for (let i = 0; i < out.length; i++) out[i] = level[i] | (morphStyle[i] << 8);
+      gl.bindTexture(gl.TEXTURE_2D, this.dataTex.morph);
+      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_SHORT, out);
+      gl.bindTexture(gl.TEXTURE_2D, this.dataTex.morphFrom);
+      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, w, h, gl.RED_INTEGER, gl.UNSIGNED_SHORT, world.morphFrom);
     }
     if (this.showChunks) {
       gl.bindTexture(gl.TEXTURE_2D, this.dataTex.awake);
@@ -548,10 +608,10 @@ export class WebGLRenderer implements Renderer {
     this.bind(this.dataTex.conc, 9);
     this.bind(this.dataTex.charge, 10);
     this.bind(lit ? this.dataTex.lit : this.zeroTex!, 11);
-    this.bind(this.litColTex, 12);
+    this.bind(this.tableTex, 12);
     this.bind(fx ? this.dataTex.fx : this.zeroTex!, 13);
-    this.bind(fx ? this.dataTex.fxKind : this.zeroTex!, 14);
-    this.bind(this.fxColTex, 15);
+    this.bind(morph ? this.dataTex.morph : this.zeroTex!, 14);
+    this.bind(morph ? this.dataTex.morphFrom : this.zeroTex!, 15);
     gl.uniform2i(this.uniformLoc(this.scene, 'uSize'), w, h);
     gl.uniform1i(this.uniformLoc(this.scene, 'uMoved'), world.frame === 0 ? -1 : 1 + ((world.frame - 1) % 255));
     gl.uniform1i(this.uniformLoc(this.scene, 'uFrame'), world.frame);
