@@ -1,7 +1,5 @@
 import type { Brush } from '../input/brush';
 import { ELEMENTS } from '../sim/elements';
-import { inspectCell } from '../sim/inspect';
-import type { World } from '../sim/world';
 
 /**
  * Ring colour for an element: its brightest base colour, lifted so even dark
@@ -25,24 +23,15 @@ function ringColour(id: number): string {
   return `rgb(${r} ${g} ${b} / 0.85)`;
 }
 
-/** Ring that shows the brush size under the pointer. Replaces the system cursor over the canvas. */
-export function mountCursor(brush: Brush, world: World): void {
+/**
+ * Ring that shows the brush size under the pointer. Replaces the system cursor
+ * over the canvas. Nothing else floats over the play area: what is under the
+ * pointer is read in the lens below the canvas.
+ */
+export function mountCursor(brush: Brush): void {
   const ring = document.createElement('div');
   ring.className = 'brush-ring';
-  // What is under the cursor, in a few words; the full report is in the panel.
-  const label = document.createElement('div');
-  label.className = 'cursor-label num';
-  document.body.append(ring, label);
-  const fmt = new Intl.NumberFormat('en-GB', { maximumFractionDigits: 0 });
-  const refreshLabel = (): void => {
-    const cell = brush.held ? null : brush.cellUnderPointer();
-    const rep = cell ? inspectCell(world, cell[0], cell[1]) : null;
-    label.hidden = !rep;
-    if (!rep) return;
-    label.textContent = `${rep.name} · ${fmt.format(world.temp[cell![1] * world.w + cell![0]])} °C`;
-    label.style.transform = `translate(${brush.clientX + 14}px, ${brush.clientY + 14}px)`;
-  };
-  setInterval(refreshLabel, 100);
+  document.body.append(ring);
 
   const update = (): void => {
     ring.hidden = !brush.hovering && !brush.held;
@@ -54,7 +43,6 @@ export function mountCursor(brush: Brush, world: World): void {
     // The ring takes the colour of what the brush will place; the eraser is plain white.
     ring.style.borderColor = brush.erasing ? 'rgb(255 255 255 / 0.7)' : ringColour(brush.element);
     ring.classList.toggle('erasing', brush.erasing);
-    refreshLabel();
   };
   brush.subscribe(update);
   window.addEventListener('resize', update);

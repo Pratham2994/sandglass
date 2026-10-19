@@ -51,6 +51,8 @@ const DRAIN_ROWS = 3;
 /** Share of air pressure and speed kept each frame during the intro. */
 const AIR_CALM = 0.86;
 const FONT = '"Geist Variable", ui-sans-serif, system-ui, sans-serif';
+/** A skip fades the canvas out this fast (matches `body.intro-skip` in style.css). */
+const SKIP_FADE_MS = 180;
 
 /** Smooth value noise in 0..1, with cells `scale` apart. */
 function noise(x: number, y: number, scale: number): number {
@@ -101,6 +103,7 @@ export class Intro {
   private cy = 0;
   private bottom = 0;
   private f = 0;
+  private skipping = false;
   private onDone: () => void = () => {};
 
   constructor(world: World) {
@@ -359,9 +362,15 @@ export class Intro {
     world.wakeAll();
   }
 
-  /** Ends at once with an empty world. */
+  /** Ends soon with an empty world: a quick fade out first, so a skip is a soft cut too. */
   skip(): void {
-    if (this.active) this.finish();
+    if (!this.active || this.skipping) return;
+    this.skipping = true;
+    document.body.classList.add('intro-skip');
+    this.fade(true);
+    window.setTimeout(() => {
+      if (this.active) this.finish();
+    }, SKIP_FADE_MS);
   }
 
   /** Fades the canvas out (or back in), so the end is a soft cut, not a jump. */
@@ -371,6 +380,8 @@ export class Intro {
 
   private finish(): void {
     this.active = false;
+    this.skipping = false;
+    document.body.classList.remove('intro-skip');
     this.world.reset(this.world.seed);
     // The empty canvas comes back in softly.
     requestAnimationFrame(() => this.fade(false));

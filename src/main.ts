@@ -25,7 +25,9 @@ function showFirstHint(stage: HTMLElement, brush: Brush): void {
   const text = (): string => {
     const e = ELEMENTS[brush.element];
     const verb = e.phase === 'solid' ? 'draw' : 'pour';
-    return `Drag to ${verb} ${e.name.toLowerCase()}. Right drag erases.`;
+    // A touch screen has no right button: the eraser is the button in the toolbar.
+    const erase = matchMedia('(pointer: coarse)').matches ? 'The eraser is in the toolbar.' : 'Right drag erases.';
+    return `Drag to ${verb} ${e.name.toLowerCase()}. ${erase}`;
   };
   hint.textContent = text();
   stage.append(hint);
@@ -98,7 +100,7 @@ function start(): void {
     }, RESIZE_DEBOUNCE_MS);
   }).observe(stage);
 
-  mountCursor(brush, world);
+  mountCursor(brush);
   const hud = mountHud(perf, world);
   const lib = mountLibrary(
     document.getElementById('panel') as HTMLElement,

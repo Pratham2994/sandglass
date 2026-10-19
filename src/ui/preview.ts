@@ -14,6 +14,8 @@ export class MiniSim {
   private readonly renderer: Canvas2DRenderer;
   private readonly element: number;
   private t = 0;
+  /** True while a hovered tile plays: it pours onto its sample instead of an empty box. */
+  private live = false;
 
   constructor(element: number, w: number, h: number, seed: number) {
     this.element = element;
@@ -51,6 +53,17 @@ export class MiniSim {
    * liquid, or a block of solid, filling most of the frame.
    */
   still(): void {
+    this.live = false;
+    this.sample();
+  }
+
+  /** Hover demo: more of the element pours onto the sample, so the tile never shows an empty frame. */
+  play(): void {
+    this.sample();
+    this.live = true;
+  }
+
+  private sample(): void {
     const { world } = this;
     world.reset(world.seed);
     const ph = PHASE_OF[this.element];
@@ -79,8 +92,11 @@ export class MiniSim {
   private advance(): void {
     const { world } = this;
     const ph = PHASE_OF[this.element];
-    const full = world.countFilled() > world.size * (ph === PH_LIQUID ? 0.42 : 0.38);
-    if (full || this.t > 900) this.reset();
+    const full = world.countFilled() > world.size * (this.live ? 0.72 : ph === PH_LIQUID ? 0.42 : 0.38);
+    if (full || this.t > 900) {
+      if (this.live) this.sample();
+      else this.reset();
+    }
     this.t++;
     // Pour a narrow stream of the element (or sand onto a solid) from the top;
     // gases are released from the bottom instead.

@@ -2,6 +2,8 @@
 export const BASE_CELL_PX = 4;
 /** Hard cap on cell count. Larger screens get bigger cells instead. */
 export const MAX_CELLS = 160_000;
+/** Smallest cell on a touch screen, in CSS px. */
+const TOUCH_CELL_CSS_PX = 3;
 
 export interface GridSize {
   w: number;
@@ -36,7 +38,10 @@ export function gridFor(el: HTMLElement): GridSize {
   const dpr = window.devicePixelRatio || 1;
   const pw = Math.round(el.clientWidth * dpr);
   const ph = Math.round(el.clientHeight * dpr);
-  let cellPx = BASE_CELL_PX;
+  // On a touch screen a cell is at least TOUCH_CELL_CSS_PX on screen: a phone at
+  // 3 device px per CSS px would otherwise get cells too fine to draw with a finger.
+  const touch = typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches;
+  let cellPx = touch ? Math.max(BASE_CELL_PX, Math.round(TOUCH_CELL_CSS_PX * dpr)) : BASE_CELL_PX;
   let w = Math.ceil(pw / cellPx);
   let h = Math.ceil(ph / cellPx);
   while (w * h > MAX_CELLS) {

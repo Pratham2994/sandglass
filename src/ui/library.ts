@@ -32,21 +32,12 @@ const CATEGORY_NAMES: Record<Category, string> = {
 const CATEGORY_ORDER: Category[] = ['powders', 'liquids', 'gases', 'solids', 'building', 'metals', 'fuels', 'energy', 'explosives', 'electronics', 'devices', 'food', 'life'];
 
 /**
- * Elements added in the latest batches: their tiles carry a small dot until
- * hovered or picked once (remembered in this browser).
+ * Elements added in the latest batch: their tiles carry a small dot until
+ * hovered or picked once (remembered in this browser). Replace the list with
+ * each new batch instead of adding to it: a dot on a third of the library
+ * says nothing.
  */
-const RECENT_KEYS = [
-  'nuke', 'fallout',
-  'switch', 'pressure_plate', 'thermostat', 'resistor', 'diode', 'led', 'capacitor', 'motor', 'electromagnet', 'graphite', 'neon',
-  'valve', 'propane_tank', 'air_tank', 'steel_beam', 'rope', 'chain', 'solar_panel', 'glow_paint', 'silver_chloride',
-  'plague', 'medicine', 'mould', 'spores', 'mushroom', 'corium', 'control_rod', 'dough', 'bread', 'toast',
-  'manganese_dioxide', 'soap', 'foam', 'epoxy_resin', 'epoxy_hardener', 'epoxy', 'copper_sulfate', 'copper_sulfate_crystal', 'cabbage_juice',
-  'algae', 'moss', 'ferrofluid', 'hot_ice', 'sodium_acetate', 'fog', 'mints', 'nitrogen_triiodide', 'uv_resin', 'cured_resin',
-  'glycerin', 'potassium_permanganate', 'fire_ice', 'sparkler', 'glow_plankton', 'superglue', 'hydrogen_chloride',
-  'milk', 'curds', 'lemon_juice', 'red_dye', 'blue_dye', 'steel_wool',
-  'sulfuric_acid', 'nitric_acid', 'nitrogen_dioxide',
-  'caterpillar', 'cocoon', 'butterfly', 'storm_cloud',
-];
+const RECENT_KEYS = ['nuke', 'fallout', 'caterpillar', 'cocoon', 'butterfly', 'storm_cloud', 'sulfuric_acid', 'nitric_acid', 'nitrogen_dioxide'];
 const SEEN_KEY = 'sandglass.seen';
 
 /** Restarts a CSS entrance animation on el by toggling its class. */
@@ -103,7 +94,6 @@ export function mountLibrary(
 
   // Stats line at the very bottom: useful, but not a control, so out of the way.
   const stats = el('div', 'stats num');
-  const mark = el('span', 'wordmark', 'Sandglass');
   const statsText = el('span');
   // Zoom: out, the level (click to show the whole world), in.
   const zoomBox = el('span', 'zoom');
@@ -127,7 +117,7 @@ export function mountLibrary(
   };
   onView(refreshZoom);
   refreshZoom();
-  stats.append(mark, zoomBox, statsText);
+  stats.append(zoomBox, statsText);
 
   // Transport and tools.
   const bar = el('div', 'toolbar');
@@ -198,7 +188,8 @@ export function mountLibrary(
   // Category filter chips (only categories that have elements).
   const chips = el('div', 'chips');
   chips.setAttribute('role', 'tablist');
-  let activeCat: Category | 'all' = 'all';
+  // The lit chip; null while search results show.
+  let activeCat: Category | 'all' | null = 'all';
   const present = CATEGORY_ORDER.filter((c) => ELEMENTS.some((e, id) => id !== EMPTY && e.category === c));
   const chipButtons = (['all', ...present] as (Category | 'all')[]).map((c) => {
     const b = el('button', 'chip', c === 'all' ? 'All' : CATEGORY_NAMES[c]);
@@ -336,7 +327,7 @@ export function mountLibrary(
       b.addEventListener('click', () => brush.setElement(id));
       b.addEventListener('pointerenter', () => {
         hovered = tiles.find((t) => t.id === id) ?? null;
-        hovered?.sim.reset();
+        hovered?.sim.play();
         showTip(b);
       });
       b.addEventListener('pointerleave', () => {
@@ -390,7 +381,14 @@ export function mountLibrary(
     for (const g of groups.querySelectorAll<HTMLElement>('.group')) g.hidden = g === resultGroup ? !q : !!q;
     if (!q) {
       empty.hidden = true;
+      spy();
       return;
+    }
+    // Results are not a section: no chip is lit while they show.
+    activeCat = null;
+    for (const { b } of chipButtons) {
+      b.classList.remove('on');
+      b.setAttribute('aria-selected', 'false');
     }
     // Tools (heat, cool, wind) are searched too, ranked the same way as elements.
     const hits = [
@@ -476,7 +474,14 @@ export function mountLibrary(
   moreBtn.addEventListener('pointerdown', (e) => e.preventDefault());
   moreBtn.addEventListener('click', () => setFactsOpen(!factsOpen));
   setFactsOpen(factsOpen);
-  detail.append(stage, titleRow, blurb, tryLine, keyFacts, moreBtn, dl);
+  // Every property, then more to try, in one scrolling column.
+  const side = el('div', 'detail-side');
+  const moreTry = el('div', 'detail-more');
+  side.append(dl, moreTry);
+  // Description and the main hint scroll together under the name, so a short bar still shows both.
+  const text = el('div', 'detail-text');
+  text.append(blurb, tryLine);
+  detail.append(stage, titleRow, text, keyFacts, moreBtn, side);
   let detailSim: MiniSim | null = null;
   let detailId = -1;
   let hovered: (typeof tiles)[number] | null = null;
@@ -500,7 +505,10 @@ export function mountLibrary(
   const lensTitle = el('div', 'detail-title');
   const lensName = el('h2', 'detail-name');
   const lensState = el('span', 'detail-tag');
-  lensTitle.append(lensName, lensState);
+  // Shown only while pinned: says the lens holds still, and how to let go.
+  const pinTag = el('span', 'pin-tag', 'Pinned');
+  pinTag.title = 'Press I to release';
+  lensTitle.append(lensName, lensState, pinTag);
   const lensFacts = el('dl', 'facts');
   const lensReactions = el('ul', 'reactions');
   lens.append(lensHint, lensTitle, lensFacts, lensReactions);
@@ -521,7 +529,7 @@ export function mountLibrary(
     // A new kind of cell under the lens: its lines settle in softly.
     if (lensName.textContent !== rep.name) replay(lens, 'swap');
     lensName.textContent = rep.name;
-    lensState.textContent = pinned ? `${rep.state} · pinned (I to release)` : `${rep.state} · I to pin`;
+    lensState.textContent = pinned ? rep.state : `${rep.state} · I to pin`;
     lensFacts.replaceChildren(...rep.facts.flatMap(([k, v]) => [el('dt', '', k), el('dd', 'num', v)]));
     lensReactions.replaceChildren(
       ...(rep.reactions.length
@@ -651,7 +659,8 @@ export function mountLibrary(
         return b;
       }),
     );
-    recentRow.hidden = recent.length === 0;
+    // One chip alone is the element already shown below the canvas: the row starts at two.
+    recentRow.hidden = recent.length < 2;
   };
   const noteRecent = (): void => {
     if (brush.tool || brush.erasing) return;
@@ -694,15 +703,17 @@ export function mountLibrary(
     tag.textContent = CATEGORY_NAMES[e.category];
     blurb.textContent = e.blurb;
     const how = tipFor(id);
-    // The main hint, then more to try (from what it reacts with), in a list that scrolls.
+    // The main hint under the description; more to try (from what it reacts with) under the properties.
     const more = moreTips(id);
-    tryLine.hidden = how === null && more.length === 0;
+    tryLine.hidden = how === null;
     const first = el('p', 'detail-tip-main');
     first.append(el('span', 'detail-tip-label', 'Try'), document.createTextNode(how ?? ''));
+    tryLine.replaceChildren(...(how ? [first] : []));
+    text.scrollTop = 0;
     const list = el('ul', 'detail-tips');
     for (const m of more) list.append(el('li', '', m));
-    tryLine.replaceChildren(...(how ? [first] : []), ...(more.length ? [el('p', 'detail-tip-label more-label', 'More to try'), list] : []));
-    tryLine.scrollTop = 0;
+    moreTry.replaceChildren(...(more.length ? [el('p', 'detail-tip-label more-label', 'More to try'), list] : []));
+    side.scrollTop = 0;
     replay(detail, 'enter');
     const facts = elementFacts(id);
     const row = ([k, v]: [string, string]): HTMLElement[] => [el('dt', '', k), el('dd', 'num', v)];
