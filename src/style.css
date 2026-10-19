@@ -1175,35 +1175,7 @@ input[type='range']::-moz-range-thumb {
   opacity: 0;
 }
 
-/* The intro's end: the canvas fades out, is cleared, and fades back in. */
-#sim {
-  transition: opacity var(--dur-3) var(--ease-std);
-}
-
-body.intro-fading #sim {
-  opacity: 0;
-}
-
-/* A skipped intro fades out quickly (SKIP_FADE_MS in intro.ts). */
-body.intro-skip #sim {
-  transition-duration: 0.18s;
-}
-
-/* While the intro plays, the panel waits quietly. */
-body.intro .library {
-  opacity: 0.35;
-  pointer-events: none;
-}
-
-/* The info bar keeps its space during the intro and fades in when it ends. */
-body.intro .info-bar {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.library {
-  transition: opacity var(--dur-3) var(--ease-out);
-}
+/* The intro and the controls' entrance after it: src/ui/intro.css. */
 
 /* Debug HUD, top left of the canvas. */
 .hud {
@@ -1610,5 +1582,103 @@ body.intro .info-bar {
     padding-top: 2px;
     border-top: 0;
     color: var(--muted);
+  }
+}
+
+/*
+ * ---- Phones, by size -------------------------------------------------------------------
+ * A phone has room for the canvas and the elements, not for a desktop's
+ * controls. Search, the category chips, the recent row and the master list
+ * button are left out: the library scrolls, and its section names stay
+ * pinned as you go. Each size then keeps only what fits it.
+ */
+@media (max-width: 760px), (max-height: 520px) {
+  .lib-top > .search,
+  .lib-top > .chips,
+  .lib-top > .recent,
+  .lib-top > .views,
+  .tool[aria-label^='Master list'] {
+    display: none;
+  }
+}
+
+/* A phone on its side has no bar, so the lens has nowhere to show: no inspect button. */
+@media (max-height: 520px) {
+  .tool.inspect-tool {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --tile-cols: 5;
+  }
+
+  /* One row: the card, with the zoom buttons beside it. */
+  .info-bar {
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  /* The card's hint sits on one line under the name. */
+  .info-bar .detail-tip-main {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+/* Small phones (iPhone SE, 360 px Androids, or a short screen): the card is just the element; the brush is the one slider. */
+@media (max-width: 374px), (max-width: 760px) and (max-height: 700px) {
+  :root {
+    --bar-h: 56px;
+    --prev: 40px;
+  }
+
+  .info-bar {
+    padding: 8px 12px;
+  }
+
+  .info-bar .detail {
+    grid-template-rows: minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .info-bar .detail-stage {
+    grid-row: 1;
+  }
+
+  .info-bar .detail-text,
+  .info-bar > .stats,
+  .lib-top > .time-row {
+    display: none;
+  }
+
+  .lib-top > .brush-size {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Medium phones (375 to 413 px wide): name and a one-line hint; rewind and brush share a row. */
+@media (min-width: 375px) and (max-width: 764px) and (min-height: 701px) {
+  :root {
+    --bar-h: 64px;
+    --prev: 40px;
+  }
+}
+
+/* Large phones (414 px and wider, tall): a two-line hint, the view switch, six tiles a row. */
+@media (min-width: 414px) and (max-width: 760px) and (min-height: 850px) {
+  :root {
+    --bar-h: 72px;
+    --prev: 52px;
+    --tile-cols: 6;
+  }
+
+  .info-bar .detail-tip-main {
+    white-space: normal;
+  }
+
+  .lib-top > .views {
+    display: grid;
   }
 }

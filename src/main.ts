@@ -13,7 +13,7 @@ import { step } from './sim/step';
 import { World } from './sim/world';
 import { mountCursor } from './ui/cursor';
 import { PerfStats, mountHud } from './ui/hud';
-import { Intro } from './ui/intro';
+import { Intro, enterUi } from './ui/intro';
 import { mountLibrary } from './ui/library';
 
 const DEFAULT_SEED = 1;
@@ -214,12 +214,12 @@ function start(): void {
     );
   }
 
-  // Opening sequence; any click or key skips it. Dev-only: ?intro=0 skips it (E2E tests).
-  const skipIntro = import.meta.env.DEV && new URLSearchParams(location.search).get('intro') === '0';
+  // Opening sequence; any click or key skips it.
   if (!skipIntro) {
-    document.body.classList.add('intro');
     const end = (): void => {
+      // The controls move into place round the clean canvas; the grid then fits the smaller stage.
       document.body.classList.remove('intro');
+      enterUi();
       brush.cancel();
       timeline.reset();
       loop.invalidate();
@@ -237,5 +237,10 @@ function start(): void {
 
   loop.start();
 }
+
+// Dev-only: ?intro=0 skips the intro (E2E tests). The intro has the whole window, so the
+// class goes on before the first grid is sized from the stage.
+const skipIntro = import.meta.env.DEV && new URLSearchParams(location.search).get('intro') === '0';
+if (!skipIntro) document.body.classList.add('intro');
 
 void whenSized(document.getElementById('stage') as HTMLElement).then(start);

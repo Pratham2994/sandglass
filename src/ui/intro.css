@@ -1,0 +1,164 @@
+/*
+ * The opening: the intro plays on the whole window, then the controls move
+ * into place round the clean canvas. Timings match the constants in intro.ts.
+ */
+
+/* While the intro plays it has the whole window: no column, no bar, so the screen's bottom is its floor. */
+body.intro #app {
+  grid-template-columns: minmax(0, 1fr) 0;
+  grid-template-rows: minmax(0, 1fr) 0 0;
+}
+
+body.intro #infobar {
+  height: 0;
+}
+
+body.intro #panel,
+body.intro #infobar {
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* The intro's end: the canvas fades out, is cleared, and fades back in. */
+#sim {
+  transition: opacity var(--dur-3) var(--ease-std);
+}
+
+body.intro-fading #sim {
+  opacity: 0;
+}
+
+/* A skipped intro fades out quickly (SKIP_FADE_MS in intro.ts). */
+body.intro-skip #sim {
+  transition-duration: 0.18s;
+}
+
+/* The nuke: the canvas shakes hard, then settles (SHAKE_MS in intro.ts). Whole pixels only. */
+@keyframes intro-shake {
+  0% {
+    translate: 0 0;
+  }
+  8% {
+    translate: -9px 6px;
+  }
+  16% {
+    translate: 8px -7px;
+  }
+  26% {
+    translate: -6px 5px;
+  }
+  38% {
+    translate: 5px -3px;
+  }
+  52% {
+    translate: -3px 2px;
+  }
+  68% {
+    translate: 2px -1px;
+  }
+  84% {
+    translate: -1px 0;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+body.intro-shake #sim {
+  animation: intro-shake 0.7s linear;
+}
+
+/* ---- The controls move into place (ENTER_MS in intro.ts) ------------------------------- */
+
+@keyframes enter-rise {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes enter-slide {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes enter-settle {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes enter-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes enter-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* The bar rises from below the window; the column slides in from the right just after. */
+body.ui-enter .info-bar {
+  animation: enter-rise 0.5s var(--ease-out) both;
+}
+
+body.ui-enter .library {
+  animation: enter-slide 0.55s var(--ease-out) 0.06s both;
+}
+
+/* Then their contents settle in, one row after another, top to bottom. */
+body.ui-enter .lib-top > * {
+  animation: enter-settle 0.35s var(--ease-out) calc(0.24s + var(--i, 0) * 40ms) both;
+}
+
+body.ui-enter .info-bar .detail-stage,
+body.ui-enter .info-bar .detail-title,
+body.ui-enter .info-bar .detail-text,
+body.ui-enter .info-bar .detail-side,
+body.ui-enter .info-bar > .lens,
+body.ui-enter .info-bar > .stats {
+  animation: enter-settle 0.35s var(--ease-out) calc(0.2s + var(--i, 0) * 50ms) both;
+}
+
+/* The first tiles pop in as a quick cascade; the section headers fade with them. */
+body.ui-enter .tile.entering {
+  animation: enter-pop 0.35s var(--ease-out) calc(0.36s + var(--i, 0) * 12ms) both;
+}
+
+body.ui-enter .group-name {
+  animation: enter-fade 0.3s ease-out 0.34s both;
+}
+
+/* Last, the hint on the empty canvas. */
+body.ui-enter .first-hint {
+  animation: enter-fade 0.5s ease-out 0.9s both;
+}
+
+/* A phone's sheet sits below the canvas: it rises from below, after the card. */
+@media (max-width: 760px) {
+  body.ui-enter .library {
+    animation-name: enter-rise;
+  }
+}
