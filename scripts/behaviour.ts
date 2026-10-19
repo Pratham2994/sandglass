@@ -518,9 +518,15 @@ check('electromagnet', 'pulls iron filings only while powered', () => {
     const s = cells > 0 ? circuit(new Scene(), cells) : circuit(new Scene(), 1).fill(10, 20, 1, 1, 'wire');
     return s.fill(22, 40, 12, 1, 'electromagnet').fill(0, 47, W, 17, 'wall').fill(24, 45, 8, 2, 'iron_filings').run(600);
   };
-  const on = build(2);
-  const off = build(0);
-  return { ok: on.meanY('iron_filings') < off.meanY('iron_filings') - 2, detail: `filings row ${fmt(on.meanY('iron_filings'))} powered, ${fmt(off.meanY('iron_filings'))} unpowered` };
+  // Filings lifted off the pile (rows 45 and 46): far steadier from seed to seed than their mean row.
+  const lifted = (s: Scene): number => {
+    let n = 0;
+    for (let y = 0; y < 45; y++) for (let x = 0; x < W; x++) if (s.at(x, y) === 'iron_filings') n++;
+    return n;
+  };
+  const on = lifted(build(2));
+  const off = lifted(build(0));
+  return { ok: on >= 3 && off === 0, detail: `filings lifted off the pile: ${on} powered, ${off} unpowered` };
 });
 check('neon', 'glows when current runs through it', () => {
   // A glass tube of neon with wire at each end, in the loop; neon needs several cells.
