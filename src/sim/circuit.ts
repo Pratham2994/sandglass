@@ -32,6 +32,7 @@ import {
   SOLVENT_OF,
   SOLAR_OF,
 } from './elements';
+import { CALM_HI_OF, MOVE_DT, WAKE_DT } from './heat';
 import { lightAt } from './light';
 import { CHUNK_SHIFT, type World } from './world';
 
@@ -1011,7 +1012,7 @@ function act(world: World, s: Scratch, c: number, st: number): void {
     if (I < 1e-4 || ohm[a] === R_OFF || (blobOf[i] >= 0 && DIODE_OF[t] === 0)) continue;
     const xi = i % w;
     const yi = (i / w) | 0;
-    world.wake(xi, yi);
+    const T0 = temp[i];
     const P = I * I * (blobOf[i] >= 0 ? s.raw[a] : ohm[a]);
     temp[i] += P * JOULE * INV_CAP_OF[t] - (temp[i] - AMBIENT) * POWER_COOL;
     if (FILAMENT_OF[t] !== 0) {
@@ -1019,6 +1020,12 @@ function act(world: World, s: Scratch, c: number, st: number): void {
       if (temp[i] < glow) temp[i] += (glow - temp[i]) * 0.3;
       if (temp[i] > FILAMENT_MAX) temp[i] = FILAMENT_MAX;
     }
+    // A steady current lets its chunk sleep (this pass runs every frame anyway): the heat pass
+    // runs while the cell's temperature still moves, the cell pass when it moves fast or is
+    // hot enough for heat to do something to it, as the heat pass itself decides.
+    const dT = temp[i] - T0;
+    if (dT > MOVE_DT || dT < -MOVE_DT || temp[i] >= CALM_HI_OF[t]) world.wake(xi, yi);
+    else if (dT > WAKE_DT || dT < -WAKE_DT) world.wakeHeat(xi, yi);
     if (LIT_RGB_OF[t] !== 0) lit[i] = I >= LIT_FULL ? 255 : (I / LIT_FULL) * 255;
     if (I > MAX_AMPS_OF[t]) {
       // Burnt out.

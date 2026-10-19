@@ -36,9 +36,9 @@ import { CHUNK_SHIFT, type World } from './world';
 
 const N = ELEMENT_COUNT;
 /** A temperature change bigger than this keeps a chunk awake (spec: 0.05 °C). */
-const WAKE_DT = 0.05;
+export const WAKE_DT = 0.05;
 /** °C a cell must change in one exchange to wake the full cell pass; smaller changes only keep the heat pass running (`warm`). */
-const MOVE_DT = 1;
+export const MOVE_DT = 1;
 /** Differences smaller than this are not worth exchanging. */
 const MIN_DIFF = 0.01;
 /** Air pressure one cell of liquid or solid adds as it turns into gas, at each air cell of the patch it spreads over (about 0.6 in all). */
@@ -88,7 +88,7 @@ const REACT_T_OF = Float32Array.from({ length: N }, (_, a) => {
  * reacts, goes off, ruptures, catches by itself, bakes or melts or boils. Below
  * it (and above its freezing point) settle has nothing to do.
  */
-const CALM_HI_OF = Float32Array.from({ length: N }, (_, t) =>
+export const CALM_HI_OF = Float32Array.from({ length: N }, (_, t) =>
   Math.min(REACT_T_OF[t], BLAST_POWER_OF[t] > 0 || SELF_FED_OF[t] !== 0 ? IGNITION_OF[t] : Infinity, RUPTURE_T_OF[t], BAKE_T_OF[t], UP_T[t]),
 );
 
