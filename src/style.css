@@ -395,6 +395,10 @@ kbd {
     color var(--dur-1) ease;
 }
 
+.tool.inspect-tool {
+  display: none;
+}
+
 .tool:hover {
   background: var(--raise-2);
   color: var(--text);
@@ -1454,9 +1458,37 @@ body.intro .info-bar {
     display: none;
   }
 
+  /* Inspect mode: the lens takes the card's place. */
+  .tool.inspect-tool {
+    display: grid;
+  }
+
+  .info-bar.inspecting > .detail {
+    display: none;
+  }
+
+  .info-bar.inspecting > .lens {
+    display: block;
+    grid-column: 1;
+    grid-row: 1;
+    padding-left: 0;
+    border-left: 0;
+  }
+
   .info-bar > .stats {
     grid-column: 1;
     margin-left: 0;
+  }
+
+  /* Zoom buttons big enough for a finger. */
+  .zoom-btn,
+  .zoom-level {
+    height: 32px;
+  }
+
+  .zoom-btn {
+    width: 32px;
+    font-size: 18px;
   }
 
   .tip,
@@ -1543,8 +1575,25 @@ body.intro .info-bar {
     padding: 10px 12px;
   }
 
+  /* Only the zoom buttons of the stats line stay, at the right end of the bar. */
+  .info-bar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 8px;
+  }
+
   .info-bar > .stats {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    padding-top: 0;
+  }
+
+  .info-bar > .stats > span:last-child {
     display: none;
+  }
+
+  .zoom {
+    margin: 0;
   }
 
   .info-bar .detail {

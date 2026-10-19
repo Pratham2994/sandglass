@@ -15,6 +15,7 @@ const PATHS = {
   save: '<path d="M10 3.5v9M6.5 9l3.5 3.5L13.5 9"/><path d="M4 14.5v1.5h12v-1.5"/>',
   open: '<path d="M3.5 6V15h13V7.5H9.5L8 6z"/><path d="M3.5 9h13"/>',
   chevron: '<path d="m7 8 3 3 3-3"/>',
+  inspect: '<circle cx="10" cy="10" r="4.6"/><path d="M10 2.8v2.6M10 14.6v2.6M2.8 10h2.6M14.6 10h2.6"/>',
   list: '<path d="M8 6h8M8 10h8M8 14h8"/><path d="M4.2 6h.1M4.2 10h.1M4.2 14h.1" stroke-width="2.2"/>',
 } as const;
 

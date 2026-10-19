@@ -133,6 +133,9 @@ export function mountLibrary(
   const playBtn = tool('pause', 'Pause (Space)');
   const stepBtn = tool('step', 'Step one frame (.)');
   const eraseBtn = tool('eraser', 'Eraser (E)');
+  // Touch screens cannot hover, so the lens has nothing to follow: this mode reads the touched cell instead.
+  const inspectBtn = tool('inspect', 'Inspect: touch the canvas to read a cell');
+  inspectBtn.classList.add('inspect-tool');
   const listBtn = tool('list', 'Master list: every element and what it does with every other');
   const saveBtn = tool('save', 'Save the world to a file');
   const openBtn = tool('open', 'Open a saved world');
@@ -143,7 +146,7 @@ export function mountLibrary(
   const pausedTag = el('span', 'paused-tag', 'Paused');
   const gap = el('span', 'tool-gap');
   // The confirm hint sits before the buttons so arming Clear never moves them.
-  bar.append(playBtn, stepBtn, pausedTag, gap, clearHint, listBtn, saveBtn, openBtn, eraseBtn, clearBtn);
+  bar.append(playBtn, stepBtn, pausedTag, gap, clearHint, listBtn, saveBtn, openBtn, inspectBtn, eraseBtn, clearBtn);
   // The master list is a page of its own, built from the element data (npm run master-list).
   listBtn.addEventListener('click', () => window.open(`${import.meta.env.BASE_URL}master-list.html`, '_blank', 'noopener'));
   saveBtn.addEventListener('click', () => void files.save());
@@ -159,6 +162,7 @@ export function mountLibrary(
     refreshStatus();
   });
   eraseBtn.addEventListener('click', () => brush.setErasing(!brush.erasing));
+  inspectBtn.addEventListener('click', () => brush.setInspecting(!brush.inspecting));
   let armed = 0;
   clearBtn.addEventListener('click', () => {
     if (armed) {
@@ -501,7 +505,14 @@ export function mountLibrary(
   // Inspect lens, beside the element card: the cell under the pointer, and it
   // keeps the last cell looked at, so it is never blank.
   const lens = el('section', 'lens');
-  const lensHint = el('p', 'lens-hint', 'Point at the canvas to see what is there, how hot it is, and what it reacts with. Press I to pin it, middle click to pick it.');
+  const touch = matchMedia('(hover: none)').matches;
+  const lensHint = el(
+    'p',
+    'lens-hint',
+    touch
+      ? 'Touch the canvas to see what is there, how hot it is, and what it reacts with.'
+      : 'Point at the canvas to see what is there, how hot it is, and what it reacts with. Press I to pin it, middle click to pick it.',
+  );
   const lensTitle = el('div', 'detail-title');
   const lensName = el('h2', 'detail-name');
   const lensState = el('span', 'detail-tag');
@@ -522,14 +533,15 @@ export function mountLibrary(
     refreshLens();
   });
   const refreshLens = (): void => {
-    const cell = pinned ?? (brush.held ? null : brush.cellUnderPointer());
+    // Inspect mode keeps the last touched cell, live, after the finger lifts.
+    const cell = pinned ?? (brush.inspecting ? (brush.probe ?? brush.cellUnderPointer()) : brush.held ? null : brush.cellUnderPointer());
     const rep = cell ? inspectCell(world, cell[0], cell[1]) : null;
     if (!rep) return;
     lensHint.hidden = true;
     // A new kind of cell under the lens: its lines settle in softly.
     if (lensName.textContent !== rep.name) replay(lens, 'swap');
     lensName.textContent = rep.name;
-    lensState.textContent = pinned ? rep.state : `${rep.state} · I to pin`;
+    lensState.textContent = pinned || touch ? rep.state : `${rep.state} · I to pin`;
     lensFacts.replaceChildren(...rep.facts.flatMap(([k, v]) => [el('dt', '', k), el('dd', 'num', v)]));
     lensReactions.replaceChildren(
       ...(rep.reactions.length
@@ -743,6 +755,10 @@ export function mountLibrary(
     }
     eraseBtn.classList.toggle('on', brush.erasing);
     eraseBtn.setAttribute('aria-pressed', String(brush.erasing));
+    inspectBtn.classList.toggle('on', brush.inspecting);
+    inspectBtn.setAttribute('aria-pressed', String(brush.inspecting));
+    // While inspecting, the lens takes the card's place in the bar.
+    foot.classList.toggle('inspecting', brush.inspecting);
     range.value = String(brush.radius);
     sizeValue.textContent = String(brush.radius * 2 + 1);
     showDetail(brush.element);

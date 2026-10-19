@@ -34,9 +34,10 @@ export function mountCursor(brush: Brush): void {
   document.body.append(ring);
 
   const update = (): void => {
-    ring.hidden = !brush.hovering && !brush.held;
+    ring.hidden = brush.gesturing || (!brush.hovering && !brush.held);
     if (ring.hidden) return;
-    const d = Math.max(6, (brush.radius * 2 + 1) * brush.cellCssSize());
+    // Inspecting reads one cell, so the ring marks one cell.
+    const d = Math.max(6, (brush.inspecting ? 1 : brush.radius * 2 + 1) * brush.cellCssSize());
     ring.style.width = `${d}px`;
     ring.style.height = `${d}px`;
     ring.style.transform = `translate(${brush.clientX - d / 2}px, ${brush.clientY - d / 2}px)`;

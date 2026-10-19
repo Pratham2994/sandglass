@@ -1,7 +1,7 @@
 import { EMPTY, SAND } from '../sim/elements';
 import { MODE_COOL, MODE_ERASE, MODE_HEAT, OP_STAMP, OP_TOGGLE, OP_WIND, applyOp, isSwitchAt, type Op } from '../sim/ops';
 import type { World } from '../sim/world';
-import { pan, toWorld, view, zoomStep } from '../render/view';
+import { pan, toWorld, view, zoomStep, zoomTo } from '../render/view';
 
 export const MAX_RADIUS = 64;
 /** Mode values queued for strokes that are not an element (wind is not a stamp). */
@@ -13,6 +13,12 @@ const WIND_SPEED = 1.6;
 export type Tool = 'heat' | 'cool' | 'wind';
 /** Wheel delta (px) per brush size step. */
 const WHEEL_STEP = 40;
+/** A one-finger touch waits this long (ms) before it draws, so a second finger can still make it a pinch. */
+const TOUCH_DELAY_MS = 90;
+/** A finger that moves this far (CSS px) draws at once, without the wait. */
+const TOUCH_SLOP_PX = 10;
+/** A pinch that ends below this zoom snaps back to the whole world. */
+const ZOOM_SNAP = 1.1;
 
 /**
  * Brush input. Pointer events only queue points; the grid changes in
@@ -22,6 +28,9 @@ const WHEEL_STEP = 40;
  * eraser tool), right drag erases, a middle click picks the element under it,
  * a left click on a switch flips it instead of drawing,
  * holding still keeps pouring, the wheel changes the radius.
+ * On a touch screen one finger draws, two fingers pinch to zoom and move
+ * together to pan; a second finger cancels the first finger's stroke. In
+ * inspect mode a touch reads the cell under it into the lens instead.
  */
 export class Brush {
   radius = 4;
@@ -30,6 +39,12 @@ export class Brush {
   erasing = false;
   /** Heat, cool or wind tool in place of an element, or null. */
   tool: Tool | null = null;
+  /** Inspect mode: a touch or click reads the cell under it into the lens instead of drawing. */
+  inspecting = false;
+  /** Cell last read in inspect mode, or null. */
+  probe: [number, number] | null = null;
+  /** True while two fingers pinch or pan (until every finger lifts). */
+  gesturing = false;
   /** Where the brush's ops go: the timeline records and applies them. Default: apply directly. */
   sink: (op: Op) => void;
   /** True while a mouse button is down on the canvas. */
@@ -55,6 +70,18 @@ export class Brush {
   private panX = 0;
   private panY = 0;
   private wheelAcc = 0;
+  /** Fingers on the canvas by pointer id, in client px. */
+  private readonly touches = new Map<number, { x: number; y: number }>();
+  /** The finger that draws or inspects, or -1. */
+  private touchId = -1;
+  /** Timer of a one-finger stroke that waits to start (0: none), and where it started. */
+  private pendingTimer = 0;
+  private pendingX = 0;
+  private pendingY = 0;
+  /** Pinch midpoint (client px) and finger spacing at the last move. */
+  private gestureX = 0;
+  private gestureY = 0;
+  private gestureDist = 0;
   private readonly listeners: (() => void)[] = [];
 
   constructor(canvas: HTMLCanvasElement, world: World) {
@@ -66,9 +93,9 @@ export class Brush {
     canvas.addEventListener('pointerdown', (e) => this.onDown(e));
     // A middle press must not start the browser's autoscroll.
     canvas.addEventListener('mousedown', (e) => e.button === 1 && e.preventDefault());
-    canvas.addEventListener('pointermove', (e) => this.onMove(e));
-    canvas.addEventListener('pointerup', (e) => this.onUp(e));
-    canvas.addEventListener('pointercancel', (e) => this.onUp(e));
+    canvas.addEventListener('pointermove', (e) => (e.pointerType === 'touch' ? this.touchMove(e) : this.onMove(e)));
+    canvas.addEventListener('pointerup', (e) => (e.pointerType === 'touch' ? this.touchUp(e) : this.onUp(e)));
+    canvas.addEventListener('pointercancel', (e) => (e.pointerType === 'touch' ? this.touchUp(e) : this.onUp(e)));
     canvas.addEventListener('pointerenter', (e) => {
       this.hovering = true;
       this.track(e);
@@ -89,18 +116,29 @@ export class Brush {
     this.element = id;
     this.erasing = false;
     this.tool = null;
+    this.inspecting = false;
     this.emit();
   }
 
   setTool(tool: Tool): void {
     this.tool = tool;
     this.erasing = false;
+    this.inspecting = false;
     this.emit();
   }
 
   setErasing(on: boolean): void {
     this.erasing = on;
-    if (on) this.tool = null;
+    if (on) {
+      this.tool = null;
+      this.inspecting = false;
+    }
+    this.emit();
+  }
+
+  setInspecting(on: boolean): void {
+    this.inspecting = on;
+    if (on) this.erasing = false;
     this.emit();
   }
 
@@ -111,9 +149,13 @@ export class Brush {
 
   /** Grid cell under the pointer, or null when the pointer is not over the canvas. */
   cellUnderPointer(): [number, number] | null {
-    if (!this.hovering) return null;
+    return this.hovering ? this.cellAt(this.clientX, this.clientY) : null;
+  }
+
+  /** Grid cell at client point (x, y), or null when it is off the world. */
+  cellAt(clientX: number, clientY: number): [number, number] | null {
     const r = this.canvas.getBoundingClientRect();
-    const [wx, wy] = toWorld((this.clientX - r.left) / r.width, (this.clientY - r.top) / r.height);
+    const [wx, wy] = toWorld((clientX - r.left) / r.width, (clientY - r.top) / r.height);
     const x = Math.floor(wx * this.world.w);
     const y = Math.floor(wy * this.world.h);
     if (x < 0 || y < 0 || x >= this.world.w || y >= this.world.h) return null;
@@ -163,6 +205,10 @@ export class Brush {
   private onDown(e: PointerEvent): void {
     // Working on the canvas takes the keyboard back from the search box, so I, E and 1 to 9 work again.
     if (document.activeElement instanceof HTMLElement && document.activeElement !== document.body) document.activeElement.blur();
+    if (e.pointerType === 'touch') {
+      this.touchDown(e);
+      return;
+    }
     if (e.button === 1) {
       e.preventDefault();
       this.canvas.setPointerCapture(e.pointerId);
@@ -174,19 +220,30 @@ export class Brush {
     }
     if (this.held || (e.button !== 0 && e.button !== 2)) return;
     e.preventDefault();
-    if (e.button === 0 && !this.erasing) {
-      // A click on a switch flips it, at the start of the next frame like any other input.
-      this.track(e);
-      const cell = this.cellUnderPointer();
-      if (cell && isSwitchAt(this.world, cell[0], cell[1])) {
-        this.toggles.push(cell[0], cell[1]);
-        return;
-      }
+    this.track(e);
+    if (e.button === 0 && this.inspecting) {
+      this.probeAt(e.clientX, e.clientY);
+      return;
     }
+    // A click on a switch flips it, at the start of the next frame like any other input.
+    if (e.button === 0 && !this.erasing && this.toggleSwitch(e.clientX, e.clientY)) return;
     this.canvas.setPointerCapture(e.pointerId);
-    this.button = e.button;
+    this.startStroke(e.button, e.clientX, e.clientY);
+  }
+
+  /** Queues a flip if the cell at client point (x, y) is a switch; returns true if it is. */
+  private toggleSwitch(x: number, y: number): boolean {
+    const cell = this.cellAt(x, y);
+    if (!cell || !isSwitchAt(this.world, cell[0], cell[1])) return false;
+    this.toggles.push(cell[0], cell[1]);
+    return true;
+  }
+
+  /** Begins a stroke with `button` (0 draws, 2 erases) at client point (x, y). */
+  private startStroke(button: number, x: number, y: number): void {
+    this.button = button;
     this.mode =
-      e.button === 2 || this.erasing
+      button === 2 || this.erasing
         ? MODE_ERASE
         : this.tool === 'heat'
           ? MODE_HEAT
@@ -196,9 +253,125 @@ export class Brush {
               ? WIND
               : this.element;
     this.queue.push(NaN, NaN, this.mode);
-    this.track(e);
-    this.queuePoint(e);
+    this.queuePoint(x, y);
     this.setHeld(true);
+  }
+
+  /** Inspect mode: the lens reads the cell at client point (x, y). */
+  private probeAt(x: number, y: number): void {
+    const cell = this.cellAt(x, y);
+    if (!cell) return;
+    this.probe = cell;
+    this.emit();
+  }
+
+  private touchDown(e: PointerEvent): void {
+    e.preventDefault();
+    this.touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (this.touches.size === 2) {
+      this.startGesture();
+      return;
+    }
+    if (this.touches.size > 1 || this.gesturing) return;
+    this.touchId = e.pointerId;
+    this.track(e);
+    if (this.inspecting) {
+      this.probeAt(e.clientX, e.clientY);
+      return;
+    }
+    this.pendingX = e.clientX;
+    this.pendingY = e.clientY;
+    this.pendingTimer = window.setTimeout(() => this.commitTouch(), TOUCH_DELAY_MS);
+  }
+
+  /** The waiting one-finger touch becomes a switch flip or a stroke from where it landed. */
+  private commitTouch(): void {
+    if (this.pendingTimer === 0) return;
+    clearTimeout(this.pendingTimer);
+    this.pendingTimer = 0;
+    if (!this.erasing && this.toggleSwitch(this.pendingX, this.pendingY)) {
+      this.touchId = -1;
+      return;
+    }
+    this.startStroke(0, this.pendingX, this.pendingY);
+  }
+
+  /** A second finger: the first one's stroke stops (what it already drew stays) and the pinch begins. */
+  private startGesture(): void {
+    clearTimeout(this.pendingTimer);
+    this.pendingTimer = 0;
+    this.touchId = -1;
+    this.cancel();
+    this.gesturing = true;
+    this.measureGesture();
+    this.emit();
+  }
+
+  /** Midpoint and spacing of the first two fingers. */
+  private measureGesture(): void {
+    const [a, b] = this.touches.values();
+    this.gestureX = (a.x + b.x) / 2;
+    this.gestureY = (a.y + b.y) / 2;
+    this.gestureDist = Math.hypot(a.x - b.x, a.y - b.y);
+  }
+
+  private touchMove(e: PointerEvent): void {
+    const t = this.touches.get(e.pointerId);
+    if (!t) return;
+    t.x = e.clientX;
+    t.y = e.clientY;
+    if (this.gesturing) {
+      if (this.touches.size >= 2) this.moveGesture();
+      return;
+    }
+    if (e.pointerId !== this.touchId) return;
+    this.track(e);
+    if (this.inspecting) {
+      this.probeAt(e.clientX, e.clientY);
+      return;
+    }
+    if (this.pendingTimer !== 0 && Math.hypot(e.clientX - this.pendingX, e.clientY - this.pendingY) > TOUCH_SLOP_PX) this.commitTouch();
+    if (this.held) this.queuePoint(e.clientX, e.clientY);
+  }
+
+  /** Pinch zooms about where the fingers were; moving both pans, the world follows them. */
+  private moveGesture(): void {
+    const r = this.canvas.getBoundingClientRect();
+    const lastX = this.gestureX;
+    const lastY = this.gestureY;
+    const lastDist = this.gestureDist;
+    this.measureGesture();
+    if (lastDist > 0 && this.gestureDist > 0) zoomTo((view.zoom * this.gestureDist) / lastDist, (lastX - r.left) / r.width, (lastY - r.top) / r.height);
+    pan((this.gestureX - lastX) / r.width, (this.gestureY - lastY) / r.height);
+    this.emit();
+  }
+
+  private touchUp(e: PointerEvent): void {
+    if (!this.touches.delete(e.pointerId)) return;
+    if (this.gesturing) {
+      // A lifted finger changes the pair; the gesture ends only when every finger is off.
+      if (this.touches.size >= 2) this.measureGesture();
+      else if (this.touches.size === 0) {
+        this.gesturing = false;
+        if (view.zoom < ZOOM_SNAP) zoomTo(1);
+        this.emit();
+      }
+      return;
+    }
+    if (e.pointerId !== this.touchId) return;
+    this.touchId = -1;
+    if (this.pendingTimer !== 0) {
+      if (e.type === 'pointercancel') {
+        clearTimeout(this.pendingTimer);
+        this.pendingTimer = 0;
+        return;
+      }
+      // A quick tap still places one dab.
+      this.commitTouch();
+    }
+    if (!this.held) return;
+    this.queuePoint(e.clientX, e.clientY);
+    this.setHeld(false);
   }
 
   /** Eyedropper: selects the element in the cell under the pointer (air picks nothing). */
@@ -222,7 +395,7 @@ export class Brush {
       this.panY = e.clientY;
     }
     this.track(e);
-    if (this.held) this.queuePoint(e);
+    if (this.held) this.queuePoint(e.clientX, e.clientY);
   }
 
   private onUp(e: PointerEvent): void {
@@ -232,7 +405,7 @@ export class Brush {
       return;
     }
     if (!this.held || (e.type === 'pointerup' && e.button !== this.button)) return;
-    this.queuePoint(e);
+    this.queuePoint(e.clientX, e.clientY);
     this.setHeld(false);
   }
 
@@ -263,9 +436,9 @@ export class Brush {
     this.emit();
   }
 
-  private queuePoint(e: PointerEvent): void {
+  private queuePoint(x: number, y: number): void {
     const r = this.canvas.getBoundingClientRect();
-    const [wx, wy] = toWorld((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height);
+    const [wx, wy] = toWorld((x - r.left) / r.width, (y - r.top) / r.height);
     this.queue.push(Math.floor(wx * this.world.w), Math.floor(wy * this.world.h), this.mode);
   }
 
