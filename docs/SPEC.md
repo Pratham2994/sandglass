@@ -1,6 +1,6 @@
 # Sandglass: Design Spec
 
-Version of 16 Oct 2026. Source of truth for what to build. `CLAUDE.md` holds the working rules.
+Version of 16 Oct 2026. Source of truth for what to build.
 
 ## TL;DR
 
