@@ -1,5 +1,6 @@
 import { ELEMENTS, EMPTY } from '../sim/elements';
-import type { World } from '../sim/world';
+import { World } from '../sim/world';
+import { MAX_CELLS } from './grid';
 
 /**
  * Save files (.sandglass): the whole world, so a loaded scene carries on
@@ -87,16 +88,31 @@ export async function saveWorld(world: World): Promise<Uint8Array> {
  * Throws with a plain message if the file is not a Sandglass save.
  */
 export async function loadWorld(world: World, file: Uint8Array): Promise<void> {
+  const notASave = 'This file is not a Sandglass save.';
   let raw: Uint8Array;
   try {
     raw = await gzip(file, 'decompress');
   } catch {
-    throw new Error('This file is not a Sandglass save.');
+    throw new Error(notASave);
   }
-  if (new TextDecoder().decode(raw.subarray(0, 4)) !== MAGIC) throw new Error('This file is not a Sandglass save.');
+  if (raw.length < 8 || new TextDecoder().decode(raw.subarray(0, 4)) !== MAGIC) throw new Error(notASave);
   const headLen = new DataView(raw.buffer, raw.byteOffset).getUint32(4, true);
-  const header = JSON.parse(new TextDecoder().decode(raw.subarray(8, 8 + headLen))) as Header;
+  let header: Header;
+  try {
+    header = JSON.parse(new TextDecoder().decode(raw.subarray(8, 8 + headLen))) as Header;
+  } catch {
+    throw new Error(notASave);
+  }
   if (header.version > VERSION) throw new Error('This save was made by a newer version of Sandglass.');
+  // Everything is checked before the world is touched: a bad or cut-off file must not leave a
+  // half-loaded scene, or a world of another size than the screen and the timeline expect.
+  const { w, h } = header;
+  if (!Number.isInteger(header.version) || header.version < 1 || !Number.isInteger(w) || !Number.isInteger(h)
+    || w < 1 || h < 1 || w * h > MAX_CELLS || !Array.isArray(header.keys)) {
+    throw new Error(notASave);
+  }
+  const need = fields(new World(w, h, 0), header.version).reduce((n, p) => n + p.byteLength, 0);
+  if (raw.length < 8 + headLen + need) throw new Error('This save is incomplete: the file was cut off.');
 
   world.resize(header.w, header.h);
   let at = 8 + headLen;
